@@ -6,7 +6,7 @@
 
 %% Public API
 
-start() ->
+start_link() ->
   gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).
 
 stop(Module) ->

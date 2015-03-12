@@ -23,4 +23,10 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-  {ok, { {one_for_one, 5, 10}, []} }.
+  Globals = [{blackboard,
+                {blackboard, start_link, []},
+                transient,
+                infinity,
+                worker,
+                dynamic}],
+  {ok, { {one_for_one, 5, 10}, Globals} }.

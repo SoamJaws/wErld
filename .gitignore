@@ -10,4 +10,3 @@ rel/example_project
 .rebar
 *.swo
 *.swp
-rebar.config

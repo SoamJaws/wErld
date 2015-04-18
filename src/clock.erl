@@ -22,7 +22,7 @@ state() ->
   state(?MODULE).
 
 init([Delta]) ->
-  gen_server:cast(?MODULE, tick),
+  gen_server:cast(self(), tick),
   {ok, {Delta, 62167219200}}. % Epoch in gregorian seconds
 
 
@@ -31,6 +31,7 @@ handle_call(stop, _From, State) ->
 
 handle_cast(tick, {Delta, GregorianSeconds}) ->
   timer:sleep(5000),
+  gen_server:cast(self(), tick),
   {noreply, {Delta, GregorianSeconds+Delta}}.
 
 

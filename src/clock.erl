@@ -23,7 +23,7 @@ state() ->
 
 init([Delta]) ->
   gen_server:cast(self(), tick),
-  {ok, {Delta, 62167219200}}. % Epoch in gregorian seconds
+  {ok, {Delta, 0}}. % Epoch in gregorian seconds
 
 
 handle_call(stop, _From, State) ->

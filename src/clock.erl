@@ -6,8 +6,8 @@
 
 %% Public API
 
-start_link(Delta) ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, [Delta], []).
+start_link(Delta, Frequency) ->
+  gen_server:start_link({global, ?MODULE}, ?MODULE, [Delta, Frequency], []).
 
 stop(Module) ->
   gen_server:call(Module, stop).
@@ -21,18 +21,18 @@ state(Module) ->
 state() ->
   state(?MODULE).
 
-init([Delta]) ->
+init([Delta, Frequency]) ->
   gen_server:cast(self(), tick),
-  {ok, {Delta, 0}}. % Epoch in gregorian seconds
+  {ok, {Delta, Frequency, 0}}. % Epoch in gregorian seconds
 
 
 handle_call(stop, _From, State) ->
   {stop, normal, stopped, State}.
 
-handle_cast(tick, {Delta, GregorianSeconds}) ->
-  timer:sleep(5000),
+handle_cast(tick, {Delta, Frequency, GregorianSeconds}) ->
+  timer:sleep(500),
   gen_server:cast(self(), tick),
-  {noreply, {Delta, GregorianSeconds+Delta}}.
+  {noreply, {Delta, Frequency, GregorianSeconds+Delta}}.
 
 
 handle_info(_Info, State) ->

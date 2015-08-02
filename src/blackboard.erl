@@ -1,13 +1,16 @@
 -module(blackboard).
 -compile(export_all).
 
+-include("blackboard.hrl")
+%TODO include nameserver.hrl, add nameserver name mactro to nameserver.hrl
+
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 %% Public API
 
-start_link() ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).
+start_link(Name) ->
+  gen_server:start_link({local, ?MODULE}, ?MODULE, [Name], []).
 
 stop(Module) ->
   gen_server:call(Module, stop).
@@ -21,7 +24,10 @@ state(Module) ->
 state() ->
   state(?MODULE).
 
-init([]) ->
+init([Name]) ->
+  %TODO use nameserver macro instead of hardcoded name
+  FullName = {?BLACKBOARD_PREFIX, Name},
+  gen_server:call(nameserver, {publish, FullName, self()}),
   {ok, []}.
 
 

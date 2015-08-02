@@ -90,6 +90,7 @@ handle_call({unpublish, Name}, _From, {Publications, Subscribers}) ->
   UpdatedPublications = dict:erase(Name, Publications),
   {noreply, {UpdatedPublications, Subscribers}}.
 
+
 handle_cast(_Msg, State) ->
   {noreply, State}.
 

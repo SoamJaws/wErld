@@ -1,3 +1,11 @@
+%%====================================================================
+%%
+%% @author Johan Wikström Schützer <johan.dss@gmail.com>
+%% @copyright 2015 DrippingBits
+%%
+%%
+%%
+%%====================================================================
 -module(blackboard).
 -compile(export_all).
 
@@ -5,24 +13,50 @@
 %TODO include nameserver.hrl, add nameserver name mactro to nameserver.hrl
 
 -behaviour(gen_server).
+-export([start_link/1, stop/0]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
+%%====================================================================
 %% Public API
+%%====================================================================
 
 start_link(Name) ->
   gen_server:start_link({local, ?MODULE}, ?MODULE, [Name], []).
 
-stop(Module) ->
-  gen_server:call(Module, stop).
-
 stop() ->
   stop(?MODULE).
 
-state(Module) ->
-  gen_server:call(Module, state).
+%%TODO Add public API. How to do this for local module?
 
-state() ->
-  state(?MODULE).
+%%====================================================================
+%% Internal functions
+%%====================================================================
+
+stop(Module) ->
+  gen_server:call(Module, stop).
+
+addSubscriber(Tag, From, []) ->
+  [{Tag, [From]}];
+addSubscriber(Tag, From, [{Tag, Pids}|T]) ->
+  [{Tag, [From|Pids]}|T];
+addSubscriber(Tag, From, [H|T]) ->
+  H:addSubscriber(Tag, From, T).
+
+removeSubscriber(_Tag, _From, []) -> [];
+removeSubscriber(Tag, From, [{Tag, Pids}|T]) ->
+  [{Tag,lists:delete(From,Pids)}|T];
+removeSubscriber(Tag, From, [H|T]) ->
+  [H|removeSubscriber(Tag, From, T)].
+
+broadCast(_Tag, _Content, []) -> ok;
+broadCast(Tag, Content, [{Tag, Pids}|_T]) ->
+  lists:map(fun(Pid) -> gen_server:cast(Pid, Content) end, Pids);
+broadCast(Tag, Content, [_H|T]) ->
+  broadCast(Tag, Content, T).
+
+%%====================================================================
+%% gen_server callbacks
+%%====================================================================
 
 init([Name]) ->
   %TODO use nameserver macro instead of hardcoded name
@@ -46,6 +80,7 @@ handle_call({post, Tag, Content}, _From, Subscriptions) ->
   broadCast(Tag, Content, Subscriptions),
   {noreply, Subscriptions}.
 
+
 handle_cast(_Msg, State) ->
   {noreply, State}.
 
@@ -60,23 +95,3 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
-
-
-addSubscriber(Tag, From, []) ->
-  [{Tag, [From]}];
-addSubscriber(Tag, From, [{Tag, Pids}|T]) ->
-  [{Tag, [From|Pids]}|T];
-addSubscriber(Tag, From, [H|T]) ->
-  H:addSubscriber(Tag, From, T).
-
-removeSubscriber(_Tag, _From, []) -> [];
-removeSubscriber(Tag, From, [{Tag, Pids}|T]) ->
-  [{Tag,lists:delete(From,Pids)}|T];
-removeSubscriber(Tag, From, [H|T]) ->
-  [H|removeSubscriber(Tag, From, T)].
-
-broadCast(_Tag, _Content, []) -> ok;
-broadCast(Tag, Content, [{Tag, Pids}|_T]) ->
-  lists:map(fun(Pid) -> gen_server:cast(Pid, Content) end, Pids);
-broadCast(Tag, Content, [_H|T]) ->
-  broadCast(Tag, Content, T).

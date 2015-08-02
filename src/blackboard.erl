@@ -13,7 +13,7 @@
 %TODO include nameserver.hrl, add nameserver name mactro to nameserver.hrl
 
 -behaviour(gen_server).
--export([start_link/1, stop/0]).
+-export([start_link/1, stop/0, subscribe/2, unsubscribe/2, post/3]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 %%====================================================================
@@ -26,7 +26,16 @@ start_link(Name) ->
 stop() ->
   stop(?MODULE).
 
-%%TODO Add public API. How to do this for local module?
+subscribe(BlackboardPid, Tag) ->
+  gen_server:call(BlackboardPid, {subscribe, Tag}).
+
+unsubscribe(BlackboardPid, Tag) ->
+  gen_server:call(BlackboardPid, {unsubscribe, Tag}).
+
+post(BlackboardPid, Tag, Content) ->
+  gen_server:call(BlackboardPid, {post, Tag, Content}).
+
+%%TODO Think about how to use locally registered names
 
 %%====================================================================
 %% Internal functions

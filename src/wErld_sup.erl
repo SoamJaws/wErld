@@ -23,8 +23,8 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-  Globals = [{blackboard,
-                {blackboard, start_link, []},
+  Globals = [{nameserver,
+                {nameserver, start_link, []},
                 transient,
                 infinity,
                 worker,

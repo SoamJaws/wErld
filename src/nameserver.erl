@@ -25,26 +25,23 @@ start_link() ->
   gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).
 
 stop() ->
-  stop(?MODULE).
+  gen_server:call({global, ?MODULE}, stop).
 
 subscribe(Name) ->
-  gen_server:call(?MODULE, {subscribe, Name}).
+  gen_server:call({global, ?MODULE}, {subscribe, Name}).
 
 unsubscribe(Name) ->
-  gen_server:call(?MODULE, {unsubscribe, Name}).
+  gen_server:call({global, ?MODULE}, {unsubscribe, Name}).
 
 publish(Name, Pid) ->
-  gen_server:call(?MODULE, {publish, Name, Pid}).
+  gen_server:call({global, ?MODULE}, {publish, Name, Pid}).
 
 unpublish(Name) ->
-  gen_server:call(?MODULE, {unpublish, Name}).
+  gen_server:call({global, ?MODULE}, {unpublish, Name}).
 
 %%====================================================================
 %% Internal functions
 %%====================================================================
-
-stop(Module) ->
-  gen_server:call(Module, stop).
 
 notifyPublished(_Name, _Pid, []) -> ok;
 notifyPublished(Name, Pid, [H|T]) ->

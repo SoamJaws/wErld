@@ -1,5 +1,4 @@
 -module(weatherController).
--compile(export_all).
 
 -behaviour(gen_server).
 -export([start/2, stop/1, state/1]).

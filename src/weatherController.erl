@@ -1,7 +1,8 @@
--module(blackboard).
+-module(weatherController).
 -compile(export_all).
 
 -behaviour(gen_server).
+-export([start/2, stop/1, state/1]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 -record(weatherState, {city,type,temp,intensity,lastChange}).
@@ -9,8 +10,8 @@
 
 %% Public API
 
-start_link(City, Intensity) ->
-  gen_server:start_link(?MODULE, [City, Intensity], []).
+start(City, Intensity) ->
+  gen_server:start(?MODULE, [City, Intensity], []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -18,20 +19,20 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-state(Pid) ->
-  state(Pid).
+%% Gen server callbacks
 
 init([City, Intensity]) ->
   gen_server:call(blackboard,{subscribe, time}),
-  {reply, TimePid} = gen_server:call(blackboard,{request, timePid})
-  {reply, Time} = gen_server:call(TimePid,{request,currentTime})
+  {reply, TimePid} = gen_server:call(blackboard,{request, timePid}),
+  {reply, Time} = gen_server:call(TimePid,{request,currentTime}),
   {ok, #weatherState{city=City,type=sunny,temp=20,intensity=Intensity,lastChange=Time}}.
 
 
 handle_call(stop, _From, Subscriptions) ->
-  {stop, normal, stopped, Subscriptions};
+  {stop, normal, stopped, Subscriptions}.
 
-handle_cast({time, Time}, State) ->
+
+handle_cast({time, _Time}, State) ->
   {noreply, State}.
 
 
@@ -45,3 +46,5 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
+
+%% Internal functions

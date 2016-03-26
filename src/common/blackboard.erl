@@ -9,7 +9,7 @@
 -module(blackboard).
 -compile(export_all).
 
--include("blackboard.hrl")
+-include("blackboard.hrl").
 %TODO include nameserver.hrl, add nameserver name mactro to nameserver.hrl
 
 -behaviour(gen_server).

@@ -1,4 +1,4 @@
--module(blackboard).
+-module(city).
 -compile(export_all).
 
 -behaviour(gen_server).
@@ -15,18 +15,15 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-state(Pid) ->
-  state(Pid).
-
 init([Name]) ->
   gen_server:call({subscribe, time}),
   {ok, [Name]}.
 
 
 handle_call(stop, _From, Subscriptions) ->
-  {stop, normal, stopped, Subscriptions};
+  {stop, normal, stopped, Subscriptions}.
 
-handle_cast({time, Time}, State) ->
+handle_cast({time, _Time}, State) ->
   {noreply, State}.
 
 

@@ -43,3 +43,20 @@
 %%
 %%------------------------------------------------------------
 -record(vehicle_state, {action, line, passengers = [], target, type}).
+
+%%-----------------------------------------------------------
+%% Data Type: infrastructure vehicle
+%% where:
+%%
+%%    number:     An int.
+%%
+%%    stops:      A list of Pids with durations (ints) in
+%%                between. Head and last shall be Pids of the
+%%                stops, and duration in between is the
+%%                travel duration between the stops.
+%%
+%%    type:       An atom.
+%%                The type of Vehicle, i.e. bus, train, tram
+%%
+%%------------------------------------------------------------
+-record(line_state, {number, stops, type}).

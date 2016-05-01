@@ -1,4 +1,4 @@
--module(infraStructure).
+-module(infrastructure).
 
 -behaviour(gen_server).
 -export([ start_link/1

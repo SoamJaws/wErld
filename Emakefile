@@ -14,6 +14,14 @@
   ]
 }.
 
+{ 'src/client/infrastructure/*'
+, [ debug_info
+  , {i, "src/client/infrastructure"}
+  , {i, "include"}
+  , {outdir, "ebin"}
+  ]
+}.
+
 { 'src/server/*'
 , [ debug_info
   , {i, "src/server"}

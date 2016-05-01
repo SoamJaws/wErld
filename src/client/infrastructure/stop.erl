@@ -59,8 +59,6 @@ handle_call(stop, _From, State) ->
 handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
-handle_cast({time, _Time}, State) ->
-  {noreply, State};
 
 handle_cast({passenger_check_out, Passenger}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),

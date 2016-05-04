@@ -48,6 +48,7 @@ handle_call({passenger_check_in, Passenger}, _From, State) ->
 handle_call({vehicle_check_in, Vehicle}, _From, State) ->
   case State#stop_state.currentVehicle of
     none ->
+      notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
       {reply, ok, State#stop_state{currentVehicle=Vehicle}};
     _    ->
       {reply, nok, State}
@@ -83,3 +84,9 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
+
+
+notify_vehicle_checked_in([], _Vehicle) -> ok;
+notify_vehicle_checked_in([Passenger|Passengers], Vehicle) ->
+  gen_server:cast(Passenger, {vehicle_check_in, Vehicle}),
+  notify_vehicle_checked_in(Passengers, Vehicle).

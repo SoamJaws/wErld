@@ -22,11 +22,14 @@
 %%                The atom should be waiting, boarding or
 %%                driving.
 %%
-%%                IF waiting, Pid is the stop
+%%                If waiting, Pid is the stop
 %%                waiting at, or none of not waiting at a
 %%                stop (assumed to be waiting in a depot).
 %%                If boarding, Pid is the stop boarding at.
 %%                If driving, Pid is the next stop.
+%%
+%%    capacity:   An int. The max number of passengers
+%%                for this Vehicle.
 %%
 %%    line:       A tuple {int, Pid}.
 %%                The int is the line number. The Pid is
@@ -42,7 +45,7 @@
 %%                The type of Vehicle, i.e. bus, train, tram
 %%
 %%------------------------------------------------------------
--record(vehicle_state, {action, line, passengers = [], target, type}).
+-record(vehicle_state, {action = {waiting, none}, capacity, line, passengers = [], target, type}).
 
 %%-----------------------------------------------------------
 %% Data Type: infrastructure vehicle

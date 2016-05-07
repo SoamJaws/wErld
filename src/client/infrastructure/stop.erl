@@ -5,6 +5,9 @@
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
+%% TODO
+%% Handle boarding_vehicle_full
+
 %% Public API
 
 start_link(Id) ->
@@ -63,6 +66,10 @@ handle_call(state, _From, State) ->
 
 handle_cast({passenger_check_out, Passenger}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
+  if
+    Passengers == [] and State#stop_state.currentVehicle != none ->
+      gen_server:cast(State#stope_state.currentVehicle, boarding_complete)
+  end,
   {noreply, State#stop_state{passengers=Passengers}};
 
 handle_cast({vehicle_checkout_out, Vehicle}, State) ->

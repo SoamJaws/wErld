@@ -7,8 +7,6 @@
 
 %% TODO
 %% * Subscribe to time, needed for evaluating stop arrivals
-%% * Add interface procedure between vehicle and stop for notifying
-%%   that boarding is completed
 
 %% Public API
 
@@ -36,6 +34,10 @@ handle_call({passenger_board, Passenger}, _From, State) ->
   NoPassengers = length(Passengers),
   if
     NoPassengers < Capacity ->
+      if Capacity - NoPassengers == 1
+        {boarding, Stop} = State#stop_state.action,
+        gen_server:cast(Stop, boarding_vehicle_full)
+      end,
       {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}};
     true ->
       {reply, nok, State}
@@ -50,7 +52,11 @@ handle_call(state, _From, State) ->
 
 handle_cast({passenger_leave, Passenger}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
-  {noreply, State#stop_state{passengers=Passengers}}.
+  {noreply, State#stop_state{passengers=Passengers}};
+
+handle_cast(boarding_complete, State) ->
+  %% TODO GOGOGO!
+  undefined.
 
 handle_info(_Info, State) ->
   {noreply, State}.

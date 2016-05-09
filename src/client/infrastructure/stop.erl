@@ -6,8 +6,7 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 %% TODO
-%% Handle boarding_vehicle_full
-
+%% * Procedure for passenger leave before boarding
 %% Public API
 
 start_link(Id) ->
@@ -48,21 +47,22 @@ handle_call({passenger_check_in, Passenger}, _From, State) ->
       {reply, nok, State}
   end;
 
-handle_call({vehicle_check_in, Vehicle}, _From, State) ->
-  case State#stop_state.currentVehicle of
-    none ->
-      notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
-      {reply, ok, State#stop_state{currentVehicle=Vehicle}};
-    _    ->
-      {reply, nok, State}
-  end;
-
 handle_call(stop, _From, State) ->
   {stop, normal, stopped, State};
 
 handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
+
+handle_cast({vehicle_check_in, Vehicle}, State) ->
+  case State#stop_state.currentVehicle of
+    none ->
+      notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
+      {noreply, State#stop_state{currentVehicle=Vehicle}};
+    _    ->
+      VehicleQueue = State#stop_state.vehicleQueue,
+      {noreply, State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}}
+  end;
 
 handle_cast({passenger_check_out, Passenger}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
@@ -72,13 +72,19 @@ handle_cast({passenger_check_out, Passenger}, State) ->
   end,
   {noreply, State#stop_state{passengers=Passengers}};
 
-handle_cast({vehicle_checkout_out, Vehicle}, State) ->
+handle_cast({vehicle_check_out, Vehicle}, State) ->
   if
     State#stop_state.currentVehicle == Vehicle ->
-      {noreply, State#stop_state{currentVehicle=none}};
+      case State#stop_state.vehicleQueue of
+        [NextVehicle|VehicleQueue] ->
+          vehicle:checkin_ok(H, self()),
+          {noreply, State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue}}
+        [] ->
+          {noreply, State#stop_state{currentVehicle=none}}
+      end;
     true ->
       {noreply, State}
-  end.
+  end;
 
 
 handle_info(_Info, State) ->

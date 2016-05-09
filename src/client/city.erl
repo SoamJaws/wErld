@@ -16,7 +16,7 @@ state(Pid) ->
   gen_server:call(Pid, state).
 
 init([Name]) ->
-  gen_server:call({subscribe, time}),
+  gen_server:call(blackboard, {subscribe, time}),
   {ok, [Name]}.
 
 

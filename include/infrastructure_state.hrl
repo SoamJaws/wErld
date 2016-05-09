@@ -11,41 +11,49 @@
 %%
 %%    passengers:     A list of Pids (default is []).
 %%                    A FIFO queue of waiting Persons
+%%
+%%    vehicleQueue:   A list of Pids (default is []).
+%%                    A FIFO queue of waiting vehicles.
+%%
 %%------------------------------------------------------------
--record(stop_state, {id, capacity = 50, currentVehicle = none, passengers = []}).
+-record(stop_state, {id, capacity = 50, currentVehicle = none, passengers = [], vehicleQueue = []}).
 
 %%-----------------------------------------------------------
 %% Data Type: infrastructure vehicle
 %% where:
 %%
-%%    action:     A tuple {atom, Pid}.
-%%                The atom should be waiting, boarding or
-%%                driving.
+%%    action:        A tuple {waiting, Pid}, {boardin, Pid}
+%%                   or {driving, Pid, Duration}
 %%
-%%                If waiting, Pid is the stop
-%%                waiting at, or none of not waiting at a
-%%                stop (assumed to be waiting in a depot).
-%%                If boarding, Pid is the stop boarding at.
-%%                If driving, Pid is the next stop.
+%%                   If waiting, Pid is the stop
+%%                   waiting at, or none of not waiting at a
+%%                   stop (assumed to be waiting in a depot).
+%%                   If boarding, Pid is the stop boarding at.
+%%                   If driving, Pid is the next stop and
+%%                   Duration is the time it takes to get to
+%%                   that stop.
 %%
-%%    capacity:   An int. The max number of passengers
-%%                for this Vehicle.
+%%    capacity:      An int. The max number of passengers
+%%                   for this Vehicle.
 %%
-%%    line:       A tuple {int, Pid}.
-%%                The int is the line number. The Pid is
-%%                the Pid of the line process.
+%%    lastDeparture: A timestamp. The time at which the
+%%                   vehicle left the previous stop.
 %%
-%%    passengers: A list of Pids (default is []).
-%%                All Persons currently riding this Vehicle
+%%    line:          A tuple {int, Pid}.
+%%                   The int is the line number. The Pid is
+%%                   the Pid of the line process.
 %%
-%%    target:     A Pid.
-%%                The Pid of the Stop that is the end station
+%%    passengers:    A list of Pids (default is []).
+%%                   All Persons currently riding this Vehicle
 %%
-%%    type:       An atom.
-%%                The type of Vehicle, i.e. bus, train, tram
+%%    target:        A Pid.
+%%                   The Pid of the Stop that is the end station
+%%
+%%    type:          An atom.
+%%                   The type of Vehicle, i.e. bus, train, tram
 %%
 %%------------------------------------------------------------
--record(vehicle_state, {action = {waiting, none}, capacity, line, passengers = [], target, type}).
+-record(vehicle_state, {action = {waiting, none}, capacity, lastDeparture, line, passengers = [], target, type}).
 
 %%-----------------------------------------------------------
 %% Data Type: infrastructure vehicle

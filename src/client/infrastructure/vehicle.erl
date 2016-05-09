@@ -26,14 +26,11 @@ init(State) ->
 passenger_board(Pid, Passenger) ->
   gen_server:call(Pid, {passenger_board, Passenger}).
 
-passenger_leave(Pid, Passenger) ->
-  gen_server:call(Pid, {passenger_leave, Passenger}).
-
 boarding_complete(Pid) ->
   gen_server:cast(Pid, boarding_complete).
 
 checkin_ok(Pid, Stop) ->
-  gen_server:cast(Pid, {checkin_ok, Stop})
+  gen_server:cast(Pid, {checkin_ok, Stop}).
 
 handle_call({passenger_board, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
@@ -49,15 +46,6 @@ handle_call({passenger_board, Passenger}, _From, State) ->
       {reply, nok, State}
   end;
 
-handle_call({passenger_leave, Passenger}, State) ->
-  case State#vehicle_state.action of
-    {driving, _} ->
-      {reply, nok, State};
-    _ ->
-      Passengers = lists:delete(Passenger, State#vehicle_state.passengers),
-      {reply, ok, State#vehicle_state{passengers=Passengers}}
-  end;
-
 handle_call(stop, _From, State) ->
   {stop, normal, stopped, State};
 
@@ -68,8 +56,9 @@ handle_call(state, _From, State) ->
 handle_cast({checkin_ok, Stop}, State) ->
   {noreply, State#vehicle_state{action={boarding, Stop}}};
 
-handle_cast(boarding_complete, State) ->
+handle_cast(boarding_complete, _State) ->
   %% TODO GOGOGO!
+  %% Get next stop and duration
   undefined;
 
 handle_cast({time, Time}, State) ->
@@ -77,7 +66,9 @@ handle_cast({time, Time}, State) ->
     {driving, Stop, Duration} ->
       if
         Time - State#vehicle_state.lastDeparture >= Duration ->
-          stop:vehicle_check_in(Stop, self());
+          StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
+          stop:vehicle_check_in(Stop, self()),
+          {noreply, State#vehicle_state{passengers=StayingPassengers}};
         true ->
           {noreply, State}
       end;
@@ -95,3 +86,13 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
+
+notify_passengers_checkin([]) -> [];
+notify_passengers_checkin([Passenger|Passengers]) ->
+  Reply = citizen:vehicle_notify_checkin(Passenger),
+  case Reply of
+    leave ->
+      notify_passengers_checkin(Passengers);
+    stay ->
+      [Passenger|notify_passengers_checkin(Passengers)]
+  end.

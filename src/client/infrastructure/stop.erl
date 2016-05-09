@@ -64,9 +64,16 @@ handle_cast({vehicle_check_in, Vehicle}, State) ->
 
 handle_cast({passenger_check_out, Passenger}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
-  if
-    Passengers == [] and State#stop_state.currentVehicle != none ->
-      gen_server:cast(State#stop_state.currentVehicle, boarding_complete)
+  case Passengers of
+    [] -> 
+      case State#stop_state.currentVehicle of 
+        none ->
+          gen_server:cast(State#stop_state.currentVehicle, boarding_complete);
+        _ ->
+          ok
+      end;
+    _ ->
+      ok
   end,
   {noreply, State#stop_state{passengers=Passengers}};
 
@@ -75,7 +82,7 @@ handle_cast({vehicle_check_out, Vehicle}, State) ->
     State#stop_state.currentVehicle == Vehicle ->
       case State#stop_state.vehicleQueue of
         [NextVehicle|VehicleQueue] ->
-          vehicle:checkin_ok(H, self()),
+          vehicle:checkin_ok(NextVehicle, self()),
           {noreply, State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue}};
         [] ->
           {noreply, State#stop_state{currentVehicle=none}}

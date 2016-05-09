@@ -5,8 +5,6 @@
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
-%% TODO
-%% * Procedure for passenger leave before boarding
 %% Public API
 
 start_link(Id) ->
@@ -68,7 +66,7 @@ handle_cast({passenger_check_out, Passenger}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   if
     Passengers == [] and State#stop_state.currentVehicle != none ->
-      gen_server:cast(State#stope_state.currentVehicle, boarding_complete)
+      gen_server:cast(State#stop_state.currentVehicle, boarding_complete)
   end,
   {noreply, State#stop_state{passengers=Passengers}};
 
@@ -78,13 +76,13 @@ handle_cast({vehicle_check_out, Vehicle}, State) ->
       case State#stop_state.vehicleQueue of
         [NextVehicle|VehicleQueue] ->
           vehicle:checkin_ok(H, self()),
-          {noreply, State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue}}
+          {noreply, State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue}};
         [] ->
           {noreply, State#stop_state{currentVehicle=none}}
       end;
     true ->
       {noreply, State}
-  end;
+  end.
 
 
 handle_info(_Info, State) ->

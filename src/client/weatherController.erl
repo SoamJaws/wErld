@@ -22,8 +22,8 @@ state(Pid) ->
 
 init([City, UpdateInterval]) ->
   gen_server:call(blackboard,{subscribe, time}),
-  {reply, TimePid} = gen_server:call(blackboard,{request, timePid}),
-  {reply, Time} = gen_server:call(TimePid,{request,currentTime}),
+  TimePid = gen_server:call(blackboard,{request, timePid}),
+  Time = gen_server:call(TimePid,{request,currentTime}),
   { ok, #weatherState{ city=City
                      , type=sunny
                      , temp=20

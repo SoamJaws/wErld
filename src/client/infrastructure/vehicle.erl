@@ -53,14 +53,24 @@ handle_call(state, _From, State) ->
 handle_cast({checkin_ok, Stop}, State) ->
   {noreply, State#vehicle_state{action={boarding, Stop}}};
 
-handle_cast(boarding_complete, _State) ->
-  %% TODO GOGOGO!
-  %% Get next stop and duration
-  undefined;
+handle_cast(boarding_complete, State) ->
+  {_, Line} = State#vehicle_state.line,
+  {boarding, Stop} = State#vehicle_state.action,
+  Result = line:get_next_stop(Line, Stop),
+  TimePid = gen_server:call(blackboard,{request, timePid}),
+  Time = gen_server:call(TimePid,{request,currentTime}),
+  case Result of
+    {NextStop, Dur} ->
+      {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
+    none ->
+      %%TODO Handle this
+      ok
+  end;
 
 handle_cast({time, Time}, State) ->
   case State#vehicle_state.action of
     {driving, Stop, Duration} ->
+      %%TODO Handle if Stop is Target i.e. end station has been reached
       if
         Time - State#vehicle_state.lastDeparture >= Duration ->
           StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),

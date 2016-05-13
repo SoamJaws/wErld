@@ -71,3 +71,13 @@
 %%
 %%------------------------------------------------------------
 -record(line_state, {number, stops, type}).
+
+%%-----------------------------------------------------------
+%% Data Type: infrastructure
+%% where:
+%%
+%%    lines:     A list of Pids of all lines in the
+%%               infrastructure
+%%
+%%------------------------------------------------------------
+-record(infrastructure_state, {lines}).

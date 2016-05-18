@@ -15,6 +15,7 @@
 %% TODO
 %% Design instructions data model
 %% Add api for citizens to use, i.e. {get_route, From, To}
+%% Add api for vehicles to use, i.e. {get_line, StartStop}
 %% Implement pathfinding algorithm. Includes quering lines
 %% for stop existence and getting the duration of routes.
 

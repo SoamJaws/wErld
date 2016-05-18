@@ -67,7 +67,7 @@
 %%                travel duration between the stops.
 %%
 %%    type:       An atom.
-%%                The type of Vehicle, i.e. bus, train, tram
+%%                The type of Vehicle, i.e. bus, train, tram.
 %%
 %%------------------------------------------------------------
 -record(line_state, {number, stops, type}).

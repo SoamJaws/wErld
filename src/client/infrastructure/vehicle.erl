@@ -56,34 +56,27 @@ handle_cast({checkin_ok, Stop}, State) ->
 handle_cast(boarding_complete, State) ->
   {_, Line} = State#vehicle_state.line,
   {boarding, Stop} = State#vehicle_state.action,
-  Result = line:get_next_stop(Line, Stop),
+  {NextStop, Dur} = line:get_next_stop(Line, Stop),
   TimePid = gen_server:call(blackboard,{request, timePid}),
   Time = gen_server:call(TimePid,{request,currentTime}),
-  case Result of
-    {NextStop, Dur} ->
-      {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
-    none ->
-      %%TODO Handle this
-      ok
-  end;
+  {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
 
 handle_cast({time, Time}, State) ->
   case State#vehicle_state.action of
     {driving, Stop, Duration} ->
-      %% TODO MOVE IN
-      UpdatedState = if
-                       Stop == State#vehicle_state.target ->
-                         Line = infrastructure:get_line(name, Stop),
-                         Target = line:get_end_stop(Line),
-                         State#vehicle_state{target=Target, line=Line};
-                       true ->
-                         State
-                     end,
       if
         Time - State#vehicle_state.lastDeparture >= Duration ->
+          UpdatedState = if
+                           Stop == State#vehicle_state.target ->
+                           Line = infrastructure:get_line(name, Stop),
+                           Target = line:get_end_stop(Line),
+                           State#vehicle_state{target=Target, line=Line};
+                         true ->
+                           State
+                         end,
           StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
           stop:vehicle_check_in(Stop, self()),
-          {noreply, State#vehicle_state{passengers=StayingPassengers}};
+          {noreply, UpdatedState#vehicle_state{passengers=StayingPassengers}};
         true ->
           {noreply, State}
       end;

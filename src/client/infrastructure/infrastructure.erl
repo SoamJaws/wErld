@@ -2,6 +2,7 @@
 -include("infrastructure_state.hrl").
 
 -behaviour(gen_server).
+-export([ get_line/2]).
 -export([ start_link/1
         , stop/1
         , state/1
@@ -57,10 +58,11 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
-get_line_helper(StartStop, []) -> none %%TODO Error log and crash, not supposed to happen
+get_line_helper(_StartStop, []) -> none; %%TODO Error log and crash, not supposed to happen
 get_line_helper(StartStop, [Line|Lines]) ->
+  IsStartStop = line:is_start_stop(Line, StartStop),
   if
-    line:is_start_stop(Line, StartStop) ->
+    IsStartStop ->
       Line;
     true ->
       get_line_helper(StartStop, Lines)

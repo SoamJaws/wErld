@@ -77,7 +77,7 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
-get_next_stop_helper(_Stop, []) -> none;
+get_next_stop_helper(_Stop, []) -> none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
 get_next_stop_helper(Stop, [Stop|[Dur|[NextStop|_]]]) ->
   {NextStop, Dur};
 get_next_stop_helper(Stop, [_S|[_Dur|[Stops]]]) ->

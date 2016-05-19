@@ -70,7 +70,15 @@ handle_cast(boarding_complete, State) ->
 handle_cast({time, Time}, State) ->
   case State#vehicle_state.action of
     {driving, Stop, Duration} ->
-      %%TODO Handle if Stop is Target i.e. end station has been reached
+      %% TODO MOVE IN
+      UpdatedState = if
+                       Stop == State#vehicle_state.target ->
+                         Line = infrastructure:get_line(name, Stop),
+                         Target = line:get_end_stop(Line),
+                         State#vehicle_state{target=Target, line=Line};
+                       true ->
+                         State
+                     end,
       if
         Time - State#vehicle_state.lastDeparture >= Duration ->
           StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),

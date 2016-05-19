@@ -23,14 +23,24 @@ init(State) ->
 get_next_stop(Pid, Stop) ->
   gen_server:call(Pid, {get_next_stop, Stop}).
 
+get_end_stop(Pid) ->
+  gen_server:call(Pid, get_end_stop).
+
 contains_stop(Pid, Stop) ->
   gen_server:call(Pid, {contains_stop, Stop}).
 
 get_duration(Pid, FromStop, ToStop) ->
   gen_server:call(Pid, {get_duration, FromStop, ToStop}).
 
+is_start_stop(Pid, Stop) ->
+  get_server:call(Pid, {is_start_stop, Stop}).
+
 handle_call({get_next_stop, Stop}, _From, State) ->
   Reply = get_next_stop_helper(Stop, State#line_state.stops),
+  {reply, Reply, State};
+
+handle_call(get_end_stop, _From, State) ->
+  Reply = lists:last(State#line_state.stops),
   {reply, Reply, State};
 
 handle_call({contains_stop, Stop}, _From, State) ->
@@ -39,6 +49,10 @@ handle_call({contains_stop, Stop}, _From, State) ->
 
 handle_call({get_duration, FromStop, ToStop}, _From, State) ->
   Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),
+  {reply, Reply, State};
+
+handle_call({is_start_stop, Stop}, _From, State) ->
+  Reply = lists:prefix([Stop], State#line_state.stops),
   {reply, Reply, State};
 
 handle_call(stop, _From, State) ->

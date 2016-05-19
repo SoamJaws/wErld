@@ -15,7 +15,6 @@
 %% TODO
 %% Design instructions data model
 %% Add api for citizens to use, i.e. {get_route, From, To}
-%% Add api for vehicles to use, i.e. {get_line, StartStop}
 %% Implement pathfinding algorithm. Includes quering lines
 %% for stop existence and getting the duration of routes.
 
@@ -31,12 +30,17 @@ state(Pid) ->
   gen_server:call(Pid, state).
 
 init([Lines]) ->
-  gen_server:call({subscribe, time}),
   {ok, #infrastructure_state{lines=Lines}}.
 
+get_line(Pid, StartStop) ->
+  gen_server:call(Pid, {get_line, StartStop}).
 
-handle_call(stop, _From, Subscriptions) ->
-  {stop, normal, stopped, Subscriptions}.
+handle_call({get_line, StartStop}, _From, Lines) ->
+  Line = get_line_helper(StartStop, Lines),
+  {reply, Line, Lines};
+
+handle_call(stop, _From, Lines) ->
+  {stop, normal, stopped, Lines}.
 
 handle_cast(_, State) ->
   {noreply, State}.
@@ -52,3 +56,12 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
+
+get_line_helper(StartStop, []) -> none %%TODO Error log and crash, not supposed to happen
+get_line_helper(StartStop, [Line|Lines]) ->
+  if
+    line:is_start_stop(Line, StartStop) ->
+      Line;
+    true ->
+      get_line_helper(StartStop, Lines)
+  end.

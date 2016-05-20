@@ -36,9 +36,15 @@ init([Lines]) ->
 get_line(Pid, StartStop) ->
   gen_server:call(Pid, {get_line, StartStop}).
 
+get_route(Pid, From, To) ->
+  gen_server:call(Pid, {get_route, From, To}).
+
 handle_call({get_line, StartStop}, _From, Lines) ->
   Line = get_line_helper(StartStop, Lines),
   {reply, Line, Lines};
+
+handle_call({get_route, From, To}, _From, Lines) ->
+  ok. %TODO IMPLEMENT
 
 handle_call(stop, _From, Lines) ->
   {stop, normal, stopped, Lines}.

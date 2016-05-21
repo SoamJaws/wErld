@@ -25,14 +25,17 @@ init([LogFile]) ->
   {ok, LogFile}.
 
 log_info(Content) ->
-  gen_server:cast(?MODULE, {log, io_lib:fwrite("--- INFO ------ ~w~n--- END INFO ------~n", [Content])}).
+  log(Content, "INFO").
 
 log_warning(Content) ->
-  gen_server:cast(?MODULE, {log, io_lib:fwrite("--- WARNING --- ~w~n--- END WARNING ---~n", [Content])}).
+  log(Content, "WARNING").
 
 log_error(Content) ->
-  gen_server:cast(?MODULE, {log, io_lib:fwrite("--- ERROR ----- ~w~n--- END ERROR -----~n", [Content])}).
+  log(Content, "ERROR").
 
+log(Content, Mode) ->
+  {_Date, {H, M, S}} = calendar:local_time(),
+  gen_server:cast(?MODULE, {log, io_lib:fwrite("--- ~s ~s:~s:~s - ~s --- ~s~n--- END ~s ---~n", [Mode, H, M, S, self(), Content, Mode])}).
 
 handle_call(stop, _From, State) ->
   {stop, normal, stopped, State}.

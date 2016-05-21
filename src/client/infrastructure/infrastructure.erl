@@ -14,7 +14,6 @@
         , code_change/3]).
 
 %% TODO
-%% Design instructions data model
 %% Add api for citizens to use, i.e. {get_route, From, To}
 %% Implement pathfinding algorithm. Includes quering lines
 %% for stop existence and getting the duration of routes.
@@ -45,6 +44,8 @@ handle_call({get_line, StartStop}, _From, Lines) ->
 
 handle_call({get_route, From, To}, _From, Lines) ->
   ok. %TODO IMPLEMENT
+  %Instructionsformat: list of tuples [{Line, Destination}, {Line, Destination}...]
+  %Citizen goes from From to Destionation by line, repeat until arrived at To
 
 handle_call(stop, _From, Lines) ->
   {stop, normal, stopped, Lines}.

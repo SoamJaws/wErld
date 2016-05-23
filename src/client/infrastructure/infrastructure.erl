@@ -1,8 +1,10 @@
 -module(infrastructure).
 -include("infrastructure_state.hrl").
-
 -behaviour(gen_server).
--export([ get_line/2]).
+
+-export([ get_line/2
+        , get_route/3]).
+
 -export([ start_link/1
         , stop/1
         , state/1
@@ -43,7 +45,7 @@ handle_call({get_line, StartStop}, _From, Lines) ->
   {reply, Line, Lines};
 
 handle_call({get_route, From, To}, _From, Lines) ->
-  ok. %TODO IMPLEMENT
+  ok; %TODO IMPLEMENT
   %Instructionsformat: list of tuples [{Line, Destination}, {Line, Destination}...]
   %Citizen goes from From to Destionation by line, repeat until arrived at To
 

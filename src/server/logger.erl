@@ -6,8 +6,8 @@
 
 %% Public API
 
-start_link(LogFile) ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, [LogFile], []).
+start_link(LogDir) ->
+  gen_server:start_link({global, ?MODULE}, ?MODULE, [LogDir], []).
 
 stop(Module) ->
   gen_server:call(Module, stop).
@@ -21,28 +21,29 @@ state(Module) ->
 state() ->
   state(?MODULE).
 
-init([LogFile]) ->
-  {ok, LogFile}.
+init([LogDir]) ->
+  {ok, LogDir}.
 
-log_info(Content) ->
-  log(Content, "INFO").
+log_info(Content, Module, Id) ->
+  log(Content, Module, Id, "INFO").
 
-log_warning(Content) ->
-  log(Content, "WARNING").
+log_warning(Content, Module, Id) ->
+  log(Content, Module, Id, "WARNING").
 
-log_error(Content) ->
-  log(Content, "ERROR").
+log_error(Content, Module, Id) ->
+  log(Content, Module, Id, "ERROR").
 
-log(Content, Mode) ->
+log(Content, Module, Id, Mode) ->
   {_Date, {H, M, S}} = calendar:local_time(),
-  gen_server:cast(?MODULE, {log, io_lib:fwrite("--- ~s ~s:~s:~s - ~s --- ~s~n--- END ~s ---~n", [Mode, H, M, S, self(), Content, Mode])}).
+  gen_server:cast(?MODULE, {log, Module, Id, io_lib:fwrite("--- ~s ~s:~s:~s - ~s --- ~s~n--- END ~s ---~n", [Mode, H, M, S, self(), Content, Mode])}).
 
 handle_call(stop, _From, State) ->
   {stop, normal, stopped, State}.
 
-handle_cast({log, Content}, LogFile) ->
-  file:write_file(LogFile, Content, [append]),
-  {noreply, LogFile}.
+handle_cast({log, Module, Id, Content}, LogDir) ->
+  LogFile = filename:join([LogDir, Module, Id ++ ".log"]),
+  file:write_file(LogDir, Content, [append]),
+  {noreply, LogDir}.
 
 
 handle_info(_Info, State) ->

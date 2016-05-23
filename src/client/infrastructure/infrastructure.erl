@@ -16,7 +16,6 @@
         , code_change/3]).
 
 %% TODO
-%% Add api for citizens to use, i.e. {get_route, From, To}
 %% Implement pathfinding algorithm. Includes quering lines
 %% for stop existence and getting the duration of routes.
 
@@ -45,9 +44,10 @@ handle_call({get_line, StartStop}, _From, Lines) ->
   {reply, Line, Lines};
 
 handle_call({get_route, From, To}, _From, Lines) ->
-  ok; %TODO IMPLEMENT
-  %Instructionsformat: list of tuples [{Line, Destination}, {Line, Destination}...]
-  %Citizen goes from From to Destionation by line, repeat until arrived at To
+  FromLines = [Line || Line <- Lines, line:contains_stop(Line, From)],
+  ToLines = [Line || Line <- Lines, line:contains_stop(Line, To)],
+  Reply = get_route_helper(From, To, FromLines, ToLines),
+  {reply, Reply, Lines};
 
 handle_call(stop, _From, Lines) ->
   {stop, normal, stopped, Lines}.
@@ -76,3 +76,25 @@ get_line_helper(StartStop, [Line|Lines]) ->
     true ->
       get_line_helper(StartStop, Lines)
   end.
+
+%Instructionsformat: list of tuples [{Line, Destination}, {Line, Destination}...]
+%Citizen goes from From to Destination by line, repeat until arrived at To
+get_route_helper(From, To, FromLines, ToLines) ->
+  get_route_helper([From], From, To, FromLines, ToLines).
+
+get_route_helper(Path, From, To, FromLines, ToLines) ->
+  ok.
+
+get_closest_neighbor([], BestNeighbor) -> BestNeighbor;
+get_closest_neighbor([{Neighbor, Dur}|Neighbors], {none, _}) ->
+  get_closest_neighbor(Neighbors, {Neighbor, Dur});
+get_closest_neighbor([{Neighbor, Dur}|Neighbors], {BestNeighbor, BestDur}) ->
+  if
+    Dur < BestDur ->
+      get_closest_neighbor(Neighbors, {Neighbor, Dur});
+    true ->
+      get_closest_neighbor(Neighbors, {BestNeighbor, BestDur})
+  end;
+get_closest_neighbor(Stops, Lines) ->
+  Neighbors = [[line:get_next_stop(Line, Stop) || Line <- Lines] || Stop <- Stops],
+  get_closest_neighbor(Neighbors, {none, 0}).

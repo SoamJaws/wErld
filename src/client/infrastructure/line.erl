@@ -33,7 +33,7 @@ get_duration(Pid, FromStop, ToStop) ->
   gen_server:call(Pid, {get_duration, FromStop, ToStop}).
 
 is_start_stop(Pid, Stop) ->
-  get_server:call(Pid, {is_start_stop, Stop}).
+  gen_server:call(Pid, {is_start_stop, Stop}).
 
 handle_call({get_next_stop, Stop}, _From, State) ->
   Reply = get_next_stop_helper(Stop, State#line_state.stops),

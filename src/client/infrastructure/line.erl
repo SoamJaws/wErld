@@ -35,6 +35,9 @@ get_duration(Pid, FromStop, ToStop) ->
 is_start_stop(Pid, Stop) ->
   gen_server:call(Pid, {is_start_stop, Stop}).
 
+get_intersection(Pid, OtherLine) ->
+  get_server:call(Pid, {get_intersection, OtherLine}).
+
 handle_call({get_next_stop, Stop}, _From, State) ->
   Reply = get_next_stop_helper(Stop, State#line_state.stops),
   {reply, Reply, State};
@@ -53,6 +56,10 @@ handle_call({get_duration, FromStop, ToStop}, _From, State) ->
 
 handle_call({is_start_stop, Stop}, _From, State) ->
   Reply = lists:prefix([Stop], State#line_state.stops),
+  {reply, Reply, State};
+
+handle_call({get_intersection, OtherLine}, _From, State) ->
+  Reply = get_intersection_helper(OtherLine, State#line_state.stops),
   {reply, Reply, State};
 
 handle_call(stop, _From, State) ->
@@ -100,4 +107,14 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|[Stops]]]) ->
       Dur + get_duration_helper(FromStop, ToStop, true, Stops);
     false ->
       get_duration_helper(FromStop, ToStop, false, Stops)
+  end.
+
+get_intersection_helper(_OtherLine, []) -> none;
+get_intersection_helper(OtherLine, [Stop|[_Dur|[Stops]]]) ->
+  ContainsStop = contains_stop(OtherLine, Stop),
+  case ContainsStop of
+    true ->
+      Stop;
+    false ->
+      get_intersection_helper(OtherLine, Stops)
   end.

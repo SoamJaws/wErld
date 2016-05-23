@@ -80,10 +80,19 @@ get_line_helper(StartStop, [Line|Lines]) ->
 %Instructionsformat: list of tuples [{Line, Destination}, {Line, Destination}...]
 %Citizen goes from From to Destination by line, repeat until arrived at To
 get_route_helper(From, To, FromLines, ToLines) ->
-  get_route_helper([From], From, To, FromLines, ToLines).
-
-get_route_helper(Path, From, To, FromLines, ToLines) ->
+  IntersectingLines = get_intersecting_lines(FromLines, ToLines),
+  %% Get duraction From -> Intersect + Intersect -> To for each intersecting entry, return shortest
   ok.
+
+%% [{FromLine, ToLine, IntersectingStop}]
+get_intersecting_lines(FromLines, ToLines) ->
+  get_intersecting_lines([{FromLine, ToLine, line:get_intersection(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines]).
+
+get_intersecting_lines([]) -> [];
+get_intersecting_lines([{_,_,none}|IntersectingLines]) ->
+  get_intersecting_lines(IntersectingLines);
+get_intersecting_lines([IntersectingLine|IntersectingLines]) ->
+  [IntersectingLine|get_intersecting_lines(IntersectingLines)].
 
 get_closest_neighbor([], BestNeighbor) -> BestNeighbor;
 get_closest_neighbor([{Neighbor, Dur}|Neighbors], {none, _}) ->

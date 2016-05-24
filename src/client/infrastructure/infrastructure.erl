@@ -15,10 +15,6 @@
         , terminate/2
         , code_change/3]).
 
-%% TODO
-%% Implement pathfinding algorithm. Includes quering lines
-%% for stop existence and getting the duration of routes.
-
 %% Public API
 
 start_link(Lines) ->
@@ -77,12 +73,13 @@ get_line_helper(StartStop, [Line|Lines]) ->
       get_line_helper(StartStop, Lines)
   end.
 
-%Instructionsformat: list of tuples [{Line, Destination}, {Line, Destination}...]
-%Citizen goes from From to Destination by line, repeat until arrived at To
+%% Instructionsformat: list of tuples {[{Line, Destination}, {Line, Destination}...], Dur}
+%% Citizen goes from From to Destination by line, repeat until arrived at To
 get_route_helper(From, To, FromLines, ToLines) ->
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
-  %% Get duraction From -> Intersect + Intersect -> To for each intersecting entry, return shortest
-  ok.
+  IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
+  {FromLine, ToLine, IntersectingStop, Dur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
+  {[{FromLine, IntersectingStop}, {ToLine, To}], Dur}.
 
 %% [{FromLine, ToLine, IntersectingStop}]
 get_intersecting_lines(FromLines, ToLines) ->
@@ -94,16 +91,14 @@ get_intersecting_lines([{_,_,none}|IntersectingLines]) ->
 get_intersecting_lines([IntersectingLine|IntersectingLines]) ->
   [IntersectingLine|get_intersecting_lines(IntersectingLines)].
 
-get_closest_neighbor([], BestNeighbor) -> BestNeighbor;
-get_closest_neighbor([{Neighbor, Dur}|Neighbors], {none, _}) ->
-  get_closest_neighbor(Neighbors, {Neighbor, Dur});
-get_closest_neighbor([{Neighbor, Dur}|Neighbors], {BestNeighbor, BestDur}) ->
+get_best_intersecting_lines(IntersectingLinesWithDurations) ->
+  get_best_intersecting_lines(IntersectingLinesWithDurations, {none, none, none, 0}).
+
+get_best_intersecting_lines([], BestIntersectingLines) -> BestIntersectingLines;
+get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) ->
   if
     Dur < BestDur ->
-      get_closest_neighbor(Neighbors, {Neighbor, Dur});
+      get_best_intersecting_lines(IntersectingLinesWithDurations, {FromLine, ToLine, IntersectingStop, Dur});
     true ->
-      get_closest_neighbor(Neighbors, {BestNeighbor, BestDur})
-  end;
-get_closest_neighbor(Stops, Lines) ->
-  Neighbors = [[line:get_next_stop(Line, Stop) || Line <- Lines] || Stop <- Stops],
-  get_closest_neighbor(Neighbors, {none, 0}).
+      get_best_intersecting_lines(IntersectingLinesWithDurations, {BestFromLine, BestToLine, BestIntersectingStop, BestDur})
+  end.

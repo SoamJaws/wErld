@@ -5,9 +5,6 @@
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
-%% TODO
-%% Make lines two way instead of having two lines, one for each way
-
 %% Public API
 
 start_link(Number, Stops, Type) ->
@@ -23,11 +20,11 @@ init(State) ->
   gen_server:call(blackboard, {subscribe, time}),
   {ok, State}.
 
-get_next_stop(Pid, Stop) ->
-  gen_server:call(Pid, {get_next_stop, Stop}).
+get_next_stop(Pid, Target, Stop) ->
+  gen_server:call(Pid, {get_next_stop, Target, Stop}).
 
-get_end_stop(Pid) ->
-  gen_server:call(Pid, get_end_stop).
+get_other_end(Pid, Stop) ->
+  gen_server:call(Pid, {get_other_end, Stop}).
 
 contains_stop(Pid, Stop) ->
   gen_server:call(Pid, {contains_stop, Stop}).
@@ -35,30 +32,38 @@ contains_stop(Pid, Stop) ->
 get_duration(Pid, FromStop, ToStop) ->
   gen_server:call(Pid, {get_duration, FromStop, ToStop}).
 
-is_start_stop(Pid, Stop) ->
-  gen_server:call(Pid, {is_start_stop, Stop}).
+is_end_stop(Pid, Stop) ->
+  gen_server:call(Pid, {is_end_stop, Stop}).
 
 get_intersection(Pid, OtherLine) ->
   get_server:call(Pid, {get_intersection, OtherLine}).
 
-handle_call({get_next_stop, Stop}, _From, State) ->
-  Reply = get_next_stop_helper(Stop, State#line_state.stops),
+handle_call({get_next_stop, Target, Stop}, _From, State) ->
+  EndStop = lists:head(State#line_state.stops),
+  Reply = case EndStop of
+            Target -> get_next_stop_helper(Stop, pre, State#line_state.stops);
+            _      -> get_next_stop_helper(Stop, post, State#line_state.stops)
+          end,
   {reply, Reply, State};
 
-handle_call(get_end_stop, _From, State) ->
-  Reply = lists:last(State#line_state.stops),
+handle_call({get_other_end, Stop}, _From, State) ->
+  [H|T] = State#line_state.stops,
+  Reply = case H of
+            Stop -> lists:last(T);
+            _    -> H
+          end,
   {reply, Reply, State};
 
 handle_call({contains_stop, Stop}, _From, State) ->
-  Reply = contains_stop_helper(Stop, State#line_state.stops),
+  Reply = lists:member(Stop, State#line_state.stops),
   {reply, Reply, State};
 
 handle_call({get_duration, FromStop, ToStop}, _From, State) ->
   Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),
   {reply, Reply, State};
 
-handle_call({is_start_stop, Stop}, _From, State) ->
-  Reply = lists:prefix([Stop], State#line_state.stops),
+handle_call({is_end_stop, Stop}, _From, State) ->
+  Reply = lists:prefix([Stop], State#line_state.stops) or lists:suffix([Stop], State#line_state.stops),
   {reply, Reply, State};
 
 handle_call({get_intersection, OtherLine}, _From, State) ->
@@ -87,16 +92,13 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
-get_next_stop_helper(_Stop, []) -> none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
-get_next_stop_helper(Stop, [Stop|[Dur|[NextStop|_]]]) ->
+get_next_stop_helper(_Stop, _, []) -> none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
+get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) ->
   {NextStop, Dur};
-get_next_stop_helper(Stop, [_S|[_Dur|[Stops]]]) ->
-  get_next_stop_helper(Stop, Stops).
-
-contains_stop_helper(_Stop, []) -> false;
-contains_stop_helper(Stop, [Stop|_]) -> true;
-contains_stop_helper(Stop, [_S|[_Dur|[Stops]]]) ->
-  contains_stop_helper(Stop, Stops).
+get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) ->
+  {NextStop, Dur};
+get_next_stop_helper(Stop, Alignment, [_S|[_Dur|[Stops]]]) ->
+  get_next_stop_helper(Stop, Alignment, Stops).
 
 get_duration_helper(FromStop, ToStop, Stops) ->
   get_duration_helper(FromStop, ToStop, false, Stops).

@@ -2,8 +2,7 @@
 -include("infrastructure_state.hrl").
 -behaviour(gen_server).
 
--export([ get_line/2
-        , get_route/3]).
+-export([get_route/3]).
 
 -export([ start_link/1
         , stop/1
@@ -28,9 +27,6 @@ state(Pid) ->
 
 init([Lines]) ->
   {ok, #infrastructure_state{lines=Lines}}.
-
-get_line(Pid, StartStop) ->
-  gen_server:call(Pid, {get_line, StartStop}).
 
 get_route(Pid, From, To) ->
   gen_server:call(Pid, {get_route, From, To}).

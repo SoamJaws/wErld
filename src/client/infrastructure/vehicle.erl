@@ -5,9 +5,6 @@
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
-%% TODO
-%% Adapt to lines being two way when that is implemented (Rework the arrived at target scenario)
-
 %% Public API
 
 start_link(Type, Capacity) ->
@@ -59,7 +56,7 @@ handle_cast({checkin_ok, Stop}, State) ->
 handle_cast(boarding_complete, State) ->
   {_, Line} = State#vehicle_state.line,
   {boarding, Stop} = State#vehicle_state.action,
-  {NextStop, Dur} = line:get_next_stop(Line, Stop),
+  {NextStop, Dur} = line:get_next_stop(Line, State#vehicle_state.target, Stop),
   TimePid = gen_server:call(blackboard,{request, timePid}),
   Time = gen_server:call(TimePid,{request,currentTime}),
   {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
@@ -71,9 +68,8 @@ handle_cast({time, Time}, State) ->
         Time - State#vehicle_state.lastDeparture >= Duration ->
           UpdatedState = if
                            Stop == State#vehicle_state.target ->
-                           Line = infrastructure:get_line(name, Stop),
-                           Target = line:get_end_stop(Line),
-                           State#vehicle_state{target=Target, line=Line};
+                           Target = line:get_other_end(State#vehicle_state.line, State#vehicle_state.target),
+                           State#vehicle_state{target=Target};
                          true ->
                            State
                          end,

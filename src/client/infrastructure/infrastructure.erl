@@ -2,17 +2,20 @@
 -include("infrastructure_state.hrl").
 -behaviour(gen_server).
 
--export([get_route/3]).
-
+%% Public API
 -export([ start_link/1
         , stop/1
         , state/1
-        , init/1
+        , get_route/3]).
+
+%% gen_server
+-export([ init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
         , terminate/2
         , code_change/3]).
+
 
 %% Public API
 
@@ -25,11 +28,15 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
+get_route(Pid, From, To) ->
+  gen_server:call(Pid, {get_route, From, To}).
+
+
+%% gen_server
+
 init([Lines]) ->
   {ok, #infrastructure_state{lines=Lines}}.
 
-get_route(Pid, From, To) ->
-  gen_server:call(Pid, {get_route, From, To}).
 
 handle_call({get_line, StartStop}, _From, Lines) ->
   Line = get_line_helper(StartStop, Lines),
@@ -43,6 +50,7 @@ handle_call({get_route, From, To}, _From, Lines) ->
 
 handle_call(stop, _From, Lines) ->
   {stop, normal, stopped, Lines}.
+
 
 handle_cast(_, State) ->
   {noreply, State}.
@@ -59,6 +67,9 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
+
+%% Backend
+
 get_line_helper(_StartStop, []) -> none; %%TODO Error log and crash, not supposed to happen
 get_line_helper(StartStop, [Line|Lines]) ->
   IsStartStop = line:is_start_stop(Line, StartStop),
@@ -69,6 +80,7 @@ get_line_helper(StartStop, [Line|Lines]) ->
       get_line_helper(StartStop, Lines)
   end.
 
+
 %% Instructionsformat: list of tuples {[{Line, Destination}, {Line, Destination}...], Dur}
 %% Citizen goes from From to Destination by line, repeat until arrived at To
 get_route_helper(From, To, FromLines, ToLines) ->
@@ -76,6 +88,7 @@ get_route_helper(From, To, FromLines, ToLines) ->
   IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
   {FromLine, ToLine, IntersectingStop, Dur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
   {[{FromLine, IntersectingStop}, {ToLine, To}], Dur}.
+
 
 %% [{FromLine, ToLine, IntersectingStop}]
 get_intersecting_lines(FromLines, ToLines) ->
@@ -86,6 +99,7 @@ get_intersecting_lines([{_,_,none}|IntersectingLines]) ->
   get_intersecting_lines(IntersectingLines);
 get_intersecting_lines([IntersectingLine|IntersectingLines]) ->
   [IntersectingLine|get_intersecting_lines(IntersectingLines)].
+
 
 get_best_intersecting_lines(IntersectingLinesWithDurations) ->
   get_best_intersecting_lines(IntersectingLinesWithDurations, {none, none, none, 0}).

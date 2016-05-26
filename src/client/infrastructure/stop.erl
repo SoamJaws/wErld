@@ -1,9 +1,25 @@
 -module(stop).
--compile(export_all).
 -include("infrastructure_state.hrl").
-
 -behaviour(gen_server).
--export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+
+%% Public API
+-export([ start_link/1
+        , start_link/2
+        , stop/1
+        , state/1
+        , passenger_check_in/2
+        , passenger_check_out/2
+        , vehicle_check_in/2
+        , vehicle_check_out/2]).
+
+%% gen_server
+-export([ init/1
+        , handle_call/3
+        , handle_cast/2
+        , handle_info/2
+        , terminate/2
+        , code_change/3]).
+
 
 %% Public API
 
@@ -19,9 +35,6 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-init(State) ->
-  {ok, State}.
-
 passenger_check_in(Pid, Passenger) ->
   gen_server:call(Pid, {passenger_check_in, Passenger}).
 
@@ -33,6 +46,13 @@ vehicle_check_in(Pid, Vehicle) ->
 
 vehicle_check_out(Pid, Vehicle) ->
   gen_server:cast(Pid, {vehicle_check_out, Vehicle}).
+
+
+%% gen_server
+
+init(State) ->
+  {ok, State}.
+
 
 handle_call({passenger_check_in, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
@@ -103,6 +123,8 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
+
+%% Backend
 
 notify_vehicle_checked_in([], _Vehicle) -> ok;
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle) ->

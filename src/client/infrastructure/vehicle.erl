@@ -1,9 +1,23 @@
 -module(vehicle).
--compile(export_all).
 -include("infrastructure_state.hrl").
-
 -behaviour(gen_server).
--export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+
+%% Public API
+-export([ start_link/2
+        , stop/1
+        , state/1
+        , passenger_board/2
+        , boarding_complete/1
+        , checkin_ok/2]).
+
+%% gen_server
+-export([ init/1
+        , handle_call/3
+        , handle_cast/2
+        , handle_info/2
+        , terminate/2
+        , code_change/3]).
+
 
 %% Public API
 
@@ -16,10 +30,6 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-init(State) ->
-  gen_server:call(blackboard, {subscribe, time}),
-  {ok, State}.
-
 passenger_board(Pid, Passenger) ->
   gen_server:call(Pid, {passenger_board, Passenger}).
 
@@ -28,6 +38,14 @@ boarding_complete(Pid) ->
 
 checkin_ok(Pid, Stop) ->
   gen_server:cast(Pid, {checkin_ok, Stop}).
+
+
+%% gen_server
+
+init(State) ->
+  gen_server:call(blackboard, {subscribe, time}),
+  {ok, State}.
+
 
 handle_call({passenger_board, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
@@ -83,6 +101,7 @@ handle_cast({time, Time}, State) ->
       {noreply, State}
   end.
 
+
 handle_info(_Info, State) ->
   {noreply, State}.
 
@@ -93,6 +112,9 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
+
+
+%% Backend
 
 notify_passengers_checkin([]) -> [];
 notify_passengers_checkin([Passenger|Passengers]) ->

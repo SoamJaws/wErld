@@ -17,6 +17,10 @@
         , code_change/3]).
 
 
+%%TODO
+%% Make pathfinding algorithm work for more than one vehicle switch, see todo in get_route_helper
+%% Or consider storing neighbor info in all stops and implement a regular Dijkstras
+
 %% Public API
 
 start_link(Lines) ->
@@ -39,9 +43,7 @@ init([Lines]) ->
 
 
 handle_call({get_route, From, To}, _From, Lines) ->
-  FromLines = [Line || Line <- Lines, line:contains_stop(Line, From)],
-  ToLines = [Line || Line <- Lines, line:contains_stop(Line, To)],
-  Reply = get_route_helper(From, To, FromLines, ToLines),
+  Reply = get_route_helper(From, To, Lines),
   {reply, Reply, Lines};
 
 handle_call(state, _From, Lines) ->
@@ -71,11 +73,19 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Instructionsformat: list of tuples {[{Line, Destination}, {Line, Destination}...], Dur}
 %% Citizen goes from From to Destination by line, repeat until arrived at To
-get_route_helper(From, To, FromLines, ToLines) ->
+get_route_helper(From, To, Lines) ->
+  FromLines = [Line || Line <- Lines, line:contains_stop(Line, From)],
+  ToLines = [Line || Line <- Lines, line:contains_stop(Line, To)],
+  get_route_helper(From, To, FromLines, ToLines, Lines).
+
+get_route_helper(From, To, FromLines, ToLines, AllLines) ->
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
-  IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
-  {FromLine, ToLine, IntersectingStop, Dur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
-  {[{FromLine, IntersectingStop}, {ToLine, To}], Dur}.
+  case IntersectingLines of
+    [] -> ok; %%TODO Try to get route to the closest neighbor of From
+    _  ->
+      IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
+    {FromLine, ToLine, IntersectingStop, Dur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
+    {[{FromLine, IntersectingStop}, {ToLine, To}], Dur}.
 
 
 %% [{FromLine, ToLine, IntersectingStop}]

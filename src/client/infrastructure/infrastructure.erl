@@ -38,15 +38,14 @@ init([Lines]) ->
   {ok, #infrastructure_state{lines=Lines}}.
 
 
-handle_call({get_line, StartStop}, _From, Lines) ->
-  Line = get_line_helper(StartStop, Lines),
-  {reply, Line, Lines};
-
 handle_call({get_route, From, To}, _From, Lines) ->
   FromLines = [Line || Line <- Lines, line:contains_stop(Line, From)],
   ToLines = [Line || Line <- Lines, line:contains_stop(Line, To)],
   Reply = get_route_helper(From, To, FromLines, ToLines),
   {reply, Reply, Lines};
+
+handle_call(state, _From, Lines) ->
+  {reply, Lines, Lines};
 
 handle_call(stop, _From, Lines) ->
   {stop, normal, stopped, Lines}.
@@ -69,17 +68,6 @@ code_change(_OldVsn, State, _Extra) ->
 
 
 %% Backend
-
-get_line_helper(_StartStop, []) -> none; %%TODO Error log and crash, not supposed to happen
-get_line_helper(StartStop, [Line|Lines]) ->
-  IsStartStop = line:is_start_stop(Line, StartStop),
-  if
-    IsStartStop ->
-      Line;
-    true ->
-      get_line_helper(StartStop, Lines)
-  end.
-
 
 %% Instructionsformat: list of tuples {[{Line, Destination}, {Line, Destination}...], Dur}
 %% Citizen goes from From to Destination by line, repeat until arrived at To

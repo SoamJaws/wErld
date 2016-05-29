@@ -7,6 +7,7 @@
         , stop/1
         , state/1
         , get_next_stop/3
+        , get_neighbors/2
         , get_other_end/2
         , contains_stop/2
         , get_duration/3
@@ -35,6 +36,9 @@ state(Pid) ->
 
 get_next_stop(Pid, Target, Stop) ->
   gen_server:call(Pid, {get_next_stop, Target, Stop}).
+
+get_neighbors(Pid, Stop) ->
+  gen_server:call(Pid, {get_neighbors, Stop}).
 
 get_other_end(Pid, Stop) ->
   gen_server:call(Pid, {get_other_end, Stop}).
@@ -65,6 +69,13 @@ handle_call({get_next_stop, Target, Stop}, _From, State) ->
             Target -> get_next_stop_helper(Stop, pre, State#line_state.stops);
             _      -> get_next_stop_helper(Stop, post, State#line_state.stops)
           end,
+  {reply, Reply, State};
+
+handle_call({get_neighbors, Stop}, _From, State) ->
+  {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, State#line_state.stops),
+  [FirstTarget|_] = BeforeStop,
+  [SecondNeighbor|_] = AfterStop,
+  Reply = {{lists:last(BeforeStop), FirstTarget}, {SecondNeighbor, lists:last(AfterStop)}},
   {reply, Reply, State};
 
 handle_call({get_other_end, Stop}, _From, State) ->

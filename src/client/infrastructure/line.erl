@@ -74,8 +74,9 @@ handle_call({get_next_stop, Target, Stop}, _From, State) ->
 handle_call({get_neighbors, Stop}, _From, State) ->
   {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, State#line_state.stops),
   [FirstTarget|_] = BeforeStop,
-  [SecondNeighbor|_] = AfterStop,
-  Reply = {{lists:last(BeforeStop), FirstTarget}, {SecondNeighbor, lists:last(AfterStop)}},
+  [[SecondNeighbor|SecondDur]|_] = AfterStop,
+  FirstDur = lists:last(lists:droplast(BeforeStop)),
+  Reply = [{lists:last(BeforeStop), FirstDur, FirstTarget, self()}, {SecondNeighbor, SecondDur, lists:last(AfterStop), self()}],
   {reply, Reply, State};
 
 handle_call({get_other_end, Stop}, _From, State) ->

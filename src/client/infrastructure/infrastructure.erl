@@ -6,7 +6,8 @@
 -export([ start_link/1
         , stop/1
         , state/1
-        , get_route/3]).
+        , get_route/3
+        , get_route_concurrent/7]).
 
 %% gen_server
 -export([ init/1
@@ -16,10 +17,6 @@
         , terminate/2
         , code_change/3]).
 
-
-%%TODO
-%% Make pathfinding algorithm work for more than one vehicle switch, see todo in get_route_helper
-%% Or consider storing neighbor info in all stops and implement a regular Dijkstras
 
 %% Public API
 
@@ -71,26 +68,79 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
-%% Instructionsformat: list of tuples {[{Line, Destination}, {Line, Destination}...], Dur}
-%% Citizen goes from From to Destination by line, repeat until arrived at To
-get_route_helper(From, To, Lines) ->
+%% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
+%% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
+get_route_helper(From, To, AllLines) ->
   ToLines = [Line || Line <- AllLines, line:contains_stop(Line, To)],
-  spawn(infrastructure, get_route_concurrent, [From, To, ToLines, [[], 0], [], Lines, self()]),
+  spawn(infrastructure, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive
     {Route, Dur} -> {compress_route(Route), Dur}
   end.
+
 
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
   FromLines = [Line || Line <- AllLines, line:contains_stop(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
   case IntersectingLines of
     [] ->
-      %% TODO Need to add target to instructions, to get correct direction
-      Neighbors = [line: || Line <- FromLines]%% Get all nonvisited neighbors, spawn a subcall for each.
+      Neighbors = lists:append([line:get_neighbors(Line, From) || Line <- FromLines]),
+      case Neighbors of
+        [] ->
+          Invoker ! none;
+        _ ->
+          Routes = spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines),
+          Invoker ! get_best_route(Routes)
+      end;
     _  ->
       IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
     {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
-    Invoker ! {Route ++ [{FromLine, IntersectingStop}, {ToLine, To}], Dur + LastDur}.
+    Invoker ! {Route ++ [{FromLine, IntersectingStop}, {ToLine, To}], Dur + LastDur}
+  end.
+
+
+spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) ->
+  spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
+
+spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) ->
+  receive_routes(NoCalls);
+spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) ->
+  VisitedNeighbor = lists:member(Neighbor, VisitedStops),
+  if
+    not VisitedNeighbor ->
+      {From, Dur, Target, Line} = Neighbor,
+      spawn(infrastructure, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),
+      spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
+    true ->
+      spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)
+  end.
+
+
+receive_routes(NoCalls) ->
+  receive_routes(NoCalls, []).
+
+receive_routes(0, Routes) -> Routes;
+receive_routes(NoCalls, Routes) ->
+  receive
+    none ->
+      receive_routes(NoCalls-1, Routes);
+    Route ->
+      receive_routes(NoCalls-1, [Route|Routes])
+  end.
+
+
+get_best_route(Routes) ->
+  get_best_route(Routes, {none, -1}).
+
+get_best_route([], BestRoute) -> BestRoute;
+get_best_route([Route|Routes], {none, -1}) ->
+  get_best_route(Routes, Route);
+get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
+  if
+    Dur < BestDur ->
+      get_best_route(Routes, {Route, Dur});
+    true ->
+      get_best_route(Routes, {BestRoute, BestDur})
+  end.
 
 
 %% [{FromLine, ToLine, IntersectingStop}]
@@ -117,25 +167,12 @@ get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|Intersect
   end.
 
 
-assemble_route(Stops) -> assemble_route(Stops, []).
+compress_route(Stops) -> compress_route(Stops, []).
 
-assemble_route([]¸ Route) -> Route;
-assemble_route([{Line, Stop}|Stops], Route) ->
+compress_route([], Route) -> Route;
+compress_route([{Line, Stop}|Stops], Route) ->
   Last = lists:last(Route),
   case Last of
-    {Line,_} -> assemble_route(Stops, lists:droplast(Route) ++ {Line, Stop};
-    _        -> assemble_route(Stops, Route ++ [{Line, Stop}])
-  end
-
-%% Pathfinding algorithm
-%%
-%% Wrap function
-%%	Input: From, To, AllLines
-%%	Flow:
-%%		Spawn concurrent pathfinder function and receive result
-%%
-%% Concurrent pathfinder function
-%%	Input: From, To, VisitedStops, Spawner
-%%	Flow: 
-%%		Get all lines containing From
-%%		Get all lines containing To
+    {Line,_} -> compress_route(Stops, lists:droplast(Route) ++ {Line, Stop});
+    _        -> compress_route(Stops, Route ++ [{Line, Stop}])
+  end.

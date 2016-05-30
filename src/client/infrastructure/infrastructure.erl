@@ -89,7 +89,8 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
           Invoker ! none;
         _ ->
           Routes = spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines),
-          Invoker ! get_best_route(Routes)
+          {BestRoute, TotalDur} = get_best_route(Routes),
+          Invoker ! {Route ++ BestRoute, Dur + TotalDur}
       end;
     _  ->
       IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],

@@ -74,18 +74,23 @@ code_change(_OldVsn, State, _Extra) ->
 %% Instructionsformat: list of tuples {[{Line, Destination}, {Line, Destination}...], Dur}
 %% Citizen goes from From to Destination by line, repeat until arrived at To
 get_route_helper(From, To, Lines) ->
-  FromLines = [Line || Line <- Lines, line:contains_stop(Line, From)],
-  ToLines = [Line || Line <- Lines, line:contains_stop(Line, To)],
-  get_route_helper(From, To, FromLines, ToLines, Lines).
+  ToLines = [Line || Line <- AllLines, line:contains_stop(Line, To)],
+  spawn(infrastructure, get_route_concurrent, [From, To, ToLines, [[], 0], [], Lines, self()]),
+  receive
+    {Route, Dur} -> {compress_route(Route), Dur}
+  end.
 
-get_route_helper(From, To, FromLines, ToLines, AllLines) ->
+get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
+  FromLines = [Line || Line <- AllLines, line:contains_stop(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
   case IntersectingLines of
-    [] -> ok; %%TODO Try to get route to the closest neighbor of From
+    [] ->
+      %% TODO Need to add target to instructions, to get correct direction
+      Neighbors = [line: || Line <- FromLines]%% Get all nonvisited neighbors, spawn a subcall for each.
     _  ->
       IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
-    {FromLine, ToLine, IntersectingStop, Dur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
-    {[{FromLine, IntersectingStop}, {ToLine, To}], Dur}.
+    {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
+    Invoker ! {Route ++ [{FromLine, IntersectingStop}, {ToLine, To}], Dur + LastDur}.
 
 
 %% [{FromLine, ToLine, IntersectingStop}]
@@ -110,3 +115,27 @@ get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|Intersect
     true ->
       get_best_intersecting_lines(IntersectingLinesWithDurations, {BestFromLine, BestToLine, BestIntersectingStop, BestDur})
   end.
+
+
+assemble_route(Stops) -> assemble_route(Stops, []).
+
+assemble_route([]¸ Route) -> Route;
+assemble_route([{Line, Stop}|Stops], Route) ->
+  Last = lists:last(Route),
+  case Last of
+    {Line,_} -> assemble_route(Stops, lists:droplast(Route) ++ {Line, Stop};
+    _        -> assemble_route(Stops, Route ++ [{Line, Stop}])
+  end
+
+%% Pathfinding algorithm
+%%
+%% Wrap function
+%%	Input: From, To, AllLines
+%%	Flow:
+%%		Spawn concurrent pathfinder function and receive result
+%%
+%% Concurrent pathfinder function
+%%	Input: From, To, VisitedStops, Spawner
+%%	Flow: 
+%%		Get all lines containing From
+%%		Get all lines containing To

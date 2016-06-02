@@ -42,7 +42,7 @@ handle_call(stop, _From, State) ->
 
 handle_cast({log, Module, Id, Content}, LogDir) ->
   LogFile = filename:join([LogDir, Module, Id ++ ".log"]),
-  file:write_file(LogDir, Content, [append]),
+  file:write_file(LogFile, Content, [append]),
   {noreply, LogDir}.
 
 

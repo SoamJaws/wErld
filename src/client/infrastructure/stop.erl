@@ -1,5 +1,6 @@
 -module(stop).
 -include("infrastructure_state.hrl").
+-include_lib("eunit/include/eunit.hrl").
 -behaviour(gen_server).
 
 %% Public API

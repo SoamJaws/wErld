@@ -1,3 +1,5 @@
+-define(INFRASTRUCTURE_DATA_PATH, "$WERLDROOT/appdata/infrastructure").
+
 %%-----------------------------------------------------------
 %% Data Type: infrastructure stop
 %% where:

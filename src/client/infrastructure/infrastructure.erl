@@ -37,7 +37,10 @@ get_route(Pid, From, To) ->
 %% gen_server
 
 init([]) ->
-  %% TODO Load Lines from files, path defined in public header
+  {ok, {{stops, StopSpecs}, {lines, LineSpecs}}} = file:script(?INFRASTRUCTURE_DATA_PATH),
+  %%TODO Start a stop for each stopspec.
+  %%TODO Start a line for each linespec, using stops as input
+  Stops = ok,
   Lines = ok,
   {ok, #infrastructure_state{lines=Lines}}.
 

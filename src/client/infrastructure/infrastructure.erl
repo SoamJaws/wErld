@@ -4,7 +4,7 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ start_link/1
+-export([ start_link/0
         , stop/1
         , state/1
         , get_route/3
@@ -21,8 +21,8 @@
 
 %% Public API
 
-start_link(Lines) ->
-  gen_server:start_link(?MODULE, [Lines], []).
+start_link() ->
+  gen_server:start_link(?MODULE, [], []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -36,7 +36,9 @@ get_route(Pid, From, To) ->
 
 %% gen_server
 
-init([Lines]) ->
+init([]) ->
+  %% TODO Load Lines from files, path defined in public header
+  Lines = ok,
   {ok, #infrastructure_state{lines=Lines}}.
 
 

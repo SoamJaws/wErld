@@ -1,6 +1,5 @@
 -module(line).
 -include("infrastructure_state.hrl").
--include_lib("eunit/include/eunit.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -54,7 +53,7 @@ is_end_stop(Pid, Stop) ->
   gen_server:call(Pid, {is_end_stop, Stop}).
 
 get_intersection(Pid, OtherLine) ->
-  get_server:call(Pid, {get_intersection, OtherLine}).
+  gen_server:call(Pid, {get_intersection, OtherLine}).
 
 
 %% gen_server
@@ -65,7 +64,7 @@ init(State) ->
 
 
 handle_call({get_next_stop, Target, Stop}, _From, State) ->
-  EndStop = lists:head(State#line_state.stops),
+  [EndStop|_] = State#line_state.stops,
   Reply = case EndStop of
             Target -> get_next_stop_helper(Stop, pre, State#line_state.stops);
             _      -> get_next_stop_helper(Stop, post, State#line_state.stops)

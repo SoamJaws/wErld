@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 echo "======================= Compile ======================="
 erl -make
 echo ""

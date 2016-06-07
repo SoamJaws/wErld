@@ -1,0 +1,6 @@
+box: mies/erlang
+build:
+  steps:
+    - script:
+        name: execute!
+        code: erl -version

@@ -8,7 +8,7 @@ echo ""
 echo "==================== Setup dialyzer ==================="
 if [ ! -f $PLT ];
 then
-  dialyzer --build_plt --apps kernel stdlib erts mnesia --output_plt $PLT
+  dialyzer --build_plt --apps kernel stdlib erts mnesia compiler crypto --output_plt $PLT
 fi
 echo ""
 

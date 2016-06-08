@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 echo "====================== Setup env ======================"
 mkdir -p ebin
 mkdir -p etestbin

@@ -7,7 +7,7 @@ echo ""
 echo "==================== Setup dialyzer ==================="
 if [ ! -f wErld.plt ];
 then
-  dialyzer --build_plt --apps kernel stdlib erts mnesia eunit --output_plt wErld.plt
+  dialyzer --build_plt --apps kernel stdlib erts mnesia --output_plt wErld.plt
 fi
 echo ""
 

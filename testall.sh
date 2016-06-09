@@ -2,18 +2,41 @@
 echo "====================== Setup env ======================"
 mkdir -p ebin
 mkdir -p etestbin
+OTPPLT=$HOME/.dialyzer_otp.plt
+DEPSPLT=deps.plt
 PLT=wErld.plt
 echo ""
 
 echo "==================== Setup dialyzer ==================="
-if [ ! -f $PLT ];
+if [ ! -f $OTPPLT ];
 then
-  dialyzer --build_plt --apps kernel stdlib erts mnesia --output_plt $PLT
+  dialyzer --build_plt --apps kernel stdlib erts mnesia --output_plt $OTPPLT
 fi
+
+if [[ ! -f $DEPSPLT ]];
+then
+    rebar compile
+    echo "Dialyzing dependencies"
+    dialyzer --add_to_plt --plt $OTPPLT --output_plt $DEPSPLT -r deps/*/ebin/
+fi
+
+dialyzer --check_plt --plt $PLT -r ebin/
+if [[ $? -ne 0 ]];
+then
+  echo "Not up to date, dialyzing"
+  dialyzer --add_to_plt --plt  --output_plt $PLT -r ebin/
+fi
+
+echo "Dialyzing $PROJNAME"
+dialyzer --add_to_plt --plt $DEPSPLT --output_plt $PLT -r ebin/
+echo ""
+
+echo "======================== Clean ========================"
+rebar clean
 echo ""
 
 echo "======================= Compile ======================="
-erl -make
+rebar compile
 echo ""
 
 echo "================ Add wErld to dialyzer ================"
@@ -23,9 +46,10 @@ then
 fi
 echo ""
 
-erl -pa etestbin/ -run werld_tests werld_test -run init stop -noshell
-echo ""
-
 echo "====================== Dialyzing ======================"
 dialyzer --plt $PLT -I include/ src --src
+echo ""
+
+echo "======================== EUnit ========================"
+rebar eunit
 echo ""

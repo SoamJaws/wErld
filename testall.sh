@@ -24,11 +24,8 @@ dialyzer --check_plt --plt $PLT -r ebin/
 if [[ $? -ne 0 ]];
 then
   echo "Not up to date, dialyzing"
-  dialyzer --add_to_plt --plt  --output_plt $PLT -r ebin/
+  dialyzer --add_to_plt --plt $DEPSPLT --output_plt $PLT -r ebin/
 fi
-
-echo "Dialyzing $PROJNAME"
-dialyzer --add_to_plt --plt $DEPSPLT --output_plt $PLT -r ebin/
 echo ""
 
 echo "======================== Clean ========================"

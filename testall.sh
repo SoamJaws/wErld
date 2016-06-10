@@ -5,6 +5,7 @@ mkdir -p etestbin
 OTPPLT=$HOME/.dialyzer_otp.plt
 DEPSPLT=deps.plt
 PLT=wErld.plt
+RESULT=0
 echo ""
 
 echo "==================== Setup dialyzer ==================="
@@ -52,19 +53,55 @@ fi
 echo ""
 
 echo "====================== Dialyzing ======================"
-dialyzer --plt $PLT -I include/ src --src
+dialyzer --plt $PLT -Wunknown -I include/ src --src
+DIALYZER_RESULT=$?
+
+if [ "$DIALYZER_RESULT" -ne 0 ];
+then
+  exit $DIALYZER_RESULT
+fi
 echo ""
 
 echo "======================== EUnit ========================"
 EUNIT_OUTPUT=$(rebar eunit)
-echo "$EUNIT_OUTPUT"
-echo ""
+EUNIT_RESULT=$?
+COVOK=true
+PADDING=" "
+
+if [ "$EUNIT_RESULT" -ne 0 ];
+then
+  echo $EUNIT_OUTPUT
+  exit $EUNIT_RESULT
+fi
 
 while read -r line ; do
   IFS=':' read -a keyval <<< "$line"
-  MODULE=$(echo ${keyval[0]} | tr -d ' ')
+  MODULE=${keyval[0]}
   PERCENT=$(echo ${keyval[1]} | tr -d ' ' | tr -d %)
-  echo "Module $MODULE percentage $PERCENT"
-done < <(echo "$EUNIT_OUTPUT" | grep "%")
+  COLOR='\e[0;32m'
 
+  if [[ ("$PERCENT" < 80) ]];
+  then
+    COVOK=false
+    COLOR='\e[0;31m'
+  fi
+
+  if [[ ("$PERCENT" < 10) ]];
+  then
+    PADDING="   "
+  elif [[ ("$PERCENT" < 100) ]];
+  then
+    PADDING="  "
+  fi
+  echo -e "$MODULE:${COLOR}$PADDING$PERCENT\e[0m%"
+done < <(echo "$EUNIT_OUTPUT" | grep "%")
 echo ""
+if $COVOK;
+then
+  echo "No modules have less than 80% coverage, ok"
+else
+  echo "One or more modules have less than 80% coverage, not ok"
+  RESULT=1
+fi
+
+exit $RESULT

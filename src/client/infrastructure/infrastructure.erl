@@ -179,6 +179,6 @@ compress_route([], Route) -> Route;
 compress_route([{Line, Stop}|Stops], Route) ->
   Last = lists:last(Route),
   case Last of
-    {Line,_} -> compress_route(Stops, db_lists:droplast(Route) ++ {Line, Stop});
+    {Line,_} -> compress_route(Stops, lists:droplast(Route) ++ {Line, Stop});
     _        -> compress_route(Stops, Route ++ [{Line, Stop}])
   end.

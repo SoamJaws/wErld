@@ -70,7 +70,7 @@ PADDING=" "
 
 if [ "$EUNIT_RESULT" -ne 0 ];
 then
-  echo $EUNIT_OUTPUT
+  echo "$EUNIT_OUTPUT"
   exit $EUNIT_RESULT
 fi
 

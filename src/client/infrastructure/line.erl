@@ -107,7 +107,7 @@ handle_call(stop, _From, State) ->
   {stop, normal, stopped, State};
 
 handle_call(state, _From, State) ->
-  {reply, {ok, State}, State}.
+  {reply, State, State}.
 
 
 handle_cast(_Cast, State) ->
@@ -140,9 +140,12 @@ get_duration_helper(FromStop, ToStop, Stops) ->
   get_duration_helper(FromStop, ToStop, false, Stops).
 
 get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -> 0;
-get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|[Stops]]]) ->
+get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -> 0;
+get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) ->
   Dur + get_duration_helper(FromStop, ToStop, true, Stops);
-get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|[Stops]]]) ->
+get_duration_helper(FromStop, ToStop, _OnPath, [ToStop|[Dur|Stops]]) ->
+  Dur + get_duration_helper(FromStop, ToStop, true, Stops);
+get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
   case OnPath of
     true ->
       Dur + get_duration_helper(FromStop, ToStop, true, Stops);
@@ -151,12 +154,16 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|[Stops]]]) ->
   end.
 
 
-get_intersection_helper(_OtherLine, []) -> none;
-get_intersection_helper(OtherLine, [Stop|[_Dur|[Stops]]]) ->
+get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ContainsStop = contains_stop(OtherLine, Stop),
   case ContainsStop of
     true ->
       Stop;
     false ->
-      get_intersection_helper(OtherLine, Stops)
+      case Rest of
+        [] ->
+          none;
+        [_|Stops] ->
+          get_intersection_helper(OtherLine, Stops)
+      end
   end.

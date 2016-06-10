@@ -59,7 +59,7 @@ get_intersection(Pid, OtherLine) ->
 %% gen_server
 
 init(State) ->
-  gen_server:call(blackboard, {subscribe, time}),
+  %gen_server:call(blackboard, {subscribe, time}),
   {ok, State}.
 
 
@@ -128,14 +128,13 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
-get_next_stop_helper(_Stop, _, []) -> none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
+get_next_stop_helper(_Stop, _, [_|[]]) -> none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
 get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) ->
   {NextStop, Dur};
 get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) ->
   {NextStop, Dur};
-get_next_stop_helper(Stop, Alignment, [_S|[_Dur|[Stops]]]) ->
+get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) ->
   get_next_stop_helper(Stop, Alignment, Stops).
-
 
 get_duration_helper(FromStop, ToStop, Stops) ->
   get_duration_helper(FromStop, ToStop, false, Stops).

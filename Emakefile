@@ -2,6 +2,7 @@
 , [ debug_info
   , {i, "src"}
   , {i, "include"}
+  , {i, "src/utils"}
   , {outdir, "ebin"}
   ]
 }.
@@ -11,6 +12,7 @@
   , {i, "src/test"}
   , {i, "src/client/test"}
   , {i, "include"}
+  , {i, "src/utils"}
   , {outdir, "etestbin"}
   ]
 }.
@@ -19,6 +21,7 @@
 , [ debug_info
   , {i, "src/client"}
   , {i, "include"}
+  , {i, "src/utils"}
   , {outdir, "ebin"}
   ]
 }.
@@ -28,6 +31,7 @@
   , {i, "src/client"}
   , {i, "src/client/infrastructure"}
   , {i, "include"}
+  , {i, "src/utils"}
   , {outdir, "etestbin"}
   ]
 }.
@@ -36,6 +40,7 @@
 , [ debug_info
   , {i, "src/client/infrastructure"}
   , {i, "include"}
+  , {i, "src/utils"}
   , {outdir, "ebin"}
   ]
 }.
@@ -45,6 +50,7 @@
   , {i, "src/client/infrastructure"}
   , {i, "src/client/infrastructure/test"}
   , {i, "include"}
+  , {i, "src/utils"}
   , {outdir, "etestbin"}
   ]
 }.
@@ -53,6 +59,7 @@
 , [ debug_info
   , {i, "src/server"}
   , {i, "include"}
+  , {i, "src/utils"}
   , {outdir, "ebin"}
   ]
 }.
@@ -60,6 +67,15 @@
 { 'src/common/*'
 , [ debug_info
   , {i, "src/common"}
+  , {i, "include"}
+  , {i, "src/utils"}
+  , {outdir, "ebin"}
+  ]
+}.
+
+{ 'src/utils/*'
+, [ debug_info
+  , {i, "src/utils"}
   , {i, "include"}
   , {outdir, "ebin"}
   ]

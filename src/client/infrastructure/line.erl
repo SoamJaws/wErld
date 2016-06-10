@@ -75,7 +75,7 @@ handle_call({get_neighbors, Stop}, _From, State) ->
   {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, State#line_state.stops),
   [FirstTarget|_] = BeforeStop,
   [[SecondNeighbor|SecondDur]|_] = AfterStop,
-  FirstDur = lists:last(lists:droplast(BeforeStop)),
+  FirstDur = lists:last(db_lists:droplast(BeforeStop)),
   Reply = [{lists:last(BeforeStop), FirstDur, FirstTarget, self()}, {SecondNeighbor, SecondDur, lists:last(AfterStop), self()}],
   {reply, Reply, State};
 

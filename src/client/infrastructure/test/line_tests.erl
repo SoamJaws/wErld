@@ -23,7 +23,30 @@ get_next_stop_test() ->
   line:stop(Line).
 
 get_neighbors_test() ->
-  ?assert(false).
+  {ok, Stop1} = stop:start_link(stop1),
+  {ok, Stop2} = stop:start_link(stop2),
+  {ok, Stop3} = stop:start_link(stop3),
+  {ok, Stop4} = stop:start_link(stop4),
+  {ok, Stop5} = stop:start_link(stop5),
+  Dur1_2 = 7,
+  Dur2_3 = 11,
+  Dur3_4 = 13,
+  Dur4_5 = 17,
+  {ok, Line} = line:start_link(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3, Dur3_4, Stop4, Dur4_5, Stop5], bus),
+  
+  ?assertEqual(line:get_neighbors(Line, Stop1), [{Stop2, Dur1_2, Stop5, Line}]),
+  ?assertEqual(line:get_neighbors(Line, Stop2), [{Stop1, Dur1_2, Stop1, Line}, {Stop3, Dur2_3, Stop5, Line}]),
+  ?assertEqual(line:get_neighbors(Line, Stop3), [{Stop2, Dur2_3, Stop1, Line}, {Stop4, Dur3_4, Stop5, Line}]),
+  ?assertEqual(line:get_neighbors(Line, Stop4), [{Stop3, Dur3_4, Stop1, Line}, {Stop5, Dur4_5, Stop5, Line}]),
+  ?assertEqual(line:get_neighbors(Line, Stop5), [{Stop4, Dur4_5, Stop1, Line}]),
+
+  stop:stop(Stop1),
+  stop:stop(Stop2),
+  stop:stop(Stop3),
+  stop:stop(Stop4),
+  stop:stop(Stop5),
+  line:stop(Line).
+
 
 get_other_end_test() ->
   {ok, Stop1} = stop:start_link(stop1),

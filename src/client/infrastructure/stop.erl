@@ -58,11 +58,14 @@ handle_call({passenger_check_in, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
   Capacity = State#stop_state.capacity,
   NoPassengers = length(Passengers),
+  AlreadyCheckedIn = lists:member(Passenger, Passengers),
   if
+    AlreadyCheckedIn ->
+      {reply, {nok, "Already checked in"}, State};
     NoPassengers < Capacity ->
       {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}};
     true ->
-      {reply, nok, State}
+      {reply, {nok, "Capacity reached"}, State}
   end;
 
 handle_call(stop, _From, State) ->

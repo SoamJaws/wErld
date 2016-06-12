@@ -8,6 +8,10 @@ PLT=wErld.plt
 RESULT=0
 echo ""
 
+echo "================= Resolve dependencies ================"
+rebar get-deps
+echo ""
+
 echo "==================== Setup dialyzer ==================="
 if [ ! -f $OTPPLT ];
 then

@@ -37,7 +37,11 @@ expect_cast(Pid, Msg) ->
   gen_server:cast(Pid, {expectCast, Msg}).
 
 finalize(Pid) ->
-  gen_server:call(Pid, finalize).
+  {Result, Msg} = gen_server:call(Pid, finalize),
+  if not Result ->
+    io:write(Msg)
+  end,
+  Result.
 
 %% gen_server
 
@@ -57,8 +61,13 @@ handle_call(finalize, _From, State) ->
   ExpectedCalls = State#gen_server_mock_state.expectedCalls,
   ExpectedCasts = State#gen_server_mock_state.expectedCasts,
   CallReturns = State#gen_server_mock_state.callReturns,
-  Result = (Calls == ExpectedCalls) and (Casts == ExpectedCasts) and (CallReturns == []),
-  {reply, Result, State};
+  if
+    (Calls == ExpectedCalls) and (Casts == ExpectedCasts) and (CallReturns == []) ->
+      {reply, {true, ""}, State};
+    true ->
+      Msg = io_lib:format("Casts and/or calls does not match expectations.~n---- Casts:~n~s~n---- Expected Casts:~n~s~n---- Calls~n~s~n---- Expected Calls~n~s~n", [Casts, ExpectedCasts, Calls, ExpectedCalls]),
+      {reply, {false, Msg}, State}
+  end;
 
 handle_call(Msg, _From, State) ->
   Calls = State#gen_server_mock_state.calls,

@@ -38,8 +38,11 @@ expect_cast(Pid, Msg) ->
 
 finalize(Pid) ->
   {Result, Msg} = gen_server:call(Pid, finalize),
-  if not Result ->
-    io:write(Msg)
+  if
+    not Result ->
+      io:write(Msg);
+    true ->
+      ok
   end,
   Result.
 

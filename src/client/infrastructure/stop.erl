@@ -42,7 +42,7 @@ passenger_check_out(Pid, Passenger) ->
   gen_server:cast(Pid, {passenger_check_out, Passenger}).
 
 vehicle_check_in(Pid, Vehicle) ->
-  gen_server:call(Pid, {vehicle_check_in, Vehicle}).
+  gen_server:cast(Pid, {vehicle_check_in, Vehicle}).
 
 vehicle_check_out(Pid, Vehicle) ->
   gen_server:cast(Pid, {vehicle_check_out, Vehicle}).

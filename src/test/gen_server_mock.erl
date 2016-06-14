@@ -1,5 +1,6 @@
 -module(gen_server_mock).
 -behaviour(gen_server).
+-include_lib("eunit/include/eunit.hrl").
 
 %% Public API
 -export([ start_link/1
@@ -37,14 +38,7 @@ expect_cast(Pid, Msg) ->
   gen_server:cast(Pid, {expectCast, Msg}).
 
 finalize(Pid) ->
-  {Result, Msg} = gen_server:call(Pid, finalize),
-  if
-    not Result ->
-      io:write(Msg);
-    true ->
-      ok
-  end,
-  Result.
+  gen_server:call(Pid, finalize).
 
 %% gen_server
 
@@ -66,10 +60,11 @@ handle_call(finalize, _From, State) ->
   CallReturns = State#gen_server_mock_state.callReturns,
   if
     (Calls == ExpectedCalls) and (Casts == ExpectedCasts) and (CallReturns == []) ->
-      {reply, {true, ""}, State};
+      {reply, true, State};
     true ->
-      Msg = io_lib:format("Casts and/or calls does not match expectations.~n---- Casts:~n~s~n---- Expected Casts:~n~s~n---- Calls~n~s~n---- Expected Calls~n~s~n", [Casts, ExpectedCasts, Calls, ExpectedCalls]),
-      {reply, {false, Msg}, State}
+      Id = State#gen_server_mock_state.id,
+      ?debugFmt("Casts and/or calls does not match expectations for mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+      {reply, false, State}
   end;
 
 handle_call(Msg, _From, State) ->

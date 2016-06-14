@@ -41,6 +41,10 @@ vehicle_check_in_test() ->
 
   stop:vehicle_check_in(Stop, V1),
 
+  receive
+    after 1 -> ok
+  end,
+
   gen_server_mock:finalize(P1),
   gen_server_mock:finalize(P2),
   gen_server_mock:finalize(P3),

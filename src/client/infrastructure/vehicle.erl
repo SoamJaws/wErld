@@ -54,7 +54,7 @@ handle_call({passenger_board, Passenger}, _From, State) ->
   if
     NoPassengers < Capacity ->
       if Capacity - NoPassengers == 1 ->
-        boarding_complete(self())
+        boarding_complete(self(), false)
       end,
       {reply, ok, State#vehicle_state{passengers=Passengers++[Passenger]}};
     true ->
@@ -89,7 +89,7 @@ handle_cast({boarding_complete, NotifyCaller, Caller}, State) ->
       Caller ! done;
     true ->
       ok
-  end;
+  end,
   {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
 
 handle_cast({time, Time}, State) ->

@@ -7,8 +7,8 @@
         , stop/1
         , state/1
         , passenger_board/2
-        , boarding_complete/1
-        , checkin_ok/2]).
+        , boarding_complete/2
+        , checkin_ok/3]).
 
 %% gen_server
 -export([ init/1
@@ -33,11 +33,11 @@ state(Pid) ->
 passenger_board(Pid, Passenger) ->
   gen_server:call(Pid, {passenger_board, Passenger}).
 
-boarding_complete(Pid) ->
-  gen_server:cast(Pid, boarding_complete).
+boarding_complete(Pid, NotifyCaller) ->
+  gen_server:cast(Pid, {boarding_complete, NotifyCaller, self()}).
 
-checkin_ok(Pid, Stop) ->
-  gen_server:cast(Pid, {checkin_ok, Stop}).
+checkin_ok(Pid, Stop, NotifyCaller) ->
+  gen_server:cast(Pid, {checkin_ok, Stop, NotifyCaller, self()}).
 
 
 %% gen_server
@@ -68,15 +68,28 @@ handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
 
-handle_cast({checkin_ok, Stop}, State) ->
+handle_cast({checkin_ok, Stop, NotifyCaller, Caller}, State) ->
+  if
+    NotifyCaller ->
+      Caller ! done;
+    true ->
+      ok
+  end,
   {noreply, State#vehicle_state{action={boarding, Stop}}};
 
-handle_cast(boarding_complete, State) ->
+handle_cast({boarding_complete, NotifyCaller, Caller}, State) ->
   {_, Line} = State#vehicle_state.line,
   {boarding, Stop} = State#vehicle_state.action,
   {NextStop, Dur} = line:get_next_stop(Line, State#vehicle_state.target, Stop),
   TimePid = gen_server:call(blackboard,{request, timePid}),
   Time = gen_server:call(TimePid,{request,currentTime}),
+  stop:vehicle_check_out(Stop, self(), false),
+  if
+    NotifyCaller ->
+      Caller ! done;
+    true ->
+      ok
+  end;
   {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
 
 handle_cast({time, Time}, State) ->
@@ -92,7 +105,7 @@ handle_cast({time, Time}, State) ->
                            State
                          end,
           StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
-          stop:vehicle_check_in(Stop, self()),
+          stop:vehicle_check_in(Stop, self(), false),
           {noreply, UpdatedState#vehicle_state{passengers=StayingPassengers}};
         true ->
           {noreply, State}

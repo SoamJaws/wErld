@@ -8,9 +8,9 @@
         , stop/1
         , state/1
         , passenger_check_in/2
-        , passenger_check_out/2
-        , vehicle_check_in/2
-        , vehicle_check_out/2]).
+        , passenger_check_out/3
+        , vehicle_check_in/3
+        , vehicle_check_out/3]).
 
 %% gen_server
 -export([ init/1
@@ -38,14 +38,14 @@ state(Pid) ->
 passenger_check_in(Pid, Passenger) ->
   gen_server:call(Pid, {passenger_check_in, Passenger}).
 
-passenger_check_out(Pid, Passenger) ->
-  gen_server:cast(Pid, {passenger_check_out, Passenger}).
+passenger_check_out(Pid, Passenger, NotifyCaller) ->
+  gen_server:cast(Pid, {passenger_check_out, Passenger, NotifyCaller, self()}).
 
-vehicle_check_in(Pid, Vehicle) ->
-  gen_server:cast(Pid, {vehicle_check_in, Vehicle}).
+vehicle_check_in(Pid, Vehicle, NotifyCaller) ->
+  gen_server:cast(Pid, {vehicle_check_in, Vehicle, NotifyCaller, self()}).
 
-vehicle_check_out(Pid, Vehicle) ->
-  gen_server:cast(Pid, {vehicle_check_out, Vehicle}).
+vehicle_check_out(Pid, Vehicle, NotifyCaller) ->
+  gen_server:cast(Pid, {vehicle_check_out, Vehicle, NotifyCaller, self()}).
 
 
 %% gen_server
@@ -75,7 +75,7 @@ handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
 
-handle_cast({passenger_check_out, Passenger}, State) ->
+handle_cast({passenger_check_out, Passenger, NotifyCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   case Passengers of
     [] -> 
@@ -88,31 +88,51 @@ handle_cast({passenger_check_out, Passenger}, State) ->
     _ ->
       ok
   end,
+  if
+    NotifyCaller ->
+      Caller ! done;
+    true ->
+      ok
+  end,
   {noreply, State#stop_state{passengers=Passengers}};
 
-handle_cast({vehicle_check_in, Vehicle}, State) ->
-  case State#stop_state.currentVehicle of
-    none ->
-      notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
-      {noreply, State#stop_state{currentVehicle=Vehicle}};
-    _    ->
-      VehicleQueue = State#stop_state.vehicleQueue,
-      {noreply, State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}}
-  end;
-
-handle_cast({vehicle_check_out, Vehicle}, State) ->
+handle_cast({vehicle_check_in, Vehicle, NotifyCaller, Caller}, State) ->
+  NewState = case State#stop_state.currentVehicle of
+               none ->
+                 notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
+                 State#stop_state{currentVehicle=Vehicle};
+               _    ->
+                 VehicleQueue = State#stop_state.vehicleQueue,
+                 State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}
+  end,
   if
-    State#stop_state.currentVehicle == Vehicle ->
-      case State#stop_state.vehicleQueue of
-        [NextVehicle|VehicleQueue] ->
-          vehicle:checkin_ok(NextVehicle, self()),
-          {noreply, State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue}};
-        [] ->
-          {noreply, State#stop_state{currentVehicle=none}}
-      end;
+    NotifyCaller ->
+      Caller ! done;
     true ->
-      {noreply, State}
-  end.
+      ok
+  end,
+  {noreply, NewState};
+
+handle_cast({vehicle_check_out, Vehicle, NotifyCaller, Caller}, State) ->
+  NewState = if
+               State#stop_state.currentVehicle == Vehicle ->
+                 case State#stop_state.vehicleQueue of
+                   [NextVehicle|VehicleQueue] ->
+                     vehicle:checkin_ok(NextVehicle, self()),
+                     State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
+                   [] ->
+                     State#stop_state{currentVehicle=none}
+                 end;
+               true ->
+                 State
+  end,
+  if
+    NotifyCaller ->
+      Caller ! done;
+    true ->
+      ok
+  end,
+  {noreply, NewState}.
 
 
 handle_info(_Info, State) ->

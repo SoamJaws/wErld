@@ -39,10 +39,10 @@ vehicle_check_in_test() ->
   gen_server_mock:expect_cast(P2, {vehicle_check_in, V1}),
   gen_server_mock:expect_cast(P3, {vehicle_check_in, V1}),
 
-  stop:vehicle_check_in(Stop, V1),
+  stop:vehicle_check_in(Stop, V1, true),
 
   receive
-    after 1 -> ok
+    done -> ok
   end,
 
   gen_server_mock:finalize(P1),
@@ -57,5 +57,3 @@ vehicle_check_in_test() ->
 
 vehicle_check_out_test() ->
   ?assert(false).
-
-

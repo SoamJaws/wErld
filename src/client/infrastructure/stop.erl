@@ -38,14 +38,17 @@ state(Pid) ->
 passenger_check_in(Pid, Passenger) ->
   gen_server:call(Pid, {passenger_check_in, Passenger}).
 
-passenger_check_out(Pid, Passenger, NotifyCaller) ->
-  gen_server:cast(Pid, {passenger_check_out, Passenger, NotifyCaller, self()}).
+passenger_check_out(Pid, Passenger, BlockCaller) ->
+  gen_server:cast(Pid, {passenger_check_out, Passenger, BlockCaller, self()}),
+  block_caller(BlockCaller).
 
-vehicle_check_in(Pid, Vehicle, NotifyCaller) ->
-  gen_server:cast(Pid, {vehicle_check_in, Vehicle, NotifyCaller, self()}).
+vehicle_check_in(Pid, Vehicle, BlockCaller) ->
+  gen_server:cast(Pid, {vehicle_check_in, Vehicle, BlockCaller, self()}),
+  block_caller(BlockCaller).
 
-vehicle_check_out(Pid, Vehicle, NotifyCaller) ->
-  gen_server:cast(Pid, {vehicle_check_out, Vehicle, NotifyCaller, self()}).
+vehicle_check_out(Pid, Vehicle, BlockCaller) ->
+  gen_server:cast(Pid, {vehicle_check_out, Vehicle, BlockCaller, self()}),
+  block_caller(BlockCaller).
 
 
 %% gen_server
@@ -75,50 +78,42 @@ handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
 
-handle_cast({passenger_check_out, Passenger, NotifyCaller, Caller}, State) ->
+handle_cast({passenger_check_out, Passenger, BlockCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   case Passengers of
     [] -> 
       case State#stop_state.currentVehicle of 
         none ->
-          vehicle:boarding_complete(State#stop_state.currentVehicle, boarding_complete);
+          ok; %%TODO Error log, who are they boarding?
         _ ->
-          ok
+          vehicle:boarding_complete(State#stop_state.currentVehicle, false)
       end;
     _ ->
       ok
   end,
-  if
-    NotifyCaller ->
-      Caller ! done;
-    true ->
-      ok
-  end,
+  notify_caller(BlockCaller, Caller),
   {noreply, State#stop_state{passengers=Passengers}};
 
-handle_cast({vehicle_check_in, Vehicle, NotifyCaller, Caller}, State) ->
+handle_cast({vehicle_check_in, Vehicle, BlockCaller, Caller}, State) ->
   NewState = case State#stop_state.currentVehicle of
                none ->
+                 vehicle:checkin_ok(Vehicle, self(), false),
                  notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
                  State#stop_state{currentVehicle=Vehicle};
                _    ->
                  VehicleQueue = State#stop_state.vehicleQueue,
                  State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}
   end,
-  if
-    NotifyCaller ->
-      Caller ! done;
-    true ->
-      ok
-  end,
+  notify_caller(BlockCaller, Caller),
   {noreply, NewState};
 
-handle_cast({vehicle_check_out, Vehicle, NotifyCaller, Caller}, State) ->
+handle_cast({vehicle_check_out, Vehicle, BlockCaller, Caller}, State) ->
   NewState = if
                State#stop_state.currentVehicle == Vehicle ->
                  case State#stop_state.vehicleQueue of
                    [NextVehicle|VehicleQueue] ->
-                     vehicle:checkin_ok(NextVehicle, self()),
+                     vehicle:checkin_ok(NextVehicle, self(), false),
+                     notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
                      State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
                    [] ->
                      State#stop_state{currentVehicle=none}
@@ -126,12 +121,7 @@ handle_cast({vehicle_check_out, Vehicle, NotifyCaller, Caller}, State) ->
                true ->
                  State
   end,
-  if
-    NotifyCaller ->
-      Caller ! done;
-    true ->
-      ok
-  end,
+  notify_caller(BlockCaller, Caller),
   {noreply, NewState}.
 
 
@@ -153,3 +143,21 @@ notify_vehicle_checked_in([], _Vehicle) -> ok;
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle) ->
   gen_server:cast(Passenger, {vehicle_check_in, Vehicle}),
   notify_vehicle_checked_in(Passengers, Vehicle).
+
+block_caller(BlockCaller) ->
+  if
+    BlockCaller ->
+      receive
+        done -> ok
+      end;
+    true ->
+      ok
+  end.
+
+notify_caller(BlockCaller, Caller) ->
+  if
+    BlockCaller ->
+      Caller ! done;
+    true ->
+      ok
+  end.

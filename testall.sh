@@ -90,10 +90,10 @@ while read -r line ; do
     COLOR='\e[0;31m'
   fi
 
-  if [[ ("$PERCENT" < 10) ]];
+  if [[ ("$PERCENT" -lt "10") ]];
   then
     PADDING="   "
-  elif [[ ("$PERCENT" < 100) ]];
+  elif [[ ("$PERCENT" -lt "100") ]];
   then
     PADDING="  "
   fi

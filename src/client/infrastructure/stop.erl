@@ -1,5 +1,6 @@
 -module(stop).
 -include("infrastructure_state.hrl").
+-include("stop_sig.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -7,10 +8,10 @@
         , start_link/2
         , stop/1
         , state/1
-        , passenger_check_in/2
-        , passenger_check_out/3
-        , vehicle_check_in/3
-        , vehicle_check_out/3]).
+        , ?PASSENGER_CHECK_IN/2
+        , ?PASSENGER_CHECK_OUT/3
+        , ?VEHICLE_CHECK_IN/3
+        , ?VEHICLE_CHECK_OUT/3]).
 
 %% gen_server
 -export([ init/1
@@ -35,19 +36,19 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-passenger_check_in(Pid, Passenger) ->
-  gen_server:call(Pid, {passenger_check_in, Passenger}).
+?PASSENGER_CHECK_IN(Pid, Passenger) ->
+  gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
-passenger_check_out(Pid, Passenger, BlockCaller) ->
-  gen_server:cast(Pid, {passenger_check_out, Passenger, BlockCaller, self()}),
+?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) ->
+  gen_server:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger, BlockCaller, self()}),
   block_caller(BlockCaller).
 
-vehicle_check_in(Pid, Vehicle, BlockCaller) ->
-  gen_server:cast(Pid, {vehicle_check_in, Vehicle, BlockCaller, self()}),
+?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) ->
+  gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
   block_caller(BlockCaller).
 
-vehicle_check_out(Pid, Vehicle, BlockCaller) ->
-  gen_server:cast(Pid, {vehicle_check_out, Vehicle, BlockCaller, self()}),
+?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) ->
+  gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
   block_caller(BlockCaller).
 
 
@@ -57,7 +58,7 @@ init(State) ->
   {ok, State}.
 
 
-handle_call({passenger_check_in, Passenger}, _From, State) ->
+handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
   Capacity = State#stop_state.capacity,
   NoPassengers = length(Passengers),
@@ -78,7 +79,7 @@ handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
 
-handle_cast({passenger_check_out, Passenger, BlockCaller, Caller}, State) ->
+handle_cast({?PASSENGER_CHECK_OUT, Passenger, BlockCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   case Passengers of
     [] -> %%TODO Maybe not all passengers are waiting for the currentVehicle 
@@ -94,7 +95,7 @@ handle_cast({passenger_check_out, Passenger, BlockCaller, Caller}, State) ->
   notify_caller(BlockCaller, Caller),
   {noreply, State#stop_state{passengers=Passengers}};
 
-handle_cast({vehicle_check_in, Vehicle, BlockCaller, Caller}, State) ->
+handle_cast({?VEHICLE_CHECK_IN, Vehicle, BlockCaller, Caller}, State) ->
   NewState = case State#stop_state.currentVehicle of
                none ->
                  vehicle:checkin_ok(Vehicle, self(), false),
@@ -107,7 +108,7 @@ handle_cast({vehicle_check_in, Vehicle, BlockCaller, Caller}, State) ->
   notify_caller(BlockCaller, Caller),
   {noreply, NewState};
 
-handle_cast({vehicle_check_out, Vehicle, BlockCaller, Caller}, State) ->
+handle_cast({?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, Caller}, State) ->
   NewState = if
                State#stop_state.currentVehicle == Vehicle ->
                  case State#stop_state.vehicleQueue of

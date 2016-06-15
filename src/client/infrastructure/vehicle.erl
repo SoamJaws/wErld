@@ -1,5 +1,6 @@
 -module(vehicle).
 -include("infrastructure_state.hrl").
+-include("stop_sig.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -83,7 +84,7 @@ handle_cast({boarding_complete, NotifyCaller, Caller}, State) ->
   {NextStop, Dur} = line:get_next_stop(Line, State#vehicle_state.target, Stop),
   TimePid = gen_server:call(blackboard,{request, timePid}),
   Time = gen_server:call(TimePid,{request,currentTime}),
-  stop:vehicle_check_out(Stop, self(), false),
+  stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
   if
     NotifyCaller ->
       Caller ! done;
@@ -105,7 +106,7 @@ handle_cast({time, Time}, State) ->
                            State
                          end,
           StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
-          stop:vehicle_check_in(Stop, self(), false),
+          stop:?VEHICLE_CHECK_IN(Stop, self(), false),
           {noreply, UpdatedState#vehicle_state{passengers=StayingPassengers}};
         true ->
           {noreply, State}

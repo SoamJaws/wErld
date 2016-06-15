@@ -1,0 +1,4 @@
+-define(PASSENGER_CHECK_IN,  passenger_check_in).
+-define(PASSENGER_CHECK_OUT, passenger_check_out).
+-define(VEHICLE_CHECK_IN,    vehicle_check_in).
+-define(VEHICLE_CHECK_OUT,   vehicle_check_out).

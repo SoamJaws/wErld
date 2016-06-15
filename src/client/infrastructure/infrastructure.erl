@@ -8,13 +8,14 @@
         , state/1
         , ?GET_ROUTE/3]).
 
-%% gen_server
+%% gen_server and internally spawned functions
 -export([ init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
         , terminate/2
-        , code_change/3]).
+        , code_change/3
+        , get_route_concurrent/7]).
 
 
 %% Public API
@@ -113,7 +114,7 @@ spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, Visi
   if
     not VisitedNeighbor ->
       {From, Dur, Target, Line} = Neighbor,
-      spawn(fun() -> get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()) end),
+      spawn(?MODULE, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
     true ->
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)

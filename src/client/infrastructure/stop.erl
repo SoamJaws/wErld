@@ -81,10 +81,10 @@ handle_call(state, _From, State) ->
 handle_cast({passenger_check_out, Passenger, BlockCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   case Passengers of
-    [] -> 
+    [] -> %%TODO Maybe not all passengers are waiting for the currentVehicle 
       case State#stop_state.currentVehicle of 
         none ->
-          ok; %%TODO Error log, who are they boarding?
+          ok; %%Ok, passengers are permitted to leave the stop without boarding
         _ ->
           vehicle:boarding_complete(State#stop_state.currentVehicle, false)
       end;
@@ -139,9 +139,9 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
-notify_vehicle_checked_in([], _Vehicle) -> ok;
+notify_vehicle_checked_in([], _Vehicle) -> [];
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle) ->
-  gen_server:cast(Passenger, {vehicle_check_in, Vehicle}),
+  citizen:vehicle_checked_in(Passenger, Vehicle), %%Must block
   notify_vehicle_checked_in(Passengers, Vehicle).
 
 block_caller(BlockCaller) ->

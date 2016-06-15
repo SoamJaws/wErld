@@ -33,9 +33,9 @@ passenger_check_out_test() ->
   ?assertEqual(ok, stop:passenger_check_in(Stop, P3)),
 
   gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
-  gen_server_mock:expect_cast(P1, {vehicle_check_in, V1}),
-  gen_server_mock:expect_cast(P2, {vehicle_check_in, V1}),
-  gen_server_mock:expect_cast(P3, {vehicle_check_in, V1}),
+  gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
 
   stop:vehicle_check_in(Stop, V1, true),
 
@@ -68,16 +68,16 @@ vehicle_check_in_test() ->
   ?assertEqual(ok, stop:passenger_check_in(Stop, P3)),
 
   gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
-  gen_server_mock:expect_cast(P1, {vehicle_check_in, V1}),
-  gen_server_mock:expect_cast(P2, {vehicle_check_in, V1}),
-  gen_server_mock:expect_cast(P3, {vehicle_check_in, V1}),
+  gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
 
   stop:vehicle_check_in(Stop, V1, true),
 
-  gen_server_mock:finalize(P1),
-  gen_server_mock:finalize(P2),
-  gen_server_mock:finalize(P3),
-  gen_server_mock:finalize(V1),
+  ?assert(gen_server_mock:finalize(P1)),
+  ?assert(gen_server_mock:finalize(P2)),
+  ?assert(gen_server_mock:finalize(P3)),
+  ?assert(gen_server_mock:finalize(V1)),
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
@@ -86,12 +86,19 @@ vehicle_check_in_test() ->
 
 vehicle_check_out_test() ->
   {ok, Stop} = stop:start_link(stop1, 3),
+  {ok, P1} = gen_server_mock:start_link(p1),
+  {ok, P2} = gen_server_mock:start_link(p2),
+  {ok, P3} = gen_server_mock:start_link(p3),
   {ok, V1} = gen_server_mock:start_link(v1),
+  
+  ?assertEqual(ok, stop:passenger_check_in(Stop, P1)),
+  ?assertEqual(ok, stop:passenger_check_in(Stop, P2)),
+  ?assertEqual(ok, stop:passenger_check_in(Stop, P3)),
 
   gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
-  gen_server_mock:expect_cast(P1, {vehicle_check_in, V1}),
-  gen_server_mock:expect_cast(P2, {vehicle_check_in, V1}),
-  gen_server_mock:expect_cast(P3, {vehicle_check_in, V1}),
+  gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
 
   stop:vehicle_check_in(Stop, V1, true),
 

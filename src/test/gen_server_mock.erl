@@ -70,7 +70,17 @@ handle_call(finalize, _From, State) ->
 handle_call(Msg, _From, State) ->
   Calls = State#gen_server_mock_state.calls,
   CallReturns = State#gen_server_mock_state.callReturns,
-  {reply, list:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}.
+  case CallReturns of
+    [] ->
+      Id = State#gen_server_mock_state.id,
+      Casts = State#gen_server_mock_state.casts,
+      ExpectedCasts = State#gen_server_mock_state.expectedCasts,
+      ExpectedCalls = State#gen_server_mock_state.expectedCalls,
+      ?debugFmt("No expected call return when called with ~p in gen_server with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]),
+      ?assert(false);
+    _ ->
+      {reply, lists:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}
+  end.
 
 
 handle_cast({expectCall, Msg, Reply}, State) ->

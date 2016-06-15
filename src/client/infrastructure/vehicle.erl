@@ -131,7 +131,7 @@ code_change(_OldVsn, State, _Extra) ->
 
 notify_passengers_checkin([]) -> [];
 notify_passengers_checkin([Passenger|Passengers]) ->
-  Reply = citizen:vehicle_notify_checkin(Passenger),
+  Reply = citizen:vehicle_checked_in(Passenger, self()),
   case Reply of
     leave ->
       notify_passengers_checkin(Passengers);

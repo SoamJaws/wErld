@@ -1,18 +1,18 @@
 -module(line).
--include("infrastructure_state.hrl").
+-include("infrastructure.hrl").
 -behaviour(gen_server).
 
 %% Public API
 -export([ start_link/3
         , stop/1
         , state/1
-        , get_next_stop/3
-        , get_neighbors/2
-        , get_other_end/2
-        , contains_stop/2
-        , get_duration/3
-        , is_end_stop/2
-        , get_intersection/2]).
+        , ?GET_NEXT_STOP/3
+        , ?GET_NEIGHBORS/2
+        , ?GET_OTHER_END/2
+        , ?CONTAINS_STOP/2
+        , ?GET_DURATION/3
+        , ?IS_END_STOP/2
+        , ?GET_INTERSECTION/2]).
 
 %% gen_server
 -export([ init/1
@@ -34,26 +34,26 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-get_next_stop(Pid, Target, Stop) ->
-  gen_server:call(Pid, {get_next_stop, Target, Stop}).
+?GET_NEXT_STOP(Pid, Target, Stop) ->
+  gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
 
-get_neighbors(Pid, Stop) ->
-  gen_server:call(Pid, {get_neighbors, Stop}).
+?GET_NEIGHBORS(Pid, Stop) ->
+  gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
 
-get_other_end(Pid, Stop) ->
-  gen_server:call(Pid, {get_other_end, Stop}).
+?GET_OTHER_END(Pid, Stop) ->
+  gen_server:call(Pid, {?GET_OTHER_END, Stop}).
 
-contains_stop(Pid, Stop) ->
-  gen_server:call(Pid, {contains_stop, Stop}).
+?CONTAINS_STOP(Pid, Stop) ->
+  gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
 
-get_duration(Pid, FromStop, ToStop) ->
-  gen_server:call(Pid, {get_duration, FromStop, ToStop}).
+?GET_DURATION(Pid, FromStop, ToStop) ->
+  gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
 
-is_end_stop(Pid, Stop) ->
-  gen_server:call(Pid, {is_end_stop, Stop}).
+?IS_END_STOP(Pid, Stop) ->
+  gen_server:call(Pid, {?IS_END_STOP, Stop}).
 
-get_intersection(Pid, OtherLine) ->
-  gen_server:call(Pid, {get_intersection, OtherLine}).
+?GET_INTERSECTION(Pid, OtherLine) ->
+  gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
 
 
 %% gen_server
@@ -63,7 +63,7 @@ init(State) ->
   {ok, State}.
 
 
-handle_call({get_next_stop, Target, Stop}, _From, State) ->
+handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
   [EndStop|_] = State#line_state.stops,
   Reply = case EndStop of
             Target -> get_next_stop_helper(Stop, pre, State#line_state.stops);
@@ -71,7 +71,7 @@ handle_call({get_next_stop, Target, Stop}, _From, State) ->
           end,
   {reply, Reply, State};
 
-handle_call({get_neighbors, Stop}, _From, State) ->
+handle_call({?GET_NEIGHBORS, Stop}, _From, State) ->
   {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, State#line_state.stops),
   N1 = case BeforeStop of
          [FirstTarget|_] ->
@@ -89,7 +89,7 @@ handle_call({get_neighbors, Stop}, _From, State) ->
   Reply = N1 ++ N2,
   {reply, Reply, State};
 
-handle_call({get_other_end, Stop}, _From, State) ->
+handle_call({?GET_OTHER_END, Stop}, _From, State) ->
   [H|T] = State#line_state.stops,
   Reply = case H of
             Stop -> lists:last(T);
@@ -97,19 +97,19 @@ handle_call({get_other_end, Stop}, _From, State) ->
           end,
   {reply, Reply, State};
 
-handle_call({contains_stop, Stop}, _From, State) ->
+handle_call({?CONTAINS_STOP, Stop}, _From, State) ->
   Reply = lists:member(Stop, State#line_state.stops),
   {reply, Reply, State};
 
-handle_call({get_duration, FromStop, ToStop}, _From, State) ->
+handle_call({?GET_DURATION, FromStop, ToStop}, _From, State) ->
   Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),
   {reply, Reply, State};
 
-handle_call({is_end_stop, Stop}, _From, State) ->
+handle_call({?IS_END_STOP, Stop}, _From, State) ->
   Reply = lists:prefix([Stop], State#line_state.stops) or lists:suffix([Stop], State#line_state.stops),
   {reply, Reply, State};
 
-handle_call({get_intersection, OtherLine}, _From, State) ->
+handle_call({?GET_INTERSECTION, OtherLine}, _From, State) ->
   Reply = get_intersection_helper(OtherLine, State#line_state.stops),
   {reply, Reply, State};
 
@@ -165,7 +165,7 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
 
 
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
-  ContainsStop = contains_stop(OtherLine, Stop),
+  ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
   case ContainsStop of
     true ->
       Stop;

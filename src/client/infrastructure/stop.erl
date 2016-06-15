@@ -1,6 +1,5 @@
 -module(stop).
--include("infrastructure_state.hrl").
--include("stop_sig.hrl").
+-include("infrastructure.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -87,7 +86,7 @@ handle_cast({?PASSENGER_CHECK_OUT, Passenger, BlockCaller, Caller}, State) ->
         none ->
           ok; %%Ok, passengers are permitted to leave the stop without boarding
         _ ->
-          vehicle:boarding_complete(State#stop_state.currentVehicle, false)
+          vehicle:?BOARDING_COMPLETE(State#stop_state.currentVehicle, false)
       end;
     _ ->
       ok
@@ -98,7 +97,7 @@ handle_cast({?PASSENGER_CHECK_OUT, Passenger, BlockCaller, Caller}, State) ->
 handle_cast({?VEHICLE_CHECK_IN, Vehicle, BlockCaller, Caller}, State) ->
   NewState = case State#stop_state.currentVehicle of
                none ->
-                 vehicle:checkin_ok(Vehicle, self(), false),
+                 vehicle:?CHECKIN_OK(Vehicle, self(), false),
                  notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
                  State#stop_state{currentVehicle=Vehicle};
                _    ->
@@ -113,7 +112,7 @@ handle_cast({?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, Caller}, State) ->
                State#stop_state.currentVehicle == Vehicle ->
                  case State#stop_state.vehicleQueue of
                    [NextVehicle|VehicleQueue] ->
-                     vehicle:checkin_ok(NextVehicle, self(), false),
+                     vehicle:?CHECKIN_OK(NextVehicle, self(), false),
                      notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
                      State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
                    [] ->

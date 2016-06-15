@@ -20,6 +20,11 @@
 %%------------------------------------------------------------
 -record(stop_state, {id, capacity = 50, currentVehicle = none, passengers = [], vehicleQueue = []}).
 
+-define(PASSENGER_CHECK_IN,  passenger_check_in).
+-define(PASSENGER_CHECK_OUT, passenger_check_out).
+-define(VEHICLE_CHECK_IN,    vehicle_check_in).
+-define(VEHICLE_CHECK_OUT,   vehicle_check_out).
+
 %%-----------------------------------------------------------
 %% Data Type: infrastructure vehicle
 %% where:
@@ -57,6 +62,10 @@
 %%------------------------------------------------------------
 -record(vehicle_state, {action = {waiting, none}, capacity, lastDeparture, line, passengers = [], target, type}).
 
+-define(PASSENGER_BOARD, passenger_board).
+-define(BOARDING_COMPLETE, boarding_complete).
+-define(CHECKIN_OK, checkin_ok).
+
 %%-----------------------------------------------------------
 %% Data Type: infrastructure vehicle
 %% where:
@@ -74,6 +83,14 @@
 %%------------------------------------------------------------
 -record(line_state, {number, stops, type}).
 
+-define(GET_NEXT_STOP,    get_next_stop).
+-define(GET_NEIGHBORS,    get_neighbors).
+-define(GET_OTHER_END,    get_other_end).
+-define(CONTAINS_STOP,    contains_stop).
+-define(GET_DURATION,     get_duration).
+-define(IS_END_STOP,      is_end_stop).
+-define(GET_INTERSECTION, get_intersection).
+
 %%-----------------------------------------------------------
 %% Data Type: infrastructure
 %% where:
@@ -83,3 +100,5 @@
 %%
 %%------------------------------------------------------------
 -record(infrastructure_state, {lines}).
+
+-define(GET_ROUTE, get_route).

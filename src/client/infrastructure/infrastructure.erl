@@ -1,13 +1,12 @@
 -module(infrastructure).
--include("infrastructure_state.hrl").
+-include("infrastructure.hrl").
 -behaviour(gen_server).
 
 %% Public API
 -export([ start_link/0
         , stop/1
         , state/1
-        , get_route/3
-        , get_route_concurrent/7]).
+        , ?GET_ROUTE/3]).
 
 %% gen_server
 -export([ init/1
@@ -29,8 +28,8 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-get_route(Pid, From, To) ->
-  gen_server:call(Pid, {get_route, From, To}).
+?GET_ROUTE(Pid, From, To) ->
+  gen_server:call(Pid, {?GET_ROUTE, From, To}).
 
 
 %% gen_server
@@ -44,7 +43,7 @@ init([]) ->
   {ok, #infrastructure_state{lines=Lines}}.
 
 
-handle_call({get_route, From, To}, _From, Lines) ->
+handle_call({?GET_ROUTE, From, To}, _From, Lines) ->
   Reply = get_route_helper(From, To, Lines),
   {reply, Reply, Lines};
 
@@ -76,7 +75,7 @@ code_change(_OldVsn, State, _Extra) ->
 %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
 %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
 get_route_helper(From, To, AllLines) ->
-  ToLines = [Line || Line <- AllLines, line:contains_stop(Line, To)],
+  ToLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, To)],
   spawn(infrastructure, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive
     {Route, Dur} -> {compress_route(Route), Dur}
@@ -84,11 +83,11 @@ get_route_helper(From, To, AllLines) ->
 
 
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
-  FromLines = [Line || Line <- AllLines, line:contains_stop(Line, From)],
+  FromLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
   case IntersectingLines of
     [] ->
-      Neighbors = lists:append([line:get_neighbors(Line, From) || Line <- FromLines]),
+      Neighbors = lists:append([line:?GET_NEIGHBORS(Line, From) || Line <- FromLines]),
       case Neighbors of
         [] ->
           Invoker ! none;
@@ -98,7 +97,7 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
           Invoker ! {Route ++ BestRoute, Dur + TotalDur}
       end;
     _  ->
-      IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:get_duration(FromLine, From, IntersectingStop) + line:get_duration(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
+      IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
     {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
     Invoker ! {Route ++ [{FromLine, IntersectingStop}, {ToLine, To}], Dur + LastDur}
   end.
@@ -114,7 +113,7 @@ spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, Visi
   if
     not VisitedNeighbor ->
       {From, Dur, Target, Line} = Neighbor,
-      spawn(infrastructure, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),
+      spawn(fun() -> get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()) end),
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
     true ->
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)
@@ -151,7 +150,7 @@ get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
 
 %% [{FromLine, ToLine, IntersectingStop}]
 get_intersecting_lines(FromLines, ToLines) ->
-  get_intersecting_lines([{FromLine, ToLine, line:get_intersection(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines]).
+  get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines]).
 
 get_intersecting_lines([]) -> [];
 get_intersecting_lines([{_,_,none}|IntersectingLines]) ->

@@ -33,11 +33,13 @@ state(Pid) ->
 ?PASSENGER_BOARD(Pid, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
-?BOARDING_COMPLETE(Pid, NotifyCaller) ->
-  gen_server:cast(Pid, {?BOARDING_COMPLETE, NotifyCaller, self()}).
+?BOARDING_COMPLETE(Pid, BlockCaller) ->
+  gen_server:cast(Pid, {?BOARDING_COMPLETE, BlockCaller, self()}),
+  gen_server_utils:block_caller(BlockCaller).
 
-?CHECKIN_OK(Pid, Stop, NotifyCaller) ->
-  gen_server:cast(Pid, {?CHECKIN_OK, Stop, NotifyCaller, self()}).
+?CHECKIN_OK(Pid, Stop, BlockCaller) ->
+  gen_server:cast(Pid, {?CHECKIN_OK, Stop, BlockCaller, self()}),
+  gen_server_utils:block_caller(BlockCaller).
 
 
 %% gen_server
@@ -69,12 +71,7 @@ handle_call(state, _From, State) ->
 
 
 handle_cast({?CHECKIN_OK, Stop, NotifyCaller, Caller}, State) ->
-  if
-    NotifyCaller ->
-      Caller ! done;
-    true ->
-      ok
-  end,
+  gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#vehicle_state{action={boarding, Stop}}};
 
 handle_cast({?BOARDING_COMPLETE, NotifyCaller, Caller}, State) ->
@@ -84,12 +81,7 @@ handle_cast({?BOARDING_COMPLETE, NotifyCaller, Caller}, State) ->
   TimePid = gen_server:call(blackboard,{request, timePid}),
   Time = gen_server:call(TimePid,{request,currentTime}),
   stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
-  if
-    NotifyCaller ->
-      Caller ! done;
-    true ->
-      ok
-  end,
+  gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
 
 handle_cast({time, Time}, State) ->

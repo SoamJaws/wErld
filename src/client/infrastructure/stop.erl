@@ -40,15 +40,15 @@ state(Pid) ->
 
 ?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) ->
   gen_server:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger, BlockCaller, self()}),
-  block_caller(BlockCaller).
+  gen_server_utils:block_caller(BlockCaller).
 
 ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) ->
   gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
-  block_caller(BlockCaller).
+  gen_server_utils:block_caller(BlockCaller).
 
 ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) ->
   gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
-  block_caller(BlockCaller).
+  gen_server_utils:block_caller(BlockCaller).
 
 
 %% gen_server
@@ -78,7 +78,7 @@ handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
 
-handle_cast({?PASSENGER_CHECK_OUT, Passenger, BlockCaller, Caller}, State) ->
+handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   case Passengers of
     [] -> %%TODO Maybe not all passengers are waiting for the currentVehicle 
@@ -91,10 +91,10 @@ handle_cast({?PASSENGER_CHECK_OUT, Passenger, BlockCaller, Caller}, State) ->
     _ ->
       ok
   end,
-  notify_caller(BlockCaller, Caller),
+  gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#stop_state{passengers=Passengers}};
 
-handle_cast({?VEHICLE_CHECK_IN, Vehicle, BlockCaller, Caller}, State) ->
+handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
   NewState = case State#stop_state.currentVehicle of
                none ->
                  vehicle:?CHECKIN_OK(Vehicle, self(), false),
@@ -104,10 +104,10 @@ handle_cast({?VEHICLE_CHECK_IN, Vehicle, BlockCaller, Caller}, State) ->
                  VehicleQueue = State#stop_state.vehicleQueue,
                  State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}
   end,
-  notify_caller(BlockCaller, Caller),
+  gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, NewState};
 
-handle_cast({?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, Caller}, State) ->
+handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
   NewState = if
                State#stop_state.currentVehicle == Vehicle ->
                  case State#stop_state.vehicleQueue of
@@ -121,7 +121,7 @@ handle_cast({?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, Caller}, State) ->
                true ->
                  State
   end,
-  notify_caller(BlockCaller, Caller),
+  gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, NewState}.
 
 
@@ -143,21 +143,3 @@ notify_vehicle_checked_in([], _Vehicle) -> [];
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle) ->
   citizen:vehicle_checked_in(Passenger, Vehicle), %%Must block
   notify_vehicle_checked_in(Passengers, Vehicle).
-
-block_caller(BlockCaller) ->
-  if
-    BlockCaller ->
-      receive
-        done -> ok
-      end;
-    true ->
-      ok
-  end.
-
-notify_caller(BlockCaller, Caller) ->
-  if
-    BlockCaller ->
-      Caller ! done;
-    true ->
-      ok
-  end.

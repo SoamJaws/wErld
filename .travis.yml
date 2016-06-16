@@ -8,6 +8,7 @@ otp_release:
 
 cache:
   directories:
-  - $HOME
+  - $HOME/.otp_plt
+  - $HOME/.wErld_covdata
 
 script: ./testall.sh

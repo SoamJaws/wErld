@@ -2,7 +2,7 @@
 echo "====================== Setup env ======================"
 mkdir -p ebin
 mkdir -p etestbin
-OTPPLT=$HOME/.dialyzer_otp.plt
+OTPPLT=$HOME/.otp_plt/.dialyzer_otp.plt
 DEPSPLT=deps.plt
 PLT=wErld.plt
 RESULT=0
@@ -77,6 +77,7 @@ then
   echo "$EUNIT_OUTPUT"
   exit $EUNIT_RESULT
 fi
+echo "$EUNIT_OUTPUT"
 
 while read -r line ; do
   IFS=':' read -a keyval <<< "$line"

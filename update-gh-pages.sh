@@ -3,7 +3,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
   #copy data we're interested in to other place
   mkdir -p $HOME/coverage
-  cp -R .eunit $HOME/coverage
+  cp -R .eunit/* $HOME/coverage
 
   #go to home and setup git
   cd $HOME

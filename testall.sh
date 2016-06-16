@@ -3,7 +3,6 @@ echo "====================== Setup env ======================"
 mkdir -p ebin
 mkdir -p etestbin
 OTPPLTDIR=$HOME/.otp_plt
-COVDATADIR=$HOME/.wErld_covdata
 OTPPLT=$OTPPLTDIR/.dialyzer_otp.plt
 DEPSPLT=deps.plt
 PLT=wErld.plt
@@ -80,7 +79,6 @@ then
   echo "$EUNIT_OUTPUT"
   exit $EUNIT_RESULT
 fi
-echo "$EUNIT_OUTPUT"
 
 while read -r line ; do
   IFS=':' read -a keyval <<< "$line"
@@ -111,8 +109,5 @@ else
   echo "One or more modules have less than 80% coverage, not ok"
   RESULT=1
 fi
-
-mkdir -p $COVDATADIR
-cp .eunit/* $COVDATADIR
 
 exit $RESULT

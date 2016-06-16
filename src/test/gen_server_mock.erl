@@ -8,7 +8,7 @@
         , state/1
         , expect_call/3
         , expect_cast/2
-        , finalize/1]).
+        , validate/1]).
 
 %% gen_server
 -export([ init/1
@@ -37,8 +37,8 @@ expect_call(Pid, Msg, Reply) ->
 expect_cast(Pid, Msg) ->
   gen_server:cast(Pid, {expectCast, Msg}).
 
-finalize(Pid) ->
-  gen_server:call(Pid, finalize).
+validate(Pid) ->
+  gen_server:call(Pid, validate).
 
 %% gen_server
 
@@ -52,14 +52,13 @@ handle_call(stop, _From, State) ->
 handle_call(state, _From, State) ->
   {reply, {ok, State}, State};
 
-handle_call(finalize, _From, State) ->
+handle_call(validate, _From, State) ->
   Calls = State#gen_server_mock_state.calls,
   Casts = State#gen_server_mock_state.casts,
   ExpectedCalls = State#gen_server_mock_state.expectedCalls,
   ExpectedCasts = State#gen_server_mock_state.expectedCasts,
-  CallReturns = State#gen_server_mock_state.callReturns,
   if
-    (Calls == ExpectedCalls) and (Casts == ExpectedCasts) and (CallReturns == []) ->
+    (Calls == ExpectedCalls) and (Casts == ExpectedCasts) ->
       {reply, true, State};
     true ->
       Id = State#gen_server_mock_state.id,

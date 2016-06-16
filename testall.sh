@@ -2,7 +2,9 @@
 echo "====================== Setup env ======================"
 mkdir -p ebin
 mkdir -p etestbin
-OTPPLT=$HOME/.otp_plt/.dialyzer_otp.plt
+OTPPLTDIR=$HOME/.otp_plt
+COVDATADIR=$HOME/.wErld_covdata
+OTPPLT=$OTPPLTDIR/.dialyzer_otp.plt
 DEPSPLT=deps.plt
 PLT=wErld.plt
 RESULT=0
@@ -13,6 +15,7 @@ rebar get-deps
 echo ""
 
 echo "==================== Setup dialyzer ==================="
+mkdir -p $OTPPLTDIR
 if [ ! -f $OTPPLT ];
 then
   echo "No OTP PLT available, building PLT"
@@ -108,5 +111,8 @@ else
   echo "One or more modules have less than 80% coverage, not ok"
   RESULT=1
 fi
+
+mkdir -p $COVDATADIR
+cp .eunit/* $COVDATADIR
 
 exit $RESULT

@@ -6,4 +6,8 @@ otp_release:
   - 18.1
   - 18.0
 
+cache:
+  directories:
+  - $HOME
+
 script: ./testall.sh

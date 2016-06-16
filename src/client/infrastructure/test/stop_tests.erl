@@ -114,6 +114,7 @@ vehicle_check_out_test() ->
 
   stop:?PASSENGER_CHECK_OUT(Stop, P3, true),
   stop:?VEHICLE_CHECK_OUT(Stop, V1, true),
+  stop:?VEHICLE_CHECK_OUT(Stop, V2, true), %% Exercise check out when no vehicles queued
 
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),

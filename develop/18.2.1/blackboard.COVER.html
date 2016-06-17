@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/blackboard.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/blackboard.erl by COVER 2016-06-17 at 06:36:58
+
+****************************************************************************
+
+        |  %%====================================================================
+        |  %%
+        |  %% @author Johan Wikström Schützer &lt;johan.dss@gmail.com&gt;
+        |  %% @copyright 2015 DrippingBits
+        |  %%
+        |  %%
+        |  %%
+        |  %%====================================================================
+        |  -module(blackboard).
+        |  -compile(export_all).
+        |  
+        |  -include("blackboard.hrl").
+        |  %TODO include nameserver.hrl, add nameserver name mactro to nameserver.hrl
+        |  
+        |  -behaviour(gen_server).
+        |  -export([start_link/1, stop/0, subscribe/2, unsubscribe/2, post/3]).
+        |  -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+        |  
+        |  %%====================================================================
+        |  %% Public API
+        |  %%====================================================================
+        |  
+        |  start_link(Name) -&gt;
+<font color=red>     0..|    gen_server:start_link({local, ?MODULE}, ?MODULE, [Name], []).</font>
+        |  
+        |  stop() -&gt;
+<font color=red>     0..|    stop(?MODULE).</font>
+        |  
+        |  subscribe(BlackboardPid, Tag) -&gt;
+<font color=red>     0..|    gen_server:call(BlackboardPid, {subscribe, Tag}).</font>
+        |  
+        |  unsubscribe(BlackboardPid, Tag) -&gt;
+<font color=red>     0..|    gen_server:call(BlackboardPid, {unsubscribe, Tag}).</font>
+        |  
+        |  post(BlackboardPid, Tag, Content) -&gt;
+<font color=red>     0..|    gen_server:call(BlackboardPid, {post, Tag, Content}).</font>
+        |  
+        |  %%TODO Think about how to use locally registered names
+        |  
+        |  %%====================================================================
+        |  %% Internal functions
+        |  %%====================================================================
+        |  
+        |  stop(Module) -&gt;
+<font color=red>     0..|    gen_server:call(Module, stop).</font>
+        |  
+        |  addSubscriber(Tag, From, []) -&gt;
+<font color=red>     0..|    [{Tag, [From]}];</font>
+        |  addSubscriber(Tag, From, [{Tag, Pids}|T]) -&gt;
+<font color=red>     0..|    [{Tag, [From|Pids]}|T];</font>
+        |  addSubscriber(Tag, From, [H|T]) -&gt;
+<font color=red>     0..|    H:addSubscriber(Tag, From, T).</font>
+        |  
+<font color=red>     0..|  removeSubscriber(_Tag, _From, []) -&gt; [];</font>
+        |  removeSubscriber(Tag, From, [{Tag, Pids}|T]) -&gt;
+<font color=red>     0..|    [{Tag,lists:delete(From,Pids)}|T];</font>
+        |  removeSubscriber(Tag, From, [H|T]) -&gt;
+<font color=red>     0..|    [H|removeSubscriber(Tag, From, T)].</font>
+        |  
+<font color=red>     0..|  broadCast(_Tag, _Content, []) -&gt; ok;</font>
+        |  broadCast(Tag, Content, [{Tag, Pids}|_T]) -&gt;
+<font color=red>     0..|    lists:map(fun(Pid) -&gt; gen_server:cast(Pid, Content) end, Pids);</font>
+        |  broadCast(Tag, Content, [_H|T]) -&gt;
+<font color=red>     0..|    broadCast(Tag, Content, T).</font>
+        |  
+        |  %%====================================================================
+        |  %% gen_server callbacks
+        |  %%====================================================================
+        |  
+        |  init([Name]) -&gt;
+        |    %TODO use nameserver macro instead of hardcoded name
+<font color=red>     0..|    FullName = {?BLACKBOARD_PREFIX, Name},</font>
+<font color=red>     0..|    gen_server:call(nameserver, {publish, FullName, self()}),</font>
+<font color=red>     0..|    {ok, []}.</font>
+        |  
+        |  
+        |  handle_call(stop, _From, Subscriptions) -&gt;
+<font color=red>     0..|    {stop, normal, stopped, Subscriptions};</font>
+        |  
+        |  handle_call({subscribe, Tag}, From, Subscriptions) -&gt;
+<font color=red>     0..|    UpdatedSubscribers = addSubscriber(Tag, From, Subscriptions),</font>
+<font color=red>     0..|    {noreply, UpdatedSubscribers};</font>
+        |  
+        |  handle_call({unsubscribe, Tag}, From, Subscriptions) -&gt;
+<font color=red>     0..|    UpdatedSubscribers = removeSubscriber(Tag, From, Subscriptions),</font>
+<font color=red>     0..|    {noreply, UpdatedSubscribers};</font>
+        |  
+        |  handle_call({post, Tag, Content}, _From, Subscriptions) -&gt;
+<font color=red>     0..|    broadCast(Tag, Content, Subscriptions),</font>
+<font color=red>     0..|    {noreply, Subscriptions}.</font>
+        |  
+        |  
+        |  handle_cast(_Msg, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+</pre>
+</body>
+</html>

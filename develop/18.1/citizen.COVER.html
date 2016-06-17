@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/citizen.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/citizen.erl by COVER 2016-06-17 at 06:33:50
+
+****************************************************************************
+
+        |  -module(citizen).
+        |  -behaviour(gen_server).
+        |  
+        |  
+        |  %% Public API
+        |  -export([ start_link/1
+        |          , stop/1
+        |          , state/1
+        |          , vehicle_checked_in/2]).
+        |  
+        |  %% gen_server
+        |  -export([ init/1
+        |          , handle_call/3
+        |          , handle_cast/2
+        |          , handle_info/2
+        |          , terminate/2
+        |          , code_change/3]).
+        |  
+        |  start_link(Name) -&gt;
+<font color=red>     0..|    gen_server:start_link(?MODULE, [Name], []).</font>
+        |  
+        |  stop(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, stop).</font>
+        |  
+        |  state(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, state).</font>
+        |  
+        |  vehicle_checked_in(Pid, Vehicle) -&gt;
+     9..|    gen_server:call(Pid, {vehicle_checked_in, Vehicle}).
+        |  
+        |  init([Name]) -&gt;
+<font color=red>     0..|    {ok, [Name]}.</font>
+        |  
+        |  
+        |  handle_call({vehicle_checked_in, _Vehicle}, _From, State) -&gt;
+<font color=red>     0..|    {reply, undefined, State};</font>
+        |  
+        |  handle_call(stop, _From, State) -&gt;
+<font color=red>     0..|    {stop, normal, stopped, State};</font>
+        |  
+        |  handle_call(state, _From, State) -&gt;
+<font color=red>     0..|    {reply, State, State}.</font>
+        |  
+        |  
+        |  handle_cast(_Cast, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+</pre>
+</body>
+</html>

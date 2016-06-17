@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-06-17 at 06:33:50
+
+****************************************************************************
+
+        |  -module(gen_server_utils).
+        |  
+        |  -export([ block_caller/1
+        |          , notify_caller/2]).
+        |  
+        |  block_caller(BlockCaller) -&gt;
+    18..|    if
+        |      BlockCaller -&gt;
+     8..|        receive
+     8..|          done -&gt; ok
+        |        end;
+        |      true -&gt;
+    10..|        ok
+        |    end.
+        |  
+        |  notify_caller(NotifyCaller, Caller) -&gt;
+    12..|    if
+        |      NotifyCaller -&gt;
+     8..|        Caller ! done;
+        |      true -&gt;
+     4..|        ok
+        |    end.
+</pre>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/city.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/city.erl by COVER 2016-06-17 at 06:33:50
+
+****************************************************************************
+
+        |  -module(city).
+        |  -compile(export_all).
+        |  
+        |  -behaviour(gen_server).
+        |  -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+        |  
+        |  %% Public API
+        |  
+        |  start_link(Name) -&gt;
+<font color=red>     0..|    gen_server:start_link(?MODULE, [Name], []).</font>
+        |  
+        |  stop(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, stop).</font>
+        |  
+        |  state(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, state).</font>
+        |  
+        |  init([Name]) -&gt;
+<font color=red>     0..|    gen_server:call(blackboard, {subscribe, time}),</font>
+<font color=red>     0..|    {ok, [Name]}.</font>
+        |  
+        |  
+        |  handle_call(stop, _From, Subscriptions) -&gt;
+<font color=red>     0..|    {stop, normal, stopped, Subscriptions}.</font>
+        |  
+        |  handle_cast({time, _Time}, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+</pre>
+</body>
+</html>

@@ -14,8 +14,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
   git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/SoamJaws/wErld.git  gh-pages > /dev/null
 
   #go into directory and copy data we're interested in to that directory
-  mkdir -p gh-pages
-  cd gh-pages
+  cd gh-pages/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE
   cp -Rf $HOME/coverage/* .
 
   #add, commit and push files

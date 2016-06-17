@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/weatherController.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/weatherController.erl by COVER 2016-06-17 at 06:33:46
+
+****************************************************************************
+
+        |  -module(weatherController).
+        |  
+        |  -behaviour(gen_server).
+        |  -export([start/2, stop/1, state/1]).
+        |  -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+        |  
+        |  -record(weatherState, {city,type,temp,updateInterval,lastChange}).
+        |  -weatherTypes([sunny,rainy,snowy]).
+        |  
+        |  %% Public API
+        |  
+        |  start(City, UpdateInterval) -&gt;
+<font color=red>     0..|    gen_server:start(?MODULE, [City, UpdateInterval], []).</font>
+        |  
+        |  stop(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, stop).</font>
+        |  
+        |  state(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, state).</font>
+        |  
+        |  %% Gen server callbacks
+        |  
+        |  init([City, UpdateInterval]) -&gt;
+<font color=red>     0..|    gen_server:call(blackboard,{subscribe, time}),</font>
+<font color=red>     0..|    TimePid = gen_server:call(blackboard,{request, timePid}),</font>
+<font color=red>     0..|    Time = gen_server:call(TimePid,{request,currentTime}),</font>
+<font color=red>     0..|    { ok, #weatherState{ city=City</font>
+        |                       , type=sunny
+        |                       , temp=20
+        |                       , updateInterval=UpdateInterval
+        |                       , lastChange=Time
+        |                       } }.
+        |  
+        |  
+        |  handle_call(stop, _From, Subscriptions) -&gt;
+<font color=red>     0..|    {stop, normal, stopped, Subscriptions}.</font>
+        |  
+        |  
+        |  handle_cast({time, Time}, State) -&gt;
+<font color=red>     0..|    if</font>
+        |      Time - State#weatherState.lastChange &gt;= State#weatherState.updateInterval -&gt;
+        |        %% Change weather if should be done
+        |        %% Change temp according to statistical temp and time of day
+<font color=red>     0..|        UpdatedState = State#weatherState{lastChange=Time},</font>
+<font color=red>     0..|        {noreply, UpdatedState};</font>
+        |      true -&gt;
+<font color=red>     0..|        {noreply, State}</font>
+        |    end.
+        |  
+        |  
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+        |  
+        |  %% Internal functions
+</pre>
+</body>
+</html>

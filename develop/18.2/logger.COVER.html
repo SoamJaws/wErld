@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/logger.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-06-17 at 06:33:43
+
+****************************************************************************
+
+        |  -module(logger).
+        |  -compile(export_all).
+        |  
+        |  -behaviour(gen_server).
+        |  -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+        |  
+        |  %% Public API
+        |  
+        |  start_link(LogDir) -&gt;
+<font color=red>     0..|    gen_server:start_link({global, ?MODULE}, ?MODULE, [LogDir], []).</font>
+        |  
+        |  stop(Module) -&gt;
+<font color=red>     0..|    gen_server:call(Module, stop).</font>
+        |  
+        |  stop() -&gt;
+<font color=red>     0..|    stop(?MODULE).</font>
+        |  
+        |  state(Module) -&gt;
+<font color=red>     0..|    gen_server:call(Module, state).</font>
+        |  
+        |  state() -&gt;
+<font color=red>     0..|    state(?MODULE).</font>
+        |  
+        |  init([LogDir]) -&gt;
+<font color=red>     0..|    {ok, LogDir}.</font>
+        |  
+        |  log_info(Content, Module, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Id, "INFO").</font>
+        |  
+        |  log_warning(Content, Module, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Id, "WARNING").</font>
+        |  
+        |  log_error(Content, Module, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Id, "ERROR").</font>
+        |  
+        |  log(Content, Module, Id, Mode) -&gt;
+<font color=red>     0..|    {_Date, {H, M, S}} = calendar:local_time(),</font>
+<font color=red>     0..|    gen_server:cast(?MODULE, {log, Module, Id, io_lib:fwrite("--- ~s ~s:~s:~s - ~s --- ~s~n--- END ~s ---~n", [Mode, H, M, S, self(), Content, Mode])}).</font>
+        |  
+        |  handle_call(stop, _From, State) -&gt;
+<font color=red>     0..|    {stop, normal, stopped, State}.</font>
+        |  
+        |  handle_cast({log, Module, Id, Content}, LogDir) -&gt;
+<font color=red>     0..|    LogFile = filename:join([LogDir, Module, Id ++ ".log"]),</font>
+<font color=red>     0..|    file:write_file(LogFile, Content, [append]),</font>
+<font color=red>     0..|    {noreply, LogDir}.</font>
+        |  
+        |  
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+</pre>
+</body>
+</html>

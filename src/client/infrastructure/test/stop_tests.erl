@@ -93,6 +93,9 @@ vehicle_check_out_test() ->
   {ok, V2} = gen_server_mock:start_link(v2),
   
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
+  stop:?PASSENGER_CHECK_OUT(Stop, P1, false),
+
+  ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 

@@ -75,7 +75,7 @@ handle_call(stop, _From, State) ->
   {stop, normal, stopped, State};
 
 handle_call(state, _From, State) ->
-  {reply, {ok, State}, State}.
+  {reply, State, State}.
 
 
 handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->

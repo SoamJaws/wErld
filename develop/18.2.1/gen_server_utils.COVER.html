@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-06-17 at 06:36:58
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-06-21 at 06:49:11
 
 ****************************************************************************
 
@@ -15,21 +15,21 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.er
         |          , notify_caller/2]).
         |  
         |  block_caller(BlockCaller) -&gt;
-    18..|    if
+    22..|    if
         |      BlockCaller -&gt;
-     8..|        receive
-     8..|          done -&gt; ok
+    10..|        receive
+    10..|          done -&gt; ok
         |        end;
         |      true -&gt;
-    10..|        ok
+    12..|        ok
         |    end.
         |  
         |  notify_caller(NotifyCaller, Caller) -&gt;
-    12..|    if
+    15..|    if
         |      NotifyCaller -&gt;
-     8..|        Caller ! done;
+    10..|        Caller ! done;
         |      true -&gt;
-     4..|        ok
+     5..|        ok
         |    end.
 </pre>
 </body>

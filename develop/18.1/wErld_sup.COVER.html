@@ -5,12 +5,12 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/wErld_sup.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/wErld_sup.erl by COVER 2016-06-22 at 06:51:28
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/wErld_sup.erl by COVER 2016-06-22 at 06:58:14
 
 ****************************************************************************
 
         |  -module(wErld_sup).
-        |  
+        |  -ifndef(TEST).
         |  -behaviour(supervisor).
         |  
         |  %% API
@@ -27,15 +27,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/wErld_sup.erl by CO
         |  %% ===================================================================
         |  
         |  start_link() -&gt;
-<font color=red>     0..|      supervisor:start_link({local, ?MODULE}, ?MODULE, []).</font>
+        |      supervisor:start_link({local, ?MODULE}, ?MODULE, []).
         |  
         |  %% ===================================================================
         |  %% Supervisor callbacks
         |  %% ===================================================================
         |  
         |  init([]) -&gt;
-<font color=red>     0..|      {ok, { {one_for_one, 5, 10}, []} }.</font>
-        |  
+        |      {ok, { {one_for_one, 5, 10}, []} }.
+        |  -endif.
 </pre>
 </body>
 </html>

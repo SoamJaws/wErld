@@ -1,4 +1,5 @@
 -module(wErld_app).
+-ifndef(TEST).
 
 -behaviour(application).
 
@@ -14,3 +15,5 @@ start(_StartType, _StartArgs) ->
 
 stop(_State) ->
     ok.
+
+-endif.

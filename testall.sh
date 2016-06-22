@@ -48,7 +48,7 @@ rebar clean
 echo ""
 
 echo "======================= Compile ======================="
-rebar compile
+rebar compile eunit
 echo ""
 
 echo "================ Add wErld to dialyzer ================"
@@ -69,7 +69,8 @@ fi
 echo ""
 
 echo "======================== EUnit ========================"
-EUNIT_OUTPUT=$(rebar eunit)
+rebar clean
+EUNIT_OUTPUT=$(rebar compile eunit)
 EUNIT_RESULT=$?
 COVOK=true
 PADDING=" "

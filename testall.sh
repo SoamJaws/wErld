@@ -48,7 +48,7 @@ rebar clean
 echo ""
 
 echo "======================= Compile ======================="
-rebar compile eunit
+rebar compile
 echo ""
 
 echo "================ Add wErld to dialyzer ================"

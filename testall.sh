@@ -47,68 +47,76 @@ echo "======================== Clean ========================"
 rebar clean
 echo ""
 
-echo "======================= Compile ======================="
-rebar compile
-echo ""
-
-echo "================ Add wErld to dialyzer ================"
-if [ ! -f $PLT ];
+if [[ "$SUITE" == "compile" ]];
 then
-  dialyzer --plt $PLT --add_to_plt ebin
-fi
-echo ""
 
-echo "====================== Dialyzing ======================"
-dialyzer --plt $PLT -Wunknown -I include/ src --src
-DIALYZER_RESULT=$?
+  echo "======================= Compile ======================="
+  rebar compile
+  echo ""
 
-if [ "$DIALYZER_RESULT" -ne 0 ];
-then
-  exit $DIALYZER_RESULT
-fi
-echo ""
-
-echo "======================== EUnit ========================"
-rebar clean
-EUNIT_OUTPUT=$(rebar compile eunit)
-EUNIT_RESULT=$?
-COVOK=true
-PADDING=" "
-
-if [ "$EUNIT_RESULT" -ne 0 ];
-then
-  echo "$EUNIT_OUTPUT"
-  exit $EUNIT_RESULT
-fi
-
-while read -r line ; do
-  IFS=':' read -a keyval <<< "$line"
-  MODULE=${keyval[0]}
-  PERCENT=$(echo ${keyval[1]} | tr -d ' ' | tr -d %)
-  COLOR='\e[0;32m'
-
-  if [[ ("$PERCENT" < 80) ]];
+  echo "================ Add wErld to dialyzer ================"
+  if [ ! -f $PLT ];
   then
-    COVOK=false
-    COLOR='\e[0;31m'
+    dialyzer --plt $PLT --add_to_plt ebin
+  fi
+  echo ""
+
+  echo "====================== Dialyzing ======================"
+  dialyzer --plt $PLT -Wunknown -I include/ src --src
+  DIALYZER_RESULT=$?
+
+  if [ "$DIALYZER_RESULT" -ne 0 ];
+  then
+    exit $DIALYZER_RESULT
+  fi
+  echo ""
+fi
+
+if [[ "$SUITE" == "test" ]];
+then
+
+  echo "======================== EUnit ========================"
+  EUNIT_OUTPUT=$(rebar compile eunit)
+  EUNIT_RESULT=$?
+  COVOK=true
+  PADDING=" "
+
+  if [ "$EUNIT_RESULT" -ne 0 ];
+  then
+    echo "$EUNIT_OUTPUT"
+    exit $EUNIT_RESULT
   fi
 
-  if [[ ("$PERCENT" -lt "10") ]];
+  while read -r line ; do
+    IFS=':' read -a keyval <<< "$line"
+    MODULE=${keyval[0]}
+    PERCENT=$(echo ${keyval[1]} | tr -d ' ' | tr -d %)
+    COLOR='\e[0;32m'
+
+    if [[ ("$PERCENT" < 80) ]];
+    then
+      COVOK=false
+      COLOR='\e[0;31m'
+    fi
+
+    if [[ ("$PERCENT" -lt "10") ]];
+    then
+      PADDING="   "
+    elif [[ ("$PERCENT" -lt "100") ]];
+    then
+      PADDING="  "
+    fi
+    echo -e "$MODULE:${COLOR}$PADDING$PERCENT\e[0m%"
+  done < <(echo "$EUNIT_OUTPUT" | grep "%")
+  echo ""
+  if $COVOK;
   then
-    PADDING="   "
-  elif [[ ("$PERCENT" -lt "100") ]];
-  then
-    PADDING="  "
+    echo "No modules have less than 80% coverage, ok"
+  else
+    echo "One or more modules have less than 80% coverage, not ok"
+    RESULT=1
   fi
-  echo -e "$MODULE:${COLOR}$PADDING$PERCENT\e[0m%"
-done < <(echo "$EUNIT_OUTPUT" | grep "%")
-echo ""
-if $COVOK;
-then
-  echo "No modules have less than 80% coverage, ok"
-else
-  echo "One or more modules have less than 80% coverage, not ok"
-  RESULT=1
+
 fi
 
 exit $RESULT

@@ -1,5 +1,5 @@
 -module(wErld_app).
--ifndef(EUNIT).
+-ifndef(TEST).
 
 -behaviour(application).
 

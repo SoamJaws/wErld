@@ -4,21 +4,21 @@
 %% Data Type: infrastructure stop
 %% where:
 %%
-%%    id:             A string (default is undefined).
-%%                    Should be unique for each client.
+%%    id:                   A string (default is undefined).
+%%                          Should be unique for each client.
 %%
-%%    currentVehicle: A Pid (default is none).
-%%                    The pid of the Vehicle process boarding
-%%                    passangers at this stop.
+%%    currentVehicle:       A Pid (default is none).
+%%                          The pid of the Vehicle process boarding
+%%                          passangers at this stop.
 %%
-%%    passengers:     A list of Pids (default is []).
-%%                    A FIFO queue of waiting Persons
+%%    passengers:           A list of Pids (default is []).
+%%                          A FIFO queue of waiting Persons
 %%
-%%    vehicleQueue:   A list of Pids (default is []).
-%%                    A FIFO queue of waiting vehicles.
+%%    vehicleQueue:         A list of Pids (default is []).
+%%                          A FIFO queue of waiting vehicles.
 %%
 %%------------------------------------------------------------
--record(stop_state, {id, capacity = 50, currentVehicle = none, passengers = [], vehicleQueue = []}).
+-record(stop_state, {id, currentVehicle = none, passengers = [], vehicleQueue = []}).
 
 -define(PASSENGER_CHECK_IN,  passenger_check_in).
 -define(PASSENGER_CHECK_OUT, passenger_check_out).

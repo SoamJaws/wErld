@@ -3,7 +3,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 passenger_check_in_test() ->
-  {ok, Stop} = stop:start_link(stop1, 2),
+  {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1),
   {ok, P2} = gen_server_mock:start_link(p2),
   {ok, P3} = gen_server_mock:start_link(p3),
@@ -11,7 +11,7 @@ passenger_check_in_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertMatch({nok, _}, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
-  ?assertMatch({nok, _}, stop:?PASSENGER_CHECK_IN(Stop, P3)),
+  ?assertMatch(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),
@@ -22,7 +22,7 @@ passenger_check_in_test() ->
   stop:stop(Stop).
 
 passenger_check_out_test() ->
-  {ok, Stop} = stop:start_link(stop1, 3),
+  {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1),
   {ok, P2} = gen_server_mock:start_link(p2),
   {ok, P3} = gen_server_mock:start_link(p3),
@@ -57,7 +57,7 @@ passenger_check_out_test() ->
   stop:stop(Stop).
 
 vehicle_check_in_test() ->
-  {ok, Stop} = stop:start_link(stop1, 3),
+  {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1),
   {ok, P2} = gen_server_mock:start_link(p2),
   {ok, P3} = gen_server_mock:start_link(p3),
@@ -65,14 +65,15 @@ vehicle_check_in_test() ->
   
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
-  ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
   gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
   gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
   gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
 
   stop:?VEHICLE_CHECK_IN(Stop, V1, true),
+
+  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
+  ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),
@@ -85,7 +86,7 @@ vehicle_check_in_test() ->
   stop:stop(Stop).
 
 vehicle_check_out_test() ->
-  {ok, Stop} = stop:start_link(stop1, 3),
+  {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1),
   {ok, P2} = gen_server_mock:start_link(p2),
   {ok, P3} = gen_server_mock:start_link(p3),
@@ -132,7 +133,7 @@ vehicle_check_out_test() ->
   stop:stop(Stop).
 
 state_test() ->
-  {ok, Stop} = stop:start_link(stop1, 3),
+  {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1),
   {ok, P2} = gen_server_mock:start_link(p2),
   {ok, P3} = gen_server_mock:start_link(p3),
@@ -151,7 +152,7 @@ state_test() ->
   stop:?VEHICLE_CHECK_IN(Stop, V1, true),
   stop:?VEHICLE_CHECK_IN(Stop, V2, true),
 
-  ?assertMatch(#stop_state{id=stop1, capacity=3, currentVehicle=V1, passengers=[P1,P2,P3], vehicleQueue=[V2]}, stop:state(Stop)),
+  ?assertMatch(#stop_state{id=stop1, currentVehicle=V1, passengers=[P1,P2,P3], vehicleQueue=[V2]}, stop:state(Stop)),
 
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),

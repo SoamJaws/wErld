@@ -4,7 +4,6 @@
 
 %% Public API
 -export([ start_link/1
-        , start_link/2
         , stop/1
         , state/1
         , ?PASSENGER_CHECK_IN/2
@@ -25,9 +24,6 @@
 
 start_link(Id) ->
   gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
-
-start_link(Id, Capacity) ->
-  gen_server:start_link(?MODULE, #stop_state{id=Id, capacity=Capacity}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -59,16 +55,19 @@ init(State) ->
 
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
-  Capacity = State#stop_state.capacity,
-  NoPassengers = length(Passengers),
   AlreadyCheckedIn = lists:member(Passenger, Passengers),
   if
     AlreadyCheckedIn ->
       {reply, {nok, "Already checked in"}, State};
-    NoPassengers < Capacity ->
-      {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}};
     true ->
-      {reply, {nok, "Capacity reached"}, State}
+      CurrentVehicle = State#stop_state.currentVehicle,
+      case CurrentVehicle of
+        none ->
+          ok;
+        Vehicle ->
+          citizen:vehicle_checked_in(Passenger, Vehicle)
+      end,
+      {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
   end;
 
 handle_call(stop, _From, State) ->

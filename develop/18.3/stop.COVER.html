@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-22 at 07:15:59
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-23 at 05:05:58
 
 ****************************************************************************
 
@@ -15,7 +15,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% Public API
         |  -export([ start_link/1
-        |          , start_link/2
         |          , stop/1
         |          , state/1
         |          , ?PASSENGER_CHECK_IN/2
@@ -35,10 +34,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  %% Public API
         |  
         |  start_link(Id) -&gt;
-    35..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
-        |  
-        |  start_link(Id, Capacity) -&gt;
-     5..|    gen_server:start_link(?MODULE, #stop_state{id=Id, capacity=Capacity}, []).
+    40..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
         |  
         |  stop(Pid) -&gt;
     40..|    gen_server:call(Pid, stop).
@@ -70,16 +66,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
     17..|    Passengers = State#stop_state.passengers,
-    17..|    Capacity = State#stop_state.capacity,
-    17..|    NoPassengers = length(Passengers),
     17..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),
     17..|    if
         |      AlreadyCheckedIn -&gt;
      1..|        {reply, {nok, "Already checked in"}, State};
-        |      NoPassengers &lt; Capacity -&gt;
-    15..|        {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}};
         |      true -&gt;
-     1..|        {reply, {nok, "Capacity reached"}, State}
+    16..|        CurrentVehicle = State#stop_state.currentVehicle,
+    16..|        case CurrentVehicle of
+        |          none -&gt;
+    15..|            ok;
+        |          Vehicle -&gt;
+     1..|            citizen:vehicle_checked_in(Passenger, Vehicle)
+        |        end,
+    16..|        {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
@@ -152,8 +151,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
      5..|  notify_vehicle_checked_in([], _Vehicle) -&gt; [];
         |  notify_vehicle_checked_in([Passenger|Passengers], Vehicle) -&gt;
-    12..|    citizen:vehicle_checked_in(Passenger, Vehicle), %%Must block
-    12..|    notify_vehicle_checked_in(Passengers, Vehicle).
+    11..|    citizen:vehicle_checked_in(Passenger, Vehicle), %%Must block
+    11..|    notify_vehicle_checked_in(Passengers, Vehicle).
 </pre>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-06-24 at 20:15:10
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-06-24 at 20:38:01
 
 ****************************************************************************
 
@@ -14,7 +14,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  -include_lib("eunit/include/eunit.hrl").
         |  
         |  %% Public API
-        |  -export([ start_link/1
+        |  -export([ start_link/2
         |          , stop/1
         |          , state/1
         |          , expect_call/3
@@ -29,12 +29,12 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |          , terminate/2
         |          , code_change/3]).
         |  
-        |  -record(gen_server_mock_state, {id, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
+        |  -record(gen_server_mock_state, {id, type, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
         |  
         |  %% Public API
         |  
-        |  start_link(Id) -&gt;
-    11..|    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id}, []).
+        |  start_link(Id, Type) -&gt;
+    11..|    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
         |  
         |  stop(Pid) -&gt;
      3..|    gen_server:call(Pid, stop).
@@ -68,13 +68,28 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
      7..|    Casts = State#gen_server_mock_state.casts,
      7..|    ExpectedCalls = State#gen_server_mock_state.expectedCalls,
      7..|    ExpectedCasts = State#gen_server_mock_state.expectedCasts,
-     7..|    if
-        |      (Calls == ExpectedCalls) and (Casts == ExpectedCasts) -&gt;
-     6..|        {reply, true, State};
-        |      true -&gt;
-     1..|        Id = State#gen_server_mock_state.id,
-     1..|        ?debugFmt("Casts and/or calls does not match expectations for mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
-     1..|        {reply, false, State}
+     7..|    Type = State#gen_server_mock_state.type,
+     7..|    case Type of
+        |      strict -&gt;
+     7..|        if
+        |          (Calls == ExpectedCalls) and (Casts == ExpectedCasts) -&gt;
+     6..|            {reply, true, State};
+        |          true -&gt;
+     1..|            Id = State#gen_server_mock_state.id,
+     1..|            ?debugFmt("Casts and/or calls does not match expectations for strict mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+     1..|            {reply, false, State}
+        |        end;
+        |      nice -&gt;
+<font color=red>     0..|        AllExpectedCallsMet = lists:all(fun(X) -&gt; lists:member(X, Calls) end, ExpectedCalls),</font>
+<font color=red>     0..|        AllExpectedCastsMet = lists:all(fun(X) -&gt; lists:member(X, Casts) end, ExpectedCasts),</font>
+<font color=red>     0..|        if</font>
+        |          AllExpectedCallsMet and AllExpectedCastsMet -&gt;
+<font color=red>     0..|            {reply, true, State};</font>
+        |          true -&gt;
+<font color=red>     0..|            Id = State#gen_server_mock_state.id,</font>
+<font color=red>     0..|            ?debugFmt("One or more expected casts and/or calls were not matched for nice mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),</font>
+<font color=red>     0..|            {reply, false, State}</font>
+        |        end
         |    end;
         |  
         |  handle_call(Msg, _From, State) -&gt;

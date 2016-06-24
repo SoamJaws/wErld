@@ -7,8 +7,9 @@
         , stop/1
         , state/1
         , ?PASSENGER_BOARD/2
+        , ?INCREMENT_BOARDING_PASSENGER/2
         , ?BOARDING_COMPLETE/2
-        , ?CHECKIN_OK/3]).
+        , ?CHECKIN_OK/4]).
 
 %% gen_server
 -export([ init/1
@@ -33,12 +34,16 @@ state(Pid) ->
 ?PASSENGER_BOARD(Pid, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
+?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) ->
+  gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
+  gen_server_utils:block_caller(BlockCaller).
+
 ?BOARDING_COMPLETE(Pid, BlockCaller) ->
   gen_server:cast(Pid, {?BOARDING_COMPLETE, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
 
-?CHECKIN_OK(Pid, Stop, BlockCaller) ->
-  gen_server:cast(Pid, {?CHECKIN_OK, Stop, BlockCaller, self()}),
+?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) ->
+  gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
 
 
@@ -53,12 +58,13 @@ handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
   Capacity = State#vehicle_state.capacity,
   NoPassengers = length(Passengers),
+  BoardingPassengers = State#vehicle_state.boardingPassengers,
   if
     NoPassengers < Capacity ->
-      if Capacity - NoPassengers == 1 ->
+      if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) ->
         ?BOARDING_COMPLETE(self(), false)
       end,
-      {reply, ok, State#vehicle_state{passengers=Passengers++[Passenger]}};
+      {reply, ok, State#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1}};
     true ->
       {reply, nok, State}
   end;
@@ -69,20 +75,33 @@ handle_call(stop, _From, State) ->
 handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
-
-handle_cast({?CHECKIN_OK, Stop, NotifyCaller, Caller}, State) ->
+handle_cast({?INCREMENT_BOARDING_PASSENGER, NotifyCaller, Caller}, State) ->
+  BoardingPassengers = State#vehicle_state.boardingPassengers,
   gen_server_utils:notify_caller(NotifyCaller, Caller),
-  {noreply, State#vehicle_state{action={boarding, Stop}}};
+  {noreply, State#vehicle_state{boardingPassengers=BoardingPassengers+1}};
 
 handle_cast({?BOARDING_COMPLETE, NotifyCaller, Caller}, State) ->
-  {_, Line} = State#vehicle_state.line,
-  {boarding, Stop} = State#vehicle_state.action,
-  {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
-  TimePid = gen_server:call(blackboard,{request, timePid}),
-  Time = gen_server:call(TimePid,{request,currentTime}),
-  stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+  Passengers = State#vehicle_state.passengers,
+  Capacity = State#vehicle_state.capacity,
+  NoPassengers = length(Passengers),
+  BoardingPassengers = State#vehicle_state.boardingPassengers,
+  if
+    (BoardingPassengers == 0) or (NoPassengers == Capacity) ->
+      {_, Line} = State#vehicle_state.line,
+      {boarding, Stop} = State#vehicle_state.action,
+      {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
+      TimePid = gen_server:call(blackboard,{request, timePid}),
+      Time = gen_server:call(TimePid,{request,currentTime}),
+      stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+      gen_server_utils:notify_caller(NotifyCaller, Caller),
+      {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}};
+    true ->
+      {noreply, State}
+  end;
+
+handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State) ->
   gen_server_utils:notify_caller(NotifyCaller, Caller),
-  {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time}};
+  {noreply, State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}};
 
 handle_cast({time, Time}, State) ->
   case State#vehicle_state.action of

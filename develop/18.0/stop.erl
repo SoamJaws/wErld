@@ -65,7 +65,10 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
         none ->
           ok;
         Vehicle ->
-          citizen:vehicle_checked_in(Passenger, Vehicle)
+          WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
+          if WillBoard ->
+            vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false)
+          end
       end,
       {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
   end;
@@ -79,25 +82,14 @@ handle_call(state, _From, State) ->
 
 handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
-  case Passengers of
-    [] -> %%TODO Maybe not all passengers are waiting for the currentVehicle 
-      case State#stop_state.currentVehicle of 
-        none ->
-          ok; %%Ok, passengers are permitted to leave the stop without boarding
-        _ ->
-          vehicle:?BOARDING_COMPLETE(State#stop_state.currentVehicle, false)
-      end;
-    _ ->
-      ok
-  end,
   gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#stop_state{passengers=Passengers}};
 
 handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
   NewState = case State#stop_state.currentVehicle of
                none ->
-                 vehicle:?CHECKIN_OK(Vehicle, self(), false),
-                 notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
+                 BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
+                 vehicle:?CHECKIN_OK(Vehicle, self(), BoardingPassengers, false),
                  State#stop_state{currentVehicle=Vehicle};
                _    ->
                  VehicleQueue = State#stop_state.vehicleQueue,
@@ -111,8 +103,8 @@ handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
                State#stop_state.currentVehicle == Vehicle ->
                  case State#stop_state.vehicleQueue of
                    [NextVehicle|VehicleQueue] ->
-                     vehicle:?CHECKIN_OK(NextVehicle, self(), false),
-                     notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
+                     BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
+                     vehicle:?CHECKIN_OK(NextVehicle, self(), BoardingPassengers, false),
                      State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
                    [] ->
                      State#stop_state{currentVehicle=none}
@@ -138,7 +130,15 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
-notify_vehicle_checked_in([], _Vehicle) -> [];
-notify_vehicle_checked_in([Passenger|Passengers], Vehicle) ->
-  citizen:vehicle_checked_in(Passenger, Vehicle), %%Must block
-  notify_vehicle_checked_in(Passengers, Vehicle).
+notify_vehicle_checked_in(Passengers, Vehicle) ->
+  notify_vehicle_checked_in(Passengers, Vehicle, 0).
+
+notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -> BoardingPassengers;
+notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) ->
+  WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
+  if
+    WillBoard ->
+      notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers + 1);
+    true ->
+      notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers)
+  end.

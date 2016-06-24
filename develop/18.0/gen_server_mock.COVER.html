@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-06-24 at 20:16:01
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-06-24 at 20:39:16
 
 ****************************************************************************
 
@@ -14,7 +14,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  -include_lib("eunit/include/eunit.hrl").
         |  
         |  %% Public API
-        |  -export([ start_link/1
+        |  -export([ start_link/2
         |          , stop/1
         |          , state/1
         |          , expect_call/3
@@ -29,12 +29,12 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |          , terminate/2
         |          , code_change/3]).
         |  
-        |  -record(gen_server_mock_state, {id, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
+        |  -record(gen_server_mock_state, {id, type, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
         |  
         |  %% Public API
         |  
-        |  start_link(Id) -&gt;
-        |    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id}, []).
+        |  start_link(Id, Type) -&gt;
+        |    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
         |  
         |  stop(Pid) -&gt;
         |    gen_server:call(Pid, stop).
@@ -68,13 +68,28 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |    Casts = State#gen_server_mock_state.casts,
         |    ExpectedCalls = State#gen_server_mock_state.expectedCalls,
         |    ExpectedCasts = State#gen_server_mock_state.expectedCasts,
-        |    if
-        |      (Calls == ExpectedCalls) and (Casts == ExpectedCasts) -&gt;
-        |        {reply, true, State};
-        |      true -&gt;
-        |        Id = State#gen_server_mock_state.id,
-        |        ?debugFmt("Casts and/or calls does not match expectations for mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
-        |        {reply, false, State}
+        |    Type = State#gen_server_mock_state.type,
+        |    case Type of
+        |      strict -&gt;
+        |        if
+        |          (Calls == ExpectedCalls) and (Casts == ExpectedCasts) -&gt;
+        |            {reply, true, State};
+        |          true -&gt;
+        |            Id = State#gen_server_mock_state.id,
+        |            ?debugFmt("Casts and/or calls does not match expectations for strict mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+        |            {reply, false, State}
+        |        end;
+        |      nice -&gt;
+        |        AllExpectedCallsMet = lists:all(fun(X) -&gt; lists:member(X, Calls) end, ExpectedCalls),
+        |        AllExpectedCastsMet = lists:all(fun(X) -&gt; lists:member(X, Casts) end, ExpectedCasts),
+        |        if
+        |          AllExpectedCallsMet and AllExpectedCastsMet -&gt;
+        |            {reply, true, State};
+        |          true -&gt;
+        |            Id = State#gen_server_mock_state.id,
+        |            ?debugFmt("One or more expected casts and/or calls were not matched for nice mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+        |            {reply, false, State}
+        |        end
         |    end;
         |  
         |  handle_call(Msg, _From, State) -&gt;

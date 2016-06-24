@@ -3,7 +3,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 %% Public API
--export([ start_link/1
+-export([ start_link/2
         , stop/1
         , state/1
         , expect_call/3
@@ -18,12 +18,12 @@
         , terminate/2
         , code_change/3]).
 
--record(gen_server_mock_state, {id, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
+-record(gen_server_mock_state, {id, type, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
 
 %% Public API
 
-start_link(Id) ->
-  gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id}, []).
+start_link(Id, Type) ->
+  gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -57,13 +57,28 @@ handle_call(validate, _From, State) ->
   Casts = State#gen_server_mock_state.casts,
   ExpectedCalls = State#gen_server_mock_state.expectedCalls,
   ExpectedCasts = State#gen_server_mock_state.expectedCasts,
-  if
-    (Calls == ExpectedCalls) and (Casts == ExpectedCasts) ->
-      {reply, true, State};
-    true ->
-      Id = State#gen_server_mock_state.id,
-      ?debugFmt("Casts and/or calls does not match expectations for mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
-      {reply, false, State}
+  Type = State#gen_server_mock_state.type,
+  case Type of
+    strict ->
+      if
+        (Calls == ExpectedCalls) and (Casts == ExpectedCasts) ->
+          {reply, true, State};
+        true ->
+          Id = State#gen_server_mock_state.id,
+          ?debugFmt("Casts and/or calls does not match expectations for strict mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+          {reply, false, State}
+      end;
+    nice ->
+      AllExpectedCallsMet = lists:all(fun(X) -> lists:member(X, Calls) end, ExpectedCalls),
+      AllExpectedCastsMet = lists:all(fun(X) -> lists:member(X, Casts) end, ExpectedCasts),
+      if
+        AllExpectedCallsMet and AllExpectedCastsMet ->
+          {reply, true, State};
+        true ->
+          Id = State#gen_server_mock_state.id,
+          ?debugFmt("One or more expected casts and/or calls were not matched for nice mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+          {reply, false, State}
+      end
   end;
 
 handle_call(Msg, _From, State) ->

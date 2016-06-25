@@ -66,8 +66,11 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
           ok;
         Vehicle ->
           WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
-          if WillBoard ->
-            vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false)
+          if
+            WillBoard ->
+              vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false);
+            true ->
+              ok
           end
       end,
       {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}

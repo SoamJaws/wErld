@@ -32,18 +32,15 @@ passenger_check_out_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
-  gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
-  gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, Stop}),
+  gen_server_mock:expect_call(P1, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_call(P2, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_call(P3, {?VEHICLE_CHECKED_IN, V1}, true),
 
   stop:?VEHICLE_CHECK_IN(Stop, V1, true),
 
   stop:?PASSENGER_CHECK_OUT(Stop, P1, false),
   stop:?PASSENGER_CHECK_OUT(Stop, P2, false),
-
-  gen_server_mock:expect_cast(V1, {boarding_complete, false, Stop}),
-
   stop:?PASSENGER_CHECK_OUT(Stop, P3, true),
 
   ?assert(gen_server_mock:validate(P1)),
@@ -66,13 +63,14 @@ vehicle_check_in_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
 
-  gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
-  gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 2, false, Stop}),
+  gen_server_mock:expect_call(P1, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_call(P2, {?VEHICLE_CHECKED_IN, V1}, true),
 
   stop:?VEHICLE_CHECK_IN(Stop, V1, true),
 
-  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_call(P3, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_cast(V1, {?INCREMENT_BOARDING_PASSENGER, false, Stop}),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
   ?assert(gen_server_mock:validate(P1)),
@@ -100,10 +98,10 @@ vehicle_check_out_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
-  gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
-  gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, Stop}),
+  gen_server_mock:expect_call(P1, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_call(P2, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_call(P3, {?VEHICLE_CHECKED_IN, V1}, true),
 
   stop:?VEHICLE_CHECK_IN(Stop, V1, true),
   stop:?VEHICLE_CHECK_IN(Stop, V2, true),
@@ -111,10 +109,8 @@ vehicle_check_out_test() ->
   stop:?PASSENGER_CHECK_OUT(Stop, P1, false),
   stop:?PASSENGER_CHECK_OUT(Stop, P2, false),
 
-  gen_server_mock:expect_cast(V1, {boarding_complete, false, Stop}),
-
   ?assert(gen_server_mock:validate(V2)), %% Validate that the checkin_ok has not been sent prematurely
-  gen_server_mock:expect_cast(V2, {checkin_ok, Stop, false, Stop}),
+  gen_server_mock:expect_cast(V2, {?CHECKIN_OK, Stop, 0, false, Stop}),
 
   stop:?PASSENGER_CHECK_OUT(Stop, P3, true),
   stop:?VEHICLE_CHECK_OUT(Stop, V1, true),
@@ -144,10 +140,10 @@ state_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
-  gen_server_mock:expect_cast(V1, {checkin_ok, Stop, false, Stop}),
-  gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, ok),
-  gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, ok),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, Stop}),
+  gen_server_mock:expect_call(P1, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_call(P2, {?VEHICLE_CHECKED_IN, V1}, true),
+  gen_server_mock:expect_call(P3, {?VEHICLE_CHECKED_IN, V1}, true),
 
   stop:?VEHICLE_CHECK_IN(Stop, V1, true),
   stop:?VEHICLE_CHECK_IN(Stop, V2, true),

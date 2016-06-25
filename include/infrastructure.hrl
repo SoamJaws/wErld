@@ -67,7 +67,7 @@
 -record(vehicle_state, {action = {waiting, none}, capacity, lastDeparture, line, passengers = [], boardingPassengers = 0, target, type}).
 
 -define(PASSENGER_BOARD, passenger_board).
--define(INCREMENT_BOARDING_PASSENGER, add_boarding_passenger).
+-define(INCREMENT_BOARDING_PASSENGER, increment_boarding_passenger).
 -define(BOARDING_COMPLETE, boarding_complete).
 -define(CHECKIN_OK, checkin_ok).
 

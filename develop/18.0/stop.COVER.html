@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-25 at 19:28:38
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-25 at 19:47:27
 
 ****************************************************************************
 
@@ -43,7 +43,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      1..|    gen_server:call(Pid, state).
         |  
         |  ?PASSENGER_CHECK_IN(Pid, Passenger) -&gt;
-    17..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
+    18..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
         |  
         |  ?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) -&gt;
      7..|    gen_server:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger, BlockCaller, self()}),
@@ -65,26 +65,26 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
-    17..|    Passengers = State#stop_state.passengers,
-    17..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),
-    17..|    if
+    18..|    Passengers = State#stop_state.passengers,
+    18..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),
+    18..|    if
         |      AlreadyCheckedIn -&gt;
      1..|        {reply, {nok, "Already checked in"}, State};
         |      true -&gt;
-    16..|        CurrentVehicle = State#stop_state.currentVehicle,
-    16..|        case CurrentVehicle of
+    17..|        CurrentVehicle = State#stop_state.currentVehicle,
+    17..|        case CurrentVehicle of
         |          none -&gt;
     15..|            ok;
         |          Vehicle -&gt;
-     1..|            WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
-     1..|            if
+     2..|            WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
+     2..|            if
         |              WillBoard -&gt;
      1..|                vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false);
         |              true -&gt;
-<font color=red>     0..|                ok</font>
+     1..|                ok
         |            end
         |        end,
-    16..|        {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
+    17..|        {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
@@ -152,9 +152,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
     11..|    WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
     11..|    if
         |      WillBoard -&gt;
-    11..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers + 1);
+    10..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers + 1);
         |      true -&gt;
-<font color=red>     0..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers)</font>
+     1..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers)
         |    end.
 </pre>
 </body>

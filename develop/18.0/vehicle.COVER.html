@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-24 at 20:39:16
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-25 at 19:28:38
 
 ****************************************************************************
 
@@ -46,16 +46,16 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).</font>
         |  
         |  ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) -&gt;
-<font color=red>     0..|    gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),</font>
-<font color=red>     0..|    gen_server_utils:block_caller(BlockCaller).</font>
+     1..|    gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
+     1..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?BOARDING_COMPLETE(Pid, BlockCaller) -&gt;
 <font color=red>     0..|    gen_server:cast(Pid, {?BOARDING_COMPLETE, BlockCaller, self()}),</font>
 <font color=red>     0..|    gen_server_utils:block_caller(BlockCaller).</font>
         |  
         |  ?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) -&gt;
-     2..|    gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
-     2..|    gen_server_utils:block_caller(BlockCaller).
+     5..|    gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
+     5..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  
         |  %% gen_server

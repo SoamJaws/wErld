@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-25 at 19:46:34
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-27 at 07:23:43
 
 ****************************************************************************
 
@@ -14,6 +14,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  -behaviour(gen_server).
         |  
         |  %% Public API
+        |  %% TODO Add ?GET_LINE_NUMBER API function and signal handling
         |  -export([ start_link/3
         |          , stop/1
         |          , state/1
@@ -52,7 +53,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      5..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
         |  
         |  ?GET_OTHER_END(Pid, Stop) -&gt;
-     2..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
+     3..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
         |  
         |  ?CONTAINS_STOP(Pid, Stop) -&gt;
     34..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).

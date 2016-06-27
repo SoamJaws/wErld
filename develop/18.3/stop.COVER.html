@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-25 at 19:46:34
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-27 at 07:23:43
 
 ****************************************************************************
 
@@ -37,7 +37,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
     40..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
         |  
         |  stop(Pid) -&gt;
-    40..|    gen_server:call(Pid, stop).
+    41..|    gen_server:call(Pid, stop).
         |  
         |  state(Pid) -&gt;
      1..|    gen_server:call(Pid, state).
@@ -50,8 +50,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      7..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) -&gt;
-     6..|    gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
-     6..|    gen_server_utils:block_caller(BlockCaller).
+     7..|    gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
+     7..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) -&gt;
      2..|    gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),

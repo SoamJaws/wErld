@@ -51,6 +51,8 @@ state(Pid) ->
 
 init(State) ->
   %%gen_server:call(blackboard, {subscribe, time}),
+  %%TODO Extract line number from line pid. Given line when starting
+  %%     should be only the pid of the line
   {_, Line} = State#vehicle_state.line,
   Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),

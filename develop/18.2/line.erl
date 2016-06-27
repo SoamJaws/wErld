@@ -3,6 +3,7 @@
 -behaviour(gen_server).
 
 %% Public API
+%% TODO Add ?GET_LINE_NUMBER API function and signal handling
 -export([ start_link/3
         , stop/1
         , state/1

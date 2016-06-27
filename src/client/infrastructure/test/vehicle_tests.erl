@@ -7,10 +7,11 @@ checkin_ok_test() ->
   {ok, StartStop} = gen_server_mock:start_link(s1, strict),
   {ok, TargetStop} = gen_server_mock:start_link(s2, strict),
 
-  %% TODO Solve match PID from init
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false}),
-  {ok, Vehicle} = vehicle:start_link(3, L1, TargetStop, bus),
+  {ok, Vehicle} = vehicle:start_link(3, {1, L1}, TargetStop, bus),
+  %% Hack, setting expected cast after call, will work since
+  %% casts are not verified until validate is called
+  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
 
   vehicle:?CHECKIN_OK(Vehicle, StartStop, 0, true),
 
@@ -33,15 +34,15 @@ checkin_ok_test() ->
 %
 %  gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
 %  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle1, false}),
-%  {ok, Vehicle1} = vehicle:start_link(3, L1, TargetStop, bus),
+%  {ok, Vehicle1} = vehicle:start_link(3, {1, L1}, TargetStop, bus),
 %
 %  gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
 %  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle2, false}),
-%  {ok, Vehicle2} = vehicle:start_link(3, L1, TargetStop, bus),
+%  {ok, Vehicle2} = vehicle:start_link(3, {1, L1}, TargetStop, bus),
 %
 %  gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
 %  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle3, false}),
-%  {ok, Vehicle3} = vehicle:start_link(3, L1, TargetStop, bus),
+%  {ok, Vehicle3} = vehicle:start_link(3, {1, L1}, TargetStop, bus),
 %
 %  vehicle:?BOARDING_COMPLETE(Vehicle1, true),
 %

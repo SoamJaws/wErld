@@ -51,7 +51,9 @@ state(Pid) ->
 
 init(State) ->
   %%gen_server:call(blackboard, {subscribe, time}),
-  %% TODO Get start stop
+  {_, Line} = State#vehicle_state.line,
+  Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+  stop:?VEHICLE_CHECK_IN(Stop, self(), false),
   {ok, State}.
 
 
@@ -112,8 +114,9 @@ handle_cast({time, Time}, State) ->
         Time - State#vehicle_state.lastDeparture >= Duration ->
           UpdatedState = if
                            Stop == State#vehicle_state.target ->
-                           Target = line:?GET_OTHER_END(State#vehicle_state.line, State#vehicle_state.target),
-                           State#vehicle_state{target=Target};
+                             {_, Line} = State#vehicle_state.line,
+                             Target = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+                             State#vehicle_state{target=Target};
                          true ->
                            State
                          end,

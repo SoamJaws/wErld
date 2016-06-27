@@ -3,7 +3,7 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ start_link/2
+-export([ start_link/4
         , stop/1
         , state/1
         , ?PASSENGER_BOARD/2
@@ -22,8 +22,8 @@
 
 %% Public API
 
-start_link(Type, Capacity) ->
-  gen_server:start_link(?MODULE, #vehicle_state{type=Type, capacity=Capacity}, []).
+start_link(Capacity, Line, Target, Type) ->
+  gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line=Line, target=Target, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -50,7 +50,8 @@ state(Pid) ->
 %% gen_server
 
 init(State) ->
-  gen_server:call(blackboard, {subscribe, time}),
+  %%gen_server:call(blackboard, {subscribe, time}),
+  %% TODO Get start stop
   {ok, State}.
 
 
@@ -74,6 +75,7 @@ handle_call(stop, _From, State) ->
 
 handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
+
 
 handle_cast({?INCREMENT_BOARDING_PASSENGER, NotifyCaller, Caller}, State) ->
   BoardingPassengers = State#vehicle_state.boardingPassengers,

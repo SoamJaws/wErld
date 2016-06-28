@@ -37,7 +37,7 @@ checkin_ok_test() ->
   gen_server_mock:stop(Time),
   gen_server_mock:stop(L1),
   gen_server_mock:stop(S1),
-  stop:stop(Vehicle).
+  vehicle:stop(Vehicle).
 
 boarding_passenger_capacity_reached_test() ->
   {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
@@ -90,7 +90,7 @@ boarding_passenger_capacity_reached_test() ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
-  stop:stop(Vehicle).
+  vehicle:stop(Vehicle).
 
 boarding_passenger_below_capacity_test() ->
   {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
@@ -142,7 +142,7 @@ boarding_passenger_below_capacity_test() ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
-  stop:stop(Vehicle).
+  vehicle:stop(Vehicle).
 
 next_stop_reached_test() ->
   {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
@@ -200,7 +200,7 @@ next_stop_reached_test() ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
-  stop:stop(Vehicle).
+  vehicle:stop(Vehicle).
 
 next_stop_not_reached_test() ->
   {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
@@ -254,7 +254,7 @@ next_stop_not_reached_test() ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
-  stop:stop(Vehicle).
+  vehicle:stop(Vehicle).
 
 target_stop_reached_test() ->
   {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
@@ -311,4 +311,4 @@ target_stop_reached_test() ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
-  stop:stop(Vehicle).
+  vehicle:stop(Vehicle).

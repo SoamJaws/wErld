@@ -60,12 +60,13 @@ handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   BoardingPassengers = State#vehicle_state.boardingPassengers,
   if
     NoPassengers < Capacity ->
+      UpdatedState = State#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1},
       NewState = if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) ->
-                   boarding_complete(State);
+                   boarding_complete(UpdatedState);
                  true ->
-                   State
+                   UpdatedState
                  end,
-      {reply, ok, NewState#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1}};
+      {reply, ok, NewState};
     true ->
       {reply, nok, State}
   end;

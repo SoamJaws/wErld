@@ -1,5 +1,6 @@
 -module(vehicle).
 -include("infrastructure.hrl").
+-include("time.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -7,6 +8,7 @@
         , stop/1
         , state/1
         , ?PASSENGER_BOARD/2
+        , ?NEW_TIME/3
         , ?INCREMENT_BOARDING_PASSENGER/2
         , ?CHECKIN_OK/4]).
 
@@ -32,6 +34,10 @@ state(Pid) ->
 
 ?PASSENGER_BOARD(Pid, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
+
+?NEW_TIME(Pid, Time, BlockCaller) ->
+  gen_server:cast(Pid, {?NEW_TIME, Time, BlockCaller, self()}),
+  gen_server_utils:block_caller(BlockCaller).
 
 ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) ->
   gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
@@ -78,6 +84,31 @@ handle_call(state, _From, State) ->
   {reply, {ok, State}, State}.
 
 
+handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
+  NewState = case State#vehicle_state.action of
+               {driving, Stop, Duration} ->
+                 if
+                   Time - State#vehicle_state.lastDeparture >= Duration ->
+                     UpdatedState = if
+                                      Stop == State#vehicle_state.target ->
+                                        {_, Line} = State#vehicle_state.line,
+                                        Target = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+                                        State#vehicle_state{target=Target};
+                                    true ->
+                                      State
+                                    end,
+                     StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
+                     stop:?VEHICLE_CHECK_IN(Stop, self(), false),
+                     UpdatedState#vehicle_state{passengers=StayingPassengers};
+                   true ->
+                     State
+                 end;
+               _ ->
+                 State
+             end,
+  gen_server_utils:notify_caller(NotifyCaller, Caller),
+  {noreply, NewState};
+
 handle_cast({?INCREMENT_BOARDING_PASSENGER, NotifyCaller, Caller}, State) ->
   BoardingPassengers = State#vehicle_state.boardingPassengers,
   gen_server_utils:notify_caller(NotifyCaller, Caller),
@@ -91,30 +122,7 @@ handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State
                  State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}
              end,
   gen_server_utils:notify_caller(NotifyCaller, Caller),
-  {noreply, NewState};
-
-handle_cast({time, Time}, State) ->
-  case State#vehicle_state.action of
-    {driving, Stop, Duration} ->
-      if
-        Time - State#vehicle_state.lastDeparture >= Duration ->
-          UpdatedState = if
-                           Stop == State#vehicle_state.target ->
-                             {_, Line} = State#vehicle_state.line,
-                             Target = line:?GET_OTHER_END(Line, State#vehicle_state.target),
-                             State#vehicle_state{target=Target};
-                         true ->
-                           State
-                         end,
-          StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
-          stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-          {noreply, UpdatedState#vehicle_state{passengers=StayingPassengers}};
-        true ->
-          {noreply, State}
-      end;
-    _ ->
-      {noreply, State}
-  end.
+  {noreply, NewState}.
 
 
 handle_info(_Info, State) ->

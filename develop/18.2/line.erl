@@ -3,7 +3,6 @@
 -behaviour(gen_server).
 
 %% Public API
-%% TODO Add ?GET_LINE_NUMBER API function and signal handling
 -export([ start_link/3
         , stop/1
         , state/1
@@ -13,7 +12,8 @@
         , ?CONTAINS_STOP/2
         , ?GET_DURATION/3
         , ?IS_END_STOP/2
-        , ?GET_INTERSECTION/2]).
+        , ?GET_INTERSECTION/2
+        , ?GET_NUMBER/1]).
 
 %% gen_server
 -export([ init/1
@@ -55,6 +55,9 @@ state(Pid) ->
 
 ?GET_INTERSECTION(Pid, OtherLine) ->
   gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
+
+?GET_NUMBER(Pid) ->
+  gen_server:call(Pid, ?GET_NUMBER).
 
 
 %% gen_server
@@ -112,6 +115,10 @@ handle_call({?IS_END_STOP, Stop}, _From, State) ->
 
 handle_call({?GET_INTERSECTION, OtherLine}, _From, State) ->
   Reply = get_intersection_helper(OtherLine, State#line_state.stops),
+  {reply, Reply, State};
+
+handle_call(?GET_NUMBER, _From, State) ->
+  Reply = State#line_state.number,
   {reply, Reply, State};
 
 handle_call(stop, _From, State) ->

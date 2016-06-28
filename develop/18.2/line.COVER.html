@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-27 at 07:24:33
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-28 at 07:12:05
 
 ****************************************************************************
 
@@ -14,7 +14,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  -behaviour(gen_server).
         |  
         |  %% Public API
-        |  %% TODO Add ?GET_LINE_NUMBER API function and signal handling
         |  -export([ start_link/3
         |          , stop/1
         |          , state/1
@@ -24,7 +23,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |          , ?CONTAINS_STOP/2
         |          , ?GET_DURATION/3
         |          , ?IS_END_STOP/2
-        |          , ?GET_INTERSECTION/2]).
+        |          , ?GET_INTERSECTION/2
+        |          , ?GET_NUMBER/1]).
         |  
         |  %% gen_server
         |  -export([ init/1
@@ -47,7 +47,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      1..|    gen_server:call(Pid, state).
         |  
         |  ?GET_NEXT_STOP(Pid, Target, Stop) -&gt;
-     6..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
+     7..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
         |  
         |  ?GET_NEIGHBORS(Pid, Stop) -&gt;
      5..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
@@ -66,6 +66,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  ?GET_INTERSECTION(Pid, OtherLine) -&gt;
     12..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
+        |  
+        |  ?GET_NUMBER(Pid) -&gt;
+     1..|    gen_server:call(Pid, ?GET_NUMBER).
         |  
         |  
         |  %% gen_server
@@ -124,6 +127,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  handle_call({?GET_INTERSECTION, OtherLine}, _From, State) -&gt;
     12..|    Reply = get_intersection_helper(OtherLine, State#line_state.stops),
     12..|    {reply, Reply, State};
+        |  
+        |  handle_call(?GET_NUMBER, _From, State) -&gt;
+<font color=red>     0..|    Reply = State#line_state.number,</font>
+<font color=red>     0..|    {reply, Reply, State};</font>
         |  
         |  handle_call(stop, _From, State) -&gt;
     11..|    {stop, normal, stopped, State};

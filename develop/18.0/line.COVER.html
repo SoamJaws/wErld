@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-28 at 07:12:15
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-28 at 15:11:35
 
 ****************************************************************************
 
@@ -38,22 +38,22 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  %% Public API
         |  
         |  start_link(Number, Stops, Type) -&gt;
-    11..|    gen_server:start_link(?MODULE, #line_state{number=Number, stops=Stops, type=Type}, []).
+    12..|    gen_server:start_link(?MODULE, #line_state{number=Number, stops=Stops, type=Type}, []).
         |  
         |  stop(Pid) -&gt;
-    11..|    gen_server:call(Pid, stop).
+    12..|    gen_server:call(Pid, stop).
         |  
         |  state(Pid) -&gt;
      1..|    gen_server:call(Pid, state).
         |  
         |  ?GET_NEXT_STOP(Pid, Target, Stop) -&gt;
-     7..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
+     9..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
         |  
         |  ?GET_NEIGHBORS(Pid, Stop) -&gt;
      5..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
         |  
         |  ?GET_OTHER_END(Pid, Stop) -&gt;
-     3..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
+     5..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
         |  
         |  ?CONTAINS_STOP(Pid, Stop) -&gt;
     34..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
@@ -68,14 +68,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
     12..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
         |  
         |  ?GET_NUMBER(Pid) -&gt;
-     1..|    gen_server:call(Pid, ?GET_NUMBER).
+     4..|    gen_server:call(Pid, ?GET_NUMBER).
         |  
         |  
         |  %% gen_server
         |  
         |  init(State) -&gt;
         |    %gen_server:call(blackboard, {subscribe, time}),
-    11..|    {ok, State}.
+    12..|    {ok, State}.
         |  
         |  
         |  handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) -&gt;
@@ -129,11 +129,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
     12..|    {reply, Reply, State};
         |  
         |  handle_call(?GET_NUMBER, _From, State) -&gt;
-<font color=red>     0..|    Reply = State#line_state.number,</font>
-<font color=red>     0..|    {reply, Reply, State};</font>
+     1..|    Reply = State#line_state.number,
+     1..|    {reply, Reply, State};
         |  
         |  handle_call(stop, _From, State) -&gt;
-    11..|    {stop, normal, stopped, State};
+    12..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
      1..|    {reply, State, State}.
@@ -148,7 +148,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  
         |  terminate(_Reason, _State) -&gt;
-    11..|    ok.
+    12..|    ok.
         |  
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;

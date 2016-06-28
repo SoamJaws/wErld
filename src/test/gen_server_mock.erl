@@ -27,7 +27,7 @@ start_link(Id, Type) ->
   gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
 
 start_global(Id, Type) ->
-  gen_server:start_link({global, ?MODULE}, #gen_server_mock_state{id=Id, type=Type}, []).
+  gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -94,7 +94,7 @@ handle_call(Msg, _From, State) ->
       Casts = State#gen_server_mock_state.casts,
       ExpectedCasts = State#gen_server_mock_state.expectedCasts,
       ExpectedCalls = State#gen_server_mock_state.expectedCalls,
-      ?debugFmt("No expected call return when called with ~p in gen_server with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]),
+      ?debugFmt("No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]),
       ?assert(false);
     _ ->
       {reply, lists:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}

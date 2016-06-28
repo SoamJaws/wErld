@@ -5,12 +5,13 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 15:29:10
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 19:11:07
 
 ****************************************************************************
 
         |  -module(vehicle).
         |  -include("infrastructure.hrl").
+        |  -include("time.hrl").
         |  -behaviour(gen_server).
         |  
         |  %% Public API
@@ -18,6 +19,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |          , stop/1
         |          , state/1
         |          , ?PASSENGER_BOARD/2
+        |          , ?NEW_TIME/3
         |          , ?INCREMENT_BOARDING_PASSENGER/2
         |          , ?CHECKIN_OK/4]).
         |  
@@ -43,6 +45,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  ?PASSENGER_BOARD(Pid, Passenger) -&gt;
     16..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
+        |  
+        |  ?NEW_TIME(Pid, Time, BlockCaller) -&gt;
+     3..|    gen_server:cast(Pid, {?NEW_TIME, Time, BlockCaller, self()}),
+     3..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) -&gt;
      1..|    gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
@@ -83,11 +89,36 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
-     5..|    {stop, normal, stopped, State};
+     6..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, {ok, State}, State}.</font>
         |  
+        |  
+        |  handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) -&gt;
+     3..|    NewState = case State#vehicle_state.action of
+        |                 {driving, Stop, Duration} -&gt;
+     3..|                   if
+        |                     Time - State#vehicle_state.lastDeparture &gt;= Duration -&gt;
+     2..|                       UpdatedState = if
+        |                                        Stop == State#vehicle_state.target -&gt;
+     1..|                                          {_, Line} = State#vehicle_state.line,
+     1..|                                          Target = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+     1..|                                          State#vehicle_state{target=Target};
+        |                                      true -&gt;
+     1..|                                        State
+        |                                      end,
+     2..|                       StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
+     2..|                       stop:?VEHICLE_CHECK_IN(Stop, self(), false),
+     2..|                       UpdatedState#vehicle_state{passengers=StayingPassengers};
+        |                     true -&gt;
+     1..|                       State
+        |                   end;
+        |                 _ -&gt;
+<font color=red>     0..|                   State</font>
+        |               end,
+     3..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
+     3..|    {noreply, NewState};
         |  
         |  handle_cast({?INCREMENT_BOARDING_PASSENGER, NotifyCaller, Caller}, State) -&gt;
 <font color=red>     0..|    BoardingPassengers = State#vehicle_state.boardingPassengers,</font>
@@ -102,30 +133,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      5..|                   State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}
         |               end,
      6..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     6..|    {noreply, NewState};
-        |  
-        |  handle_cast({time, Time}, State) -&gt;
-     3..|    case State#vehicle_state.action of
-        |      {driving, Stop, Duration} -&gt;
-     3..|        if
-        |          Time - State#vehicle_state.lastDeparture &gt;= Duration -&gt;
-     2..|            UpdatedState = if
-        |                             Stop == State#vehicle_state.target -&gt;
-     1..|                               {_, Line} = State#vehicle_state.line,
-     1..|                               Target = line:?GET_OTHER_END(Line, State#vehicle_state.target),
-     1..|                               State#vehicle_state{target=Target};
-        |                           true -&gt;
-     1..|                             State
-        |                           end,
-     2..|            StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
-     2..|            stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-     2..|            {noreply, UpdatedState#vehicle_state{passengers=StayingPassengers}};
-        |          true -&gt;
-     1..|            {noreply, State}
-        |        end;
-        |      _ -&gt;
-<font color=red>     0..|        {noreply, State}</font>
-        |    end.
+     6..|    {noreply, NewState}.
         |  
         |  
         |  handle_info(_Info, State) -&gt;
@@ -133,7 +141,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  
         |  terminate(_Reason, _State) -&gt;
-     5..|    ok.
+     6..|    ok.
         |  
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;

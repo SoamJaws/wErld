@@ -81,7 +81,7 @@ handle_call(stop, _From, State) ->
   {stop, normal, stopped, State};
 
 handle_call(state, _From, State) ->
-  {reply, {ok, State}, State}.
+  {reply, State, State}.
 
 
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
@@ -144,8 +144,8 @@ boarding_complete(State) ->
   {boarding, Stop} = State#vehicle_state.action,
   {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
   TimePid = gen_server:call({global, blackboard}, {request, timePid}),
-  Time = gen_server:call(TimePid, {request, currentTime}),
   stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+  Time = gen_server:call(TimePid, {request, currentTime}),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
 notify_passengers_checkin([]) -> [];

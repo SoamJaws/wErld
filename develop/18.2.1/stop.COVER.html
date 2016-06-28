@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-27 at 07:23:52
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-28 at 07:29:20
 
 ****************************************************************************
 
@@ -34,10 +34,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  %% Public API
         |  
         |  start_link(Id) -&gt;
-    40..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
+    43..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
         |  
         |  stop(Pid) -&gt;
-    41..|    gen_server:call(Pid, stop).
+    44..|    gen_server:call(Pid, stop).
         |  
         |  state(Pid) -&gt;
      1..|    gen_server:call(Pid, state).
@@ -54,14 +54,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      7..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) -&gt;
-     2..|    gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
-     2..|    gen_server_utils:block_caller(BlockCaller).
+     3..|    gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
+     3..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  
         |  %% gen_server
         |  
         |  init(State) -&gt;
-    40..|    {ok, State}.
+    43..|    {ok, State}.
         |  
         |  
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
@@ -88,7 +88,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
-    40..|    {stop, normal, stopped, State};
+    43..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
      1..|    {reply, State, State}.
@@ -135,7 +135,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  
         |  terminate(_Reason, _State) -&gt;
-    40..|    ok.
+    43..|    ok.
         |  
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;

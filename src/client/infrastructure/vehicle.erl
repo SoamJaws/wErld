@@ -50,13 +50,12 @@ state(Pid) ->
 %% gen_server
 
 init(State) ->
-  %%gen_server:call(blackboard, {subscribe, time}),
-  %%TODO Extract line number from line pid. Given line when starting
-  %%     should be only the pid of the line
-  {_, Line} = State#vehicle_state.line,
+  gen_server:cast(blackboard, {subscribe, time}),
+  Line = State#vehicle_state.line,
+  LineNumber = line:?GET_NUMBER(Line),
   Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-  {ok, State}.
+  {ok, State#vehicle_state{line={LineNumber, Line}}}.
 
 
 handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
@@ -97,7 +96,7 @@ handle_cast({?BOARDING_COMPLETE, NotifyCaller, Caller}, State) ->
       {boarding, Stop} = State#vehicle_state.action,
       {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
       TimePid = gen_server:call(blackboard,{request, timePid}),
-      Time = gen_server:call(TimePid,{request,currentTime}),
+      Time = gen_server:call(TimePid, {request, currentTime}),
       stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
       gen_server_utils:notify_caller(NotifyCaller, Caller),
       {noreply, State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}};
@@ -106,6 +105,12 @@ handle_cast({?BOARDING_COMPLETE, NotifyCaller, Caller}, State) ->
   end;
 
 handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State) ->
+  if
+    BoardingPassangers == 0 ->
+      ?BOARDING_COMPLETE(self(), false);
+    true ->
+      ok
+  end
   gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}};
 

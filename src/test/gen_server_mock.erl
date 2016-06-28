@@ -4,6 +4,7 @@
 
 %% Public API
 -export([ start_link/2
+        , start_global/2
         , stop/1
         , state/1
         , expect_call/3
@@ -24,6 +25,9 @@
 
 start_link(Id, Type) ->
   gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+
+start_global(Id, Type) ->
+  gen_server:start_link({global, ?MODULE}, #gen_server_mock_state{id=Id, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).

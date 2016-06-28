@@ -95,6 +95,7 @@
 -define(GET_DURATION,     get_duration).
 -define(IS_END_STOP,      is_end_stop).
 -define(GET_INTERSECTION, get_intersection).
+-define(GET_NUMBER, get_number).
 
 %%-----------------------------------------------------------
 %% Data Type: infrastructure

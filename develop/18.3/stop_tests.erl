@@ -133,6 +133,22 @@ vehicle_check_out_test() ->
   gen_server_mock:stop(V2),
   stop:stop(Stop).
 
+invalid_vehicle_check_out_test() ->
+  {ok, Stop} = stop:start_link(stop1),
+  {ok, V1} = gen_server_mock:start_link(v1, strict),
+  {ok, V2} = gen_server_mock:start_link(v2, strict),
+  
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 0, false, Stop}),
+
+  stop:?VEHICLE_CHECK_IN(Stop, V1, true),
+  stop:?VEHICLE_CHECK_OUT(Stop, V2, true),
+
+  ?assert(gen_server_mock:validate(V1)),
+  ?assert(gen_server_mock:validate(V2)),
+  gen_server_mock:stop(V1),
+  gen_server_mock:stop(V2),
+  stop:stop(Stop).
+
 state_test() ->
   {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1, strict),

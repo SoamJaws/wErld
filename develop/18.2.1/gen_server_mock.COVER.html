@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-06-28 at 19:28:14
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-06-28 at 19:35:21
 
 ****************************************************************************
 
@@ -35,49 +35,49 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  %% Public API
         |  
         |  start_link(Id, Type) -&gt;
-    82..|    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+    87..|    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
         |  
         |  start_global(Id, Type) -&gt;
-     7..|    gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+     8..|    gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
         |  
         |  stop(Pid) -&gt;
-    89..|    gen_server:call(Pid, stop).
+    95..|    gen_server:call(Pid, stop).
         |  
         |  state(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
         |  expect_call(Pid, Msg, Reply) -&gt;
-    55..|    gen_server:cast(Pid, {expectCall, Msg, Reply}).
+    60..|    gen_server:cast(Pid, {expectCall, Msg, Reply}).
         |  
         |  expect_cast(Pid, Msg) -&gt;
-    30..|    gen_server:cast(Pid, {expectCast, Msg}).
+    33..|    gen_server:cast(Pid, {expectCast, Msg}).
         |  
         |  validate(Pid) -&gt;
-    90..|    gen_server:call(Pid, validate).
+    96..|    gen_server:call(Pid, validate).
         |  
         |  %% gen_server
         |  
         |  init(State) -&gt;
-    89..|    {ok, State}.
+    95..|    {ok, State}.
         |  
         |  
         |  handle_call(stop, _From, State) -&gt;
-    89..|    {stop, normal, stopped, State};
+    95..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, {ok, State}, State};</font>
         |  
         |  handle_call(validate, _From, State) -&gt;
-    90..|    Calls = State#gen_server_mock_state.calls,
-    90..|    Casts = State#gen_server_mock_state.casts,
-    90..|    ExpectedCalls = State#gen_server_mock_state.expectedCalls,
-    90..|    ExpectedCasts = State#gen_server_mock_state.expectedCasts,
-    90..|    Type = State#gen_server_mock_state.type,
-    90..|    case Type of
+    96..|    Calls = State#gen_server_mock_state.calls,
+    96..|    Casts = State#gen_server_mock_state.casts,
+    96..|    ExpectedCalls = State#gen_server_mock_state.expectedCalls,
+    96..|    ExpectedCasts = State#gen_server_mock_state.expectedCasts,
+    96..|    Type = State#gen_server_mock_state.type,
+    96..|    case Type of
         |      strict -&gt;
-    90..|        if
+    96..|        if
         |          (Calls == ExpectedCalls) and (Casts == ExpectedCasts) -&gt;
-    90..|            {reply, true, State};
+    96..|            {reply, true, State};
         |          true -&gt;
 <font color=red>     0..|            Id = State#gen_server_mock_state.id,</font>
 <font color=red>     0..|            ?debugFmt("Casts and/or calls does not match expectations for strict mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),</font>
@@ -97,9 +97,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |    end;
         |  
         |  handle_call(Msg, _From, State) -&gt;
-    55..|    Calls = State#gen_server_mock_state.calls,
-    55..|    CallReturns = State#gen_server_mock_state.callReturns,
-    55..|    case CallReturns of
+    60..|    Calls = State#gen_server_mock_state.calls,
+    60..|    CallReturns = State#gen_server_mock_state.callReturns,
+    60..|    case CallReturns of
         |      [] -&gt;
 <font color=red>     0..|        Id = State#gen_server_mock_state.id,</font>
 <font color=red>     0..|        Casts = State#gen_server_mock_state.casts,</font>
@@ -108,22 +108,22 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
 <font color=red>     0..|        ?debugFmt("No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]),</font>
 <font color=red>     0..|        ?assert(false);</font>
         |      _ -&gt;
-    55..|        {reply, lists:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}
+    60..|        {reply, lists:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}
         |    end.
         |  
         |  
         |  handle_cast({expectCall, Msg, Reply}, State) -&gt;
-    55..|    ExpectedCalls = State#gen_server_mock_state.expectedCalls,
-    55..|    CallReturns = State#gen_server_mock_state.callReturns,
-    55..|    {noreply, State#gen_server_mock_state{expectedCalls=[Msg|ExpectedCalls], callReturns=[Reply|CallReturns]}};
+    60..|    ExpectedCalls = State#gen_server_mock_state.expectedCalls,
+    60..|    CallReturns = State#gen_server_mock_state.callReturns,
+    60..|    {noreply, State#gen_server_mock_state{expectedCalls=[Msg|ExpectedCalls], callReturns=[Reply|CallReturns]}};
         |  
         |  handle_cast({expectCast, Msg}, State) -&gt;
-    30..|    ExpectedCasts = State#gen_server_mock_state.expectedCasts,
-    30..|    {noreply, State#gen_server_mock_state{expectedCasts=[Msg|ExpectedCasts]}};
+    33..|    ExpectedCasts = State#gen_server_mock_state.expectedCasts,
+    33..|    {noreply, State#gen_server_mock_state{expectedCasts=[Msg|ExpectedCasts]}};
         |  
         |  handle_cast(Msg, State) -&gt;
-    30..|    Casts = State#gen_server_mock_state.casts,
-    30..|    {noreply, State#gen_server_mock_state{casts=[Msg|Casts]}}.
+    33..|    Casts = State#gen_server_mock_state.casts,
+    33..|    {noreply, State#gen_server_mock_state{casts=[Msg|Casts]}}.
         |  
         |  
         |  handle_info(_Info, State) -&gt;
@@ -131,7 +131,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  
         |  
         |  terminate(_Reason, _State) -&gt;
-    89..|    ok.
+    95..|    ok.
         |  
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;

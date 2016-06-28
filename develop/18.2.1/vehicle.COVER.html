@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 07:29:20
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 15:10:03
 
 ****************************************************************************
 
@@ -33,7 +33,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  %% Public API
         |  
         |  start_link(Capacity, Line, Target, Type) -&gt;
-     1..|    gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line=Line, target=Target, type=Type}, []).
+     3..|    gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line=Line, target=Target, type=Type}, []).
         |  
         |  stop(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, stop).</font>
@@ -42,47 +42,48 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
         |  ?PASSENGER_BOARD(Pid, Passenger) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).</font>
+     7..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
         |  
         |  ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) -&gt;
      1..|    gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
      1..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) -&gt;
-     6..|    gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
-     6..|    gen_server_utils:block_caller(BlockCaller).
+     8..|    gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
+     8..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  
         |  %% gen_server
         |  
         |  init(State) -&gt;
-     1..|    gen_server:cast({global, blackboard}, {subscribe, time}),
-     1..|    Line = State#vehicle_state.line,
-     1..|    LineNumber = line:?GET_NUMBER(Line),
-     1..|    Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
-     1..|    stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-     1..|    {ok, State#vehicle_state{line={LineNumber, Line}}}.
+     3..|    gen_server:cast({global, blackboard}, {subscribe, time}),
+     3..|    Line = State#vehicle_state.line,
+     3..|    LineNumber = line:?GET_NUMBER(Line),
+     3..|    Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+     3..|    stop:?VEHICLE_CHECK_IN(Stop, self(), false),
+     3..|    {ok, State#vehicle_state{line={LineNumber, Line}}}.
         |  
         |  
         |  handle_call({?PASSENGER_BOARD, Passenger}, _From, State) -&gt;
-<font color=red>     0..|    Passengers = State#vehicle_state.passengers,</font>
-<font color=red>     0..|    Capacity = State#vehicle_state.capacity,</font>
-<font color=red>     0..|    NoPassengers = length(Passengers),</font>
-<font color=red>     0..|    BoardingPassengers = State#vehicle_state.boardingPassengers,</font>
-<font color=red>     0..|    if</font>
+     7..|    Passengers = State#vehicle_state.passengers,
+     7..|    Capacity = State#vehicle_state.capacity,
+     7..|    NoPassengers = length(Passengers),
+     7..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
+     7..|    if
         |      NoPassengers &lt; Capacity -&gt;
-<font color=red>     0..|        NewState = if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) -&gt;</font>
-<font color=red>     0..|                     boarding_complete(State);</font>
+     6..|        UpdatedState = State#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1},
+     6..|        NewState = if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) -&gt;
+     2..|                     boarding_complete(UpdatedState);
         |                   true -&gt;
-<font color=red>     0..|                     State</font>
+     4..|                     UpdatedState
         |                   end,
-<font color=red>     0..|        {reply, ok, NewState#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1}};</font>
+     6..|        {reply, ok, NewState};
         |      true -&gt;
-<font color=red>     0..|        {reply, nok, State}</font>
+     1..|        {reply, nok, State}
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
-     1..|    {stop, normal, stopped, State};
+     3..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, {ok, State}, State}.</font>
@@ -94,14 +95,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    {noreply, State#vehicle_state{boardingPassengers=BoardingPassengers+1}};</font>
         |  
         |  handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State) -&gt;
-     1..|    NewState = if
+     3..|    NewState = if
         |                 BoardingPassengers == 0 -&gt;
      1..|                   boarding_complete(State#vehicle_state{action={boarding, Stop}});
         |                 true -&gt;
-<font color=red>     0..|                   State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}</font>
+     2..|                   State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}
         |               end,
-     1..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     1..|    {noreply, NewState};
+     3..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
+     3..|    {noreply, NewState};
         |  
         |  handle_cast({time, Time}, State) -&gt;
 <font color=red>     0..|    case State#vehicle_state.action of</font>
@@ -132,7 +133,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  
         |  terminate(_Reason, _State) -&gt;
-     1..|    ok.
+     3..|    ok.
         |  
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;
@@ -142,19 +143,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  %% Backend
         |  
         |  boarding_complete(State) -&gt;
-     1..|    Passengers = State#vehicle_state.passengers,
-     1..|    Capacity = State#vehicle_state.capacity,
-     1..|    NoPassengers = length(Passengers),
-     1..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
-     1..|    if
+     3..|    Passengers = State#vehicle_state.passengers,
+     3..|    Capacity = State#vehicle_state.capacity,
+     3..|    NoPassengers = length(Passengers),
+     3..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
+     3..|    if
         |      (BoardingPassengers == 0) or (NoPassengers == Capacity) -&gt;
-     1..|        {_, Line} = State#vehicle_state.line,
-     1..|        {boarding, Stop} = State#vehicle_state.action,
-     1..|        {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
-     1..|        TimePid = gen_server:call({global, blackboard}, {request, timePid}),
-     1..|        Time = gen_server:call(TimePid, {request, currentTime}),
-     1..|        stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
-     1..|        State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0};
+     3..|        {_, Line} = State#vehicle_state.line,
+     3..|        {boarding, Stop} = State#vehicle_state.action,
+     3..|        {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
+     3..|        TimePid = gen_server:call({global, blackboard}, {request, timePid}),
+     3..|        Time = gen_server:call(TimePid, {request, currentTime}),
+     3..|        stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+     3..|        State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0};
         |      true -&gt;
 <font color=red>     0..|        State</font>
         |    end.

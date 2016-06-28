@@ -1,5 +1,6 @@
 -module(vehicle_tests).
 -include("infrastructure.hrl").
+-include("time.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
 checkin_ok_test() ->
@@ -177,7 +178,7 @@ next_stop_reached_test() ->
   gen_server_mock:expect_call(P2, {vehicle_checked_in, Vehicle}, stay),
   gen_server_mock:expect_call(P3, {vehicle_checked_in, Vehicle}, stay),
   gen_server_mock:expect_cast(S1, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
-  gen_server:cast(Vehicle, {time, 1234+5}),
+  vehicle:?NEW_TIME(Vehicle, 1234+5, true),
 
   ?assert(gen_server_mock:validate(StartStop)),
   ?assert(gen_server_mock:validate(TargetStop)),
@@ -231,7 +232,7 @@ next_stop_not_reached_test() ->
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, Vehicle}),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
 
-  gen_server:cast(Vehicle, {time, 1234+2}),
+  vehicle:?NEW_TIME(Vehicle, 1234+2, true),
 
   ?assert(gen_server_mock:validate(StartStop)),
   ?assert(gen_server_mock:validate(TargetStop)),
@@ -289,7 +290,8 @@ target_stop_reached_test() ->
   gen_server_mock:expect_call(P2, {vehicle_checked_in, Vehicle}, stay),
   gen_server_mock:expect_call(P3, {vehicle_checked_in, Vehicle}, stay),
   gen_server_mock:expect_cast(TargetStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
-  gen_server:cast(Vehicle, {time, 1234+5}),
+
+  vehicle:?NEW_TIME(Vehicle, 1234+5, true),
 
   ?assert(gen_server_mock:validate(StartStop)),
   ?assert(gen_server_mock:validate(TargetStop)),

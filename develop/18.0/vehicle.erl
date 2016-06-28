@@ -140,22 +140,13 @@ code_change(_OldVsn, State, _Extra) ->
 %% Backend
 
 boarding_complete(State) ->
-  Passengers = State#vehicle_state.passengers,
-  Capacity = State#vehicle_state.capacity,
-  NoPassengers = length(Passengers),
-  BoardingPassengers = State#vehicle_state.boardingPassengers,
-  if
-    (BoardingPassengers == 0) or (NoPassengers == Capacity) ->
-      {_, Line} = State#vehicle_state.line,
-      {boarding, Stop} = State#vehicle_state.action,
-      {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
-      TimePid = gen_server:call({global, blackboard}, {request, timePid}),
-      Time = gen_server:call(TimePid, {request, currentTime}),
-      stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
-      State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0};
-    true ->
-      State
-  end.
+  {_, Line} = State#vehicle_state.line,
+  {boarding, Stop} = State#vehicle_state.action,
+  {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
+  TimePid = gen_server:call({global, blackboard}, {request, timePid}),
+  Time = gen_server:call(TimePid, {request, currentTime}),
+  stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+  State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
 notify_passengers_checkin([]) -> [];
 notify_passengers_checkin([Passenger|Passengers]) ->

@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 19:12:04
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 19:17:31
 
 ****************************************************************************
 
@@ -151,22 +151,13 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  %% Backend
         |  
         |  boarding_complete(State) -&gt;
-     6..|    Passengers = State#vehicle_state.passengers,
-     6..|    Capacity = State#vehicle_state.capacity,
-     6..|    NoPassengers = length(Passengers),
-     6..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
-     6..|    if
-        |      (BoardingPassengers == 0) or (NoPassengers == Capacity) -&gt;
-     6..|        {_, Line} = State#vehicle_state.line,
-     6..|        {boarding, Stop} = State#vehicle_state.action,
-     6..|        {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
-     6..|        TimePid = gen_server:call({global, blackboard}, {request, timePid}),
-     6..|        Time = gen_server:call(TimePid, {request, currentTime}),
-     6..|        stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
-     6..|        State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0};
-        |      true -&gt;
-<font color=red>     0..|        State</font>
-        |    end.
+     6..|    {_, Line} = State#vehicle_state.line,
+     6..|    {boarding, Stop} = State#vehicle_state.action,
+     6..|    {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
+     6..|    TimePid = gen_server:call({global, blackboard}, {request, timePid}),
+     6..|    Time = gen_server:call(TimePid, {request, currentTime}),
+     6..|    stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+     6..|    State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
         |  
      2..|  notify_passengers_checkin([]) -&gt; [];
         |  notify_passengers_checkin([Passenger|Passengers]) -&gt;

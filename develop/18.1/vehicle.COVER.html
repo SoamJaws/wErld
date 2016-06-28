@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 15:11:15
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-28 at 15:25:05
 
 ****************************************************************************
 
@@ -33,7 +33,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  %% Public API
         |  
         |  start_link(Capacity, Line, Target, Type) -&gt;
-     3..|    gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line=Line, target=Target, type=Type}, []).
+     5..|    gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line=Line, target=Target, type=Type}, []).
         |  
         |  stop(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, stop).</font>
@@ -42,48 +42,48 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
         |  ?PASSENGER_BOARD(Pid, Passenger) -&gt;
-     7..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
+    13..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
         |  
         |  ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) -&gt;
      1..|    gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
      1..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) -&gt;
-     8..|    gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
-     8..|    gen_server_utils:block_caller(BlockCaller).
+    10..|    gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
+    10..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  
         |  %% gen_server
         |  
         |  init(State) -&gt;
-     3..|    gen_server:cast({global, blackboard}, {subscribe, time}),
-     3..|    Line = State#vehicle_state.line,
-     3..|    LineNumber = line:?GET_NUMBER(Line),
-     3..|    Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
-     3..|    stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-     3..|    {ok, State#vehicle_state{line={LineNumber, Line}}}.
+     5..|    gen_server:cast({global, blackboard}, {subscribe, time}),
+     5..|    Line = State#vehicle_state.line,
+     5..|    LineNumber = line:?GET_NUMBER(Line),
+     5..|    Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+     5..|    stop:?VEHICLE_CHECK_IN(Stop, self(), false),
+     5..|    {ok, State#vehicle_state{line={LineNumber, Line}}}.
         |  
         |  
         |  handle_call({?PASSENGER_BOARD, Passenger}, _From, State) -&gt;
-     7..|    Passengers = State#vehicle_state.passengers,
-     7..|    Capacity = State#vehicle_state.capacity,
-     7..|    NoPassengers = length(Passengers),
-     7..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
-     7..|    if
+    13..|    Passengers = State#vehicle_state.passengers,
+    13..|    Capacity = State#vehicle_state.capacity,
+    13..|    NoPassengers = length(Passengers),
+    13..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
+    13..|    if
         |      NoPassengers &lt; Capacity -&gt;
-     6..|        UpdatedState = State#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1},
-     6..|        NewState = if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) -&gt;
-     2..|                     boarding_complete(UpdatedState);
+    12..|        UpdatedState = State#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1},
+    12..|        NewState = if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) -&gt;
+     4..|                     boarding_complete(UpdatedState);
         |                   true -&gt;
-     4..|                     UpdatedState
+     8..|                     UpdatedState
         |                   end,
-     6..|        {reply, ok, NewState};
+    12..|        {reply, ok, NewState};
         |      true -&gt;
      1..|        {reply, nok, State}
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
-     3..|    {stop, normal, stopped, State};
+     5..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, {ok, State}, State}.</font>
@@ -95,33 +95,33 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    {noreply, State#vehicle_state{boardingPassengers=BoardingPassengers+1}};</font>
         |  
         |  handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State) -&gt;
-     3..|    NewState = if
+     5..|    NewState = if
         |                 BoardingPassengers == 0 -&gt;
      1..|                   boarding_complete(State#vehicle_state{action={boarding, Stop}});
         |                 true -&gt;
-     2..|                   State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}
+     4..|                   State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}
         |               end,
-     3..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     3..|    {noreply, NewState};
+     5..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
+     5..|    {noreply, NewState};
         |  
         |  handle_cast({time, Time}, State) -&gt;
-<font color=red>     0..|    case State#vehicle_state.action of</font>
+     2..|    case State#vehicle_state.action of
         |      {driving, Stop, Duration} -&gt;
-<font color=red>     0..|        if</font>
+     2..|        if
         |          Time - State#vehicle_state.lastDeparture &gt;= Duration -&gt;
-<font color=red>     0..|            UpdatedState = if</font>
+     1..|            UpdatedState = if
         |                             Stop == State#vehicle_state.target -&gt;
 <font color=red>     0..|                               {_, Line} = State#vehicle_state.line,</font>
 <font color=red>     0..|                               Target = line:?GET_OTHER_END(Line, State#vehicle_state.target),</font>
 <font color=red>     0..|                               State#vehicle_state{target=Target};</font>
         |                           true -&gt;
-<font color=red>     0..|                             State</font>
+     1..|                             State
         |                           end,
-<font color=red>     0..|            StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),</font>
-<font color=red>     0..|            stop:?VEHICLE_CHECK_IN(Stop, self(), false),</font>
-<font color=red>     0..|            {noreply, UpdatedState#vehicle_state{passengers=StayingPassengers}};</font>
+     1..|            StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
+     1..|            stop:?VEHICLE_CHECK_IN(Stop, self(), false),
+     1..|            {noreply, UpdatedState#vehicle_state{passengers=StayingPassengers}};
         |          true -&gt;
-<font color=red>     0..|            {noreply, State}</font>
+     1..|            {noreply, State}
         |        end;
         |      _ -&gt;
 <font color=red>     0..|        {noreply, State}</font>
@@ -133,7 +133,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  
         |  terminate(_Reason, _State) -&gt;
-     3..|    ok.
+     5..|    ok.
         |  
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;
@@ -143,31 +143,31 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  %% Backend
         |  
         |  boarding_complete(State) -&gt;
-     3..|    Passengers = State#vehicle_state.passengers,
-     3..|    Capacity = State#vehicle_state.capacity,
-     3..|    NoPassengers = length(Passengers),
-     3..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
-     3..|    if
+     5..|    Passengers = State#vehicle_state.passengers,
+     5..|    Capacity = State#vehicle_state.capacity,
+     5..|    NoPassengers = length(Passengers),
+     5..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
+     5..|    if
         |      (BoardingPassengers == 0) or (NoPassengers == Capacity) -&gt;
-     3..|        {_, Line} = State#vehicle_state.line,
-     3..|        {boarding, Stop} = State#vehicle_state.action,
-     3..|        {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
-     3..|        TimePid = gen_server:call({global, blackboard}, {request, timePid}),
-     3..|        Time = gen_server:call(TimePid, {request, currentTime}),
-     3..|        stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
-     3..|        State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0};
+     5..|        {_, Line} = State#vehicle_state.line,
+     5..|        {boarding, Stop} = State#vehicle_state.action,
+     5..|        {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
+     5..|        TimePid = gen_server:call({global, blackboard}, {request, timePid}),
+     5..|        Time = gen_server:call(TimePid, {request, currentTime}),
+     5..|        stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+     5..|        State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0};
         |      true -&gt;
 <font color=red>     0..|        State</font>
         |    end.
         |  
-<font color=red>     0..|  notify_passengers_checkin([]) -&gt; [];</font>
+     1..|  notify_passengers_checkin([]) -&gt; [];
         |  notify_passengers_checkin([Passenger|Passengers]) -&gt;
-<font color=red>     0..|    Reply = citizen:vehicle_checked_in(Passenger, self()),</font>
-<font color=red>     0..|    case Reply of</font>
+     3..|    Reply = citizen:vehicle_checked_in(Passenger, self()),
+     3..|    case Reply of
         |      leave -&gt;
-<font color=red>     0..|        notify_passengers_checkin(Passengers);</font>
+     1..|        notify_passengers_checkin(Passengers);
         |      stay -&gt;
-<font color=red>     0..|        [Passenger|notify_passengers_checkin(Passengers)]</font>
+     2..|        [Passenger|notify_passengers_checkin(Passengers)]
         |    end.
 </pre>
 </body>

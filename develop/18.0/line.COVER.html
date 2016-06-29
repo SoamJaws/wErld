@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-29 at 11:12:40
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-29 at 19:09:56
 
 ****************************************************************************
 
@@ -168,6 +168,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  %% Backend
         |  
+        |  -spec get_next_stop_helper(pid(), pre | post, [pid() | pos_integer()]) -&gt; {pid(), pos_integer()} | none.
      2..|  get_next_stop_helper(_Stop, _, [_|[]]) -&gt; none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
         |  get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) -&gt;
      2..|    {NextStop, Dur};
@@ -176,9 +177,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) -&gt;
      6..|    get_next_stop_helper(Stop, Alignment, Stops).
         |  
+        |  -spec get_duration_helper(pid(), pid(), [pid() | pos_integer()]) -&gt; pos_integer().
         |  get_duration_helper(FromStop, ToStop, Stops) -&gt;
     20..|    get_duration_helper(FromStop, ToStop, false, Stops).
         |  
+        |  -spec get_duration_helper(pid(), pid(), boolean(), [pid() | pos_integer()]) -&gt; pos_integer().
     10..|  get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -&gt; 0;
     10..|  get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -&gt; 0;
         |  get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) -&gt;
@@ -193,7 +196,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
     20..|        get_duration_helper(FromStop, ToStop, false, Stops)
         |    end.
         |  
-        |  
+        |  -spec get_intersection_helper(pid(), [pid() | pos_integer()]) -&gt; boolean().
         |  get_intersection_helper(OtherLine, [Stop|Rest]) -&gt;
     30..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
     30..|    case ContainsStop of

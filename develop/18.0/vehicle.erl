@@ -23,26 +23,33 @@
 
 %% Public API
 
+-spec start_link(pos_integer(), pid(), pid(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
 start_link(Capacity, Line, Target, Type) ->
   gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line={1, Line}, target=Target, type=Type}, []).
 
+-spec stop(pid()) -> ok.
 stop(Pid) ->
   gen_server:call(Pid, stop).
 
+-spec state(pid()) -> stop_state().
 state(Pid) ->
   gen_server:call(Pid, state).
 
+-spec ?PASSENGER_BOARD(pid(), pid()) -> ok | nok.
 ?PASSENGER_BOARD(Pid, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
+-spec ?NEW_TIME(pid(), non_neg_integer(), boolean()) -> ok.
 ?NEW_TIME(Pid, Time, BlockCaller) ->
   gen_server:cast(Pid, {?NEW_TIME, Time, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
 
+-spec ?INCREMENT_BOARDING_PASSENGER(pid(), boolean()) -> ok.
 ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) ->
   gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
 
+-spec ?CHECKIN_OK(pid(), pid(), non_neg_integer(), boolean()) -> ok.
 ?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) ->
   gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
@@ -139,6 +146,7 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
+-spec boarding_complete(vehicle_state()) -> vehicle_state().
 boarding_complete(State) ->
   {_, Line} = State#vehicle_state.line,
   {boarding, Stop} = State#vehicle_state.action,
@@ -148,6 +156,7 @@ boarding_complete(State) ->
   Time = gen_server:call(TimePid, {request, currentTime}),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
+-spec notify_passengers_checkin([pid()]) -> [pid()].
 notify_passengers_checkin([]) -> [];
 notify_passengers_checkin([Passenger|Passengers]) ->
   Reply = citizen:vehicle_checked_in(Passenger, self()),

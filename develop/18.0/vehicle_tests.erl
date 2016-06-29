@@ -102,7 +102,6 @@ boarding_passenger_below_capacity_test() ->
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
   {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, P4} = gen_server_mock:start_link(p4, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
@@ -131,7 +130,6 @@ boarding_passenger_below_capacity_test() ->
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),
   ?assert(gen_server_mock:validate(P3)),
-  ?assert(gen_server_mock:validate(P4)),
   gen_server_mock:stop(StartStop),
   gen_server_mock:stop(TargetStop),
   gen_server_mock:stop(BlackBoard),
@@ -141,7 +139,6 @@ boarding_passenger_below_capacity_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  gen_server_mock:stop(P4),
   vehicle:stop(Vehicle).
 
 next_stop_reached_test() ->
@@ -154,7 +151,6 @@ next_stop_reached_test() ->
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
   {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, P4} = gen_server_mock:start_link(p4, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
@@ -189,7 +185,6 @@ next_stop_reached_test() ->
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),
   ?assert(gen_server_mock:validate(P3)),
-  ?assert(gen_server_mock:validate(P4)),
   gen_server_mock:stop(StartStop),
   gen_server_mock:stop(TargetStop),
   gen_server_mock:stop(BlackBoard),
@@ -199,7 +194,6 @@ next_stop_reached_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  gen_server_mock:stop(P4),
   vehicle:stop(Vehicle).
 
 next_stop_not_reached_test() ->
@@ -212,7 +206,6 @@ next_stop_not_reached_test() ->
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
   {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, P4} = gen_server_mock:start_link(p4, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
@@ -243,7 +236,6 @@ next_stop_not_reached_test() ->
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),
   ?assert(gen_server_mock:validate(P3)),
-  ?assert(gen_server_mock:validate(P4)),
   gen_server_mock:stop(StartStop),
   gen_server_mock:stop(TargetStop),
   gen_server_mock:stop(BlackBoard),
@@ -253,7 +245,6 @@ next_stop_not_reached_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  gen_server_mock:stop(P4),
   vehicle:stop(Vehicle).
 
 target_stop_reached_test() ->
@@ -265,7 +256,6 @@ target_stop_reached_test() ->
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
   {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, P4} = gen_server_mock:start_link(p4, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
@@ -301,7 +291,6 @@ target_stop_reached_test() ->
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),
   ?assert(gen_server_mock:validate(P3)),
-  ?assert(gen_server_mock:validate(P4)),
   gen_server_mock:stop(StartStop),
   gen_server_mock:stop(TargetStop),
   gen_server_mock:stop(BlackBoard),
@@ -310,7 +299,6 @@ target_stop_reached_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  gen_server_mock:stop(P4),
   vehicle:stop(Vehicle).
 
 increment_boarding_passenger_test() ->
@@ -323,7 +311,6 @@ increment_boarding_passenger_test() ->
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
   {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, P4} = gen_server_mock:start_link(p4, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
@@ -354,7 +341,6 @@ increment_boarding_passenger_test() ->
   ?assert(gen_server_mock:validate(P1)),
   ?assert(gen_server_mock:validate(P2)),
   ?assert(gen_server_mock:validate(P3)),
-  ?assert(gen_server_mock:validate(P4)),
   gen_server_mock:stop(StartStop),
   gen_server_mock:stop(TargetStop),
   gen_server_mock:stop(BlackBoard),
@@ -364,7 +350,6 @@ increment_boarding_passenger_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  gen_server_mock:stop(P4),
   vehicle:stop(Vehicle).
 
 new_time_not_driving_test() ->
@@ -403,4 +388,48 @@ new_time_not_driving_test() ->
   gen_server_mock:stop(Time),
   gen_server_mock:stop(L1),
   gen_server_mock:stop(S1),
+  vehicle:stop(Vehicle).
+
+state_test() ->
+  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
+  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
+  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
+  {ok, Time} = gen_server_mock:start_link(time, strict),
+  {ok, L1} = gen_server_mock:start_link(l1, strict),
+  {ok, S1} = gen_server_mock:start_link(s1, strict),
+  {ok, P1} = gen_server_mock:start_link(p1, strict),
+  {ok, P2} = gen_server_mock:start_link(p2, strict),
+
+  gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
+  gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
+  gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  {ok, Vehicle} = vehicle:start_link(4, L1, TargetStop, bus),
+  %% Hack, setting expected cast after call, will work since
+  %% casts are not verified until validate is called
+  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
+
+  vehicle:?CHECKIN_OK(Vehicle, StartStop, 2, true),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),
+
+  vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, true),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
+
+  ?assertMatch(#vehicle_state{action={boarding, StartStop}, capacity=4, line={1, L1}, passengers=[P1,P2], boardingPassengers=1, target=TargetStop, type=bus}, vehicle:state(Vehicle)),
+
+  ?assert(gen_server_mock:validate(StartStop)),
+  ?assert(gen_server_mock:validate(TargetStop)),
+  ?assert(gen_server_mock:validate(BlackBoard)),
+  ?assert(gen_server_mock:validate(Time)),
+  ?assert(gen_server_mock:validate(L1)),
+  ?assert(gen_server_mock:validate(S1)),
+  ?assert(gen_server_mock:validate(P1)),
+  ?assert(gen_server_mock:validate(P2)),
+  gen_server_mock:stop(StartStop),
+  gen_server_mock:stop(TargetStop),
+  gen_server_mock:stop(BlackBoard),
+  gen_server_mock:stop(Time),
+  gen_server_mock:stop(L1),
+  gen_server_mock:stop(S1),
+  gen_server_mock:stop(P1),
+  gen_server_mock:stop(P2),
   vehicle:stop(Vehicle).

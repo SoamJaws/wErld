@@ -22,9 +22,11 @@
 
 %% Public API
 
+-spec start_link(atom()) -> pid().
 start_link(Id) ->
   gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
 
+-spec stop(pid()) -> ok.
 stop(Pid) ->
   gen_server:call(Pid, stop).
 

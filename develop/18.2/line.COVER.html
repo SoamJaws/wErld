@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-29 at 10:26:44
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-29 at 11:12:32
 
 ****************************************************************************
 
@@ -37,36 +37,47 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  %% Public API
         |  
+        |  -spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Number, Stops, Type) -&gt;
     12..|    gen_server:start_link(?MODULE, #line_state{number=Number, stops=Stops, type=Type}, []).
         |  
+        |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
     12..|    gen_server:call(Pid, stop).
         |  
+        |  -spec state(pid()) -&gt; stop_state().
         |  state(Pid) -&gt;
      1..|    gen_server:call(Pid, state).
         |  
+        |  -spec ?GET_NEXT_STOP(pid(), pid(), pid()) -&gt; {pid(), pos_integer()}.
         |  ?GET_NEXT_STOP(Pid, Target, Stop) -&gt;
     14..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
         |  
+        |  -spec ?GET_NEIGHBORS(pid(), pid()) -&gt; [{pid(), pos_integer(), pid(), pid()}].
         |  ?GET_NEIGHBORS(Pid, Stop) -&gt;
      5..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
         |  
+        |  -spec ?GET_OTHER_END(pid(), pid()) -&gt; pid().
         |  ?GET_OTHER_END(Pid, Stop) -&gt;
     12..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
         |  
+        |  -spec ?CONTAINS_STOP(pid(), pid()) -&gt; boolean().
         |  ?CONTAINS_STOP(Pid, Stop) -&gt;
     34..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
         |  
+        |  -spec ?GET_DURATION(pid(), pid(), pid()) -&gt; pos_integer().
         |  ?GET_DURATION(Pid, FromStop, ToStop) -&gt;
     20..|    gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
         |  
+        |  -spec ?IS_END_STOP(pid(), pid()) -&gt; boolean().
         |  ?IS_END_STOP(Pid, Stop) -&gt;
      3..|    gen_server:call(Pid, {?IS_END_STOP, Stop}).
         |  
+        |  -spec ?GET_INTERSECTION(pid(), pid()) -&gt; pid() | none.
         |  ?GET_INTERSECTION(Pid, OtherLine) -&gt;
     12..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
         |  
+        |  -spec ?GET_NUMBER(pid()) -&gt; pos_integer().
         |  ?GET_NUMBER(Pid) -&gt;
     10..|    gen_server:call(Pid, ?GET_NUMBER).
         |  

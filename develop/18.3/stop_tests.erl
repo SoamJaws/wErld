@@ -1,5 +1,5 @@
 -module(stop_tests).
--include("infrastructure.hrl").
+-include("public_transport.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
 passenger_check_in_test() ->

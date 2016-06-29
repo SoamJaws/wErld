@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-06-29 at 11:11:36
+
+****************************************************************************
+
+        |  -module(public_transport).
+        |  -include("public_transport.hrl").
+        |  -behaviour(gen_server).
+        |  
+        |  %% Public API
+        |  -export([ start_link/0
+        |          , stop/1
+        |          , state/1
+        |          , ?GET_ROUTE/3]).
+        |  
+        |  %% gen_server and internally spawned functions
+        |  -export([ init/1
+        |          , handle_call/3
+        |          , handle_cast/2
+        |          , handle_info/2
+        |          , terminate/2
+        |          , code_change/3
+        |          , get_route_concurrent/7]).
+        |  
+        |  
+        |  %% Public API
+        |  
+        |  start_link() -&gt;
+<font color=red>     0..|    gen_server:start_link(?MODULE, [], []).</font>
+        |  
+        |  stop(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, stop).</font>
+        |  
+        |  state(Pid) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, state).</font>
+        |  
+        |  ?GET_ROUTE(Pid, From, To) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, {?GET_ROUTE, From, To}).</font>
+        |  
+        |  
+        |  %% gen_server
+        |  
+        |  init([]) -&gt;
+<font color=red>     0..|    {ok, {{stops, StopSpecs}, {lines, LineSpecs}}} = file:script(?INFRASTRUCTURE_DATA_PATH),</font>
+        |    %%TODO Start a stop for each stopspec.
+        |    %%TODO Start a line for each linespec, using stops as input
+<font color=red>     0..|    Stops = ok,</font>
+<font color=red>     0..|    Lines = ok,</font>
+<font color=red>     0..|    {ok, #public_transport_state{lines=Lines}}.</font>
+        |  
+        |  
+        |  handle_call({?GET_ROUTE, From, To}, _From, Lines) -&gt;
+<font color=red>     0..|    Reply = get_route_helper(From, To, Lines),</font>
+<font color=red>     0..|    {reply, Reply, Lines};</font>
+        |  
+        |  handle_call(state, _From, Lines) -&gt;
+<font color=red>     0..|    {reply, Lines, Lines};</font>
+        |  
+        |  handle_call(stop, _From, Lines) -&gt;
+<font color=red>     0..|    {stop, normal, stopped, Lines}.</font>
+        |  
+        |  
+        |  handle_cast(_, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+        |  
+        |  
+        |  %% Backend
+        |  
+        |  %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
+        |  %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
+        |  get_route_helper(From, To, AllLines) -&gt;
+<font color=red>     0..|    ToLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, To)],</font>
+<font color=red>     0..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),</font>
+<font color=red>     0..|    receive</font>
+<font color=red>     0..|      {Route, Dur} -&gt; {compress_route(Route), Dur}</font>
+        |    end.
+        |  
+        |  
+        |  get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) -&gt;
+<font color=red>     0..|    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],</font>
+<font color=red>     0..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),</font>
+<font color=red>     0..|    case IntersectingLines of</font>
+        |      [] -&gt;
+<font color=red>     0..|        Neighbors = lists:append([line:?GET_NEIGHBORS(Line, From) || Line &lt;- FromLines]),</font>
+<font color=red>     0..|        case Neighbors of</font>
+        |          [] -&gt;
+<font color=red>     0..|            Invoker ! none;</font>
+        |          _ -&gt;
+<font color=red>     0..|            Routes = spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines),</font>
+<font color=red>     0..|            {BestRoute, TotalDur} = get_best_route(Routes),</font>
+<font color=red>     0..|            Invoker ! {Route ++ BestRoute, Dur + TotalDur}</font>
+        |        end;
+        |      _  -&gt;
+<font color=red>     0..|        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],</font>
+<font color=red>     0..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),</font>
+<font color=red>     0..|      Invoker ! {Route ++ [{FromLine, IntersectingStop}, {ToLine, To}], Dur + LastDur}</font>
+        |    end.
+        |  
+        |  
+        |  spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) -&gt;
+<font color=red>     0..|    spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).</font>
+        |  
+        |  spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) -&gt;
+<font color=red>     0..|    receive_routes(NoCalls);</font>
+        |  spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) -&gt;
+<font color=red>     0..|    VisitedNeighbor = lists:member(Neighbor, VisitedStops),</font>
+<font color=red>     0..|    if</font>
+        |      not VisitedNeighbor -&gt;
+<font color=red>     0..|        {From, Dur, Target, Line} = Neighbor,</font>
+<font color=red>     0..|        spawn(?MODULE, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),</font>
+<font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);</font>
+        |      true -&gt;
+<font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)</font>
+        |    end.
+        |  
+        |  
+        |  receive_routes(NoCalls) -&gt;
+<font color=red>     0..|    receive_routes(NoCalls, []).</font>
+        |  
+<font color=red>     0..|  receive_routes(0, Routes) -&gt; Routes;</font>
+        |  receive_routes(NoCalls, Routes) -&gt;
+<font color=red>     0..|    receive</font>
+        |      none -&gt;
+<font color=red>     0..|        receive_routes(NoCalls-1, Routes);</font>
+        |      Route -&gt;
+<font color=red>     0..|        receive_routes(NoCalls-1, [Route|Routes])</font>
+        |    end.
+        |  
+        |  
+        |  get_best_route(Routes) -&gt;
+<font color=red>     0..|    get_best_route(Routes, {none, -1}).</font>
+        |  
+<font color=red>     0..|  get_best_route([], BestRoute) -&gt; BestRoute;</font>
+        |  get_best_route([Route|Routes], {none, -1}) -&gt;
+<font color=red>     0..|    get_best_route(Routes, Route);</font>
+        |  get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) -&gt;
+<font color=red>     0..|    if</font>
+        |      Dur &lt; BestDur -&gt;
+<font color=red>     0..|        get_best_route(Routes, {Route, Dur});</font>
+        |      true -&gt;
+<font color=red>     0..|        get_best_route(Routes, {BestRoute, BestDur})</font>
+        |    end.
+        |  
+        |  
+        |  %% [{FromLine, ToLine, IntersectingStop}]
+        |  get_intersecting_lines(FromLines, ToLines) -&gt;
+<font color=red>     0..|    get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine &lt;- FromLines, ToLine &lt;- ToLines]).</font>
+        |  
+<font color=red>     0..|  get_intersecting_lines([]) -&gt; [];</font>
+        |  get_intersecting_lines([{_,_,none}|IntersectingLines]) -&gt;
+<font color=red>     0..|    get_intersecting_lines(IntersectingLines);</font>
+        |  get_intersecting_lines([IntersectingLine|IntersectingLines]) -&gt;
+<font color=red>     0..|    [IntersectingLine|get_intersecting_lines(IntersectingLines)].</font>
+        |  
+        |  
+        |  get_best_intersecting_lines(IntersectingLinesWithDurations) -&gt;
+<font color=red>     0..|    get_best_intersecting_lines(IntersectingLinesWithDurations, {none, none, none, 0}).</font>
+        |  
+<font color=red>     0..|  get_best_intersecting_lines([], BestIntersectingLines) -&gt; BestIntersectingLines;</font>
+        |  get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) -&gt;
+<font color=red>     0..|    if</font>
+        |      Dur &lt; BestDur -&gt;
+<font color=red>     0..|        get_best_intersecting_lines(IntersectingLinesWithDurations, {FromLine, ToLine, IntersectingStop, Dur});</font>
+        |      true -&gt;
+<font color=red>     0..|        get_best_intersecting_lines(IntersectingLinesWithDurations, {BestFromLine, BestToLine, BestIntersectingStop, BestDur})</font>
+        |    end.
+        |  
+        |  
+<font color=red>     0..|  compress_route(Stops) -&gt; compress_route(Stops, []).</font>
+        |  
+<font color=red>     0..|  compress_route([], Route) -&gt; Route;</font>
+        |  compress_route([{Line, Stop}|Stops], Route) -&gt;
+<font color=red>     0..|    Last = lists:last(Route),</font>
+<font color=red>     0..|    case Last of</font>
+<font color=red>     0..|      {Line,_} -&gt; compress_route(Stops, lists:droplast(Route) ++ {Line, Stop});</font>
+<font color=red>     0..|      _        -&gt; compress_route(Stops, Route ++ [{Line, Stop}])</font>
+        |    end.
+</pre>
+</body>
+</html>

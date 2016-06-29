@@ -1,5 +1,5 @@
 -module(stop).
--include("infrastructure.hrl").
+-include("public_transport.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -22,7 +22,7 @@
 
 %% Public API
 
--spec start_link(atom()) -> pid().
+-spec start_link(atom()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
 start_link(Id) ->
   gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
 

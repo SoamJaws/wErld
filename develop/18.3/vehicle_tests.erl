@@ -1,5 +1,5 @@
 -module(vehicle_tests).
--include("infrastructure.hrl").
+-include("public_transport.hrl").
 -include("time.hrl").
 -include_lib("eunit/include/eunit.hrl").
 

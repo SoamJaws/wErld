@@ -5,12 +5,12 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-29 at 06:36:59
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-29 at 11:11:36
 
 ****************************************************************************
 
         |  -module(stop).
-        |  -include("infrastructure.hrl").
+        |  -include("public_transport.hrl").
         |  -behaviour(gen_server).
         |  
         |  %% Public API
@@ -33,7 +33,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% Public API
         |  
-        |  -spec start_link(atom()) -&gt; pid().
+        |  -spec start_link(atom()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Id) -&gt;
     44..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
         |  

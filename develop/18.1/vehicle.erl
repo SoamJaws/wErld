@@ -24,7 +24,7 @@
 %% Public API
 
 start_link(Capacity, Line, Target, Type) ->
-  gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line=Line, target=Target, type=Type}, []).
+  gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line={1, Line}, target=Target, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -52,7 +52,7 @@ state(Pid) ->
 
 init(State) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
-  Line = State#vehicle_state.line,
+  {_, Line} = State#vehicle_state.line,
   LineNumber = line:?GET_NUMBER(Line),
   Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),
@@ -81,7 +81,7 @@ handle_call(stop, _From, State) ->
   {stop, normal, stopped, State};
 
 handle_call(state, _From, State) ->
-  {reply, {ok, State}, State}.
+  {reply, State, State}.
 
 
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
@@ -144,8 +144,8 @@ boarding_complete(State) ->
   {boarding, Stop} = State#vehicle_state.action,
   {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
   TimePid = gen_server:call({global, blackboard}, {request, timePid}),
-  Time = gen_server:call(TimePid, {request, currentTime}),
   stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+  Time = gen_server:call(TimePid, {request, currentTime}),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
 notify_passengers_checkin([]) -> [];

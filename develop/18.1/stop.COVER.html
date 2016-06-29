@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-28 at 19:24:00
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-29 at 05:53:36
 
 ****************************************************************************
 
@@ -33,11 +33,13 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% Public API
         |  
+        |  -spec start_link(atom()) -&gt; pid().
         |  start_link(Id) -&gt;
-    43..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
+    44..|    gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
         |  
+        |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
-    43..|    gen_server:call(Pid, stop).
+    44..|    gen_server:call(Pid, stop).
         |  
         |  state(Pid) -&gt;
      1..|    gen_server:call(Pid, state).
@@ -50,18 +52,18 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      7..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) -&gt;
-    15..|    gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
-    15..|    gen_server_utils:block_caller(BlockCaller).
+    18..|    gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
+    18..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) -&gt;
-     9..|    gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
-     9..|    gen_server_utils:block_caller(BlockCaller).
+    11..|    gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
+    11..|    gen_server_utils:block_caller(BlockCaller).
         |  
         |  
         |  %% gen_server
         |  
         |  init(State) -&gt;
-    43..|    {ok, State}.
+    44..|    {ok, State}.
         |  
         |  
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
@@ -88,7 +90,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
-    43..|    {stop, normal, stopped, State};
+    44..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
      1..|    {reply, State, State}.
@@ -100,20 +102,20 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      7..|    {noreply, State#stop_state{passengers=Passengers}};
         |  
         |  handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) -&gt;
-     6..|    NewState = case State#stop_state.currentVehicle of
+     7..|    NewState = case State#stop_state.currentVehicle of
         |                 none -&gt;
-     4..|                   BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
-     4..|                   vehicle:?CHECKIN_OK(Vehicle, self(), BoardingPassengers, false),
-     4..|                   State#stop_state{currentVehicle=Vehicle};
+     5..|                   BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
+     5..|                   vehicle:?CHECKIN_OK(Vehicle, self(), BoardingPassengers, false),
+     5..|                   State#stop_state{currentVehicle=Vehicle};
         |                 _    -&gt;
      2..|                   VehicleQueue = State#stop_state.vehicleQueue,
      2..|                   State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}
         |    end,
-     6..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     6..|    {noreply, NewState};
+     7..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
+     7..|    {noreply, NewState};
         |  
         |  handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) -&gt;
-     2..|    NewState = if
+     3..|    NewState = if
         |                 State#stop_state.currentVehicle == Vehicle -&gt;
      2..|                   case State#stop_state.vehicleQueue of
         |                     [NextVehicle|VehicleQueue] -&gt;
@@ -124,10 +126,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      1..|                       State#stop_state{currentVehicle=none}
         |                   end;
         |                 true -&gt;
-<font color=red>     0..|                   State</font>
+     1..|                   State
         |    end,
-     2..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     2..|    {noreply, NewState}.
+     3..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
+     3..|    {noreply, NewState}.
         |  
         |  
         |  handle_info(_Info, State) -&gt;
@@ -135,7 +137,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  
         |  terminate(_Reason, _State) -&gt;
-    43..|    ok.
+    44..|    ok.
         |  
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;
@@ -145,9 +147,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  %% Backend
         |  
         |  notify_vehicle_checked_in(Passengers, Vehicle) -&gt;
-     5..|    notify_vehicle_checked_in(Passengers, Vehicle, 0).
+     6..|    notify_vehicle_checked_in(Passengers, Vehicle, 0).
         |  
-     5..|  notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -&gt; BoardingPassengers;
+     6..|  notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -&gt; BoardingPassengers;
         |  notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) -&gt;
     11..|    WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
     11..|    if

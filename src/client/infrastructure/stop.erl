@@ -30,20 +30,25 @@ start_link(Id) ->
 stop(Pid) ->
   gen_server:call(Pid, stop).
 
+-spec state(pid()) -> stop_state().
 state(Pid) ->
   gen_server:call(Pid, state).
 
+-spec ?PASSENGER_CHECK_IN(pid(), pid()) -> ok | {nok, nonempty_string()}.
 ?PASSENGER_CHECK_IN(Pid, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
+-spec ?PASSENGER_CHECK_OUT(pid(), pid(), boolean())-> ok.
 ?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) ->
   gen_server:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
 
+-spec ?VEHICLE_CHECK_IN(pid(), pid(), boolean()) -> ok.
 ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) ->
   gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
 
+-spec ?VEHICLE_CHECK_OUT(pid(), pid(), boolean()) -> ok.
 ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) ->
   gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
   gen_server_utils:block_caller(BlockCaller).
@@ -135,9 +140,11 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
+-spec notify_vehicle_checked_in([pid()], pid()) -> non_neg_integer().
 notify_vehicle_checked_in(Passengers, Vehicle) ->
   notify_vehicle_checked_in(Passengers, Vehicle, 0).
 
+-spec notify_vehicle_checked_in([pid()], pid(), non_neg_integer()) -> non_neg_integer().
 notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -> BoardingPassengers;
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) ->
   WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),

@@ -24,7 +24,7 @@
 %% Public API
 
 start_link(Capacity, Line, Target, Type) ->
-  gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line=Line, target=Target, type=Type}, []).
+  gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line={1, Line}, target=Target, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).
@@ -52,7 +52,7 @@ state(Pid) ->
 
 init(State) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
-  Line = State#vehicle_state.line,
+  {_, Line} = State#vehicle_state.line,
   LineNumber = line:?GET_NUMBER(Line),
   Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),

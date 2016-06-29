@@ -18,7 +18,12 @@
 %%                          A FIFO queue of waiting vehicles.
 %%
 %%------------------------------------------------------------
--record(stop_state, {id, currentVehicle = none, passengers = [], vehicleQueue = []}).
+-record(stop_state, { id                    :: atom()
+                    , currentVehicle = none :: pid()
+                    , passengers = []       :: [pid()]
+                    , vehicleQueue = []     :: [pid()]
+                    }).
+-type stop_state() :: #stop_state{}.
 
 -define(PASSENGER_CHECK_IN,  passenger_check_in).
 -define(PASSENGER_CHECK_OUT, passenger_check_out).
@@ -64,7 +69,17 @@
 %%                        The type of Vehicle, i.e. bus, train, tram
 %%
 %%------------------------------------------------------------
--record(vehicle_state, {action = {waiting, none}, capacity, lastDeparture, line, passengers = [], boardingPassengers = 0, target, type}).
+-record(vehicle_state, { action = {waiting, none} :: {waiting, pid() | none} | {boardin, pid()} | {drivin, pid(), pos_integer()}
+                       , capacity                 :: pos_integer()
+                       , lastDeparture            :: non_neg_integer()
+                       , line                     :: {pos_integer(), pid()}
+                       , passengers = []          :: [pid()]
+                       , boardingPassengers = 0   :: non_neg_integer()
+                       , target                   :: pid()
+                       , type                     :: vehicle_type()
+                       }).
+-type vehicle_type() :: bus | train | tram.
+-type vehicle_state() :: #vehicle_state{}.
 
 -define(PASSENGER_BOARD, passenger_board).
 -define(INCREMENT_BOARDING_PASSENGER, increment_boarding_passenger).
@@ -85,7 +100,11 @@
 %%                The type of Vehicle, i.e. bus, train, tram.
 %%
 %%------------------------------------------------------------
--record(line_state, {number, stops, type}).
+-record(line_state, { number :: pos_integer()
+                    , stops  :: [pid() | pos_integer()]
+                    , type   :: vehicle_type()
+                    }).
+-type line_state() :: #line_state{}.
 
 -define(GET_NEXT_STOP,    get_next_stop).
 -define(GET_NEIGHBORS,    get_neighbors).
@@ -104,6 +123,8 @@
 %%               infrastructure
 %%
 %%------------------------------------------------------------
--record(infrastructure_state, {lines}).
+-record(infrastructure_state, { lines :: [pid()]
+                              }).
+-type infrastructure_state() :: #infrastructure_state{}.
 
 -define(GET_ROUTE, get_route).

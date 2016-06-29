@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-29 at 05:54:11
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-29 at 06:38:03
 
 ****************************************************************************
 
@@ -41,20 +41,25 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  stop(Pid) -&gt;
     44..|    gen_server:call(Pid, stop).
         |  
+        |  -spec state(pid()) -&gt; stop_state().
         |  state(Pid) -&gt;
      1..|    gen_server:call(Pid, state).
         |  
+        |  -spec ?PASSENGER_CHECK_IN(pid(), pid()) -&gt; ok | {nok, nonempty_string()}.
         |  ?PASSENGER_CHECK_IN(Pid, Passenger) -&gt;
     18..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
         |  
+        |  -spec ?PASSENGER_CHECK_OUT(pid(), pid(), boolean())-&gt; ok.
         |  ?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) -&gt;
      7..|    gen_server:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger, BlockCaller, self()}),
      7..|    gen_server_utils:block_caller(BlockCaller).
         |  
+        |  -spec ?VEHICLE_CHECK_IN(pid(), pid(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) -&gt;
     18..|    gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
     18..|    gen_server_utils:block_caller(BlockCaller).
         |  
+        |  -spec ?VEHICLE_CHECK_OUT(pid(), pid(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) -&gt;
     11..|    gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
     11..|    gen_server_utils:block_caller(BlockCaller).
@@ -146,9 +151,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% Backend
         |  
+        |  -spec notify_vehicle_checked_in([pid()], pid()) -&gt; non_neg_integer().
         |  notify_vehicle_checked_in(Passengers, Vehicle) -&gt;
      6..|    notify_vehicle_checked_in(Passengers, Vehicle, 0).
         |  
+        |  -spec notify_vehicle_checked_in([pid()], pid(), non_neg_integer()) -&gt; non_neg_integer().
      6..|  notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -&gt; BoardingPassengers;
         |  notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) -&gt;
     11..|    WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),

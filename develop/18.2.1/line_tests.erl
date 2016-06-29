@@ -1,5 +1,5 @@
 -module(line_tests).
--include("infrastructure.hrl").
+-include("public_transport.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
 get_next_stop_test() ->

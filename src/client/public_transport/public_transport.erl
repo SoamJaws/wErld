@@ -1,5 +1,5 @@
--module(infrastructure).
--include("infrastructure.hrl").
+-module(public_transport).
+-include("public_transport.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -41,7 +41,7 @@ init([]) ->
   %%TODO Start a line for each linespec, using stops as input
   Stops = ok,
   Lines = ok,
-  {ok, #infrastructure_state{lines=Lines}}.
+  {ok, #public_transport_state{lines=Lines}}.
 
 
 handle_call({?GET_ROUTE, From, To}, _From, Lines) ->
@@ -77,7 +77,7 @@ code_change(_OldVsn, State, _Extra) ->
 %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
 get_route_helper(From, To, AllLines) ->
   ToLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, To)],
-  spawn(infrastructure, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
+  spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive
     {Route, Dur} -> {compress_route(Route), Dur}
   end.

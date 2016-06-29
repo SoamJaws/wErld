@@ -29,26 +29,26 @@
 { 'src/client/test/*'
 , [ debug_info
   , {i, "src/client"}
-  , {i, "src/client/infrastructure"}
+  , {i, "src/client/public_transport"}
   , {i, "include"}
   , {i, "src/utils"}
   , {outdir, "etestbin"}
   ]
 }.
 
-{ 'src/client/infrastructure/*'
+{ 'src/client/public_transport/*'
 , [ debug_info
-  , {i, "src/client/infrastructure"}
+  , {i, "src/client/public_transport"}
   , {i, "include"}
   , {i, "src/utils"}
   , {outdir, "ebin"}
   ]
 }.
 
-{ 'src/client/infrastructure/test/*'
+{ 'src/client/public_transport/test/*'
 , [ debug_info
-  , {i, "src/client/infrastructure"}
-  , {i, "src/client/infrastructure/test"}
+  , {i, "src/client/public_transport"}
+  , {i, "src/client/public_transport/test"}
   , {i, "include"}
   , {i, "src/utils"}
   , {outdir, "etestbin"}

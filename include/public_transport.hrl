@@ -1,7 +1,7 @@
--define(INFRASTRUCTURE_DATA_PATH, "$WERLDROOT/appdata/infrastructure").
+-define(INFRASTRUCTURE_DATA_PATH, "$WERLDROOT/appdata/public_transport").
 
 %%-----------------------------------------------------------
-%% Data Type: infrastructure stop
+%% Data Type: public_transport stop
 %% where:
 %%
 %%    id:                   A string (default is undefined).
@@ -31,7 +31,7 @@
 -define(VEHICLE_CHECK_OUT,   vehicle_check_out).
 
 %%-----------------------------------------------------------
-%% Data Type: infrastructure vehicle
+%% Data Type: public_transport vehicle
 %% where:
 %%
 %%    action:             A tuple {waiting, Pid}, {boardin, Pid}
@@ -86,7 +86,7 @@
 -define(CHECKIN_OK, checkin_ok).
 
 %%-----------------------------------------------------------
-%% Data Type: infrastructure vehicle
+%% Data Type: public_transport vehicle
 %% where:
 %%
 %%    number:     An int.
@@ -116,15 +116,15 @@
 -define(GET_NUMBER, get_number).
 
 %%-----------------------------------------------------------
-%% Data Type: infrastructure
+%% Data Type: public_transport
 %% where:
 %%
 %%    lines:     A list of Pids of all lines in the
-%%               infrastructure
+%%               public_transport
 %%
 %%------------------------------------------------------------
--record(infrastructure_state, { lines :: [pid()]
+-record(public_transport_state, { lines :: [pid()]
                               }).
--type infrastructure_state() :: #infrastructure_state{}.
+-type public_transport_state() :: #public_transport_state{}.
 
 -define(GET_ROUTE, get_route).

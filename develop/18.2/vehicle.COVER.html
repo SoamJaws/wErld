@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-30 at 06:41:33
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-30 at 06:54:36
 
 ****************************************************************************
 
@@ -36,7 +36,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  -spec start_link(pos_integer(), pid(), pid(), vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Capacity, Line, Target, Type) -&gt;
-     9..|    gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line={1, Line}, target=Target, type=Type}, []).
+     9..|    gen_server:start_link(?MODULE, {Capacity, Line, Target, Type}, []).
         |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
@@ -68,14 +68,13 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% gen_server
         |  
-        |  -spec init(vehicle_state()) -&gt; {ok, vehicle_state()}.
-        |  init(State) -&gt;
+        |  -spec init({pos_integer(), pid(), pid(), vehicle_type()}) -&gt; {ok, vehicle_state()}.
+        |  init({Capacity, Line, Target, Type}) -&gt;
      9..|    gen_server:cast({global, blackboard}, {subscribe, time}),
-     9..|    {_, Line} = State#vehicle_state.line,
      9..|    LineNumber = line:?GET_NUMBER(Line),
-     9..|    Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+     9..|    Stop = line:?GET_OTHER_END(Line, Target),
      9..|    stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-     9..|    {ok, State#vehicle_state{line={LineNumber, Line}}}.
+     9..|    {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.
         |  
         |  
         |  -spec handle_call({?PASSENGER_BOARD, pid()}, pid(), vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}

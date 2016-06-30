@@ -139,7 +139,7 @@ spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, Visi
 receive_routes(NoCalls) ->
   receive_routes(NoCalls, []).
 
--spec receive_routes(non_neg_integer(), [{[{pid(), pid(), pid()}], pos_integer()}) -> [{[{pid(), pid(), pid()}], pos_integer()}].
+-spec receive_routes(non_neg_integer(), [{[{pid(), pid(), pid()}], pos_integer()}]) -> [{[{pid(), pid(), pid()}], pos_integer()}].
 receive_routes(0, Routes) -> Routes;
 receive_routes(NoCalls, Routes) ->
   receive

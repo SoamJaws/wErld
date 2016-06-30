@@ -25,7 +25,7 @@
 
 -spec start_link(pos_integer(), pid(), pid(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
 start_link(Capacity, Line, Target, Type) ->
-  gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line={1, Line}, target=Target, type=Type}, []).
+  gen_server:start_link(?MODULE, {Capacity, Line, Target, Type}, []).
 
 -spec stop(pid()) -> ok.
 stop(Pid) ->
@@ -57,15 +57,18 @@ state(Pid) ->
 
 %% gen_server
 
-init(State) ->
+-spec init({pos_integer(), pid(), pid(), vehicle_type()}) -> {ok, vehicle_state()}.
+init({Capacity, Line, Target, Type}) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
-  {_, Line} = State#vehicle_state.line,
   LineNumber = line:?GET_NUMBER(Line),
-  Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+  Stop = line:?GET_OTHER_END(Line, Target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-  {ok, State#vehicle_state{line={LineNumber, Line}}}.
+  {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
+-spec handle_call({?PASSENGER_BOARD, pid()}, pid(), vehicle_state()) -> {reply, ok | nok, vehicle_state()}
+      ;          (stop, pid(), vehicle_state()) -> {stop, normal, stopped, vehicle_state()}
+      ;          (state, pid(), vehicle_state()) -> {reply, vehicle_state(), vehicle_state()}.
 handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
   Capacity = State#vehicle_state.capacity,
@@ -91,6 +94,9 @@ handle_call(state, _From, State) ->
   {reply, State, State}.
 
 
+-spec handle_cast({?NEW_TIME, non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
+      ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
+      ;          ({?CHECKIN_OK, pid(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}.
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
   NewState = case State#vehicle_state.action of
                {driving, Stop, Duration} ->
@@ -132,14 +138,17 @@ handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State
   {noreply, NewState}.
 
 
+-spec handle_info(timeout | any(), vehicle_state()) -> {noreply, vehicle_state()}.
 handle_info(_Info, State) ->
   {noreply, State}.
 
 
+-spec terminate(normal | shutdown | {shutdown, any()} | any(), vehicle_state()) -> ok.
 terminate(_Reason, _State) ->
   ok.
 
 
+-spec code_change(term() | {down, term()}, stop_state(), term()) -> {ok, vehicle_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 

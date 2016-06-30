@@ -24,7 +24,7 @@
 
 -spec start_link(atom()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
 start_link(Id) ->
-  gen_server:start_link(?MODULE, #stop_state{id=Id}, []).
+  gen_server:start_link(?MODULE, Id, []).
 
 -spec stop(pid()) -> ok.
 stop(Pid) ->
@@ -56,12 +56,12 @@ state(Pid) ->
 
 %% gen_server
 
--spec init(stop_state()) -> {ok, stop_state()}.
-init(State) ->
-  {ok, State}.
+-spec init(atom()) -> {ok, stop_state()}.
+init(Id) ->
+  {ok, #stop_state{id=Id}}.
 
 
--spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -> {reply, {nok, string()}, stop_state()} | {reply, ok, stop_state()}
+-spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -> {reply, ok | {nok, string()}, stop_state()}
       ;          (stop, pid(), stop_state()) -> {stop, normal, stopped, stop_state()}
       ;          (state, pid(), stop_state()) -> {reply, stop_state(), stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->

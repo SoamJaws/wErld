@@ -19,7 +19,7 @@
 %%
 %%------------------------------------------------------------
 -record(stop_state, { id                    :: atom()
-                    , currentVehicle = none :: pid()
+                    , currentVehicle = none :: none | pid()
                     , passengers = []       :: [pid()]
                     , vehicleQueue = []     :: [pid()]
                     }).

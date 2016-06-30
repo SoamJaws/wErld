@@ -185,7 +185,7 @@ get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) ->
 get_duration_helper(FromStop, ToStop, Stops) ->
   get_duration_helper(FromStop, ToStop, false, Stops).
 
--spec get_duration_helper(pid(), pid(), boolean(), [pid() | pos_integer()]) -> pos_integer().
+-spec get_duration_helper(pid(), pid(), boolean(), [pid() | pos_integer()]) -> non_neg_integer().
 get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -> 0;
 get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -> 0;
 get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) ->

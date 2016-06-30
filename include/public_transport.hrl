@@ -69,7 +69,7 @@
 %%                        The type of Vehicle, i.e. bus, train, tram
 %%
 %%------------------------------------------------------------
--record(vehicle_state, { action = {waiting, none} :: {waiting, pid() | none} | {boardin, pid()} | {drivin, pid(), pos_integer()}
+-record(vehicle_state, { action = {waiting, none} :: {waiting, pid() | none} | {boarding, pid()} | {drivin, pid(), pos_integer()}
                        , capacity                 :: pos_integer()
                        , lastDeparture            :: non_neg_integer()
                        , line                     :: {pos_integer(), pid()}

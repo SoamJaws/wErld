@@ -40,7 +40,7 @@ then
   echo ""
 
   echo "====================== Dialyzing ======================"
-  dialyzer --plt $OTPPLT -Wunknown -I include/ src --src
+  dialyzer --plt $OTPPLT -Wunknown -r ebin/
   DIALYZER_RESULT=$?
 
   if [ "$DIALYZER_RESULT" -ne 0 ];

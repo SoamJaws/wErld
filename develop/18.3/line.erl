@@ -79,16 +79,16 @@ init({Number, Stops, Type}) ->
   {ok, #line_state{number=Number, stops=Stops, type=Type}}.
 
 
--spec handle_call({?GET_NEXT_STOP, pid(), pid()}, pid(), line_state()) -> {reply, {pid(), pos_integer()}, line_state()}
-      ;          ({?GET_NEIGHBORS, pid()}, pid(), line_state()) -> {reply, [{pid(), pos_integer(), pid(), pid()}], line_state()}
-      ;          ({?GET_OTHER_END, pid()}, pid(), line_state()) -> {reply, pid(), line_state()}
-      ;          ({?CONTAINS_STOP, pid()}, pid(), line_state()) -> {reply, boolean(), line_state()}
-      ;          ({?GET_DURATION, pid(), pid()}, pid(), line_state()) -> {reply, boolean(), line_state()}
-      ;          ({?IS_END_STOP, pid()}, pid(), line_state()) -> {reply, boolean(), line_state()}
-      ;          ({?GET_INTERSECTION, pid()}, pid(), line_state()) -> {reply, pid() | none, line_state()}
-      ;          (?GET_NUMBER, pid(), line_state()) -> pos_integer()
-      ;          (stop, pid(), line_state()) -> {stop, normal, stopped, line_state()}
-      ;          (state, pid(), line_state()) -> {reply, line_state(), line_state()}.
+-spec handle_call({?GET_NEXT_STOP, pid(), pid()}, {pid(), any()}, line_state()) -> {reply, {pid(), pos_integer()}, line_state()}
+      ;          ({?GET_NEIGHBORS, pid()},        {pid(), any()}, line_state()) -> {reply, [{pid(), pos_integer(), pid(), pid()}], line_state()}
+      ;          ({?GET_OTHER_END, pid()},        {pid(), any()}, line_state()) -> {reply, pid(), line_state()}
+      ;          ({?CONTAINS_STOP, pid()},        {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?GET_DURATION, pid(), pid()},  {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?IS_END_STOP, pid()},          {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?GET_INTERSECTION, pid()},     {pid(), any()}, line_state()) -> {reply, pid() | none, line_state()}
+      ;          (?GET_NUMBER,                    {pid(), any()}, line_state()) -> {reply, pos_integer(), line_state()}
+      ;          (stop,                           {pid(), any()}, line_state()) -> {stop, normal, stopped, line_state()}
+      ;          (state,                          {pid(), any()}, line_state()) -> {reply, line_state(), line_state()}.
 handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
   [EndStop|_] = State#line_state.stops,
   Reply = case EndStop of
@@ -185,7 +185,7 @@ get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) ->
 get_duration_helper(FromStop, ToStop, Stops) ->
   get_duration_helper(FromStop, ToStop, false, Stops).
 
--spec get_duration_helper(pid(), pid(), boolean(), [pid() | pos_integer()]) -> pos_integer().
+-spec get_duration_helper(pid(), pid(), boolean(), [pid() | pos_integer()]) -> non_neg_integer().
 get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -> 0;
 get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -> 0;
 get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) ->

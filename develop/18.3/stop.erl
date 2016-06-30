@@ -61,9 +61,9 @@ init(Id) ->
   {ok, #stop_state{id=Id}}.
 
 
--spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -> {reply, ok | {nok, string()}, stop_state()}
-      ;          (stop, pid(), stop_state()) -> {stop, normal, stopped, stop_state()}
-      ;          (state, pid(), stop_state()) -> {reply, stop_state(), stop_state()}.
+-spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -> {reply, ok | {nok, string()}, stop_state()}
+      ;          (stop,                         {pid(), any()}, stop_state()) -> {stop, normal, stopped, stop_state()}
+      ;          (state,                        {pid(), any()}, stop_state()) -> {reply, stop_state(), stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
   AlreadyCheckedIn = lists:member(Passenger, Passengers),

@@ -56,10 +56,14 @@ state(Pid) ->
 
 %% gen_server
 
+-spec init(stop_state()) -> {ok, stop_state()}.
 init(State) ->
   {ok, State}.
 
 
+-spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -> {reply, {nok, string()}, stop_state()} | {reply, ok, stop_state()}
+      ;          (stop, pid(), stop_state()) -> {stop, normal, stopped, stop_state()}
+      ;          (state, pid(), stop_state()) -> {reply, stop_state(), stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
   AlreadyCheckedIn = lists:member(Passenger, Passengers),
@@ -90,6 +94,9 @@ handle_call(state, _From, State) ->
   {reply, State, State}.
 
 
+-spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
+      ;          ({?VEHICLE_CHECK_IN, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
+      ;          ({?VEHICLE_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}.
 handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   gen_server_utils:notify_caller(NotifyCaller, Caller),
@@ -126,14 +133,17 @@ handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
   {noreply, NewState}.
 
 
+-spec handle_info(timeout | any(), stop_state()) -> {noreply, stop_state()}.
 handle_info(_Info, State) ->
   {noreply, State}.
 
 
+-spec terminate(normal | shutdown | {shutdown, any()} | any(), stop_state()) -> ok.
 terminate(_Reason, _State) ->
   ok.
 
 
+-spec code_change(term() | {down, term()}, stop_state(), term()) -> {ok, stop_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 

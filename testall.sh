@@ -28,21 +28,6 @@ fi
 #    dialyzer --add_to_plt --plt $OTPPLT --output_plt $DEPSPLT -r deps/*/ebin/
 #fi
 
-if [[ ! -f $PLT ]];
-then
-  echo "Checking local PLT"
-  dialyzer --check_plt --plt $PLT -r ebin/
-  if [[ $? -ne 0 ]];
-  then
-    echo "Local PLT not up to date, dialyzing"
-#    dialyzer --add_to_plt --plt $DEPSPLT --output_plt $PLT -r ebin/
-    dialyzer --add_to_plt --plt $OTPPLT --output_plt $PLT -r ebin/
-  fi
-  echo ""
-else
-  echo "Local PLT up to date"
-fi
-
 echo "======================== Clean ========================"
 rebar clean
 echo ""
@@ -54,15 +39,8 @@ then
   rebar compile
   echo ""
 
-  echo "================ Add wErld to dialyzer ================"
-  if [ ! -f $PLT ];
-  then
-    dialyzer --plt $PLT --add_to_plt ebin
-  fi
-  echo ""
-
   echo "====================== Dialyzing ======================"
-  dialyzer --plt $PLT -Wunknown -I include/ src --src
+  dialyzer --plt $OTPPLT -Wunknown -I include/ src --src
   DIALYZER_RESULT=$?
 
   if [ "$DIALYZER_RESULT" -ne 0 ];

@@ -66,9 +66,9 @@ init({Capacity, Line, Target, Type}) ->
   {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
--spec handle_call({?PASSENGER_BOARD, pid()}, pid(), vehicle_state()) -> {reply, ok | nok, vehicle_state()}
-      ;          (stop, pid(), vehicle_state()) -> {stop, normal, stopped, vehicle_state()}
-      ;          (state, pid(), vehicle_state()) -> {reply, vehicle_state(), vehicle_state()}.
+-spec handle_call({?PASSENGER_BOARD, pid()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}
+      ;          (stop,                      {pid(), any()}, vehicle_state()) -> {stop, normal, stopped, vehicle_state()}
+      ;          (state,                     {pid(), any()}, vehicle_state()) -> {reply, vehicle_state(), vehicle_state()}.
 handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
   Capacity = State#vehicle_state.capacity,

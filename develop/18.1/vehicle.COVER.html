@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-29 at 10:26:54
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-30 at 05:24:12
 
 ****************************************************************************
 
@@ -34,26 +34,33 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% Public API
         |  
+        |  -spec start_link(pos_integer(), pid(), pid(), vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Capacity, Line, Target, Type) -&gt;
      9..|    gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line={1, Line}, target=Target, type=Type}, []).
         |  
+        |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
      9..|    gen_server:call(Pid, stop).
         |  
+        |  -spec state(pid()) -&gt; stop_state().
         |  state(Pid) -&gt;
      1..|    gen_server:call(Pid, state).
         |  
+        |  -spec ?PASSENGER_BOARD(pid(), pid()) -&gt; ok | nok.
         |  ?PASSENGER_BOARD(Pid, Passenger) -&gt;
     21..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
         |  
+        |  -spec ?NEW_TIME(pid(), non_neg_integer(), boolean()) -&gt; ok.
         |  ?NEW_TIME(Pid, Time, BlockCaller) -&gt;
      4..|    gen_server:cast(Pid, {?NEW_TIME, Time, BlockCaller, self()}),
      4..|    gen_server_utils:block_caller(BlockCaller).
         |  
+        |  -spec ?INCREMENT_BOARDING_PASSENGER(pid(), boolean()) -&gt; ok.
         |  ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) -&gt;
      3..|    gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
      3..|    gen_server_utils:block_caller(BlockCaller).
         |  
+        |  -spec ?CHECKIN_OK(pid(), pid(), non_neg_integer(), boolean()) -&gt; ok.
         |  ?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) -&gt;
     15..|    gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
     15..|    gen_server_utils:block_caller(BlockCaller).
@@ -150,6 +157,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% Backend
         |  
+        |  -spec boarding_complete(vehicle_state()) -&gt; vehicle_state().
         |  boarding_complete(State) -&gt;
      8..|    {_, Line} = State#vehicle_state.line,
      8..|    {boarding, Stop} = State#vehicle_state.action,
@@ -159,6 +167,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      8..|    Time = gen_server:call(TimePid, {request, currentTime}),
      8..|    State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
         |  
+        |  -spec notify_passengers_checkin([pid()]) -&gt; [pid()].
      2..|  notify_passengers_checkin([]) -&gt; [];
         |  notify_passengers_checkin([Passenger|Passengers]) -&gt;
      6..|    Reply = citizen:vehicle_checked_in(Passenger, self()),

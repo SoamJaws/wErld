@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-30 at 05:23:29
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-06-30 at 06:41:33
 
 ****************************************************************************
 
@@ -84,11 +84,22 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  %% gen_server
         |  
+        |  -spec init(line_state()) -&gt; {ok, line_state()}.
         |  init(State) -&gt;
         |    %gen_server:call(blackboard, {subscribe, time}),
     12..|    {ok, State}.
         |  
         |  
+        |  -spec handle_call({?GET_NEXT_STOP, pid(), pid()}, pid(), line_state()) -&gt; {reply, {pid(), pos_integer()}, line_state()}
+        |        ;          ({?GET_NEIGHBORS, pid()}, pid(), line_state()) -&gt; {reply, [{pid(), pos_integer(), pid(), pid()}], line_state()}
+        |        ;          ({?GET_OTHER_END, pid()}, pid(), line_state()) -&gt; {reply, pid(), line_state()}
+        |        ;          ({?CONTAINS_STOP, pid()}, pid(), line_state()) -&gt; {reply, boolean(), line_state()}
+        |        ;          ({?GET_DURATION, pid(), pid()}, pid(), line_state()) -&gt; {reply, boolean(), line_state()}
+        |        ;          ({?IS_END_STOP, pid()}, pid(), line_state()) -&gt; {reply, boolean(), line_state()}
+        |        ;          ({?GET_INTERSECTION, pid()}, pid(), line_state()) -&gt; {reply, pid() | none, line_state()}
+        |        ;          (?GET_NUMBER, pid(), line_state()) -&gt; pos_integer()
+        |        ;          (stop, pid(), line_state()) -&gt; {stop, normal, stopped, line_state()}
+        |        ;          (state, pid(), line_state()) -&gt; {reply, line_state(), line_state()}.
         |  handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) -&gt;
      6..|    [EndStop|_] = State#line_state.stops,
      6..|    Reply = case EndStop of
@@ -150,18 +161,22 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      1..|    {reply, State, State}.
         |  
         |  
+        |  -spec handle_cast(any(), line_state()) -&gt; {noreply, line_state()}.
         |  handle_cast(_Cast, State) -&gt;
 <font color=red>     0..|    {noreply, State}.</font>
         |  
         |  
+        |  -spec handle_info(timeout | any(), line_state()) -&gt; {noreply, line_state()}.
         |  handle_info(_Info, State) -&gt;
 <font color=red>     0..|    {noreply, State}.</font>
         |  
         |  
+        |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), line_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
     12..|    ok.
         |  
         |  
+        |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, line_state()}.
         |  code_change(_OldVsn, State, _Extra) -&gt;
 <font color=red>     0..|    {ok, State}.</font>
         |  
@@ -196,7 +211,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
     20..|        get_duration_helper(FromStop, ToStop, false, Stops)
         |    end.
         |  
-        |  -spec get_intersection_helper(pid(), [pid() | pos_integer()]) -&gt; boolean().
+        |  -spec get_intersection_helper(pid(), [pid() | pos_integer()]) -&gt; pid() | none.
         |  get_intersection_helper(OtherLine, [Stop|Rest]) -&gt;
     30..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
     30..|    case ContainsStop of

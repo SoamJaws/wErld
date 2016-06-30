@@ -73,11 +73,22 @@ state(Pid) ->
 
 %% gen_server
 
+-spec init(line_state()) -> {ok, line_state()}.
 init(State) ->
   %gen_server:call(blackboard, {subscribe, time}),
   {ok, State}.
 
 
+-spec handle_call({?GET_NEXT_STOP, pid(), pid()}, pid(), line_state()) -> {reply, {pid(), pos_integer()}, line_state()}
+      ;          ({?GET_NEIGHBORS, pid()}, pid(), line_state()) -> {reply, [{pid(), pos_integer(), pid(), pid()}], line_state()}
+      ;          ({?GET_OTHER_END, pid()}, pid(), line_state()) -> {reply, pid(), line_state()}
+      ;          ({?CONTAINS_STOP, pid()}, pid(), line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?GET_DURATION, pid(), pid()}, pid(), line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?IS_END_STOP, pid()}, pid(), line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?GET_INTERSECTION, pid()}, pid(), line_state()) -> {reply, pid() | none, line_state()}
+      ;          (?GET_NUMBER, pid(), line_state()) -> pos_integer()
+      ;          (stop, pid(), line_state()) -> {stop, normal, stopped, line_state()}
+      ;          (state, pid(), line_state()) -> {reply, line_state(), line_state()}.
 handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
   [EndStop|_] = State#line_state.stops,
   Reply = case EndStop of
@@ -139,18 +150,22 @@ handle_call(state, _From, State) ->
   {reply, State, State}.
 
 
+-spec handle_cast(any(), line_state()) -> {noreply, line_state()}.
 handle_cast(_Cast, State) ->
   {noreply, State}.
 
 
+-spec handle_info(timeout | any(), line_state()) -> {noreply, line_state()}.
 handle_info(_Info, State) ->
   {noreply, State}.
 
 
+-spec terminate(normal | shutdown | {shutdown, any()} | any(), line_state()) -> ok.
 terminate(_Reason, _State) ->
   ok.
 
 
+-spec code_change(term() | {down, term()}, stop_state(), term()) -> {ok, line_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
@@ -185,7 +200,7 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
       get_duration_helper(FromStop, ToStop, false, Stops)
   end.
 
--spec get_intersection_helper(pid(), [pid() | pos_integer()]) -> boolean().
+-spec get_intersection_helper(pid(), [pid() | pos_integer()]) -> pid() | none.
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
   case ContainsStop of

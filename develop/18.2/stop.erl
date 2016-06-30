@@ -61,7 +61,7 @@ init(State) ->
   {ok, State}.
 
 
--spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -> {reply, {nok, string()}, stop_state()} | {reply, ok, stop_state()}
+-spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -> {reply, ok | {nok, string()}, stop_state()}
       ;          (stop, pid(), stop_state()) -> {stop, normal, stopped, stop_state()}
       ;          (state, pid(), stop_state()) -> {reply, stop_state(), stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->

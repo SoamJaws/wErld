@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-30 at 05:23:29
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-30 at 06:41:33
 
 ****************************************************************************
 
@@ -72,7 +72,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
     44..|    {ok, State}.
         |  
         |  
-        |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -&gt; {reply, {nok, string()}, stop_state()} | {reply, ok, stop_state()}
+        |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -&gt; {reply, ok | {nok, string()}, stop_state()}
         |        ;          (stop, pid(), stop_state()) -&gt; {stop, normal, stopped, stop_state()}
         |        ;          (state, pid(), stop_state()) -&gt; {reply, stop_state(), stop_state()}.
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;

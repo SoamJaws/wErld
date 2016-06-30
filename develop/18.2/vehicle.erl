@@ -57,6 +57,7 @@ state(Pid) ->
 
 %% gen_server
 
+-spec init(vehicle_state()) -> {ok, vehicle_state()}.
 init(State) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
   {_, Line} = State#vehicle_state.line,
@@ -66,6 +67,9 @@ init(State) ->
   {ok, State#vehicle_state{line={LineNumber, Line}}}.
 
 
+-spec handle_call({?PASSENGER_BOARD, pid()}, pid(), vehicle_state()) -> {reply, ok | nok, vehicle_state()}
+      ;          (stop, pid(), vehicle_state()) -> {stop, normal, stopped, vehicle_state()}
+      ;          (state, pid(), vehicle_state()) -> {reply, vehicle_state(), vehicle_state()}.
 handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
   Capacity = State#vehicle_state.capacity,
@@ -91,6 +95,9 @@ handle_call(state, _From, State) ->
   {reply, State, State}.
 
 
+-spec handle_cast({?NEW_TIME, non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
+      ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
+      ;          ({?CHECKIN_OK, pid(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}.
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
   NewState = case State#vehicle_state.action of
                {driving, Stop, Duration} ->
@@ -132,14 +139,17 @@ handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State
   {noreply, NewState}.
 
 
+-spec handle_info(timeout | any(), vehicle_state()) -> {noreply, vehicle_state()}.
 handle_info(_Info, State) ->
   {noreply, State}.
 
 
+-spec terminate(normal | shutdown | {shutdown, any()} | any(), vehicle_state()) -> ok.
 terminate(_Reason, _State) ->
   ok.
 
 
+-spec code_change(term() | {down, term()}, stop_state(), term()) -> {ok, vehicle_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 

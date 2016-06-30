@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-30 at 05:22:47
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-30 at 06:40:42
 
 ****************************************************************************
 
@@ -68,6 +68,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% gen_server
         |  
+        |  -spec init(vehicle_state()) -&gt; {ok, vehicle_state()}.
         |  init(State) -&gt;
      9..|    gen_server:cast({global, blackboard}, {subscribe, time}),
      9..|    {_, Line} = State#vehicle_state.line,
@@ -77,6 +78,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      9..|    {ok, State#vehicle_state{line={LineNumber, Line}}}.
         |  
         |  
+        |  -spec handle_call({?PASSENGER_BOARD, pid()}, pid(), vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}
+        |        ;          (stop, pid(), vehicle_state()) -&gt; {stop, normal, stopped, vehicle_state()}
+        |        ;          (state, pid(), vehicle_state()) -&gt; {reply, vehicle_state(), vehicle_state()}.
         |  handle_call({?PASSENGER_BOARD, Passenger}, _From, State) -&gt;
     21..|    Passengers = State#vehicle_state.passengers,
     21..|    Capacity = State#vehicle_state.capacity,
@@ -102,6 +106,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      1..|    {reply, State, State}.
         |  
         |  
+        |  -spec handle_cast({?NEW_TIME, non_neg_integer(), boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}
+        |        ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}
+        |        ;          ({?CHECKIN_OK, pid(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}.
         |  handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) -&gt;
      4..|    NewState = case State#vehicle_state.action of
         |                 {driving, Stop, Duration} -&gt;
@@ -143,14 +150,17 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      9..|    {noreply, NewState}.
         |  
         |  
+        |  -spec handle_info(timeout | any(), vehicle_state()) -&gt; {noreply, vehicle_state()}.
         |  handle_info(_Info, State) -&gt;
 <font color=red>     0..|    {noreply, State}.</font>
         |  
         |  
+        |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), vehicle_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
      9..|    ok.
         |  
         |  
+        |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, vehicle_state()}.
         |  code_change(_OldVsn, State, _Extra) -&gt;
 <font color=red>     0..|    {ok, State}.</font>
         |  

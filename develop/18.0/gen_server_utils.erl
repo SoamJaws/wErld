@@ -1,7 +1,17 @@
 -module(gen_server_utils).
 
--export([ block_caller/1
+-export([ cast/3
         , notify_caller/2]).
+
+cast(Pid, Msg, BlockCaller) ->
+  UpdatedMsg = if
+                 is_tuple(Msg) ->
+                   lists:foldl(fun(V, T) -> erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);
+                 true ->
+                   {Msg, BlockCaller, self()}
+               end,
+  gen_server:cast(Pid, UpdatedMsg),
+  block_caller(BlockCaller).
 
 block_caller(BlockCaller) ->
   if

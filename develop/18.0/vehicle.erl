@@ -41,18 +41,15 @@ state(Pid) ->
 
 -spec ?NEW_TIME(pid(), non_neg_integer(), boolean()) -> ok.
 ?NEW_TIME(Pid, Time, BlockCaller) ->
-  gen_server:cast(Pid, {?NEW_TIME, Time, BlockCaller, self()}),
-  gen_server_utils:block_caller(BlockCaller).
+  gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
 -spec ?INCREMENT_BOARDING_PASSENGER(pid(), boolean()) -> ok.
 ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) ->
-  gen_server:cast(Pid, {?INCREMENT_BOARDING_PASSENGER, BlockCaller, self()}),
-  gen_server_utils:block_caller(BlockCaller).
+  gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
 
 -spec ?CHECKIN_OK(pid(), pid(), non_neg_integer(), boolean()) -> ok.
 ?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) ->
-  gen_server:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers, BlockCaller, self()}),
-  gen_server_utils:block_caller(BlockCaller).
+  gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
 
 
 %% gen_server

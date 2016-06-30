@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-29 at 19:09:58
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-30 at 05:19:47
 
 ****************************************************************************
 
@@ -67,10 +67,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% gen_server
         |  
+        |  -spec init(stop_state()) -&gt; {ok, stop_state()}.
         |  init(State) -&gt;
     44..|    {ok, State}.
         |  
         |  
+        |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -&gt; {reply, {nok, string()}, stop_state()} | {reply, ok, stop_state()}
+        |        ;          (stop, pid(), stop_state()) -&gt; {stop, normal, stopped, stop_state()}
+        |        ;          (state, pid(), stop_state()) -&gt; {reply, stop_state(), stop_state()}.
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
     18..|    Passengers = State#stop_state.passengers,
     18..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),
@@ -101,6 +105,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      1..|    {reply, State, State}.
         |  
         |  
+        |  -spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
+        |        ;          ({?VEHICLE_CHECK_IN, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
+        |        ;          ({?VEHICLE_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}.
         |  handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) -&gt;
      7..|    Passengers = lists:delete(Passenger, State#stop_state.passengers),
      7..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
@@ -137,14 +144,17 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      3..|    {noreply, NewState}.
         |  
         |  
+        |  -spec handle_info(timeout | any(), stop_state()) -&gt; {noreply, stop_state()}.
         |  handle_info(_Info, State) -&gt;
 <font color=red>     0..|    {noreply, State}.</font>
         |  
         |  
+        |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), stop_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
     44..|    ok.
         |  
         |  
+        |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, stop_state()}.
         |  code_change(_OldVsn, State, _Extra) -&gt;
 <font color=red>     0..|    {ok, State}.</font>
         |  

@@ -25,7 +25,7 @@
 
 -spec start_link(pos_integer(), pid(), pid(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
 start_link(Capacity, Line, Target, Type) ->
-  gen_server:start_link(?MODULE, #vehicle_state{capacity=Capacity, line={1, Line}, target=Target, type=Type}, []).
+  gen_server:start_link(?MODULE, {Capacity, Line, Target, Type}, []).
 
 -spec stop(pid()) -> ok.
 stop(Pid) ->
@@ -57,14 +57,13 @@ state(Pid) ->
 
 %% gen_server
 
--spec init(vehicle_state()) -> {ok, vehicle_state()}.
-init(State) ->
+-spec init({pos_integer(), pid(), pid(), vehicle_type()}) -> {ok, vehicle_state()}.
+init({Capacity, Line, Target, Type}) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
-  {_, Line} = State#vehicle_state.line,
   LineNumber = line:?GET_NUMBER(Line),
-  Stop = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+  Stop = line:?GET_OTHER_END(Line, Target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-  {ok, State#vehicle_state{line={LineNumber, Line}}}.
+  {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
 -spec handle_call({?PASSENGER_BOARD, pid()}, pid(), vehicle_state()) -> {reply, ok | nok, vehicle_state()}

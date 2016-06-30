@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-30 at 06:55:29
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-06-30 at 07:05:59
 
 ****************************************************************************
 
@@ -77,9 +77,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      9..|    {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.
         |  
         |  
-        |  -spec handle_call({?PASSENGER_BOARD, pid()}, pid(), vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}
-        |        ;          (stop, pid(), vehicle_state()) -&gt; {stop, normal, stopped, vehicle_state()}
-        |        ;          (state, pid(), vehicle_state()) -&gt; {reply, vehicle_state(), vehicle_state()}.
+        |  -spec handle_call({?PASSENGER_BOARD, pid()}, {pid(), any()}, vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}
+        |        ;          (stop,                      {pid(), any()}, vehicle_state()) -&gt; {stop, normal, stopped, vehicle_state()}
+        |        ;          (state,                     {pid(), any()}, vehicle_state()) -&gt; {reply, vehicle_state(), vehicle_state()}.
         |  handle_call({?PASSENGER_BOARD, Passenger}, _From, State) -&gt;
     21..|    Passengers = State#vehicle_state.passengers,
     21..|    Capacity = State#vehicle_state.capacity,

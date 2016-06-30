@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-30 at 06:55:29
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-06-30 at 07:05:59
 
 ****************************************************************************
 
@@ -72,9 +72,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
     44..|    {ok, #stop_state{id=Id}}.
         |  
         |  
-        |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, pid(), stop_state()) -&gt; {reply, ok | {nok, string()}, stop_state()}
-        |        ;          (stop, pid(), stop_state()) -&gt; {stop, normal, stopped, stop_state()}
-        |        ;          (state, pid(), stop_state()) -&gt; {reply, stop_state(), stop_state()}.
+        |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -&gt; {reply, ok | {nok, string()}, stop_state()}
+        |        ;          (stop,                         {pid(), any()}, stop_state()) -&gt; {stop, normal, stopped, stop_state()}
+        |        ;          (state,                        {pid(), any()}, stop_state()) -&gt; {reply, stop_state(), stop_state()}.
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
     18..|    Passengers = State#stop_state.passengers,
     18..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),

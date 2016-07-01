@@ -18,7 +18,7 @@ mkdir -p $OTPPLTDIR
 if [ ! -f $OTPPLT ];
 then
   echo "No OTP PLT available, building PLT"
-  dialyzer --build_plt --apps kernel stdlib erts mnesia --output_plt $OTPPLT
+  dialyzer --build_plt --apps kernel stdlib erts mnesia eunit --output_plt $OTPPLT
 fi
 
 #if [[ ! -f $DEPSPLT ]];

@@ -47,7 +47,6 @@ get_neighbors_test() ->
   stop:stop(Stop5),
   line:stop(Line).
 
-
 get_other_end_test() ->
   {ok, Stop1} = stop:start_link(stop1),
   {ok, Stop2} = stop:start_link(stop2),
@@ -73,10 +72,10 @@ contains_stop_test() ->
   Dur2_3 = 20,
   {ok, Line} = line:start_link(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3], bus),
 
-  ?assert(line:?CONTAINS_STOP(Line, Stop1)),
-  ?assert(line:?CONTAINS_STOP(Line, Stop2)),
-  ?assert(line:?CONTAINS_STOP(Line, Stop3)),
-  ?assertNot(line:?CONTAINS_STOP(Line, Stop4)),
+  ?assertEqual(true, line:?CONTAINS_STOP(Line, Stop1)),
+  ?assertEqual(true, line:?CONTAINS_STOP(Line, Stop2)),
+  ?assertEqual(true, line:?CONTAINS_STOP(Line, Stop3)),
+  ?assertEqual(false, line:?CONTAINS_STOP(Line, Stop4)),
 
   stop:stop(Stop1),
   stop:stop(Stop2),
@@ -133,9 +132,9 @@ is_end_stop_test() ->
   Dur2_3 = 20,
 
   {ok, Line} = line:start_link(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3], bus),
-  ?assert(line:?IS_END_STOP(Line, Stop1)),
-  ?assertNot(line:?IS_END_STOP(Line, Stop2)),
-  ?assert(line:?IS_END_STOP(Line, Stop3)),
+  ?assertEqual(true, line:?IS_END_STOP(Line, Stop1)),
+  ?assertEqual(false, line:?IS_END_STOP(Line, Stop2)),
+  ?assertEqual(true, line:?IS_END_STOP(Line, Stop3)),
 
   stop:stop(Stop1),
   stop:stop(Stop2),

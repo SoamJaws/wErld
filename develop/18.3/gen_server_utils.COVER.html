@@ -5,14 +5,24 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-06-30 at 07:42:29
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-01 at 20:06:49
 
 ****************************************************************************
 
         |  -module(gen_server_utils).
         |  
-        |  -export([ block_caller/1
+        |  -export([ cast/3
         |          , notify_caller/2]).
+        |  
+        |  cast(Pid, Msg, BlockCaller) -&gt;
+    58..|    UpdatedMsg = if
+        |                   is_tuple(Msg) -&gt;
+    58..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);
+        |                   true -&gt;
+<font color=red>     0..|                     {Msg, BlockCaller, self()}</font>
+        |                 end,
+    58..|    gen_server:cast(Pid, UpdatedMsg),
+    58..|    block_caller(BlockCaller).
         |  
         |  block_caller(BlockCaller) -&gt;
     58..|    if

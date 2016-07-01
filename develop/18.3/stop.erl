@@ -40,18 +40,15 @@ state(Pid) ->
 
 -spec ?PASSENGER_CHECK_OUT(pid(), pid(), boolean())-> ok.
 ?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) ->
-  gen_server:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger, BlockCaller, self()}),
-  gen_server_utils:block_caller(BlockCaller).
+  gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_IN(pid(), pid(), boolean()) -> ok.
 ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) ->
-  gen_server:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle, BlockCaller, self()}),
-  gen_server_utils:block_caller(BlockCaller).
+  gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_OUT(pid(), pid(), boolean()) -> ok.
 ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) ->
-  gen_server:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle, BlockCaller, self()}),
-  gen_server_utils:block_caller(BlockCaller).
+  gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
 
 %% gen_server

@@ -3,6 +3,7 @@
 -export([ cast/3
         , notify_caller/2]).
 
+-spec cast(pid(), tuple(), boolean()) -> ok.
 cast(Pid, Msg, BlockCaller) ->
   UpdatedMsg = if
                  is_tuple(Msg) ->
@@ -13,20 +14,22 @@ cast(Pid, Msg, BlockCaller) ->
   gen_server:cast(Pid, UpdatedMsg),
   block_caller(BlockCaller).
 
+-spec block_caller(boolean()) -> ok.
 block_caller(BlockCaller) ->
   if
     BlockCaller ->
       receive
-        done -> ok
+        ok -> ok
       end;
     true ->
       ok
   end.
 
+-spec notify_caller(boolean(), pid()) -> ok.
 notify_caller(NotifyCaller, Caller) ->
   if
     NotifyCaller ->
-      Caller ! done;
+      Caller ! ok;
     true ->
       ok
   end.

@@ -34,11 +34,11 @@ start_link(Number, Stops, Type) ->
 stop(Pid) ->
   gen_server:call(Pid, stop).
 
--spec state(pid()) -> stop_state().
+-spec state(pid()) -> line_state().
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?GET_NEXT_STOP(pid(), pid(), pid()) -> {pid(), pos_integer()}.
+-spec ?GET_NEXT_STOP(pid(), pid(), pid()) -> {pid(), pos_integer()} | none.
 ?GET_NEXT_STOP(Pid, Target, Stop) ->
   gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
 
@@ -79,7 +79,7 @@ init({Number, Stops, Type}) ->
   {ok, #line_state{number=Number, stops=Stops, type=Type}}.
 
 
--spec handle_call({?GET_NEXT_STOP, pid(), pid()}, {pid(), any()}, line_state()) -> {reply, {pid(), pos_integer()}, line_state()}
+-spec handle_call({?GET_NEXT_STOP, pid(), pid()}, {pid(), any()}, line_state()) -> {reply, {pid(), pos_integer()} | none, line_state()}
       ;          ({?GET_NEIGHBORS, pid()},        {pid(), any()}, line_state()) -> {reply, [{pid(), pos_integer(), pid(), pid()}], line_state()}
       ;          ({?GET_OTHER_END, pid()},        {pid(), any()}, line_state()) -> {reply, pid(), line_state()}
       ;          ({?CONTAINS_STOP, pid()},        {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}

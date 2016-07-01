@@ -2,4 +2,4 @@
 -include_lib("eunit/include/eunit.hrl").
 
 public_transport_test() ->
-  ?assert(true).
+  ?assertEqual(true, true).

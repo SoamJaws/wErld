@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-01 at 20:07:36
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-01 at 21:39:43
 
 ****************************************************************************
 
@@ -14,6 +14,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.er
         |  -export([ cast/3
         |          , notify_caller/2]).
         |  
+        |  -spec cast(pid(), tuple(), boolean()) -&gt; ok.
         |  cast(Pid, Msg, BlockCaller) -&gt;
     58..|    UpdatedMsg = if
         |                   is_tuple(Msg) -&gt;
@@ -24,20 +25,22 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.er
     58..|    gen_server:cast(Pid, UpdatedMsg),
     58..|    block_caller(BlockCaller).
         |  
+        |  -spec block_caller(boolean()) -&gt; ok.
         |  block_caller(BlockCaller) -&gt;
     58..|    if
         |      BlockCaller -&gt;
     27..|        receive
-    27..|          done -&gt; ok
+    27..|          ok -&gt; ok
         |        end;
         |      true -&gt;
     31..|        ok
         |    end.
         |  
+        |  -spec notify_caller(boolean(), pid()) -&gt; ok.
         |  notify_caller(NotifyCaller, Caller) -&gt;
     32..|    if
         |      NotifyCaller -&gt;
-    27..|        Caller ! done;
+    27..|        Caller ! ok;
         |      true -&gt;
      5..|        ok
         |    end.

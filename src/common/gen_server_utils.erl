@@ -13,12 +13,6 @@ cast(Pid, Msg, BlockCaller) ->
   gen_server:cast(Pid, UpdatedMsg),
   block_caller(BlockCaller).
 
-handle_cast(Msg, State, Fun) ->
-  %% TODO Extract NotifyCaller and Caller
-  %% Call Fun(State, RemainingTuple)  and save new state
-  %% Notify Caller
-  %% Return state
-
 block_caller(BlockCaller) ->
   if
     BlockCaller ->

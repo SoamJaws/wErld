@@ -44,8 +44,8 @@ init([]) ->
   {ok, {{stops, StopSpecs}, {lines, LineSpecs}}} = file:script(?INFRASTRUCTURE_DATA_PATH),
   %%TODO Start a stop for each stopspec.
   %%TODO Start a line for each linespec, using stops as input
-  Stops = ok,
-  Lines = ok,
+  Stops = [],
+  Lines = [],
   {ok, #public_transport_state{lines=Lines}}.
 
 -spec handle_call({?GET_ROUTE, pid(), pid()}, {pid(), any()}, public_transport_state()) -> {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
@@ -91,11 +91,14 @@ get_route_helper(From, To, AllLines) ->
   ToLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, To)],
   spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive
-    {Route, Dur} -> {compress_route(Route), Dur}
+    {Route, Dur} ->
+      {compress_route(Route), Dur};
+    none ->
+      none
   end.
 
 
--spec get_route_concurrent(pid(), pid(), [pid()], {[{pid(), pid(), pid()}], non_neg_integer()}, [pid()], [pid()], pid()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
+-spec get_route_concurrent(pid(), pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], pid()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
   FromLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
@@ -106,8 +109,8 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
         [] ->
           Invoker ! none;
         _ ->
-          Routes = spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines),
-          {BestRoute, TotalDur} = get_best_route(Routes),
+          Routes = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, VisitedStops, AllLines),
+          {BestRoute, TotalDur} = get_best_route(lists:filter(fun(R) -> R /= none end, Routes)),
           Invoker ! {Route ++ BestRoute, Dur + TotalDur}
       end;
     _  ->
@@ -117,11 +120,11 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
   end.
 
 
--spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()} | none, [pid()], [pid()]) -> [{[{pid(), pid(), pid()}], pos_integer()}].
+-spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()]) -> [{[{pid(), pid(), pid()}], pos_integer()}].
 spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) ->
   spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
 
--spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()} | none, [pid()], [pid()], non_neg_integer()) -> [{[{pid(), pid(), pid()}], pos_integer()}].
+-spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], non_neg_integer()) -> [{[{pid(), pid(), pid()}], pos_integer()}].
 spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) ->
   receive_routes(NoCalls);
 spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) ->
@@ -150,13 +153,11 @@ receive_routes(NoCalls, Routes) ->
   end.
 
 -spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}]) -> {[{pid(), pid(), pid()}], pos_integer()}.
-get_best_route(Routes) ->
-  get_best_route(Routes, {none, -1}).
+get_best_route([Route|Routes]) ->
+  get_best_route(Routes, Route).
 
--spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}], {[{pid(), pid(), pid()}], integer()}) -> {[{pid(), pid(), pid()}], pos_integer()}.
+-spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}], {[{pid(), pid(), pid()}], pos_integer()}) -> {[{pid(), pid(), pid()}], pos_integer()}.
 get_best_route([], BestRoute) -> BestRoute;
-get_best_route([Route|Routes], {none, -1}) ->
-  get_best_route(Routes, Route);
 get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
   if
     Dur < BestDur ->
@@ -167,7 +168,7 @@ get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
 
 
 %% [{FromLine, ToLine, IntersectingStop}]
--spec get_intersecting_lines(pid(), pid()) -> [{pid(), pid(), pid()}].
+-spec get_intersecting_lines([pid()], [pid()]) -> [{pid(), pid(), pid()}].
 get_intersecting_lines(FromLines, ToLines) ->
   get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines]).
 
@@ -180,10 +181,10 @@ get_intersecting_lines([IntersectingLine|IntersectingLines]) ->
 
 
 -spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}]) -> {pid(), pid(), pid(), pos_integer()}.
-get_best_intersecting_lines(IntersectingLinesWithDurations) ->
-  get_best_intersecting_lines(IntersectingLinesWithDurations, {none, none, none, 0}).
+get_best_intersecting_lines([IntersectingLineWithDuration|IntersectingLinesWithDurations]) ->
+  get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).
 
--spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}], {pid() | none, pid() | none, pid() | none, non_neg_integer()}) -> {pid(), pid(), pid(), pos_integer()}.
+-spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}], {pid(), pid(), pid(), pos_integer()}) -> {pid(), pid(), pid(), pos_integer()}.
 get_best_intersecting_lines([], BestIntersectingLines) -> BestIntersectingLines;
 get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) ->
   if
@@ -194,12 +195,15 @@ get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|Intersect
   end.
 
 
-compress_route(Stops) -> compress_route(Stops, []).
+-spec compress_route([{pid(), pid(), pid()}]) -> [{pid(), pid(), pid()}].
+compress_route([Stop|Stops]) ->
+  compress_route(Stops, [Stop]).
 
+-spec compress_route([{pid(), pid(), pid()}], [{pid(), pid(), pid()}]) -> [{pid(), pid(), pid()}].
 compress_route([], Route) -> Route;
-compress_route([{Line, Stop}|Stops], Route) ->
+compress_route([{Line, Target, Destination}|Stops], Route) ->
   Last = lists:last(Route),
   case Last of
-    {Line,_} -> compress_route(Stops, lists:droplast(Route) ++ {Line, Stop});
-    _        -> compress_route(Stops, Route ++ [{Line, Stop}])
+    {Line,_} -> compress_route(Stops, lists:droplast(Route) ++ [{Line, Target, Destination}]);
+    _        -> compress_route(Stops, Route ++ [{Line, Target, Destination}])
   end.

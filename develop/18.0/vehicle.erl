@@ -31,7 +31,7 @@ start_link(Capacity, Line, Target, Type) ->
 stop(Pid) ->
   gen_server:call(Pid, stop).
 
--spec state(pid()) -> stop_state().
+-spec state(pid()) -> vehicle_state().
 state(Pid) ->
   gen_server:call(Pid, state).
 

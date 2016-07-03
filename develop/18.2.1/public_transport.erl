@@ -41,11 +41,24 @@ state(Pid) ->
 
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->
-  {ok, {{stops, StopSpecs}, {lines, LineSpecs}}} = file:script(?INFRASTRUCTURE_DATA_PATH),
-  %%TODO Start a stop for each stopspec.
-  %%TODO Start a line for each linespec, using stops as input
-  Stops = [],
-  Lines = [],
+  %% StopIds = [atom()]
+  %% LineSpecs = [non_neg_integer(), [atom()], vehicle_type()]
+  {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?INFRASTRUCTURE_DATA_PATH),
+  StopDict = lists:foldl(fun(StopId, Dict) ->
+                           {ok, Pid} = supervisor:start_child(stop_supervisor, [StopId]),
+                           dict:append(StopId, Pid, Dict)
+                         end , dict:new() , StopIds),
+  Lines = lists:map(fun({Number, Stops, Type}) ->
+                      UpdatedStops = lists:map(fun(Element) ->
+                                                 if
+                                                   is_integer(Element) ->
+                                                     Element;
+                                                   true ->
+                                                     dict:fetch(Element, StopDict)
+                                                 end
+                                               end, Stops),
+                      supervisor:start_child(line_supervisor, [Number, UpdatedStops, Type])
+                    end, LineSpecs),
   {ok, #public_transport_state{lines=Lines}}.
 
 -spec handle_call({?GET_ROUTE, pid(), pid()}, {pid(), any()}, public_transport_state()) -> {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}

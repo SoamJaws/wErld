@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport_supervisor.erl by COVER 2016-07-04 at 07:08:27
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport_supervisor.erl by COVER 2016-07-04 at 07:23:57
 
 ****************************************************************************
 
@@ -20,14 +20,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport_su
         |  
         |  init(_Args) -&gt;
      1..|      SupFlags = {one_for_one, 1, 5},
-     1..|      ChildSpecs = [ { public_transport
-        |                     , {public_transport, start_link, []}
-        |                     , permanent
-        |                     , 1000
-        |                     , worker
-        |                     , [public_transport]
-        |                     }
-        |                   , { line_supervisor
+     1..|      ChildSpecs = [ { line_supervisor
         |                     , {line_supervisor, start_link, []}
         |                     , permanent
         |                     , 1000
@@ -47,6 +40,13 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport_su
         |                     , 1000
         |                     , supervisor
         |                     , [vehicle]
+        |                     }
+        |                   , { public_transport
+        |                     , {public_transport, start_link, []}
+        |                     , permanent
+        |                     , 1000
+        |                     , worker
+        |                     , [public_transport]
         |                     }
         |                   ],
      1..|      {ok, {SupFlags, ChildSpecs}}.

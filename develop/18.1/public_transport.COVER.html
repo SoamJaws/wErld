@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 07:10:45
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 07:26:32
 
 ****************************************************************************
 
@@ -33,7 +33,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec start_link() -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link() -&gt;
-     1..|    gen_server:start_link(?MODULE, [], []).
+<font color=red>     0..|    gen_server:start_link(?MODULE, [], []).</font>
         |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
@@ -54,10 +54,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  init([]) -&gt;
         |    %% StopIds = [atom()]
         |    %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
-     1..|    Res = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
-     1..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
-     1..|    StopDict = lists:foldl(fun(StopId, Dict) -&gt;
-     1..|                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
+<font color=red>     0..|    Res = file:script(?PUBLIC_TRANSPORT_DATA_PATH),</font>
+<font color=red>     0..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),</font>
+<font color=red>     0..|    StopDict = lists:foldl(fun(StopId, Dict) -&gt;</font>
+<font color=red>     0..|                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),</font>
 <font color=red>     0..|                             dict:append(StopId, Pid, Dict)</font>
         |                           end , dict:new() , StopIds),
 <font color=red>     0..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;</font>
@@ -69,7 +69,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
 <font color=red>     0..|                                                       dict:fetch(Element, StopDict)</font>
         |                                                   end
         |                                                 end, Stops),
-<font color=red>     0..|                        supervisor:start_child(line_supervisor, [Number, UpdatedStops, Type])</font>
+<font color=red>     0..|                        supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])</font>
         |                      end, LineSpecs),
 <font color=red>     0..|    {ok, #public_transport_state{lines=Lines}}.</font>
         |  

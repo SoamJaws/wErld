@@ -7,6 +7,7 @@ OTPPLT=$OTPPLTDIR/.dialyzer_otp.plt
 DEPSPLT=deps.plt
 PLT=wErld.plt
 RESULT=0
+export WERLDROOT=$(git rev-parse --show-toplevel)
 echo ""
 
 echo "================= Resolve dependencies ================"

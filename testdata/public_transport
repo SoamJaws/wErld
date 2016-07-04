@@ -1,0 +1,5 @@
+{ {stops, [ a, b, c, d, e, f, g, h, i]}
+, {lines, [ {1, [a,b,e,h,i], bus}
+          , {2, [c,d,e,f,g], tram}
+          ]}
+}.

@@ -1,4 +1,8 @@
--define(INFRASTRUCTURE_DATA_PATH, "$WERLDROOT/appdata/public_transport").
+-ifndef(TEST).
+-define(PUBLIC_TRANSPORT_DATA_PATH, os:getenv("WERLDROOT") ++ "/appdata/public_transport").
+-else.
+-define(PUBLIC_TRANSPORT_DATA_PATH, os:getenv("WERLDROOT") ++ "/testdata/public_transport").
+-endif.
 
 %%-----------------------------------------------------------
 %% Data Type: public_transport stop

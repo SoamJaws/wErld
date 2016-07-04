@@ -42,8 +42,9 @@ state(Pid) ->
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->
   %% StopIds = [atom()]
-  %% LineSpecs = [non_neg_integer(), [atom()], vehicle_type()]
-  {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?INFRASTRUCTURE_DATA_PATH),
+  %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
+  Res = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
+  {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
   StopDict = lists:foldl(fun(StopId, Dict) ->
                            {ok, Pid} = supervisor:start_child(stop_supervisor, [StopId]),
                            dict:append(StopId, Pid, Dict)

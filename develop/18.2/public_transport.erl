@@ -32,9 +32,9 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?GET_ROUTE(pid(), pid(), pid()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
-?GET_ROUTE(Pid, From, To) ->
-  gen_server:call(Pid, {?GET_ROUTE, From, To}).
+-spec ?GET_ROUTE(pid(), atom(), atom()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
+?GET_ROUTE(Pid, FromId, ToId) ->
+  gen_server:call(Pid, {?GET_ROUTE, FromId, ToId}).
 
 
 %% gen_server
@@ -59,20 +59,20 @@ init([]) ->
                                                end, Stops),
                       supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])
                     end, LineSpecs),
-  {ok, #public_transport_state{lines=Lines}}.
+  {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
 
--spec handle_call({?GET_ROUTE, pid(), pid()}, {pid(), any()}, public_transport_state()) -> {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
+-spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
       ;          (stop,                       {pid(), any()}, public_transport_state()) -> {stop, normal, stopped, stop_state()}
       ;          (state,                      {pid(), any()}, public_transport_state()) -> {reply, public_transport_state(), public_transport_state()}.
-handle_call({?GET_ROUTE, From, To}, _From, Lines) ->
-  Reply = get_route_helper(From, To, Lines),
-  {reply, Reply, Lines};
+handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
+  Reply = get_route_helper(FromId, ToId, State),
+  {reply, Reply, State};
 
-handle_call(state, _From, Lines) ->
-  {reply, Lines, Lines};
+handle_call(state, _From, State) ->
+  {reply, State, State};
 
-handle_call(stop, _From, Lines) ->
-  {stop, normal, stopped, Lines}.
+handle_call(stop, _From, State) ->
+  {stop, normal, stopped, State}.
 
 
 -spec handle_cast(any(), public_transport_state()) -> {noreply, public_transport_state()}.
@@ -99,8 +99,11 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
 %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
--spec get_route_helper(pid(), pid(), [pid()]) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
-get_route_helper(From, To, AllLines) ->
+-spec get_route_helper(atom(), atom(), public_transport_state()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
+get_route_helper(FromId, ToId, State) ->
+  AllLines = State#public_transport_state.lines,
+  From = dict:fetch(FromId, State#public_transport_state.stops),
+  To = dict:fetch(ToId, State#public_transport_state.stops),
   ToLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, To)],
   spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive

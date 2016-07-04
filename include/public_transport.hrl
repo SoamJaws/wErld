@@ -1,7 +1,7 @@
 -ifndef(TEST).
--define(PUBLIC_TRANSPORT_DATA_PATH, os:getenv("WERLDROOT") ++ "/appdata/public_transport").
+-define(PUBLIC_TRANSPORT_DATA_PATH, "priv/public_transport").
 -else.
--define(PUBLIC_TRANSPORT_DATA_PATH, os:getenv("WERLDROOT") ++ "/testdata/public_transport").
+-define(PUBLIC_TRANSPORT_DATA_PATH, "priv/public_transport_test").
 -endif.
 
 %%-----------------------------------------------------------

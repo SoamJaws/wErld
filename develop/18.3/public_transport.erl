@@ -43,7 +43,6 @@ state(Pid) ->
 init([]) ->
   %% StopIds = [atom()]
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
-  Res = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
   {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
   StopDict = lists:foldl(fun(StopId, Dict) ->
                            {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),

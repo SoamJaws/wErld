@@ -58,7 +58,7 @@ init([]) ->
                                                      dict:fetch(Element, StopDict)
                                                  end
                                                end, Stops),
-                      supervisor:start_child(line_supervisor, [Number, UpdatedStops, Type])
+                      supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])
                     end, LineSpecs),
   {ok, #public_transport_state{lines=Lines}}.
 

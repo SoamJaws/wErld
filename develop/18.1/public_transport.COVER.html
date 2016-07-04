@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 10:59:58
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 14:59:42
 
 ****************************************************************************
 
@@ -33,7 +33,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec start_link() -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link() -&gt;
-     1..|    gen_server:start_link(?MODULE, [], []).
+     2..|    gen_server:start_link(?MODULE, [], []).
         |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
@@ -54,23 +54,23 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  init([]) -&gt;
         |    %% StopIds = [atom()]
         |    %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
-     1..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
-<font color=red>     0..|    StopDict = lists:foldl(fun(StopId, Dict) -&gt;</font>
-<font color=red>     0..|                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),</font>
-<font color=red>     0..|                             dict:append(StopId, Pid, Dict)</font>
+     2..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
+     2..|    StopDict = lists:foldl(fun(StopId, Dict) -&gt;
+    18..|                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
+    18..|                             dict:append(StopId, Pid, Dict)
         |                           end , dict:new() , StopIds),
-<font color=red>     0..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;</font>
-<font color=red>     0..|                        UpdatedStops = lists:map(fun(Element) -&gt;</font>
-<font color=red>     0..|                                                   if</font>
+     2..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;
+     4..|                        UpdatedStops = lists:map(fun(Element) -&gt;
+    20..|                                                   if
         |                                                     is_integer(Element) -&gt;
 <font color=red>     0..|                                                       Element;</font>
         |                                                     true -&gt;
-<font color=red>     0..|                                                       dict:fetch(Element, StopDict)</font>
+    20..|                                                       dict:fetch(Element, StopDict)
         |                                                   end
         |                                                 end, Stops),
-<font color=red>     0..|                        supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])</font>
+     4..|                        supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])
         |                      end, LineSpecs),
-<font color=red>     0..|    {ok, #public_transport_state{lines=Lines}}.</font>
+     2..|    {ok, #public_transport_state{lines=Lines}}.
         |  
         |  -spec handle_call({?GET_ROUTE, pid(), pid()}, {pid(), any()}, public_transport_state()) -&gt; {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
         |        ;          (stop,                       {pid(), any()}, public_transport_state()) -&gt; {stop, normal, stopped, stop_state()}

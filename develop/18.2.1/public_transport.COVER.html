@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 15:01:14
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 15:22:52
 
 ****************************************************************************
 
@@ -43,9 +43,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  state(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
-        |  -spec ?GET_ROUTE(pid(), pid(), pid()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
-        |  ?GET_ROUTE(Pid, From, To) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_ROUTE, From, To}).</font>
+        |  -spec ?GET_ROUTE(pid(), atom(), atom()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
+        |  ?GET_ROUTE(Pid, FromId, ToId) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, {?GET_ROUTE, FromId, ToId}).</font>
         |  
         |  
         |  %% gen_server
@@ -70,20 +70,20 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |                                                 end, Stops),
      4..|                        supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])
         |                      end, LineSpecs),
-     2..|    {ok, #public_transport_state{lines=Lines}}.
+     2..|    {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
         |  
-        |  -spec handle_call({?GET_ROUTE, pid(), pid()}, {pid(), any()}, public_transport_state()) -&gt; {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
+        |  -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -&gt; {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
         |        ;          (stop,                       {pid(), any()}, public_transport_state()) -&gt; {stop, normal, stopped, stop_state()}
         |        ;          (state,                      {pid(), any()}, public_transport_state()) -&gt; {reply, public_transport_state(), public_transport_state()}.
-        |  handle_call({?GET_ROUTE, From, To}, _From, Lines) -&gt;
-<font color=red>     0..|    Reply = get_route_helper(From, To, Lines),</font>
-<font color=red>     0..|    {reply, Reply, Lines};</font>
+        |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
+<font color=red>     0..|    Reply = get_route_helper(FromId, ToId, State),</font>
+<font color=red>     0..|    {reply, Reply, State};</font>
         |  
-        |  handle_call(state, _From, Lines) -&gt;
-<font color=red>     0..|    {reply, Lines, Lines};</font>
+        |  handle_call(state, _From, State) -&gt;
+<font color=red>     0..|    {reply, State, State};</font>
         |  
-        |  handle_call(stop, _From, Lines) -&gt;
-<font color=red>     0..|    {stop, normal, stopped, Lines}.</font>
+        |  handle_call(stop, _From, State) -&gt;
+<font color=red>     0..|    {stop, normal, stopped, State}.</font>
         |  
         |  
         |  -spec handle_cast(any(), public_transport_state()) -&gt; {noreply, public_transport_state()}.
@@ -110,8 +110,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
         |  %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
-        |  -spec get_route_helper(pid(), pid(), [pid()]) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
-        |  get_route_helper(From, To, AllLines) -&gt;
+        |  -spec get_route_helper(atom(), atom(), public_transport_state()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
+        |  get_route_helper(FromId, ToId, State) -&gt;
+<font color=red>     0..|    AllLines = State#public_transport_state.lines,</font>
+<font color=red>     0..|    From = dict:fetch(FromId, State#public_transport_state.stops),</font>
+<font color=red>     0..|    To = dict:fetch(ToId, State#public_transport_state.stops),</font>
 <font color=red>     0..|    ToLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, To)],</font>
 <font color=red>     0..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),</font>
 <font color=red>     0..|    receive</font>

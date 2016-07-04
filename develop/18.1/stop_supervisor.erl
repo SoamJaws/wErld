@@ -5,7 +5,7 @@
 -export([init/1]).
 
 start_link() ->
-    supervisor:start_link(stop_supervisor, []).
+    supervisor:start_link({global, stop_supervisor}, []).
 
 init(_Args) ->
     SupFlags = { simple_one_for_one

@@ -9,14 +9,7 @@ start_link() ->
 
 init(_Args) ->
     SupFlags = {one_for_one, 1, 5},
-    ChildSpecs = [ { public_transport
-                   , {public_transport, start_link, []}
-                   , permanent
-                   , 1000
-                   , worker
-                   , [public_transport]
-                   }
-                 , { line_supervisor
+    ChildSpecs = [ { line_supervisor
                    , {line_supervisor, start_link, []}
                    , permanent
                    , 1000
@@ -36,6 +29,13 @@ init(_Args) ->
                    , 1000
                    , supervisor
                    , [vehicle]
+                   }
+                 , { public_transport
+                   , {public_transport, start_link, []}
+                   , permanent
+                   , 1000
+                   , worker
+                   , [public_transport]
                    }
                  ],
     {ok, {SupFlags, ChildSpecs}}.

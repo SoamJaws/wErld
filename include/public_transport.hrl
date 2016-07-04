@@ -123,11 +123,14 @@
 %% Data Type: public_transport
 %% where:
 %%
-%%    lines:     A list of Pids of all lines in the
-%%               public_transport
+%%    lines: A list of Pids of all lines in the
+%%           public_transport
+%%
+%%    stops: A dict of stop ids and pids
 %%
 %%------------------------------------------------------------
 -record(public_transport_state, { lines :: [pid()]
+                                , stops :: [{atom(), pid()}]
                               }).
 -type public_transport_state() :: #public_transport_state{}.
 

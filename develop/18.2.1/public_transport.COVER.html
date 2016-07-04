@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 14:58:44
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-04 at 15:01:14
 
 ****************************************************************************
 
@@ -61,9 +61,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |                           end , dict:new() , StopIds),
      2..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;
      4..|                        UpdatedStops = lists:map(fun(Element) -&gt;
-    20..|                                                   if
+    36..|                                                   if
         |                                                     is_integer(Element) -&gt;
-<font color=red>     0..|                                                       Element;</font>
+    16..|                                                       Element;
         |                                                     true -&gt;
     20..|                                                       dict:fetch(Element, StopDict)
         |                                                   end

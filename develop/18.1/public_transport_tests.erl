@@ -2,4 +2,4 @@
 -include_lib("eunit/include/eunit.hrl").
 
 public_transport_test() ->
-  ?assertEqual(true, true).
+  {ok, _PublicTransport} = public_transport:start_link().

@@ -14,21 +14,21 @@ init(_Args) ->
                    , permanent
                    , 1000
                    , supervisor
-                   , [line_supervisor]
+                   , [line]
                    }
                  , { stop_supervisor
                    , {stop_supervisor, start_link, []}
                    , permanent
                    , 1000
                    , supervisor
-                   , [stop_supervisor]
+                   , [stop]
                    }
                  , { vehicle_supervisor
                    , {vehicle_supervisor, start_link, []}
                    , permanent
                    , 1000
                    , supervisor
-                   , [vehicle_supervisor]
+                   , [vehicle]
                    }
                  , { public_transport
                    , {public_transport, start_link, []}

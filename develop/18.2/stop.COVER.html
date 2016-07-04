@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-03 at 09:49:59
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-04 at 05:19:06
 
 ****************************************************************************
 
@@ -35,110 +35,110 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec start_link(atom()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Id) -&gt;
-    44..|    gen_server:start_link(?MODULE, Id, []).
+    38..|    gen_server:start_link(?MODULE, Id, []).
         |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
-    44..|    gen_server:call(Pid, stop).
+    38..|    gen_server:call(Pid, stop).
         |  
         |  -spec state(pid()) -&gt; stop_state().
         |  state(Pid) -&gt;
-     1..|    gen_server:call(Pid, state).
+<font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
         |  -spec ?PASSENGER_CHECK_IN(pid(), pid()) -&gt; ok | {nok, nonempty_string()}.
         |  ?PASSENGER_CHECK_IN(Pid, Passenger) -&gt;
-    18..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
+<font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).</font>
         |  
         |  -spec ?PASSENGER_CHECK_OUT(pid(), pid(), boolean())-&gt; ok.
         |  ?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) -&gt;
-     7..|    gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).</font>
         |  
         |  -spec ?VEHICLE_CHECK_IN(pid(), pid(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) -&gt;
-    18..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).</font>
         |  
         |  -spec ?VEHICLE_CHECK_OUT(pid(), pid(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) -&gt;
-    11..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).</font>
         |  
         |  
         |  %% gen_server
         |  
         |  -spec init(atom()) -&gt; {ok, stop_state()}.
         |  init(Id) -&gt;
-    44..|    {ok, #stop_state{id=Id}}.
+    38..|    {ok, #stop_state{id=Id}}.
         |  
         |  
         |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -&gt; {reply, ok | {nok, string()}, stop_state()}
         |        ;          (stop,                         {pid(), any()}, stop_state()) -&gt; {stop, normal, stopped, stop_state()}
         |        ;          (state,                        {pid(), any()}, stop_state()) -&gt; {reply, stop_state(), stop_state()}.
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
-    18..|    Passengers = State#stop_state.passengers,
-    18..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),
-    18..|    if
+<font color=red>     0..|    Passengers = State#stop_state.passengers,</font>
+<font color=red>     0..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),</font>
+<font color=red>     0..|    if</font>
         |      AlreadyCheckedIn -&gt;
-     1..|        {reply, {nok, "Already checked in"}, State};
+<font color=red>     0..|        {reply, {nok, "Already checked in"}, State};</font>
         |      true -&gt;
-    17..|        CurrentVehicle = State#stop_state.currentVehicle,
-    17..|        case CurrentVehicle of
+<font color=red>     0..|        CurrentVehicle = State#stop_state.currentVehicle,</font>
+<font color=red>     0..|        case CurrentVehicle of</font>
         |          none -&gt;
-    15..|            ok;
+<font color=red>     0..|            ok;</font>
         |          Vehicle -&gt;
-     2..|            WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
-     2..|            if
+<font color=red>     0..|            WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),</font>
+<font color=red>     0..|            if</font>
         |              WillBoard -&gt;
-     1..|                vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false);
+<font color=red>     0..|                vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false);</font>
         |              true -&gt;
-     1..|                ok
+<font color=red>     0..|                ok</font>
         |            end
         |        end,
-    17..|        {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
+<font color=red>     0..|        {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}</font>
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
-    44..|    {stop, normal, stopped, State};
+    38..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
-     1..|    {reply, State, State}.
+<font color=red>     0..|    {reply, State, State}.</font>
         |  
         |  
         |  -spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
         |        ;          ({?VEHICLE_CHECK_IN, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
         |        ;          ({?VEHICLE_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}.
         |  handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) -&gt;
-     7..|    Passengers = lists:delete(Passenger, State#stop_state.passengers),
-     7..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     7..|    {noreply, State#stop_state{passengers=Passengers}};
+<font color=red>     0..|    Passengers = lists:delete(Passenger, State#stop_state.passengers),</font>
+<font color=red>     0..|    gen_server_utils:notify_caller(NotifyCaller, Caller),</font>
+<font color=red>     0..|    {noreply, State#stop_state{passengers=Passengers}};</font>
         |  
         |  handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) -&gt;
-     7..|    NewState = case State#stop_state.currentVehicle of
+<font color=red>     0..|    NewState = case State#stop_state.currentVehicle of</font>
         |                 none -&gt;
-     5..|                   BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
-     5..|                   vehicle:?CHECKIN_OK(Vehicle, self(), BoardingPassengers, false),
-     5..|                   State#stop_state{currentVehicle=Vehicle};
+<font color=red>     0..|                   BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),</font>
+<font color=red>     0..|                   vehicle:?CHECKIN_OK(Vehicle, self(), BoardingPassengers, false),</font>
+<font color=red>     0..|                   State#stop_state{currentVehicle=Vehicle};</font>
         |                 _    -&gt;
-     2..|                   VehicleQueue = State#stop_state.vehicleQueue,
-     2..|                   State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}
+<font color=red>     0..|                   VehicleQueue = State#stop_state.vehicleQueue,</font>
+<font color=red>     0..|                   State#stop_state{vehicleQueue=VehicleQueue++[Vehicle]}</font>
         |    end,
-     7..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     7..|    {noreply, NewState};
+<font color=red>     0..|    gen_server_utils:notify_caller(NotifyCaller, Caller),</font>
+<font color=red>     0..|    {noreply, NewState};</font>
         |  
         |  handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) -&gt;
-     3..|    NewState = if
+<font color=red>     0..|    NewState = if</font>
         |                 State#stop_state.currentVehicle == Vehicle -&gt;
-     2..|                   case State#stop_state.vehicleQueue of
+<font color=red>     0..|                   case State#stop_state.vehicleQueue of</font>
         |                     [NextVehicle|VehicleQueue] -&gt;
-     1..|                       BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
-     1..|                       vehicle:?CHECKIN_OK(NextVehicle, self(), BoardingPassengers, false),
-     1..|                       State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
+<font color=red>     0..|                       BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),</font>
+<font color=red>     0..|                       vehicle:?CHECKIN_OK(NextVehicle, self(), BoardingPassengers, false),</font>
+<font color=red>     0..|                       State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};</font>
         |                     [] -&gt;
-     1..|                       State#stop_state{currentVehicle=none}
+<font color=red>     0..|                       State#stop_state{currentVehicle=none}</font>
         |                   end;
         |                 true -&gt;
-     1..|                   State
+<font color=red>     0..|                   State</font>
         |    end,
-     3..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     3..|    {noreply, NewState}.
+<font color=red>     0..|    gen_server_utils:notify_caller(NotifyCaller, Caller),</font>
+<font color=red>     0..|    {noreply, NewState}.</font>
         |  
         |  
         |  -spec handle_info(timeout | any(), stop_state()) -&gt; {noreply, stop_state()}.
@@ -148,7 +148,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), stop_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
-    44..|    ok.
+    38..|    ok.
         |  
         |  
         |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, stop_state()}.
@@ -160,17 +160,17 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec notify_vehicle_checked_in([pid()], pid()) -&gt; non_neg_integer().
         |  notify_vehicle_checked_in(Passengers, Vehicle) -&gt;
-     6..|    notify_vehicle_checked_in(Passengers, Vehicle, 0).
+<font color=red>     0..|    notify_vehicle_checked_in(Passengers, Vehicle, 0).</font>
         |  
         |  -spec notify_vehicle_checked_in([pid()], pid(), non_neg_integer()) -&gt; non_neg_integer().
-     6..|  notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -&gt; BoardingPassengers;
+<font color=red>     0..|  notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -&gt; BoardingPassengers;</font>
         |  notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) -&gt;
-    11..|    WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
-    11..|    if
+<font color=red>     0..|    WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),</font>
+<font color=red>     0..|    if</font>
         |      WillBoard -&gt;
-    10..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers + 1);
+<font color=red>     0..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers + 1);</font>
         |      true -&gt;
-     1..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers)
+<font color=red>     0..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers)</font>
         |    end.
 </pre>
 </body>

@@ -5,12 +5,13 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 04:57:27
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 06:29:03
 
 ****************************************************************************
 
         |  -module(public_transport).
         |  -include("public_transport.hrl").
+        |  -include_lib("eunit/include/eunit.hrl").
         |  -behaviour(gen_server).
         |  
         |  %% Public API
@@ -45,7 +46,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec ?GET_ROUTE(pid(), atom(), atom()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
         |  ?GET_ROUTE(Pid, FromId, ToId) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_ROUTE, FromId, ToId}).</font>
+     1..|    gen_server:call(Pid, {?GET_ROUTE, FromId, ToId}).
         |  
         |  
         |  %% gen_server
@@ -68,7 +69,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
     20..|                                                       dict:fetch(Element, StopDict)
         |                                                   end
         |                                                 end, Stops),
-     4..|                        supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])
+     4..|                        {ok, Line} = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
+     4..|                        Line
         |                      end, LineSpecs),
      2..|    {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
         |  
@@ -76,7 +78,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |        ;          (stop,                       {pid(), any()}, public_transport_state()) -&gt; {stop, normal, stopped, stop_state()}
         |        ;          (state,                      {pid(), any()}, public_transport_state()) -&gt; {reply, public_transport_state(), public_transport_state()}.
         |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
-<font color=red>     0..|    Reply = get_route_helper(FromId, ToId, State),</font>
+     1..|    Reply = get_route_helper(FromId, ToId, State),
 <font color=red>     0..|    {reply, Reply, State};</font>
         |  
         |  handle_call(state, _From, State) -&gt;
@@ -112,12 +114,12 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
         |  -spec get_route_helper(atom(), atom(), public_transport_state()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
         |  get_route_helper(FromId, ToId, State) -&gt;
-<font color=red>     0..|    AllLines = State#public_transport_state.lines,</font>
-<font color=red>     0..|    From = dict:fetch(FromId, State#public_transport_state.stops),</font>
-<font color=red>     0..|    To = dict:fetch(ToId, State#public_transport_state.stops),</font>
-<font color=red>     0..|    ToLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, To)],</font>
-<font color=red>     0..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),</font>
-<font color=red>     0..|    receive</font>
+     1..|    AllLines = State#public_transport_state.lines,
+     1..|    From = dict:fetch(FromId, State#public_transport_state.stops),
+     1..|    To = dict:fetch(ToId, State#public_transport_state.stops),
+     1..|    ToLines = lists:filter(fun(Line) -&gt; line:?CONTAINS_STOP(Line, To) end, AllLines),
+     1..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
+     1..|    receive
         |      {Route, Dur} -&gt;
 <font color=red>     0..|        {compress_route(Route), Dur};</font>
         |      none -&gt;
@@ -127,9 +129,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec get_route_concurrent(pid(), pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], pid()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
         |  get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) -&gt;
-<font color=red>     0..|    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],</font>
-<font color=red>     0..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),</font>
-<font color=red>     0..|    case IntersectingLines of</font>
+     1..|    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],
+     1..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),
+     1..|    case IntersectingLines of
         |      [] -&gt;
 <font color=red>     0..|        Neighbors = lists:append([line:?GET_NEIGHBORS(Line, From) || Line &lt;- FromLines]),</font>
 <font color=red>     0..|        case Neighbors of</font>
@@ -141,9 +143,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
 <font color=red>     0..|            Invoker ! {Route ++ BestRoute, Dur + TotalDur}</font>
         |        end;
         |      _  -&gt;
-<font color=red>     0..|        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],</font>
-<font color=red>     0..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),</font>
-<font color=red>     0..|      Invoker ! {Route ++ [{FromLine, IntersectingStop}, {ToLine, To}], Dur + LastDur}</font>
+     1..|        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],
+     1..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
+     1..|      Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
+<font color=red>     0..|      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, To}], Dur + LastDur}</font>
         |    end.
         |  
         |  
@@ -197,22 +200,22 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  %% [{FromLine, ToLine, IntersectingStop}]
         |  -spec get_intersecting_lines([pid()], [pid()]) -&gt; [{pid(), pid(), pid()}].
         |  get_intersecting_lines(FromLines, ToLines) -&gt;
-<font color=red>     0..|    get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine &lt;- FromLines, ToLine &lt;- ToLines]).</font>
+     1..|    get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine &lt;- FromLines, ToLine &lt;- ToLines]).
         |  
         |  -spec get_intersecting_lines([{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
-<font color=red>     0..|  get_intersecting_lines([]) -&gt; [];</font>
+     1..|  get_intersecting_lines([]) -&gt; [];
         |  get_intersecting_lines([{_,_,none}|IntersectingLines]) -&gt;
 <font color=red>     0..|    get_intersecting_lines(IntersectingLines);</font>
         |  get_intersecting_lines([IntersectingLine|IntersectingLines]) -&gt;
-<font color=red>     0..|    [IntersectingLine|get_intersecting_lines(IntersectingLines)].</font>
+     1..|    [IntersectingLine|get_intersecting_lines(IntersectingLines)].
         |  
         |  
         |  -spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}]) -&gt; {pid(), pid(), pid(), pos_integer()}.
         |  get_best_intersecting_lines([IntersectingLineWithDuration|IntersectingLinesWithDurations]) -&gt;
-<font color=red>     0..|    get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).</font>
+     1..|    get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).
         |  
         |  -spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}], {pid(), pid(), pid(), pos_integer()}) -&gt; {pid(), pid(), pid(), pos_integer()}.
-<font color=red>     0..|  get_best_intersecting_lines([], BestIntersectingLines) -&gt; BestIntersectingLines;</font>
+     1..|  get_best_intersecting_lines([], BestIntersectingLines) -&gt; BestIntersectingLines;
         |  get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) -&gt;
 <font color=red>     0..|    if</font>
         |      Dur &lt; BestDur -&gt;

@@ -5,5 +5,11 @@
 public_transport_test() ->
   {ok, _PublicTransportSupervisor} = public_transport_supervisor:start_link(),
   {ok, PublicTransport} = public_transport:start_link(),
-  Route = public_transport:?GET_ROUTE(PublicTransport, a, o),
-  ?debugFmt("~p~n", [Route]).
+  {Route, Dur} = public_transport:?GET_ROUTE(PublicTransport, a, o),
+  Ids = lists:map(fun({L1,S2,S3}) ->
+                    LS1 = stop:state(L1),
+                    SS2 = stop:state(S2),
+                    SS3 = stop:state(S3),
+                    {LS1#line_state.number, SS2#stop_state.id, SS3#stop_state.id}
+                  end, Route),
+  ?debugFmt("~p~n", [Ids]).

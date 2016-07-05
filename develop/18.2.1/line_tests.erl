@@ -197,6 +197,30 @@ get_number_test() ->
   stop:stop(Stop3),
   line:stop(Line1).
 
+get_target_test() ->
+  {ok, Stop1} = stop:start_link(stop1),
+  {ok, Stop2} = stop:start_link(stop2),
+  {ok, Stop3} = stop:start_link(stop3),
+  {ok, Stop4} = stop:start_link(stop4),
+  {ok, Stop5} = stop:start_link(stop5),
+  Dur1_2 = 7,
+  Dur2_3 = 11,
+  Dur3_4 = 13,
+  Dur4_5 = 17,
+  {ok, Line} = line:start_link(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3, Dur3_4, Stop4, Dur4_5, Stop5], bus),
+
+  ?assertEqual(line:?GET_TARGET(Line, Stop1, Stop3), Stop5),
+  ?assertEqual(line:?GET_TARGET(Line, Stop5, Stop3), Stop1),
+  ?assertEqual(line:?GET_TARGET(Line, Stop3, Stop4), Stop5),
+  ?assertEqual(line:?GET_TARGET(Line, Stop3, Stop2), Stop1),
+
+  stop:stop(Stop1),
+  stop:stop(Stop2),
+  stop:stop(Stop3),
+  stop:stop(Stop4),
+  stop:stop(Stop5),
+  line:stop(Line).
+
 state_test() ->
   {ok, Stop1} = stop:start_link(stop1),
   {ok, Stop2} = stop:start_link(stop2),

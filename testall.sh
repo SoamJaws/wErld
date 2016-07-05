@@ -76,7 +76,6 @@ then
   EUNIT_OUTPUT=$(rebar compile eunit)
   EUNIT_RESULT=$?
   COVOK=true
-  PADDING=" "
 
   if [ "$EUNIT_RESULT" -ne 0 ];
   then
@@ -95,18 +94,20 @@ then
     PERCENT=$(echo ${keyval[1]} | tr -d ' ' | tr -d %)
     COLOR='\e[0;32m'
 
-    if [[ ("$PERCENT" < 80) ]];
+    if [[ ("$PERCENT" -lt "80") ]];
     then
       COVOK=false
       COLOR='\e[0;31m'
     fi
 
-    if [[ ("$PERCENT" < 10) ]];
+    if [[ ("$PERCENT" -lt "10") ]];
     then
       PADDING="   "
-    elif [[ ("$PERCENT" < 100) ]];
+    elif [[ ("$PERCENT" -lt "100") ]];
     then
       PADDING="  "
+    else
+      PADDING=" "
     fi
     echo -e "$MODULE:${COLOR}$PADDING$PERCENT\e[0m%"
   done < <(echo "$EUNIT_OUTPUT" | egrep "%|100$")

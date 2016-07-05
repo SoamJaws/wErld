@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "====================== Setup env ======================"
-echo $(which rebar)
+echo $(rebar --version)
 mkdir -p ebin
 mkdir -p etestbin
 OTPPLTDIR=$HOME/.otp_plt

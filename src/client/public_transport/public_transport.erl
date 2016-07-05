@@ -1,5 +1,6 @@
 -module(public_transport).
 -include("public_transport.hrl").
+-include_lib("eunit/include/eunit.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -57,7 +58,8 @@ init([]) ->
                                                      dict:fetch(Element, StopDict)
                                                  end
                                                end, Stops),
-                      supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type])
+                      {ok, Line} = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
+                      Line
                     end, LineSpecs),
   {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
 
@@ -104,7 +106,7 @@ get_route_helper(FromId, ToId, State) ->
   AllLines = State#public_transport_state.lines,
   From = dict:fetch(FromId, State#public_transport_state.stops),
   To = dict:fetch(ToId, State#public_transport_state.stops),
-  ToLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, To)],
+  ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
   spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive
     {Route, Dur} ->

@@ -13,7 +13,8 @@
         , ?GET_DURATION/3
         , ?IS_END_STOP/2
         , ?GET_INTERSECTION/2
-        , ?GET_NUMBER/1]).
+        , ?GET_NUMBER/1
+        , ?GET_TARGET/3]).
 
 %% gen_server
 -export([ init/1
@@ -70,6 +71,10 @@ state(Pid) ->
 ?GET_NUMBER(Pid) ->
   gen_server:call(Pid, ?GET_NUMBER).
 
+-spec ?GET_TARGET(pid(), pid(), pid()) -> pid().
+?GET_TARGET(Pid, FromStop, ToStop) ->
+  gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
+
 
 %% gen_server
 
@@ -87,6 +92,7 @@ init({Number, Stops, Type}) ->
       ;          ({?IS_END_STOP, pid()},          {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
       ;          ({?GET_INTERSECTION, pid()},     {pid(), any()}, line_state()) -> {reply, pid() | none, line_state()}
       ;          (?GET_NUMBER,                    {pid(), any()}, line_state()) -> {reply, pos_integer(), line_state()}
+      ;          ({?GET_TARGET, pid(), pid()},    {pid(), any()}, line_state()) -> {reply, pid(), line_state()}
       ;          (stop,                           {pid(), any()}, line_state()) -> {stop, normal, stopped, line_state()}
       ;          (state,                          {pid(), any()}, line_state()) -> {reply, line_state(), line_state()}.
 handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
@@ -141,6 +147,10 @@ handle_call({?GET_INTERSECTION, OtherLine}, _From, State) ->
 
 handle_call(?GET_NUMBER, _From, State) ->
   Reply = State#line_state.number,
+  {reply, Reply, State};
+
+handle_call({?GET_TARGET, FromStop, ToStop}, _From, State) ->
+  Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),
   {reply, Reply, State};
 
 handle_call(stop, _From, State) ->

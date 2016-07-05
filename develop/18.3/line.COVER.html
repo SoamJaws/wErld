@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-05 at 15:06:00
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-05 at 15:25:48
 
 ****************************************************************************
 
@@ -40,7 +40,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Number, Stops, Type) -&gt;
-    17..|    gen_server:start_link(?MODULE, {Number, Stops, Type}, []).
+    21..|    gen_server:start_link(?MODULE, {Number, Stops, Type}, []).
         |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
@@ -64,7 +64,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?CONTAINS_STOP(pid(), pid()) -&gt; boolean().
         |  ?CONTAINS_STOP(Pid, Stop) -&gt;
-    41..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
+    47..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
         |  
         |  -spec ?GET_DURATION(pid(), pid(), pid()) -&gt; pos_integer().
         |  ?GET_DURATION(Pid, FromStop, ToStop) -&gt;
@@ -92,7 +92,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -&gt; {ok, line_state()}.
         |  init({Number, Stops, Type}) -&gt;
         |    %gen_server:call(blackboard, {subscribe, time}),
-    17..|    {ok, #line_state{number=Number, stops=Stops, type=Type}}.
+    21..|    {ok, #line_state{number=Number, stops=Stops, type=Type}}.
         |  
         |  
         |  -spec handle_call({?GET_NEXT_STOP, pid(), pid()}, {pid(), any()}, line_state()) -&gt; {reply, {pid(), pos_integer()} | none, line_state()}
@@ -141,8 +141,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      2..|    {reply, Reply, State};
         |  
         |  handle_call({?CONTAINS_STOP, Stop}, _From, State) -&gt;
-    41..|    Reply = lists:member(Stop, State#line_state.stops),
-    41..|    {reply, Reply, State};
+    47..|    Reply = lists:member(Stop, State#line_state.stops),
+    47..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_DURATION, FromStop, ToStop}, _From, State) -&gt;
     22..|    Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),
@@ -214,25 +214,25 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  get_duration_helper(FromStop, ToStop, _OnPath, [ToStop|[Dur|Stops]]) -&gt;
     10..|    Dur + get_duration_helper(FromStop, ToStop, true, Stops);
         |  get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) -&gt;
-    44..|    case OnPath of
+    45..|    case OnPath of
         |      true -&gt;
-    22..|        Dur + get_duration_helper(FromStop, ToStop, true, Stops);
+    24..|        Dur + get_duration_helper(FromStop, ToStop, true, Stops);
         |      false -&gt;
-    22..|        get_duration_helper(FromStop, ToStop, false, Stops)
+    21..|        get_duration_helper(FromStop, ToStop, false, Stops)
         |    end.
         |  
         |  -spec get_intersection_helper(pid(), [pid() | pos_integer()]) -&gt; pid() | none.
         |  get_intersection_helper(OtherLine, [Stop|Rest]) -&gt;
-    33..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
-    33..|    case ContainsStop of
+    35..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
+    35..|    case ContainsStop of
         |      true -&gt;
      7..|        Stop;
         |      false -&gt;
-    26..|        case Rest of
+    28..|        case Rest of
         |          [] -&gt;
      6..|            none;
         |          [_|Stops] -&gt;
-    20..|            get_intersection_helper(OtherLine, Stops)
+    22..|            get_intersection_helper(OtherLine, Stops)
         |        end
         |    end.
         |  

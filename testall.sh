@@ -101,10 +101,10 @@ then
       COLOR='\e[0;31m'
     fi
 
-    if [[ ("$PERCENT" -lt "10") ]];
+    if [[ ("$PERCENT" < 10) ]];
     then
       PADDING="   "
-    elif [[ ("$PERCENT" -lt "100") ]];
+    elif [[ ("$PERCENT" < 100) ]];
     then
       PADDING="  "
     fi

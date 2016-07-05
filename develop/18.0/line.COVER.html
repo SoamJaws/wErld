@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-05 at 15:01:53
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-05 at 15:10:36
 
 ****************************************************************************
 
@@ -40,11 +40,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Number, Stops, Type) -&gt;
-    16..|    gen_server:start_link(?MODULE, {Number, Stops, Type}, []).
+    17..|    gen_server:start_link(?MODULE, {Number, Stops, Type}, []).
         |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
-    12..|    gen_server:call(Pid, stop).
+    13..|    gen_server:call(Pid, stop).
         |  
         |  -spec state(pid()) -&gt; line_state().
         |  state(Pid) -&gt;
@@ -84,7 +84,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_TARGET(pid(), pid(), pid()) -&gt; pid().
         |  ?GET_TARGET(Pid, FromStop, ToStop) -&gt;
-     1..|    gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
+     5..|    gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
         |  
         |  
         |  %% gen_server
@@ -92,7 +92,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -&gt; {ok, line_state()}.
         |  init({Number, Stops, Type}) -&gt;
         |    %gen_server:call(blackboard, {subscribe, time}),
-    16..|    {ok, #line_state{number=Number, stops=Stops, type=Type}}.
+    17..|    {ok, #line_state{number=Number, stops=Stops, type=Type}}.
         |  
         |  
         |  -spec handle_call({?GET_NEXT_STOP, pid(), pid()}, {pid(), any()}, line_state()) -&gt; {reply, {pid(), pos_integer()} | none, line_state()}
@@ -161,11 +161,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      1..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_TARGET, FromStop, ToStop}, _From, State) -&gt;
-     1..|    Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),
-     1..|    {reply, Reply, State};
+     5..|    Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),
+     5..|    {reply, Reply, State};
         |  
         |  handle_call(stop, _From, State) -&gt;
-    12..|    {stop, normal, stopped, State};
+    13..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
      1..|    {reply, State, State}.
@@ -183,7 +183,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), line_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
-    12..|    ok.
+    13..|    ok.
         |  
         |  
         |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, line_state()}.
@@ -238,19 +238,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec get_target_helper(pid(), pid(), [pid() | pos_integer()]) -&gt; pid().
         |  get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) -&gt;
-     1..|    get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -&gt; is_pid(Stop) end, Stops)).
+     5..|    get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -&gt; is_pid(Stop) end, Stops)).
         |  
         |  -spec get_target_helper(pid(), pid(), pid(), [pid() | pos_integer()]) -&gt; pid().
         |  get_target_helper(FromStop, _ToStop, FromStop, Stops) -&gt;
-     1..|    lists:last(Stops);
+     2..|    lists:last(Stops);
         |  get_target_helper(FromStop, ToStop, FirstEnd, [Stop|Stops]) -&gt;
-<font color=red>     0..|    case Stop of</font>
+     5..|    case Stop of
         |      FromStop -&gt;
-<font color=red>     0..|        lists:last(Stops);</font>
+     1..|        lists:last(Stops);
         |      ToStop -&gt;
-<font color=red>     0..|        FirstEnd;</font>
+     2..|        FirstEnd;
         |      Stop -&gt;
-<font color=red>     0..|        get_target_helper(FromStop, ToStop, FirstEnd, Stops)</font>
+     2..|        get_target_helper(FromStop, ToStop, FirstEnd, Stops)
         |    end.
 </pre>
 </body>

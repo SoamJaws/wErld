@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-05 at 07:07:05
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-05 at 07:20:00
 
 ****************************************************************************
 
@@ -52,7 +52,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_NEXT_STOP(pid(), pid(), pid()) -&gt; {pid(), pos_integer()} | none.
         |  ?GET_NEXT_STOP(Pid, Target, Stop) -&gt;
-     6..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
+    14..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
         |  
         |  -spec ?GET_NEIGHBORS(pid(), pid()) -&gt; [{pid(), pos_integer(), pid(), pid()}].
         |  ?GET_NEIGHBORS(Pid, Stop) -&gt;
@@ -60,7 +60,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_OTHER_END(pid(), pid()) -&gt; pid().
         |  ?GET_OTHER_END(Pid, Stop) -&gt;
-     2..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
+    12..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
         |  
         |  -spec ?CONTAINS_STOP(pid(), pid()) -&gt; boolean().
         |  ?CONTAINS_STOP(Pid, Stop) -&gt;
@@ -80,7 +80,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_NUMBER(pid()) -&gt; pos_integer().
         |  ?GET_NUMBER(Pid) -&gt;
-     1..|    gen_server:call(Pid, ?GET_NUMBER).
+    10..|    gen_server:call(Pid, ?GET_NUMBER).
         |  
         |  -spec ?GET_TARGET(pid(), pid(), pid()) -&gt; pid().
         |  ?GET_TARGET(Pid, FromStop, ToStop) -&gt;

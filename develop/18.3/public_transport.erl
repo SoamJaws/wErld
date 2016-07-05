@@ -135,7 +135,7 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
       IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
     {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
     Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
-    Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, To}], Dur + LastDur}
+    Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To}], Dur + LastDur}
   end.
 
 

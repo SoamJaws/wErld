@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 07:05:30
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 07:18:15
 
 ****************************************************************************
 
@@ -79,7 +79,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |        ;          (state,                      {pid(), any()}, public_transport_state()) -&gt; {reply, public_transport_state(), public_transport_state()}.
         |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
      1..|    Reply = get_route_helper(FromId, ToId, State),
-<font color=red>     0..|    {reply, Reply, State};</font>
+     1..|    {reply, Reply, State};
         |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, State, State};</font>
@@ -100,7 +100,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), stop_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
-     1..|    ok.
+<font color=red>     0..|    ok.</font>
         |  
         |  
         |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, stop_state()}.
@@ -146,7 +146,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
      1..|        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],
      1..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
      1..|      Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
-     1..|      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, To}], Dur + LastDur}
+     1..|      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To}], Dur + LastDur}
         |    end.
         |  
         |  
@@ -230,12 +230,12 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
      1..|    compress_route(Stops, [Stop]).
         |  
         |  -spec compress_route([{pid(), pid(), pid()}], [{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
-<font color=red>     0..|  compress_route([], Route) -&gt; Route;</font>
+     1..|  compress_route([], Route) -&gt; Route;
         |  compress_route([{Line, Target, Destination}|Stops], Route) -&gt;
-<font color=red>     0..|    Last = lists:last(Route),</font>
-<font color=red>     0..|    case Last of</font>
+     1..|    Last = lists:last(Route),
+     1..|    case Last of
 <font color=red>     0..|      {Line,_} -&gt; compress_route(Stops, lists:droplast(Route) ++ [{Line, Target, Destination}]);</font>
-<font color=red>     0..|      _        -&gt; compress_route(Stops, Route ++ [{Line, Target, Destination}])</font>
+     1..|      _        -&gt; compress_route(Stops, Route ++ [{Line, Target, Destination}])
         |    end.
 </pre>
 </body>

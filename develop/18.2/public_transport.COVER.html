@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 15:07:53
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 15:27:40
 
 ****************************************************************************
 
@@ -57,20 +57,20 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |    %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
      2..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
      2..|    StopDict = lists:foldl(fun(StopId, Dict) -&gt;
-    18..|                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
-    18..|                             dict:store(StopId, Pid, Dict)
+    32..|                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
+    32..|                             dict:store(StopId, Pid, Dict)
         |                           end , dict:new() , StopIds),
      2..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;
-     4..|                        UpdatedStops = lists:map(fun(Element) -&gt;
-    36..|                                                   if
+     8..|                        UpdatedStops = lists:map(fun(Element) -&gt;
+    76..|                                                   if
         |                                                     is_integer(Element) -&gt;
-    16..|                                                       Element;
+    34..|                                                       Element;
         |                                                     true -&gt;
-    20..|                                                       dict:fetch(Element, StopDict)
+    42..|                                                       dict:fetch(Element, StopDict)
         |                                                   end
         |                                                 end, Stops),
-     4..|                        {ok, Line} = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
-     4..|                        Line
+     8..|                        {ok, Line} = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
+     8..|                        Line
         |                      end, LineSpecs),
      2..|    {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
         |  

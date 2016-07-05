@@ -224,3 +224,20 @@ get_intersection_helper(OtherLine, [Stop|Rest]) ->
           get_intersection_helper(OtherLine, Stops)
       end
   end.
+
+-spec get_target_helper(pid(), pid(), [pid() | pos_integer()]) -> pid().
+get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) ->
+  get_target_helper(FromStop, ToStop, FirstEnd, [Stop || Stop <- Stops, is_pid(Stop)]).
+
+-spec get_target_helper(pid(), pid(), pid(), [pid() | pos_integer()]) -> pid().
+get_target_helper(FromStop, ToStop, FromStop, Stops) ->
+  lists:last(Stops);
+get_target_helper(FromStop, ToStop, FirstEnd, [Stop|Stops]) ->
+  case Stop of
+    FromStop ->
+      lists:last(Stops);
+    ToStop ->
+      FirstEnd;
+    Stop ->
+      get_target_helper(FromStop, ToStop, FirstEnd, Stops)
+  end.

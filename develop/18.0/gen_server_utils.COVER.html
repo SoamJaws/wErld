@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-05 at 07:07:43
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-05 at 07:20:05
 
 ****************************************************************************
 
@@ -16,33 +16,33 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.er
         |  
         |  -spec cast(pid(), tuple(), boolean()) -&gt; ok.
         |  cast(Pid, Msg, BlockCaller) -&gt;
-<font color=red>     0..|    UpdatedMsg = if</font>
+    58..|    UpdatedMsg = if
         |                   is_tuple(Msg) -&gt;
-<font color=red>     0..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);</font>
+    58..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);
         |                   true -&gt;
 <font color=red>     0..|                     {Msg, BlockCaller, self()}</font>
         |                 end,
-<font color=red>     0..|    gen_server:cast(Pid, UpdatedMsg),</font>
-<font color=red>     0..|    block_caller(BlockCaller).</font>
+    58..|    gen_server:cast(Pid, UpdatedMsg),
+    58..|    block_caller(BlockCaller).
         |  
         |  -spec block_caller(boolean()) -&gt; ok.
         |  block_caller(BlockCaller) -&gt;
-<font color=red>     0..|    if</font>
+    58..|    if
         |      BlockCaller -&gt;
-<font color=red>     0..|        receive</font>
-<font color=red>     0..|          ok -&gt; ok</font>
+    27..|        receive
+    27..|          ok -&gt; ok
         |        end;
         |      true -&gt;
-<font color=red>     0..|        ok</font>
+    31..|        ok
         |    end.
         |  
         |  -spec notify_caller(boolean(), pid()) -&gt; ok.
         |  notify_caller(NotifyCaller, Caller) -&gt;
-<font color=red>     0..|    if</font>
+    32..|    if
         |      NotifyCaller -&gt;
-<font color=red>     0..|        Caller ! ok;</font>
+    27..|        Caller ! ok;
         |      true -&gt;
-<font color=red>     0..|        ok</font>
+     5..|        ok
         |    end.
 </pre>
 </body>

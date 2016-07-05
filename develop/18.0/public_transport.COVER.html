@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 07:07:43
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 07:20:05
 
 ****************************************************************************
 
@@ -146,7 +146,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],
         |      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
         |      Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
-        |      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, To}], Dur + LastDur}
+        |      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To}], Dur + LastDur}
         |    end.
         |  
         |  

@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-05 at 06:30:40
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-05 at 06:37:18
 
 ****************************************************************************
 
@@ -35,11 +35,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec start_link(atom()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Id) -&gt;
-    18..|    gen_server:start_link(?MODULE, Id, []).
+    56..|    gen_server:start_link(?MODULE, Id, []).
         |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, stop).</font>
+    38..|    gen_server:call(Pid, stop).
         |  
         |  -spec state(pid()) -&gt; stop_state().
         |  state(Pid) -&gt;
@@ -66,7 +66,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec init(atom()) -&gt; {ok, stop_state()}.
         |  init(Id) -&gt;
-    18..|    {ok, #stop_state{id=Id}}.
+    56..|    {ok, #stop_state{id=Id}}.
         |  
         |  
         |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -&gt; {reply, ok | {nok, string()}, stop_state()}
@@ -96,7 +96,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |    end;
         |  
         |  handle_call(stop, _From, State) -&gt;
-<font color=red>     0..|    {stop, normal, stopped, State};</font>
+    38..|    {stop, normal, stopped, State};
         |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, State, State}.</font>
@@ -148,7 +148,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), stop_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
-<font color=red>     0..|    ok.</font>
+    38..|    ok.
         |  
         |  
         |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, stop_state()}.

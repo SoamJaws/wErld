@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 15:26:03
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 15:34:40
 
 ****************************************************************************
 
@@ -62,11 +62,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |                           end , dict:new() , StopIds),
      2..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;
      8..|                        UpdatedStops = lists:map(fun(Element) -&gt;
-    76..|                                                   if
+    68..|                                                   if
         |                                                     is_integer(Element) -&gt;
-    34..|                                                       Element;
+    30..|                                                       Element;
         |                                                     true -&gt;
-    42..|                                                       dict:fetch(Element, StopDict)
+    38..|                                                       dict:fetch(Element, StopDict)
         |                                                   end
         |                                                 end, Stops),
      8..|                        {ok, Line} = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
@@ -79,7 +79,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |        ;          (state,                      {pid(), any()}, public_transport_state()) -&gt; {reply, public_transport_state(), public_transport_state()}.
         |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
      1..|    Reply = get_route_helper(FromId, ToId, State),
-     1..|    {reply, Reply, State};
+<font color=red>     0..|    {reply, Reply, State};</font>
         |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, State, State};</font>
@@ -121,7 +121,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
      1..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
      1..|    receive
         |      {Route, Dur} -&gt;
-     1..|        {compress_route(Route), Dur};
+<font color=red>     0..|        {compress_route(Route), Dur};</font>
         |      none -&gt;
 <font color=red>     0..|        none</font>
         |    end.
@@ -129,57 +129,57 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec get_route_concurrent(pid(), pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], pid()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
         |  get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) -&gt;
-     1..|    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],
-     1..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),
-     1..|    case IntersectingLines of
+ 93956..|    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],
+ 68397..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),
+ 54870..|    case IntersectingLines of
         |      [] -&gt;
-<font color=red>     0..|        Neighbors = lists:append([line:?GET_NEIGHBORS(Line, From) || Line &lt;- FromLines]),</font>
-<font color=red>     0..|        case Neighbors of</font>
+ 53776..|        Neighbors = lists:append([line:?GET_NEIGHBORS(Line, From) || Line &lt;- FromLines]),
+ 44934..|        case Neighbors of
         |          [] -&gt;
 <font color=red>     0..|            Invoker ! none;</font>
         |          _ -&gt;
-<font color=red>     0..|            Routes = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, VisitedStops, AllLines),</font>
+ 44934..|            Routes = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, VisitedStops, AllLines),
 <font color=red>     0..|            {BestRoute, TotalDur} = get_best_route(lists:filter(fun(R) -&gt; R /= none end, Routes)),</font>
 <font color=red>     0..|            Invoker ! {Route ++ BestRoute, Dur + TotalDur}</font>
         |        end;
         |      _  -&gt;
-     1..|        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],
-     1..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
-     1..|      Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
-     1..|      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To}], Dur + LastDur}
+  1094..|        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],
+  1094..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
+  1094..|      Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
+  1094..|      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To}], Dur + LastDur}
         |    end.
         |  
         |  
         |  -spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()]) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
         |  spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) -&gt;
-<font color=red>     0..|    spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).</font>
+ 44934..|    spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
         |  
         |  -spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], non_neg_integer()) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
         |  spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) -&gt;
-<font color=red>     0..|    receive_routes(NoCalls);</font>
+ 44934..|    receive_routes(NoCalls);
         |  spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) -&gt;
-<font color=red>     0..|    VisitedNeighbor = lists:member(Neighbor, VisitedStops),</font>
-<font color=red>     0..|    if</font>
+ 93955..|    VisitedNeighbor = lists:member(Neighbor, VisitedStops),
+ 93955..|    if
         |      not VisitedNeighbor -&gt;
-<font color=red>     0..|        {From, Dur, Target, Line} = Neighbor,</font>
-<font color=red>     0..|        spawn(?MODULE, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),</font>
-<font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);</font>
+ 93955..|        {From, Dur, Target, Line} = Neighbor,
+ 93955..|        spawn(?MODULE, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),
+ 93955..|        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
         |      true -&gt;
 <font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)</font>
         |    end.
         |  
         |  -spec receive_routes(non_neg_integer()) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
         |  receive_routes(NoCalls) -&gt;
-<font color=red>     0..|    receive_routes(NoCalls, []).</font>
+ 44934..|    receive_routes(NoCalls, []).
         |  
         |  -spec receive_routes(non_neg_integer(), [{[{pid(), pid(), pid()}], pos_integer()}]) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
 <font color=red>     0..|  receive_routes(0, Routes) -&gt; Routes;</font>
         |  receive_routes(NoCalls, Routes) -&gt;
-<font color=red>     0..|    receive</font>
+ 46028..|    receive
         |      none -&gt;
 <font color=red>     0..|        receive_routes(NoCalls-1, Routes);</font>
         |      Route -&gt;
-<font color=red>     0..|        receive_routes(NoCalls-1, [Route|Routes])</font>
+  1094..|        receive_routes(NoCalls-1, [Route|Routes])
         |    end.
         |  
         |  -spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}]) -&gt; {[{pid(), pid(), pid()}], pos_integer()}.
@@ -200,22 +200,22 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  %% [{FromLine, ToLine, IntersectingStop}]
         |  -spec get_intersecting_lines([pid()], [pid()]) -&gt; [{pid(), pid(), pid()}].
         |  get_intersecting_lines(FromLines, ToLines) -&gt;
-     1..|    get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine &lt;- FromLines, ToLine &lt;- ToLines]).
+ 68397..|    get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine &lt;- FromLines, ToLine &lt;- ToLines]).
         |  
         |  -spec get_intersecting_lines([{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
-     1..|  get_intersecting_lines([]) -&gt; [];
+ 54870..|  get_intersecting_lines([]) -&gt; [];
         |  get_intersecting_lines([{_,_,none}|IntersectingLines]) -&gt;
-<font color=red>     0..|    get_intersecting_lines(IntersectingLines);</font>
+ 67860..|    get_intersecting_lines(IntersectingLines);
         |  get_intersecting_lines([IntersectingLine|IntersectingLines]) -&gt;
-     1..|    [IntersectingLine|get_intersecting_lines(IntersectingLines)].
+  1094..|    [IntersectingLine|get_intersecting_lines(IntersectingLines)].
         |  
         |  
         |  -spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}]) -&gt; {pid(), pid(), pid(), pos_integer()}.
         |  get_best_intersecting_lines([IntersectingLineWithDuration|IntersectingLinesWithDurations]) -&gt;
-     1..|    get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).
+  1094..|    get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).
         |  
         |  -spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}], {pid(), pid(), pid(), pos_integer()}) -&gt; {pid(), pid(), pid(), pos_integer()}.
-     1..|  get_best_intersecting_lines([], BestIntersectingLines) -&gt; BestIntersectingLines;
+  1094..|  get_best_intersecting_lines([], BestIntersectingLines) -&gt; BestIntersectingLines;
         |  get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) -&gt;
 <font color=red>     0..|    if</font>
         |      Dur &lt; BestDur -&gt;
@@ -227,15 +227,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec compress_route([{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
         |  compress_route([Stop|Stops]) -&gt;
-     1..|    compress_route(Stops, [Stop]).
+<font color=red>     0..|    compress_route(Stops, [Stop]).</font>
         |  
         |  -spec compress_route([{pid(), pid(), pid()}], [{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
-     1..|  compress_route([], Route) -&gt; Route;
+<font color=red>     0..|  compress_route([], Route) -&gt; Route;</font>
         |  compress_route([{Line, Target, Destination}|Stops], Route) -&gt;
-     1..|    Last = lists:last(Route),
-     1..|    case Last of
+<font color=red>     0..|    Last = lists:last(Route),</font>
+<font color=red>     0..|    case Last of</font>
 <font color=red>     0..|      {Line,_} -&gt; compress_route(Stops, lists:droplast(Route) ++ [{Line, Target, Destination}]);</font>
-     1..|      _        -&gt; compress_route(Stops, Route ++ [{Line, Target, Destination}])
+<font color=red>     0..|      _        -&gt; compress_route(Stops, Route ++ [{Line, Target, Destination}])</font>
         |    end.
 </pre>
 </body>

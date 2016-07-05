@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 06:52:37
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-05 at 07:02:05
 
 ****************************************************************************
 
@@ -58,7 +58,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
      2..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
      2..|    StopDict = lists:foldl(fun(StopId, Dict) -&gt;
     18..|                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
-    18..|                             dict:append(StopId, Pid, Dict)
+    18..|                             dict:store(StopId, Pid, Dict)
         |                           end , dict:new() , StopIds),
      2..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;
      4..|                        UpdatedStops = lists:map(fun(Element) -&gt;
@@ -100,7 +100,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), stop_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
-<font color=red>     0..|    ok.</font>
+     1..|    ok.
         |  
         |  
         |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, stop_state()}.
@@ -121,7 +121,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
      1..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
      1..|    receive
         |      {Route, Dur} -&gt;
-<font color=red>     0..|        {compress_route(Route), Dur};</font>
+     1..|        {compress_route(Route), Dur};
         |      none -&gt;
 <font color=red>     0..|        none</font>
         |    end.
@@ -146,7 +146,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
      1..|        IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} &lt;- IntersectingLines],
      1..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
      1..|      Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
-<font color=red>     0..|      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, To}], Dur + LastDur}</font>
+     1..|      Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, To}], Dur + LastDur}
         |    end.
         |  
         |  
@@ -227,7 +227,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec compress_route([{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
         |  compress_route([Stop|Stops]) -&gt;
-<font color=red>     0..|    compress_route(Stops, [Stop]).</font>
+     1..|    compress_route(Stops, [Stop]).
         |  
         |  -spec compress_route([{pid(), pid(), pid()}], [{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
 <font color=red>     0..|  compress_route([], Route) -&gt; Route;</font>

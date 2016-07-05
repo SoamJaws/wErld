@@ -94,6 +94,7 @@ then
     MODULE=${keyval[0]}
     PERCENT=$(echo ${keyval[1]} | tr -d ' ' | tr -d %)
     COLOR='\e[0;32m'
+    echo $PERCENT
 
     if [[ ("$PERCENT" < 80) ]];
     then

@@ -47,7 +47,7 @@ init([]) ->
   {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
   StopDict = lists:foldl(fun(StopId, Dict) ->
                            {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
-                           dict:append(StopId, Pid, Dict)
+                           dict:store(StopId, Pid, Dict)
                          end , dict:new() , StopIds),
   Lines = lists:map(fun({Number, Stops, Type}) ->
                       UpdatedStops = lists:map(fun(Element) ->

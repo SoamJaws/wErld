@@ -23,5 +23,4 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   git pull -r
   git push -fq origin gh-pages > /dev/null
 
-  echo -e "Github pages updated, see http://soamjaws.github.io/wErld/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE\n"
 fi

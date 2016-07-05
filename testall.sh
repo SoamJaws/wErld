@@ -84,7 +84,7 @@ then
     exit $EUNIT_RESULT
   fi
 
-  if [ $VERBOSE ];
+  if [ "$VERBOSE" == "true" ];
   then
     echo "$EUNIT_OUTPUT"
   fi
@@ -121,4 +121,5 @@ then
 
 fi
 
+echo -e "http://soamjaws.github.io/wErld/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE\n"
 exit $RESULT

@@ -1,6 +1,5 @@
 #!/bin/bash
 echo "====================== Setup env ======================"
-echo $(rebar --version)
 mkdir -p ebin
 mkdir -p etestbin
 OTPPLTDIR=$HOME/.otp_plt
@@ -110,7 +109,7 @@ then
       PADDING="  "
     fi
     echo -e "$MODULE:${COLOR}$PADDING$PERCENT\e[0m%"
-  done < <(echo "$EUNIT_OUTPUT" | grep "%")
+  done < <(echo "$EUNIT_OUTPUT" | egrep "%|100$")
   echo ""
   if $COVOK;
   then

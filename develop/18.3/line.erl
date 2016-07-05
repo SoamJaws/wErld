@@ -228,8 +228,8 @@ get_intersection_helper(OtherLine, [Stop|Rest]) ->
 
 -spec get_target_helper(pid(), pid(), [pid() | pos_integer()]) -> pid().
 get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) ->
-  ?debugFmt("~p ~p ~p ~p ~p ~n", [FromStop, ToStop, FirstEnd, Stops, [Stop || Stop <- Stops, is_pid(Stop)]]),
-  get_target_helper(FromStop, ToStop, FirstEnd, [Stop || Stop <- Stops, is_pid(Stop)]).
+  ?debugFmt("~p ~p ~p ~p ~p ~n", [FromStop, ToStop, FirstEnd, Stops, lists:filter(fun(Stop) -> is_pid(Stop) end, Stops)]),
+  get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -> is_pid(Stop) end, Stops)).
 
 -spec get_target_helper(pid(), pid(), pid(), [pid() | pos_integer()]) -> pid().
 get_target_helper(FromStop, ToStop, FromStop, Stops) ->

@@ -7,7 +7,25 @@ OTPPLT=$OTPPLTDIR/.dialyzer_otp.plt
 DEPSPLT=deps.plt
 PLT=wErld.plt
 RESULT=0
+VERBOSE=false
 export WERLDROOT=$(git rev-parse --show-toplevel)
+
+OPTIND=1
+
+while getopts "vtc:" opt; do
+    case "$opt" in
+    v)  VERBOSE=true
+        ;;
+    t)  SUITE=test
+        ;;
+    c)  SUITE=compile
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+[ "$1" = "--" ] && shift
+
 echo ""
 
 echo "================= Resolve dependencies ================"
@@ -64,6 +82,11 @@ then
   then
     echo "$EUNIT_OUTPUT"
     exit $EUNIT_RESULT
+  fi
+
+  if [ $VERBOSE ];
+  then
+    echo "$EUNIT_OUTPUT"
   fi
 
   while read -r line ; do

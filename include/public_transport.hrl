@@ -130,7 +130,7 @@
 %%
 %%------------------------------------------------------------
 -record(public_transport_state, { lines :: [pid()]
-                                , stops :: [{atom(), pid()}]
+                                , stops :: dict:dict(atom(), pid())
                               }).
 -type public_transport_state() :: #public_transport_state{}.
 

@@ -12,7 +12,7 @@ export WERLDROOT=$(git rev-parse --show-toplevel)
 
 OPTIND=1
 
-while getopts "vtc:" opt; do
+while getopts "vtc" opt; do
     case "$opt" in
     v)  VERBOSE=true
         ;;

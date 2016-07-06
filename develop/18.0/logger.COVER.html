@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/logger.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-06 at 20:16:02
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-06 at 20:57:28
 
 ****************************************************************************
 
@@ -50,14 +50,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  -spec log_error(string(), string(), pos_integer(), atom()) -&gt; ok.
         |  log_error(Content, Module, Line, Id) -&gt;
         |    log(Content, Module, Line, Id, "ERROR").
-        |  
-        |  -spec log_send(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_send(Content, Module, Line, Id) -&gt;
-        |    log(Content, Module, Line, Id, "SEND").
-        |  
-        |  -spec log_receive(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_receive(Content, Module, Line, Id) -&gt;
-        |    log(Content, Module, Line, Id, "RECEIVE").
         |  
         |  -spec log(string(), string(), pos_integer(), atom(), string()) -&gt; ok.
         |  log(Content, Module, Line, Id, Mode) -&gt;

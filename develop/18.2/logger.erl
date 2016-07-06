@@ -40,14 +40,6 @@ log_warning(Content, Module, Line, Id) ->
 log_error(Content, Module, Line, Id) ->
   log(Content, Module, Line, Id, "ERROR").
 
--spec log_send(string(), string(), pos_integer(), atom()) -> ok.
-log_send(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "SEND").
-
--spec log_receive(string(), string(), pos_integer(), atom()) -> ok.
-log_receive(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "RECEIVE").
-
 -spec log(string(), string(), pos_integer(), atom(), string()) -> ok.
 log(Content, Module, Line, Id, Mode) ->
   {_Date, {H, M, S}} = calendar:local_time(),

@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-05 at 15:37:43
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-06 at 20:14:04
 
 ****************************************************************************
 
@@ -16,14 +16,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-     1..|      supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+<font color=red>     0..|      supervisor:start_link({global, ?MODULE}, ?MODULE, []).</font>
         |  
         |  init(_Args) -&gt;
-     1..|      SupFlags = { simple_one_for_one
+<font color=red>     0..|      SupFlags = { simple_one_for_one</font>
         |                 , 0
         |                 , 1
         |                 },
-     1..|      ChildSpecs = [ { vehicle
+<font color=red>     0..|      ChildSpecs = [ { vehicle</font>
         |                     , {vehicle, start_link, []}
         |                     , transient
         |                     , 1000
@@ -31,7 +31,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.
         |                     , [vehicle]
         |                     }
         |                   ],
-     1..|      {ok, {SupFlags, ChildSpecs}}.
+<font color=red>     0..|      {ok, {SupFlags, ChildSpecs}}.</font>
 </pre>
 </body>
 </html>

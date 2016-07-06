@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-06 at 20:12:49
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-06 at 20:55:44
 
 ****************************************************************************
 
@@ -67,7 +67,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec init(atom()) -&gt; {ok, stop_state()}.
         |  init(Id) -&gt;
-    49..|    ?LOG_INFO("Stop started", Id),
+    49..|    put(id, Id),
+    49..|    ?LOG_INFO("Stop started"),
     49..|    {ok, #stop_state{id=Id}}.
         |  
         |  
@@ -75,7 +76,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |        ;          (stop,                         {pid(), any()}, stop_state()) -&gt; {stop, normal, stopped, stop_state()}
         |        ;          (state,                        {pid(), any()}, stop_state()) -&gt; {reply, stop_state(), stop_state()}.
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
-    18..|    ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?PASSENGER_CHECK_IN, Passenger]), State#stop_state.id),
     18..|    Passengers = State#stop_state.passengers,
     18..|    AlreadyCheckedIn = lists:member(Passenger, Passengers),
     18..|    if
@@ -109,13 +109,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |        ;          ({?VEHICLE_CHECK_IN, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
         |        ;          ({?VEHICLE_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}.
         |  handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) -&gt;
-     7..|    ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?PASSENGER_CHECK_OUT, Passenger]), State#stop_state.id),
      7..|    Passengers = lists:delete(Passenger, State#stop_state.passengers),
      7..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
      7..|    {noreply, State#stop_state{passengers=Passengers}};
         |  
         |  handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) -&gt;
-     7..|    ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?VEHICLE_CHECK_IN, Vehicle]), State#stop_state.id),
      7..|    NewState = case State#stop_state.currentVehicle of
         |                 none -&gt;
      5..|                   BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
@@ -129,7 +127,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      7..|    {noreply, NewState};
         |  
         |  handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) -&gt;
-     3..|    ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?VEHICLE_CHECK_OUT, Vehicle]), State#stop_state.id),
      3..|    NewState = if
         |                 State#stop_state.currentVehicle == Vehicle -&gt;
      2..|                   case State#stop_state.vehicleQueue of

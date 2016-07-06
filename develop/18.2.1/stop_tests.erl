@@ -3,6 +3,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 passenger_check_in_test() ->
+  logger:start_link(code:priv_dir(wErld) ++ "/log"),
   {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
@@ -22,6 +23,7 @@ passenger_check_in_test() ->
   stop:stop(Stop).
 
 passenger_check_out_test() ->
+  logger:start_link(code:priv_dir(wErld) ++ "/log"),
   {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
@@ -54,6 +56,7 @@ passenger_check_out_test() ->
   stop:stop(Stop).
 
 vehicle_check_in_test() ->
+  logger:start_link(code:priv_dir(wErld) ++ "/log"),
   {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
@@ -89,6 +92,7 @@ vehicle_check_in_test() ->
   stop:stop(Stop).
 
 vehicle_check_out_test() ->
+  logger:start_link(code:priv_dir(wErld) ++ "/log"),
   {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),
@@ -134,6 +138,7 @@ vehicle_check_out_test() ->
   stop:stop(Stop).
 
 invalid_vehicle_check_out_test() ->
+  logger:start_link(code:priv_dir(wErld) ++ "/log"),
   {ok, Stop} = stop:start_link(stop1),
   {ok, V1} = gen_server_mock:start_link(v1, strict),
   {ok, V2} = gen_server_mock:start_link(v2, strict),
@@ -150,6 +155,7 @@ invalid_vehicle_check_out_test() ->
   stop:stop(Stop).
 
 state_test() ->
+  logger:start_link(code:priv_dir(wErld) ++ "/log"),
   {ok, Stop} = stop:start_link(stop1),
   {ok, P1} = gen_server_mock:start_link(p1, strict),
   {ok, P2} = gen_server_mock:start_link(p2, strict),

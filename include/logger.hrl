@@ -1,0 +1,5 @@
+-define(LOG_INFO(Content, Id), logger:log_info(Content, ?MODULE_STRING, ?LINE, Id)).
+-define(LOG_WARNING(Content, Id), logger:log_warning(Content, ?MODULE_STRING, ?LINE, Id)).
+-define(LOG_ERROR(Content, Id), logger:log_error(Content, ?MODULE_STRING, ?LINE, Id)).
+-define(LOG_SEND(Content, Id), logger:log_send(Content, ?MODULE_STRING, ?LINE, Id)).
+-define(LOG_RECEIVE(Content, Id), logger:log_receive(Content, ?MODULE_STRING, ?LINE, Id)).

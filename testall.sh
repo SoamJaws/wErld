@@ -49,6 +49,7 @@ fi
 
 echo "======================== Clean ========================"
 rebar clean
+rm -rf priv/log
 echo ""
 
 if [[ "$SUITE" == "compile" ]];

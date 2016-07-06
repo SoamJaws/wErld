@@ -1,5 +1,6 @@
 -module(stop).
 -include("public_transport.hrl").
+-include("logger.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -55,6 +56,7 @@ state(Pid) ->
 
 -spec init(atom()) -> {ok, stop_state()}.
 init(Id) ->
+  ?LOG_INFO("Stop started", Id),
   {ok, #stop_state{id=Id}}.
 
 
@@ -62,6 +64,7 @@ init(Id) ->
       ;          (stop,                         {pid(), any()}, stop_state()) -> {stop, normal, stopped, stop_state()}
       ;          (state,                        {pid(), any()}, stop_state()) -> {reply, stop_state(), stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?PASSENGER_CHECK_IN, Passenger]), State#stop_state.id),
   Passengers = State#stop_state.passengers,
   AlreadyCheckedIn = lists:member(Passenger, Passengers),
   if
@@ -95,11 +98,13 @@ handle_call(state, _From, State) ->
       ;          ({?VEHICLE_CHECK_IN, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
       ;          ({?VEHICLE_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}.
 handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->
+  ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?PASSENGER_CHECK_OUT, Passenger]), State#stop_state.id),
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#stop_state{passengers=Passengers}};
 
 handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
+  ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?VEHICLE_CHECK_IN, Vehicle]), State#stop_state.id),
   NewState = case State#stop_state.currentVehicle of
                none ->
                  BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
@@ -113,6 +118,7 @@ handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
   {noreply, NewState};
 
 handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
+  ?LOG_RECEIVE(io_lib:fwrite("~s: ~w", [?VEHICLE_CHECK_OUT, Vehicle]), State#stop_state.id),
   NewState = if
                State#stop_state.currentVehicle == Vehicle ->
                  case State#stop_state.vehicleQueue of

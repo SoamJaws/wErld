@@ -1,5 +1,8 @@
 -module(logger).
+-include_lib("eunit/include/eunit.hrl").
 -compile(export_all).
+
+-define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
 
 -behaviour(gen_server).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -22,27 +25,43 @@ state() ->
   state(?MODULE).
 
 init([LogDir]) ->
+  filelib:ensure_dir(?COMPOSITE_LOG(LogDir)),
   {ok, LogDir}.
 
-log_info(Content, Module, Id) ->
-  log(Content, Module, Id, "INFO").
+-spec log_info(string(), string(), pos_integer(), atom()) -> ok.
+log_info(Content, Module, Line, Id) ->
+  log(Content, Module, Line, Id, "INFO").
 
-log_warning(Content, Module, Id) ->
-  log(Content, Module, Id, "WARNING").
+-spec log_warning(string(), string(), pos_integer(), atom()) -> ok.
+log_warning(Content, Module, Line, Id) ->
+  log(Content, Module, Line, Id, "WARNING").
 
-log_error(Content, Module, Id) ->
-  log(Content, Module, Id, "ERROR").
+-spec log_error(string(), string(), pos_integer(), atom()) -> ok.
+log_error(Content, Module, Line, Id) ->
+  log(Content, Module, Line, Id, "ERROR").
 
-log(Content, Module, Id, Mode) ->
+-spec log_send(string(), string(), pos_integer(), atom()) -> ok.
+log_send(Content, Module, Line, Id) ->
+  log(Content, Module, Line, Id, "SEND").
+
+-spec log_receive(string(), string(), pos_integer(), atom()) -> ok.
+log_receive(Content, Module, Line, Id) ->
+  log(Content, Module, Line, Id, "RECEIVE").
+
+-spec log(string(), string(), pos_integer(), atom(), string()) -> ok.
+log(Content, Module, Line, Id, Mode) ->
   {_Date, {H, M, S}} = calendar:local_time(),
-  gen_server:cast(?MODULE, {log, Module, Id, io_lib:fwrite("--- ~s ~s:~s:~s - ~s --- ~s~n--- END ~s ---~n", [Mode, H, M, S, self(), Content, Mode])}).
+  Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
+  gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
 
 handle_call(stop, _From, State) ->
   {stop, normal, stopped, State}.
 
+-spec handle_cast({log, string(), atom(), string()}, string()) -> {noreply, string()}.
 handle_cast({log, Module, Id, Content}, LogDir) ->
-  LogFile = filename:join([LogDir, Module, Id ++ ".log"]),
+  LogFile = filename:join([LogDir, Module ++ "_" ++ atom_to_list(Id) ++ ".log"]),
   file:write_file(LogFile, Content, [append]),
+  file:write_file(?COMPOSITE_LOG(LogDir), Content, [append]),
   {noreply, LogDir}.
 
 

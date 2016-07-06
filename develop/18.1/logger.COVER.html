@@ -5,12 +5,15 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/logger.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-05 at 15:37:06
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-06 at 20:15:43
 
 ****************************************************************************
 
         |  -module(logger).
+        |  -include_lib("eunit/include/eunit.hrl").
         |  -compile(export_all).
+        |  
+        |  -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
         |  
         |  -behaviour(gen_server).
         |  -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
@@ -18,7 +21,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  %% Public API
         |  
         |  start_link(LogDir) -&gt;
-<font color=red>     0..|    gen_server:start_link({global, ?MODULE}, ?MODULE, [LogDir], []).</font>
+     6..|    gen_server:start_link({global, ?MODULE}, ?MODULE, [LogDir], []).
         |  
         |  stop(Module) -&gt;
 <font color=red>     0..|    gen_server:call(Module, stop).</font>
@@ -33,28 +36,44 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
 <font color=red>     0..|    state(?MODULE).</font>
         |  
         |  init([LogDir]) -&gt;
-<font color=red>     0..|    {ok, LogDir}.</font>
+     1..|    filelib:ensure_dir(?COMPOSITE_LOG(LogDir)),
+     1..|    {ok, LogDir}.
         |  
-        |  log_info(Content, Module, Id) -&gt;
-<font color=red>     0..|    log(Content, Module, Id, "INFO").</font>
+        |  -spec log_info(string(), string(), pos_integer(), atom()) -&gt; ok.
+        |  log_info(Content, Module, Line, Id) -&gt;
+    49..|    log(Content, Module, Line, Id, "INFO").
         |  
-        |  log_warning(Content, Module, Id) -&gt;
-<font color=red>     0..|    log(Content, Module, Id, "WARNING").</font>
+        |  -spec log_warning(string(), string(), pos_integer(), atom()) -&gt; ok.
+        |  log_warning(Content, Module, Line, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Line, Id, "WARNING").</font>
         |  
-        |  log_error(Content, Module, Id) -&gt;
-<font color=red>     0..|    log(Content, Module, Id, "ERROR").</font>
+        |  -spec log_error(string(), string(), pos_integer(), atom()) -&gt; ok.
+        |  log_error(Content, Module, Line, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Line, Id, "ERROR").</font>
         |  
-        |  log(Content, Module, Id, Mode) -&gt;
-<font color=red>     0..|    {_Date, {H, M, S}} = calendar:local_time(),</font>
-<font color=red>     0..|    gen_server:cast(?MODULE, {log, Module, Id, io_lib:fwrite("--- ~s ~s:~s:~s - ~s --- ~s~n--- END ~s ---~n", [Mode, H, M, S, self(), Content, Mode])}).</font>
+        |  -spec log_send(string(), string(), pos_integer(), atom()) -&gt; ok.
+        |  log_send(Content, Module, Line, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Line, Id, "SEND").</font>
+        |  
+        |  -spec log_receive(string(), string(), pos_integer(), atom()) -&gt; ok.
+        |  log_receive(Content, Module, Line, Id) -&gt;
+    35..|    log(Content, Module, Line, Id, "RECEIVE").
+        |  
+        |  -spec log(string(), string(), pos_integer(), atom(), string()) -&gt; ok.
+        |  log(Content, Module, Line, Id, Mode) -&gt;
+    84..|    {_Date, {H, M, S}} = calendar:local_time(),
+    84..|    Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
+    84..|    gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
         |  
         |  handle_call(stop, _From, State) -&gt;
 <font color=red>     0..|    {stop, normal, stopped, State}.</font>
         |  
+        |  -spec handle_cast({log, string(), atom(), string()}, string()) -&gt; {noreply, string()}.
         |  handle_cast({log, Module, Id, Content}, LogDir) -&gt;
-<font color=red>     0..|    LogFile = filename:join([LogDir, Module, Id ++ ".log"]),</font>
-<font color=red>     0..|    file:write_file(LogFile, Content, [append]),</font>
-<font color=red>     0..|    {noreply, LogDir}.</font>
+    41..|    LogFile = filename:join([LogDir, Module ++ "_" ++ atom_to_list(Id) ++ ".log"]),
+    41..|    file:write_file(LogFile, Content, [append]),
+    41..|    file:write_file(?COMPOSITE_LOG(LogDir), Content, [append]),
+    41..|    {noreply, LogDir}.
         |  
         |  
         |  handle_info(_Info, State) -&gt;

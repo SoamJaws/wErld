@@ -1,8 +1,10 @@
--module(public_transport_tests).
+-module(public_transport_SUITE).
 -include("public_transport.hrl").
--include_lib("eunit/include/eunit.hrl").
+-include_lib("common_test/include/ct.hrl").
 
-public_transport_test() ->
+all() -> [test1].
+
+test1(_Config) ->
   {ok, _PublicTransportSupervisor} = public_transport_supervisor:start_link(),
   {ok, PublicTransport} = public_transport:start_link(),
   {Route, Dur} = public_transport:?GET_ROUTE(PublicTransport, a, o),

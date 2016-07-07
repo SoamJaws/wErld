@@ -143,5 +143,7 @@
                                 , stops :: dict:dict(stop_id(), pid())
                               }).
 -type public_transport_state() :: #public_transport_state{}.
+-type route_step() :: {line(), stop(), stop()}.
+-type route() :: {[route_step()], pos_integer()}.
 
 -define(GET_ROUTE, get_route).

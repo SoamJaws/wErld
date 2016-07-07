@@ -156,11 +156,11 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
--spec notify_vehicle_checked_in([pid()], pid()) -> non_neg_integer().
+-spec notify_vehicle_checked_in([pid()], vehicle()) -> non_neg_integer().
 notify_vehicle_checked_in(Passengers, Vehicle) ->
   notify_vehicle_checked_in(Passengers, Vehicle, 0).
 
--spec notify_vehicle_checked_in([pid()], pid(), non_neg_integer()) -> non_neg_integer().
+-spec notify_vehicle_checked_in([pid()], vehicle(), non_neg_integer()) -> non_neg_integer().
 notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -> BoardingPassengers;
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) ->
   WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),

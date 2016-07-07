@@ -1,0 +1,3 @@
+* Convert all gen_servers with macro api to use tagged pids
+* Macro for generating tagged pid tuple
+* Fix tests according to above

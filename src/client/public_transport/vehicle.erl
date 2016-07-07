@@ -23,9 +23,16 @@
 
 %% Public API
 
--spec start_link(pos_integer(), pid(), pid(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+-spec start_link(pos_integer(), line(), stop(), vehicle_type()) -> vehicle() | ignore | {error, {already_started, pid()} | term()}.
 start_link(Capacity, Line, Target, Type) ->
-  gen_server:start_link(?MODULE, {Capacity, Line, Target, Type}, []).
+  LineNumber = line:?GET_NUMBER(Line),
+  Result = gen_server:start_link(?MODULE, {Capacity, Line, LineNumber, Target, Type}, []),
+  case Result of
+    {ok, Pid} ->
+      {{vehicle, list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber))}, Pid};
+    Result ->
+      Result
+  end.
 
 -spec stop(pid()) -> ok.
 stop(Pid) ->
@@ -35,38 +42,36 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?PASSENGER_BOARD(pid(), pid()) -> ok | nok.
-?PASSENGER_BOARD(Pid, Passenger) ->
+-spec ?PASSENGER_BOARD(vehicle(), pid()) -> ok | nok.
+?PASSENGER_BOARD({{vehicle, _Id}, Pid}, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
--spec ?NEW_TIME(pid(), non_neg_integer(), boolean()) -> ok.
-?NEW_TIME(Pid, Time, BlockCaller) ->
+-spec ?NEW_TIME(vehicle(), non_neg_integer(), boolean()) -> ok.
+?NEW_TIME({{vehicle, _Id}, Pid}, Time, BlockCaller) ->
   gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
--spec ?INCREMENT_BOARDING_PASSENGER(pid(), boolean()) -> ok.
-?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) ->
+-spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -> ok.
+?INCREMENT_BOARDING_PASSENGER({{vehicle, _Id}, Pid}, BlockCaller) ->
   gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
 
--spec ?CHECKIN_OK(pid(), pid(), non_neg_integer(), boolean()) -> ok.
-?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) ->
+-spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -> ok.
+?CHECKIN_OK({{vehicle, _Id}, Pid}, Stop, BoardingPassengers, BlockCaller) ->
   gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
 
 
 %% gen_server
 
--spec init({pos_integer(), pid(), pid(), vehicle_type()}) -> {ok, vehicle_state()}.
-init({Capacity, Line, Target, Type}) ->
+-spec init({pos_integer(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
+init({Capacity, Line, LineNumber, Target, Type}) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
-  LineNumber = line:?GET_NUMBER(Line),
-  put(id,  "List_" ++ list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber))),
   Stop = line:?GET_OTHER_END(Line, Target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),
   {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
--spec handle_call({?PASSENGER_BOARD, pid()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}
-      ;          (stop,                      {pid(), any()}, vehicle_state()) -> {stop, normal, stopped, vehicle_state()}
-      ;          (state,                     {pid(), any()}, vehicle_state()) -> {reply, vehicle_state(), vehicle_state()}.
+-spec handle_call({?PASSENGER_BOARD, stop()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}
+      ;          (stop,                       {pid(), any()}, vehicle_state()) -> {stop, normal, stopped, vehicle_state()}
+      ;          (state,                      {pid(), any()}, vehicle_state()) -> {reply, vehicle_state(), vehicle_state()}.
 handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
   Capacity = State#vehicle_state.capacity,

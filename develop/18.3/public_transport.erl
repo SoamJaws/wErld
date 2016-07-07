@@ -42,6 +42,7 @@ state(Pid) ->
 
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->
+  put(id, public_transport),
   %% StopIds = [atom()]
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
   {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),

@@ -4,6 +4,9 @@
 -define(PUBLIC_TRANSPORT_DATA_PATH, code:priv_dir(wErld) ++ "/public_transport_test").
 -endif.
 
+-type id(Type) :: {Type, atom()}.
+-type address(Type) :: {id(Type), pid()}.
+
 %%-----------------------------------------------------------
 %% Data Type: public_transport stop
 %% where:
@@ -23,10 +26,12 @@
 %%
 %%------------------------------------------------------------
 -record(stop_state, { id                    :: atom()
-                    , currentVehicle = none :: none | pid()
+                    , currentVehicle = none :: none | vehicle()
                     , passengers = []       :: [pid()]
-                    , vehicleQueue = []     :: [pid()]
+                    , vehicleQueue = []     :: [vehicle()]
                     }).
+-type stop_id() :: id(stop).
+-type stop() :: address(stop).
 -type stop_state() :: #stop_state{}.
 
 -define(PASSENGER_CHECK_IN,  passenger_check_in).
@@ -73,15 +78,17 @@
 %%                        The type of Vehicle, i.e. bus, train, tram
 %%
 %%------------------------------------------------------------
--record(vehicle_state, { action = {waiting, none} :: {waiting, pid() | none} | {boarding, pid()} | {driving, pid(), pos_integer()}
+-record(vehicle_state, { action = {waiting, none} :: {waiting, stop() | none} | {boarding, stop()} | {driving, stop(), pos_integer()}
                        , capacity                 :: pos_integer()
                        , lastDeparture            :: non_neg_integer()
-                       , line                     :: {pos_integer(), pid()}
+                       , line                     :: {pos_integer(), line()}
                        , passengers = []          :: [pid()]
                        , boardingPassengers = 0   :: non_neg_integer()
-                       , target                   :: pid()
+                       , target                   :: stop()
                        , type                     :: vehicle_type()
                        }).
+-type vehicle_id() :: id(vehicle).
+-type vehicle() :: address(vehicle).
 -type vehicle_type() :: bus | train | tram.
 -type vehicle_state() :: #vehicle_state{}.
 
@@ -105,9 +112,11 @@
 %%
 %%------------------------------------------------------------
 -record(line_state, { number :: pos_integer()
-                    , stops  :: [pid() | pos_integer()]
+                    , stops  :: [stop() | pos_integer()]
                     , type   :: vehicle_type()
                     }).
+-type line() :: {line, atom()}
+-type line_id() :: {line, atom()}
 -type line_state() :: #line_state{}.
 
 -define(GET_NEXT_STOP,    get_next_stop).
@@ -130,8 +139,8 @@
 %%    stops: A dict of stop ids and pids
 %%
 %%------------------------------------------------------------
--record(public_transport_state, { lines :: [pid()]
-                                , stops :: dict:dict(atom(), pid())
+-record(public_transport_state, { lines :: [line()]
+                                , stops :: dict:dict(stop_id(), pid())
                               }).
 -type public_transport_state() :: #public_transport_state{}.
 

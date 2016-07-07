@@ -35,20 +35,20 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?PASSENGER_CHECK_IN(pid(), pid()) -> ok | {nok, nonempty_string()}.
-?PASSENGER_CHECK_IN(Pid, Passenger) ->
+-spec ?PASSENGER_CHECK_IN(stop(), pid()) -> ok | {nok, nonempty_string()}.
+?PASSENGER_CHECK_IN({{stop, _Id}, Pid}, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
--spec ?PASSENGER_CHECK_OUT(pid(), pid(), boolean())-> ok.
-?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) ->
+-spec ?PASSENGER_CHECK_OUT(stop(), pid(), boolean())-> ok.
+?PASSENGER_CHECK_OUT({{stop, _Id}, Pid}, Passenger, BlockCaller) ->
   gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
--spec ?VEHICLE_CHECK_IN(pid(), pid(), boolean()) -> ok.
-?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) ->
+-spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
+?VEHICLE_CHECK_IN({{stop, _Id}, Pid}, Vehicle, BlockCaller) ->
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
 
--spec ?VEHICLE_CHECK_OUT(pid(), pid(), boolean()) -> ok.
-?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) ->
+-spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
+?VEHICLE_CHECK_OUT({{stop, _Id}, Pid}, Vehicle, BlockCaller) ->
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
 

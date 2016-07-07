@@ -23,9 +23,15 @@
 
 %% Public API
 
--spec start_link(atom()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+-spec start_link(atom()) -> stop() | ignore | {error, {already_started, pid()} | term()}.
 start_link(Id) ->
-  gen_server:start_link(?MODULE, Id, []).
+  Result = gen_server:start_link(?MODULE, Id, []),
+  case Result of
+    {ok, Pid} ->
+      {{stop, Id}, Pid};
+    Result ->
+      Result
+  end.
 
 -spec stop(pid()) -> ok.
 stop(Pid) ->
@@ -95,8 +101,8 @@ handle_call(state, _From, State) ->
 
 
 -spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
-      ;          ({?VEHICLE_CHECK_IN, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
-      ;          ({?VEHICLE_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}.
+      ;          ({?VEHICLE_CHECK_IN, vehicle(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
+      ;          ({?VEHICLE_CHECK_OUT, vehicle(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}.
 handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   gen_server_utils:notify_caller(NotifyCaller, Caller),

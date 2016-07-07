@@ -13,5 +13,4 @@ test1(_Config) ->
                     SS2 = stop:state(S2),
                     SS3 = stop:state(S3),
                     {LS1#line_state.number, SS2#stop_state.id, SS3#stop_state.id}
-                  end, Route),
-  ?debugFmt("~p~n", [Ids]).
+                  end, Route).

@@ -4,16 +4,15 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ start_link/4
-        , stop/1
-        , state/1
-        , ?PASSENGER_BOARD/2
+-export([ ?PASSENGER_BOARD/2
         , ?NEW_TIME/3
         , ?INCREMENT_BOARDING_PASSENGER/2
-        , ?CHECKIN_OK/4]).
+        , ?CHECKIN_OK/4
+        , state/1]).
 
 %% gen_server
--export([ init/1
+-export([ start_link/5
+        , init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
@@ -22,17 +21,6 @@
 
 
 %% Public API
-
--spec start_link(pos_integer(), line(), stop(), vehicle_type()) -> vehicle() | ignore | {error, {already_started, pid()} | term()}.
-start_link(Capacity, Line, Target, Type) ->
-  LineNumber = line:?GET_NUMBER(Line),
-  Result = gen_server:start_link(?MODULE, {Capacity, Line, LineNumber, Target, Type}, []),
-  case Result of
-    {ok, Pid} ->
-      {{vehicle, list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber))}, Pid};
-    Result ->
-      Result
-  end.
 
 -spec stop(pid()) -> ok.
 stop(Pid) ->
@@ -43,23 +31,28 @@ state(Pid) ->
   gen_server:call(Pid, state).
 
 -spec ?PASSENGER_BOARD(vehicle(), pid()) -> ok | nok.
-?PASSENGER_BOARD({{vehicle, _Id}, Pid}, Passenger) ->
+?PASSENGER_BOARD(?RECIPENT, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
 -spec ?NEW_TIME(vehicle(), non_neg_integer(), boolean()) -> ok.
-?NEW_TIME({{vehicle, _Id}, Pid}, Time, BlockCaller) ->
+?NEW_TIME(?RECIPENT, Time, BlockCaller) ->
   gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -> ok.
-?INCREMENT_BOARDING_PASSENGER({{vehicle, _Id}, Pid}, BlockCaller) ->
+?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) ->
   gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -> ok.
-?CHECKIN_OK({{vehicle, _Id}, Pid}, Stop, BoardingPassengers, BlockCaller) ->
+?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) ->
   gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
 
 
 %% gen_server
+
+-spec start_link(pos_integer(), line(), pos_integer(), stop(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+start_link(Capacity, Line, LineNumber, Target, Type) ->
+  gen_server:start_link(?MODULE, {Capacity, Line, LineNumber, Target, Type}, []).
+
 
 -spec init({pos_integer(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
 init({Capacity, Line, LineNumber, Target, Type}) ->

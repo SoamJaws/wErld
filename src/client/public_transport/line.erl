@@ -3,10 +3,7 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ start_link/3
-        , stop/1
-        , state/1
-        , ?GET_NEXT_STOP/3
+-export([ ?GET_NEXT_STOP/3
         , ?GET_NEIGHBORS/2
         , ?GET_OTHER_END/2
         , ?CONTAINS_STOP/2
@@ -14,10 +11,12 @@
         , ?IS_END_STOP/2
         , ?GET_INTERSECTION/2
         , ?GET_NUMBER/1
-        , ?GET_TARGET/3]).
+        , ?GET_TARGET/3
+        , state/1]).
 
 %% gen_server
--export([ init/1
+-export([ start_link/3
+        , init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
@@ -27,62 +26,53 @@
 
 %% Public API
 
--spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -> line() | ignore | {error, {already_started, pid()} | term()}.
-start_link(Number, Stops, Type) ->
-  Result = gen_server:start_link(?MODULE, {Number, Stops, Type}, []),
-  case Result of
-    {ok, Pid} ->
-      {{line, list_to_atom(atom_to_list(Type) ++ [$_|integer_to_list(Number)])}, Pid};
-    Result ->
-      Result
-  end.
+-spec ?GET_NEXT_STOP(line(), stop(), stop()) -> {stop(), pos_integer()} | none.
+?GET_NEXT_STOP(?RECIPENT, Target, Stop) ->
+  gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
 
--spec stop(pid()) -> ok.
-stop(Pid) ->
-  gen_server:call(Pid, stop).
+-spec ?GET_NEIGHBORS(line(), stop()) -> [{stop(), pos_integer(), stop(), line()}].
+?GET_NEIGHBORS(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
+
+-spec ?GET_OTHER_END(line(), stop()) -> stop().
+?GET_OTHER_END(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?GET_OTHER_END, Stop}).
+
+-spec ?CONTAINS_STOP(line(), stop()) -> boolean().
+?CONTAINS_STOP(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
+
+-spec ?GET_DURATION(line(), stop(), stop()) -> pos_integer().
+?GET_DURATION(?RECIPENT, FromStop, ToStop) ->
+  gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
+
+-spec ?IS_END_STOP(line(), stop()) -> boolean().
+?IS_END_STOP(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?IS_END_STOP, Stop}).
+
+-spec ?GET_INTERSECTION(line(), line()) -> stop() | none.
+?GET_INTERSECTION(?RECIPENT, OtherLine) ->
+  gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
+
+-spec ?GET_NUMBER(line()) -> pos_integer().
+?GET_NUMBER(?RECIPENT) ->
+  gen_server:call(Pid, ?GET_NUMBER).
+
+-spec ?GET_TARGET(line(), stop(), stop()) -> stop().
+?GET_TARGET(?RECIPENT, FromStop, ToStop) ->
+  gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
 
 -spec state(pid()) -> line_state().
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?GET_NEXT_STOP(line(), stop(), stop()) -> {stop(), pos_integer()} | none.
-?GET_NEXT_STOP({{line, _Id}, Pid}, Target, Stop) ->
-  gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
-
--spec ?GET_NEIGHBORS(line(), stop()) -> [{stop(), pos_integer(), stop(), line()}].
-?GET_NEIGHBORS({{line, _Id}, Pid}, Stop) ->
-  gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
-
--spec ?GET_OTHER_END(line(), stop()) -> stop().
-?GET_OTHER_END({{line, _Id}, Pid}, Stop) ->
-  gen_server:call(Pid, {?GET_OTHER_END, Stop}).
-
--spec ?CONTAINS_STOP(line(), stop()) -> boolean().
-?CONTAINS_STOP({{line, _Id}, Pid}, Stop) ->
-  gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
-
--spec ?GET_DURATION(line(), stop(), stop()) -> pos_integer().
-?GET_DURATION({{line, _Id}, Pid}, FromStop, ToStop) ->
-  gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
-
--spec ?IS_END_STOP(line(), stop()) -> boolean().
-?IS_END_STOP({{line, _Id}, Pid}, Stop) ->
-  gen_server:call(Pid, {?IS_END_STOP, Stop}).
-
--spec ?GET_INTERSECTION(line(), line()) -> stop() | none.
-?GET_INTERSECTION({{line, _Id}, Pid}, OtherLine) ->
-  gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
-
--spec ?GET_NUMBER(line()) -> pos_integer().
-?GET_NUMBER({{line, _Id}, Pid}) ->
-  gen_server:call(Pid, ?GET_NUMBER).
-
--spec ?GET_TARGET(line(), stop(), stop()) -> stop().
-?GET_TARGET({{line, _Id}, Pid}, FromStop, ToStop) ->
-  gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
-
 
 %% gen_server
+
+-spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+start_link(Number, Stops, Type) ->
+  gen_server:start_link(?MODULE, {Number, Stops, Type}, []).
+
 
 -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -> {ok, line_state()}.
 init({Number, Stops, Type}) ->
@@ -217,7 +207,7 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
       get_duration_helper(FromStop, ToStop, false, Stops)
   end.
 
--spec get_intersection_helper(line(), [stops() | pos_integer()]) -> stop() | none.
+-spec get_intersection_helper(line(), [stop() | pos_integer()]) -> stop() | none.
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
   case ContainsStop of

@@ -4,16 +4,15 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ start_link/1
-        , stop/1
-        , state/1
-        , ?PASSENGER_CHECK_IN/2
+-export([ ?PASSENGER_CHECK_IN/2
         , ?PASSENGER_CHECK_OUT/3
         , ?VEHICLE_CHECK_IN/3
-        , ?VEHICLE_CHECK_OUT/3]).
+        , ?VEHICLE_CHECK_OUT/3
+        , state/1]).
 
 %% gen_server
--export([ init/1
+-export([ start_link/1
+        , init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
@@ -23,42 +22,33 @@
 
 %% Public API
 
--spec start_link(atom()) -> stop() | ignore | {error, {already_started, pid()} | term()}.
-start_link(Id) ->
-  Result = gen_server:start_link(?MODULE, Id, []),
-  case Result of
-    {ok, Pid} ->
-      {{stop, Id}, Pid};
-    Result ->
-      Result
-  end.
+-spec ?PASSENGER_CHECK_IN(stop(), pid()) -> ok | {nok, nonempty_string()}.
+?PASSENGER_CHECK_IN(?RECIPENT, Passenger) ->
+  gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
--spec stop(pid()) -> ok.
-stop(Pid) ->
-  gen_server:call(Pid, stop).
+-spec ?PASSENGER_CHECK_OUT(stop(), pid(), boolean())-> ok.
+?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) ->
+  gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
+
+-spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
+?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) ->
+  gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
+
+-spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
+?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) ->
+  gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
 -spec state(pid()) -> stop_state().
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?PASSENGER_CHECK_IN(stop(), pid()) -> ok | {nok, nonempty_string()}.
-?PASSENGER_CHECK_IN({{stop, _Id}, Pid}, Passenger) ->
-  gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
-
--spec ?PASSENGER_CHECK_OUT(stop(), pid(), boolean())-> ok.
-?PASSENGER_CHECK_OUT({{stop, _Id}, Pid}, Passenger, BlockCaller) ->
-  gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
-
--spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
-?VEHICLE_CHECK_IN({{stop, _Id}, Pid}, Vehicle, BlockCaller) ->
-  gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
-
--spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
-?VEHICLE_CHECK_OUT({{stop, _Id}, Pid}, Vehicle, BlockCaller) ->
-  gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
-
 
 %% gen_server
+
+-spec start_link(atom()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+start_link(Id) ->
+  gen_server:start_link(?MODULE, Id, []).
+
 
 -spec init(atom()) -> {ok, stop_state()}.
 init(Id) ->
@@ -68,7 +58,6 @@ init(Id) ->
 
 
 -spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -> {reply, ok | {nok, string()}, stop_state()}
-      ;          (stop,                         {pid(), any()}, stop_state()) -> {stop, normal, stopped, stop_state()}
       ;          (state,                        {pid(), any()}, stop_state()) -> {reply, stop_state(), stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
@@ -92,9 +81,6 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
       end,
       {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
   end;
-
-handle_call(stop, _From, State) ->
-  {stop, normal, stopped, State};
 
 handle_call(state, _From, State) ->
   {reply, State, State}.

@@ -58,6 +58,7 @@ state(Pid) ->
 init({Capacity, Line, Target, Type}) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
   LineNumber = line:?GET_NUMBER(Line),
+  put(id,  "List_" ++ list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber))),
   Stop = line:?GET_OTHER_END(Line, Target),
   stop:?VEHICLE_CHECK_IN(Stop, self(), false),
   {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.

@@ -3,10 +3,7 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ start_link/3
-        , stop/1
-        , state/1
-        , ?GET_NEXT_STOP/3
+-export([ ?GET_NEXT_STOP/3
         , ?GET_NEIGHBORS/2
         , ?GET_OTHER_END/2
         , ?CONTAINS_STOP/2
@@ -14,10 +11,12 @@
         , ?IS_END_STOP/2
         , ?GET_INTERSECTION/2
         , ?GET_NUMBER/1
-        , ?GET_TARGET/3]).
+        , ?GET_TARGET/3
+        , state/1]).
 
 %% gen_server
--export([ init/1
+-export([ start_link/3
+        , init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
@@ -27,56 +26,53 @@
 
 %% Public API
 
--spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
-start_link(Number, Stops, Type) ->
-  gen_server:start_link(?MODULE, {Number, Stops, Type}, []).
+-spec ?GET_NEXT_STOP(line(), stop(), stop()) -> {stop(), pos_integer()} | none.
+?GET_NEXT_STOP(?RECIPENT, Target, Stop) ->
+  gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
 
--spec stop(pid()) -> ok.
-stop(Pid) ->
-  gen_server:call(Pid, stop).
+-spec ?GET_NEIGHBORS(line(), stop()) -> [{stop(), pos_integer(), stop(), line()}].
+?GET_NEIGHBORS(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
+
+-spec ?GET_OTHER_END(line(), stop()) -> stop().
+?GET_OTHER_END(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?GET_OTHER_END, Stop}).
+
+-spec ?CONTAINS_STOP(line(), stop()) -> boolean().
+?CONTAINS_STOP(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
+
+-spec ?GET_DURATION(line(), stop(), stop()) -> pos_integer().
+?GET_DURATION(?RECIPENT, FromStop, ToStop) ->
+  gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
+
+-spec ?IS_END_STOP(line(), stop()) -> boolean().
+?IS_END_STOP(?RECIPENT, Stop) ->
+  gen_server:call(Pid, {?IS_END_STOP, Stop}).
+
+-spec ?GET_INTERSECTION(line(), line()) -> stop() | none.
+?GET_INTERSECTION(?RECIPENT, OtherLine) ->
+  gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
+
+-spec ?GET_NUMBER(line()) -> pos_integer().
+?GET_NUMBER(?RECIPENT) ->
+  gen_server:call(Pid, ?GET_NUMBER).
+
+-spec ?GET_TARGET(line(), stop(), stop()) -> stop().
+?GET_TARGET(?RECIPENT, FromStop, ToStop) ->
+  gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
 
 -spec state(pid()) -> line_state().
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?GET_NEXT_STOP(pid(), pid(), pid()) -> {pid(), pos_integer()} | none.
-?GET_NEXT_STOP(Pid, Target, Stop) ->
-  gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
-
--spec ?GET_NEIGHBORS(pid(), pid()) -> [{pid(), pos_integer(), pid(), pid()}].
-?GET_NEIGHBORS(Pid, Stop) ->
-  gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
-
--spec ?GET_OTHER_END(pid(), pid()) -> pid().
-?GET_OTHER_END(Pid, Stop) ->
-  gen_server:call(Pid, {?GET_OTHER_END, Stop}).
-
--spec ?CONTAINS_STOP(pid(), pid()) -> boolean().
-?CONTAINS_STOP(Pid, Stop) ->
-  gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
-
--spec ?GET_DURATION(pid(), pid(), pid()) -> pos_integer().
-?GET_DURATION(Pid, FromStop, ToStop) ->
-  gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
-
--spec ?IS_END_STOP(pid(), pid()) -> boolean().
-?IS_END_STOP(Pid, Stop) ->
-  gen_server:call(Pid, {?IS_END_STOP, Stop}).
-
--spec ?GET_INTERSECTION(pid(), pid()) -> pid() | none.
-?GET_INTERSECTION(Pid, OtherLine) ->
-  gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
-
--spec ?GET_NUMBER(pid()) -> pos_integer().
-?GET_NUMBER(Pid) ->
-  gen_server:call(Pid, ?GET_NUMBER).
-
--spec ?GET_TARGET(pid(), pid(), pid()) -> pid().
-?GET_TARGET(Pid, FromStop, ToStop) ->
-  gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
-
 
 %% gen_server
+
+-spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+start_link(Number, Stops, Type) ->
+  gen_server:start_link(?MODULE, {Number, Stops, Type}, []).
+
 
 -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -> {ok, line_state()}.
 init({Number, Stops, Type}) ->
@@ -85,17 +81,17 @@ init({Number, Stops, Type}) ->
   {ok, #line_state{number=Number, stops=Stops, type=Type}}.
 
 
--spec handle_call({?GET_NEXT_STOP, pid(), pid()}, {pid(), any()}, line_state()) -> {reply, {pid(), pos_integer()} | none, line_state()}
-      ;          ({?GET_NEIGHBORS, pid()},        {pid(), any()}, line_state()) -> {reply, [{pid(), pos_integer(), pid(), pid()}], line_state()}
-      ;          ({?GET_OTHER_END, pid()},        {pid(), any()}, line_state()) -> {reply, pid(), line_state()}
-      ;          ({?CONTAINS_STOP, pid()},        {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
-      ;          ({?GET_DURATION, pid(), pid()},  {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
-      ;          ({?IS_END_STOP, pid()},          {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
-      ;          ({?GET_INTERSECTION, pid()},     {pid(), any()}, line_state()) -> {reply, pid() | none, line_state()}
-      ;          (?GET_NUMBER,                    {pid(), any()}, line_state()) -> {reply, pos_integer(), line_state()}
-      ;          ({?GET_TARGET, pid(), pid()},    {pid(), any()}, line_state()) -> {reply, pid(), line_state()}
-      ;          (stop,                           {pid(), any()}, line_state()) -> {stop, normal, stopped, line_state()}
-      ;          (state,                          {pid(), any()}, line_state()) -> {reply, line_state(), line_state()}.
+-spec handle_call({?GET_NEXT_STOP, stop(), stop()}, {pid(), any()}, line_state()) -> {reply, {stop(), pos_integer()} | none, line_state()}
+      ;          ({?GET_NEIGHBORS, stop()},         {pid(), any()}, line_state()) -> {reply, [{stop(), pos_integer(), stop(), line()}], line_state()}
+      ;          ({?GET_OTHER_END, stop()},         {pid(), any()}, line_state()) -> {reply, stop(), line_state()}
+      ;          ({?CONTAINS_STOP, stop()},         {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?GET_DURATION, stop(), stop()},  {pid(), any()}, line_state()) -> {reply, pos_integer(), line_state()}
+      ;          ({?IS_END_STOP, stop()},           {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
+      ;          ({?GET_INTERSECTION, line()},      {pid(), any()}, line_state()) -> {reply, stop() | none, line_state()}
+      ;          (?GET_NUMBER,                      {pid(), any()}, line_state()) -> {reply, pos_integer(), line_state()}
+      ;          ({?GET_TARGET, stop(), stop()},    {pid(), any()}, line_state()) -> {reply, stop(), line_state()}
+      ;          (stop,                             {pid(), any()}, line_state()) -> {stop, normal, stopped, line_state()}
+      ;          (state,                            {pid(), any()}, line_state()) -> {reply, line_state(), line_state()}.
 handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
   [EndStop|_] = State#line_state.stops,
   Reply = case EndStop of
@@ -183,7 +179,7 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
--spec get_next_stop_helper(pid(), pre | post, [pid() | pos_integer()]) -> {pid(), pos_integer()} | none.
+-spec get_next_stop_helper(stop(), pre | post, [stop() | pos_integer()]) -> {stop(), pos_integer()} | none.
 get_next_stop_helper(_Stop, _, [_|[]]) -> none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
 get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) ->
   {NextStop, Dur};
@@ -192,11 +188,11 @@ get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) ->
 get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) ->
   get_next_stop_helper(Stop, Alignment, Stops).
 
--spec get_duration_helper(pid(), pid(), [pid() | pos_integer()]) -> pos_integer().
+-spec get_duration_helper(stop(), stop(), [stop() | pos_integer()]) -> pos_integer().
 get_duration_helper(FromStop, ToStop, Stops) ->
   get_duration_helper(FromStop, ToStop, false, Stops).
 
--spec get_duration_helper(pid(), pid(), boolean(), [pid() | pos_integer()]) -> non_neg_integer().
+-spec get_duration_helper(stop(), stop(), boolean(), [stop() | pos_integer()]) -> non_neg_integer().
 get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -> 0;
 get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -> 0;
 get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) ->
@@ -211,7 +207,7 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
       get_duration_helper(FromStop, ToStop, false, Stops)
   end.
 
--spec get_intersection_helper(pid(), [pid() | pos_integer()]) -> pid() | none.
+-spec get_intersection_helper(line(), [stop() | pos_integer()]) -> stop() | none.
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
   case ContainsStop of
@@ -226,11 +222,11 @@ get_intersection_helper(OtherLine, [Stop|Rest]) ->
       end
   end.
 
--spec get_target_helper(pid(), pid(), [pid() | pos_integer()]) -> pid().
+-spec get_target_helper(stop(), stop(), [stop() | pos_integer()]) -> stop().
 get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) ->
   get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -> is_pid(Stop) end, Stops)).
 
--spec get_target_helper(pid(), pid(), pid(), [pid() | pos_integer()]) -> pid().
+-spec get_target_helper(stop(), stop(), stop(), [stop() | pos_integer()]) -> stop().
 get_target_helper(FromStop, _ToStop, FromStop, Stops) ->
   lists:last(Stops);
 get_target_helper(FromStop, ToStop, FirstEnd, [Stop|Stops]) ->

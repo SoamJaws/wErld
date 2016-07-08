@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-07 at 05:01:02
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-08 at 05:27:10
 
 ****************************************************************************
 
@@ -15,16 +15,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  -behaviour(gen_server).
         |  
         |  %% Public API
-        |  -export([ start_link/1
-        |          , stop/1
-        |          , state/1
-        |          , ?PASSENGER_CHECK_IN/2
+        |  -export([ ?PASSENGER_CHECK_IN/2
         |          , ?PASSENGER_CHECK_OUT/3
         |          , ?VEHICLE_CHECK_IN/3
-        |          , ?VEHICLE_CHECK_OUT/3]).
+        |          , ?VEHICLE_CHECK_OUT/3
+        |          , state/1]).
         |  
         |  %% gen_server
-        |  -export([ init/1
+        |  -export([ start_link/1
+        |          , init/1
         |          , handle_call/3
         |          , handle_cast/2
         |          , handle_info/2
@@ -34,46 +33,42 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% Public API
         |  
-        |  -spec start_link(atom()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
-        |  start_link(Id) -&gt;
-    32..|    gen_server:start_link(?MODULE, Id, []).
+        |  -spec ?PASSENGER_CHECK_IN(stop(), pid()) -&gt; ok | {nok, nonempty_string()}.
+        |  ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) -&gt;
+<font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).</font>
         |  
-        |  -spec stop(pid()) -&gt; ok.
-        |  stop(Pid) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, stop).</font>
+        |  -spec ?PASSENGER_CHECK_OUT(stop(), pid(), boolean())-&gt; ok.
+        |  ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) -&gt;
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).</font>
+        |  
+        |  -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -&gt; ok.
+        |  ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) -&gt;
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).</font>
+        |  
+        |  -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -&gt; ok.
+        |  ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) -&gt;
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).</font>
         |  
         |  -spec state(pid()) -&gt; stop_state().
         |  state(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
-        |  -spec ?PASSENGER_CHECK_IN(pid(), pid()) -&gt; ok | {nok, nonempty_string()}.
-        |  ?PASSENGER_CHECK_IN(Pid, Passenger) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).</font>
-        |  
-        |  -spec ?PASSENGER_CHECK_OUT(pid(), pid(), boolean())-&gt; ok.
-        |  ?PASSENGER_CHECK_OUT(Pid, Passenger, BlockCaller) -&gt;
-<font color=red>     0..|    gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).</font>
-        |  
-        |  -spec ?VEHICLE_CHECK_IN(pid(), pid(), boolean()) -&gt; ok.
-        |  ?VEHICLE_CHECK_IN(Pid, Vehicle, BlockCaller) -&gt;
-<font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).</font>
-        |  
-        |  -spec ?VEHICLE_CHECK_OUT(pid(), pid(), boolean()) -&gt; ok.
-        |  ?VEHICLE_CHECK_OUT(Pid, Vehicle, BlockCaller) -&gt;
-<font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).</font>
-        |  
         |  
         |  %% gen_server
         |  
+        |  -spec start_link(atom()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+        |  start_link(Id) -&gt;
+    49..|    gen_server:start_link(?MODULE, Id, []).
+        |  
+        |  
         |  -spec init(atom()) -&gt; {ok, stop_state()}.
         |  init(Id) -&gt;
-    32..|    put(id, Id),
-    32..|    ?LOG_INFO("Stop started"),
-    32..|    {ok, #stop_state{id=Id}}.
+    49..|    put(id, Id),
+    49..|    ?LOG_INFO("Stop started"),
+    49..|    {ok, #stop_state{id=Id}}.
         |  
         |  
         |  -spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -&gt; {reply, ok | {nok, string()}, stop_state()}
-        |        ;          (stop,                         {pid(), any()}, stop_state()) -&gt; {stop, normal, stopped, stop_state()}
         |        ;          (state,                        {pid(), any()}, stop_state()) -&gt; {reply, stop_state(), stop_state()}.
         |  handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) -&gt;
 <font color=red>     0..|    Passengers = State#stop_state.passengers,</font>
@@ -98,16 +93,13 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
 <font color=red>     0..|        {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}</font>
         |    end;
         |  
-        |  handle_call(stop, _From, State) -&gt;
-<font color=red>     0..|    {stop, normal, stopped, State};</font>
-        |  
         |  handle_call(state, _From, State) -&gt;
 <font color=red>     0..|    {reply, State, State}.</font>
         |  
         |  
         |  -spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
-        |        ;          ({?VEHICLE_CHECK_IN, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
-        |        ;          ({?VEHICLE_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}.
+        |        ;          ({?VEHICLE_CHECK_IN, vehicle(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}
+        |        ;          ({?VEHICLE_CHECK_OUT, vehicle(), boolean(), pid()}, stop_state()) -&gt; {noreply, stop_state()}.
         |  handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) -&gt;
 <font color=red>     0..|    Passengers = lists:delete(Passenger, State#stop_state.passengers),</font>
 <font color=red>     0..|    gen_server_utils:notify_caller(NotifyCaller, Caller),</font>
@@ -161,11 +153,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% Backend
         |  
-        |  -spec notify_vehicle_checked_in([pid()], pid()) -&gt; non_neg_integer().
+        |  -spec notify_vehicle_checked_in([pid()], vehicle()) -&gt; non_neg_integer().
         |  notify_vehicle_checked_in(Passengers, Vehicle) -&gt;
 <font color=red>     0..|    notify_vehicle_checked_in(Passengers, Vehicle, 0).</font>
         |  
-        |  -spec notify_vehicle_checked_in([pid()], pid(), non_neg_integer()) -&gt; non_neg_integer().
+        |  -spec notify_vehicle_checked_in([pid()], vehicle(), non_neg_integer()) -&gt; non_neg_integer().
 <font color=red>     0..|  notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -&gt; BoardingPassengers;</font>
         |  notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) -&gt;
 <font color=red>     0..|    WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),</font>

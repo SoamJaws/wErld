@@ -5,33 +5,52 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-07 at 05:01:02
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-08 at 05:27:10
 
 ****************************************************************************
 
         |  -module(vehicle_supervisor).
+        |  -include("public_transport.hrl").
         |  -behaviour(supervisor).
         |  
-        |  -export([start_link/0]).
+        |  -export([ start_link/0
+        |          , start_vehicle/4
+        |          , stop_vehicle/1]).
+        |  
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-     1..|      supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+<font color=red>     0..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).</font>
+        |  
+        |  start_vehicle(Capacity, Line, Target, Type) -&gt;
+<font color=red>     0..|    LineNumber = line:?GET_NUMBER(Line),</font>
+<font color=red>     0..|    Result = gen_server:start_child({global, ?MODULE}, [Capacity, Line, LineNumber, Target, Type]),</font>
+<font color=red>     0..|    case Result of</font>
+        |      {ok, Pid} -&gt;
+<font color=red>     0..|        Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),</font>
+<font color=red>     0..|        ?ADDRESS(vehicle);</font>
+        |      Result -&gt;
+<font color=red>     0..|        Result</font>
+        |    end.
+        |  
+        |  stop_vehicle(?ADDRESS(vehicle)) -&gt;
+<font color=red>     0..|    supervisor:terminate_child({global, ?MODULE}, Pid).</font>
+        |    
         |  
         |  init(_Args) -&gt;
-     1..|      SupFlags = { simple_one_for_one
-        |                 , 0
-        |                 , 1
-        |                 },
-     1..|      ChildSpecs = [ { vehicle
-        |                     , {vehicle, start_link, []}
-        |                     , transient
-        |                     , 1000
-        |                     , worker
-        |                     , [vehicle]
-        |                     }
-        |                   ],
-     1..|      {ok, {SupFlags, ChildSpecs}}.
+<font color=red>     0..|    SupFlags = { simple_one_for_one</font>
+        |               , 0
+        |               , 1
+        |               },
+<font color=red>     0..|    ChildSpecs = [ { vehicle</font>
+        |                   , {vehicle, start_link, []}
+        |                   , transient
+        |                   , 1000
+        |                   , worker
+        |                   , [vehicle]
+        |                   }
+        |                 ],
+<font color=red>     0..|    {ok, {SupFlags, ChildSpecs}}.</font>
 </pre>
 </body>
 </html>

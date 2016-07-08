@@ -11,8 +11,7 @@
         , ?IS_END_STOP/2
         , ?GET_INTERSECTION/2
         , ?GET_NUMBER/1
-        , ?GET_TARGET/3
-        , state/1]).
+        , ?GET_TARGET/3]).
 
 %% gen_server
 -export([ start_link/3
@@ -62,11 +61,6 @@
 ?GET_TARGET(?RECIPENT, FromStop, ToStop) ->
   gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
 
--spec state(pid()) -> line_state().
-state(Pid) ->
-  gen_server:call(Pid, state).
-
-
 %% gen_server
 
 -spec start_link(pos_integer(), [pid() | pos_integer()], vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
@@ -89,9 +83,7 @@ init({Number, Stops, Type}) ->
       ;          ({?IS_END_STOP, stop()},           {pid(), any()}, line_state()) -> {reply, boolean(), line_state()}
       ;          ({?GET_INTERSECTION, line()},      {pid(), any()}, line_state()) -> {reply, stop() | none, line_state()}
       ;          (?GET_NUMBER,                      {pid(), any()}, line_state()) -> {reply, pos_integer(), line_state()}
-      ;          ({?GET_TARGET, stop(), stop()},    {pid(), any()}, line_state()) -> {reply, stop(), line_state()}
-      ;          (stop,                             {pid(), any()}, line_state()) -> {stop, normal, stopped, line_state()}
-      ;          (state,                            {pid(), any()}, line_state()) -> {reply, line_state(), line_state()}.
+      ;          ({?GET_TARGET, stop(), stop()},    {pid(), any()}, line_state()) -> {reply, stop(), line_state()}.
 handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
   [EndStop|_] = State#line_state.stops,
   Reply = case EndStop of
@@ -148,13 +140,7 @@ handle_call(?GET_NUMBER, _From, State) ->
 
 handle_call({?GET_TARGET, FromStop, ToStop}, _From, State) ->
   Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),
-  {reply, Reply, State};
-
-handle_call(stop, _From, State) ->
-  {stop, normal, stopped, State};
-
-handle_call(state, _From, State) ->
-  {reply, State, State}.
+  {reply, Reply, State}.
 
 
 -spec handle_cast(any(), line_state()) -> {noreply, line_state()}.

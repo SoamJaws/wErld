@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-07-08 at 05:26:23
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-07-08 at 06:20:38
 
 ****************************************************************************
 
@@ -35,10 +35,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  %% Public API
         |  
         |  start_link(Id, Type) -&gt;
-    45..|    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+    38..|    gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
         |  
         |  start_global(Id, Type) -&gt;
-     9..|    gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+     8..|    gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
         |  
         |  stop(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, stop).</font>
@@ -58,7 +58,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  %% gen_server
         |  
         |  init(State) -&gt;
-    46..|    {ok, State}.
+    39..|    {ok, State}.
         |  
         |  
         |  handle_call(stop, _From, State) -&gt;

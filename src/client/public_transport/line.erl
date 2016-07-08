@@ -131,7 +131,14 @@ handle_call({?IS_END_STOP, Stop}, _From, State) ->
   {reply, Reply, State};
 
 handle_call({?GET_INTERSECTION, OtherLine}, _From, State) ->
-  Reply = get_intersection_helper(OtherLine, State#line_state.stops),
+  Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) ->
+                                                            case Stop of
+                                                              ?ADDRESS(stop) ->
+                                                                true;
+                                                              _ ->
+                                                                false
+                                                            end
+                                                          end, State#line_state.stops)),
   {reply, Reply, State};
 
 handle_call(?GET_NUMBER, _From, State) ->
@@ -193,19 +200,15 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
       get_duration_helper(FromStop, ToStop, false, Stops)
   end.
 
--spec get_intersection_helper(line(), [stop() | pos_integer()]) -> stop() | none.
+-spec get_intersection_helper(line(), [stop()]) -> stop() | none.
+get_intersection_helper(OtherLine, []) -> none;
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
   case ContainsStop of
     true ->
       Stop;
     false ->
-      case Rest of
-        [] ->
-          none;
-        [_|Stops] ->
-          get_intersection_helper(OtherLine, Stops)
-      end
+      get_intersection_helper(OtherLine, Rest)
   end.
 
 -spec get_target_helper(stop(), stop(), [stop() | pos_integer()]) -> stop().

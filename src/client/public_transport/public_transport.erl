@@ -22,10 +22,6 @@
 ?GET_ROUTE(FromId, ToId) ->
   gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}).
 
--spec state() -> public_transport_state().
-state() ->
-  gen_server:call({global, ?MODULE}, state).
-
 
 %% gen_server
 

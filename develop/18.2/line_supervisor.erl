@@ -12,7 +12,7 @@ start_link() ->
   supervisor:start_link({global, ?MODULE}, ?MODULE, []).
 
 start_line(Number, Stops, Type) ->
-  Result = gen_server:start_child({global, ?MODULE}, [Number, Stops, Type]),
+  Result = supervisor:start_child({global, ?MODULE}, [Number, Stops, Type]),
   case Result of
     {ok, Pid} ->
       Id = list_to_atom(atom_to_list(Type) ++ [$_|integer_to_list(Number)]),

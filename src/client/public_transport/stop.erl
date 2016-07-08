@@ -7,8 +7,7 @@
 -export([ ?PASSENGER_CHECK_IN/2
         , ?PASSENGER_CHECK_OUT/3
         , ?VEHICLE_CHECK_IN/3
-        , ?VEHICLE_CHECK_OUT/3
-        , state/1]).
+        , ?VEHICLE_CHECK_OUT/3]).
 
 %% gen_server
 -export([ start_link/1
@@ -38,10 +37,6 @@
 ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) ->
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
--spec state(pid()) -> stop_state().
-state(Pid) ->
-  gen_server:call(Pid, state).
-
 
 %% gen_server
 
@@ -57,8 +52,7 @@ init(Id) ->
   {ok, #stop_state{id=Id}}.
 
 
--spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -> {reply, ok | {nok, string()}, stop_state()}
-      ;          (state,                        {pid(), any()}, stop_state()) -> {reply, stop_state(), stop_state()}.
+-spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -> {reply, ok | {nok, string()}, stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
   AlreadyCheckedIn = lists:member(Passenger, Passengers),
@@ -81,9 +75,6 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
       end,
       {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
   end;
-
-handle_call(state, _From, State) ->
-  {reply, State, State}.
 
 
 -spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}

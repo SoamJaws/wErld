@@ -220,18 +220,3 @@ get_target_test() ->
   stop:stop(Stop4),
   stop:stop(Stop5),
   line:stop(Line).
-
-state_test() ->
-  {ok, Stop1} = stop:start_link(stop1),
-  {ok, Stop2} = stop:start_link(stop2),
-  {ok, Stop3} = stop:start_link(stop3),
-  Dur1_2 = 10,
-  Dur2_3 = 20,
-  {ok, Line} = line:start_link(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3], bus),
-
-  ?assertMatch(#line_state{number=1, stops=[Stop1, Dur1_2, Stop2, Dur2_3, Stop3], type=bus}, line:state(Line)),
-
-  stop:stop(Stop1),
-  stop:stop(Stop2),
-  stop:stop(Stop3),
-  line:stop(Line).

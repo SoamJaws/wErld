@@ -3,8 +3,7 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ ?GET_ROUTE/2
-        , state/0]).
+-export([ ?GET_ROUTE/2]).
 
 %% gen_server and internally spawned functions
 -export([ start_link/0
@@ -59,18 +58,11 @@ init([]) ->
                     end, LineSpecs),
   {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
 
--spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}
-      ;          (stop,                         {pid(), any()}, public_transport_state()) -> {stop, normal, stopped, public_transport_state()}
-      ;          (state,                        {pid(), any()}, public_transport_state()) -> {reply, public_transport_state(), public_transport_state()}.
+
+-spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}.
 handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
   Reply = get_route_helper(FromId, ToId, State),
   {reply, Reply, State};
-
-handle_call(state, _From, State) ->
-  {reply, State, State};
-
-handle_call(stop, _From, State) ->
-  {stop, normal, stopped, State}.
 
 
 -spec handle_cast(any(), public_transport_state()) -> {noreply, public_transport_state()}.

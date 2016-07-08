@@ -1,4 +1,2 @@
-* Convert all gen_servers with macro api to use tagged pids
-* Convert start stop to supervisors
 * specs for supervisors
 * Fix tests according to above

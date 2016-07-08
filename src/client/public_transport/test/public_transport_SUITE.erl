@@ -2,7 +2,7 @@
 -include("public_transport.hrl").
 -include_lib("common_test/include/ct.hrl").
 
--export([all/0, test1]).
+-export([all/0, test1/1]).
 
 all() -> [test1].
 

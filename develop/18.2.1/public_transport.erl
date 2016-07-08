@@ -33,7 +33,7 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
--spec ?GET_ROUTE(pid(), atom(), atom()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
+-spec ?GET_ROUTE(pid(), atom(), atom()) -> route() | none.
 ?GET_ROUTE(Pid, FromId, ToId) ->
   gen_server:call(Pid, {?GET_ROUTE, FromId, ToId}).
 
@@ -42,12 +42,13 @@ state(Pid) ->
 
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->
+  put(id, public_transport),
   %% StopIds = [atom()]
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
   {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
   StopDict = lists:foldl(fun(StopId, Dict) ->
-                           {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
-                           dict:store(StopId, Pid, Dict)
+                           {{stop, StopId}, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
+                           dict:store({stop, StopId}, Pid, Dict)
                          end , dict:new() , StopIds),
   Lines = lists:map(fun({Number, Stops, Type}) ->
                       UpdatedStops = lists:map(fun(Element) ->
@@ -58,14 +59,14 @@ init([]) ->
                                                      dict:fetch(Element, StopDict)
                                                  end
                                                end, Stops),
-                      {ok, Line} = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
+                      Line = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
                       Line
                     end, LineSpecs),
   {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
 
--spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
-      ;          (stop,                       {pid(), any()}, public_transport_state()) -> {stop, normal, stopped, stop_state()}
-      ;          (state,                      {pid(), any()}, public_transport_state()) -> {reply, public_transport_state(), public_transport_state()}.
+-spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}
+      ;          (stop,                         {pid(), any()}, public_transport_state()) -> {stop, normal, stopped, public_transport_state()}
+      ;          (state,                        {pid(), any()}, public_transport_state()) -> {reply, public_transport_state(), public_transport_state()}.
 handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
   Reply = get_route_helper(FromId, ToId, State),
   {reply, Reply, State};
@@ -101,11 +102,12 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
 %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
--spec get_route_helper(atom(), atom(), public_transport_state()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
+-spec get_route_helper(atom(), atom(), public_transport_state()) -> route() | none.
 get_route_helper(FromId, ToId, State) ->
   AllLines = State#public_transport_state.lines,
-  From = dict:fetch(FromId, State#public_transport_state.stops),
-  To = dict:fetch(ToId, State#public_transport_state.stops),
+  From = {FromId, dict:fetch(FromId, State#public_transport_state.stops)},
+  To = {ToId, dict:fetch(ToId, State#public_transport_state.stops)},
+
   ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
   spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive
@@ -116,7 +118,7 @@ get_route_helper(FromId, ToId, State) ->
   end.
 
 
--spec get_route_concurrent(pid(), pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], pid()) -> {[{pid(), pid(), pid()}], pos_integer()} | none.
+-spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -> route() | none.
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
   FromLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
@@ -139,11 +141,11 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
   end.
 
 
--spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()]) -> [{[{pid(), pid(), pid()}], pos_integer()}].
+-spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()]) -> [route()].
 spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) ->
   spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
 
--spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], non_neg_integer()) -> [{[{pid(), pid(), pid()}], pos_integer()}].
+-spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()], non_neg_integer()) -> [route()].
 spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) ->
   receive_routes(NoCalls);
 spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) ->
@@ -157,11 +159,11 @@ spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, Visi
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)
   end.
 
--spec receive_routes(non_neg_integer()) -> [{[{pid(), pid(), pid()}], pos_integer()}].
+-spec receive_routes(non_neg_integer()) -> [route()].
 receive_routes(NoCalls) ->
   receive_routes(NoCalls, []).
 
--spec receive_routes(non_neg_integer(), [{[{pid(), pid(), pid()}], pos_integer()}]) -> [{[{pid(), pid(), pid()}], pos_integer()}].
+-spec receive_routes(non_neg_integer(), [route()]) -> [route()].
 receive_routes(0, Routes) -> Routes;
 receive_routes(NoCalls, Routes) ->
   receive
@@ -171,11 +173,11 @@ receive_routes(NoCalls, Routes) ->
       receive_routes(NoCalls-1, [Route|Routes])
   end.
 
--spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}]) -> {[{pid(), pid(), pid()}], pos_integer()}.
+-spec get_best_route([route()]) -> route().
 get_best_route([Route|Routes]) ->
   get_best_route(Routes, Route).
 
--spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}], {[{pid(), pid(), pid()}], pos_integer()}) -> {[{pid(), pid(), pid()}], pos_integer()}.
+-spec get_best_route([route()], route()) -> route().
 get_best_route([], BestRoute) -> BestRoute;
 get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
   if
@@ -187,11 +189,11 @@ get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
 
 
 %% [{FromLine, ToLine, IntersectingStop}]
--spec get_intersecting_lines([pid()], [pid()]) -> [{pid(), pid(), pid()}].
+-spec get_intersecting_lines([line()], [line()]) -> [{line(), line(), stop()}].
 get_intersecting_lines(FromLines, ToLines) ->
   get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines]).
 
--spec get_intersecting_lines([{pid(), pid(), pid()}]) -> [{pid(), pid(), pid()}].
+-spec get_intersecting_lines([{line(), line(), stop()}]) -> [{line(), line(), stop()}].
 get_intersecting_lines([]) -> [];
 get_intersecting_lines([{_,_,none}|IntersectingLines]) ->
   get_intersecting_lines(IntersectingLines);
@@ -199,11 +201,11 @@ get_intersecting_lines([IntersectingLine|IntersectingLines]) ->
   [IntersectingLine|get_intersecting_lines(IntersectingLines)].
 
 
--spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}]) -> {pid(), pid(), pid(), pos_integer()}.
+-spec get_best_intersecting_lines([{line(), line(), stop(), pos_integer()}]) -> {line(), line(), stop(), pos_integer()}.
 get_best_intersecting_lines([IntersectingLineWithDuration|IntersectingLinesWithDurations]) ->
   get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).
 
--spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}], {pid(), pid(), pid(), pos_integer()}) -> {pid(), pid(), pid(), pos_integer()}.
+-spec get_best_intersecting_lines([{line(), line(), stop(), pos_integer()}], {line(), line(), stop(), pos_integer()}) -> {line(), line(), stop(), pos_integer()}.
 get_best_intersecting_lines([], BestIntersectingLines) -> BestIntersectingLines;
 get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) ->
   if
@@ -214,11 +216,11 @@ get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|Intersect
   end.
 
 
--spec compress_route([{pid(), pid(), pid()}]) -> [{pid(), pid(), pid()}].
+-spec compress_route([route_step()]) -> [route_step()].
 compress_route([Stop|Stops]) ->
   compress_route(Stops, [Stop]).
 
--spec compress_route([{pid(), pid(), pid()}], [{pid(), pid(), pid()}]) -> [{pid(), pid(), pid()}].
+-spec compress_route([route_step()], [route_step()]) -> [route_step()].
 compress_route([], Route) -> Route;
 compress_route([{Line, Target, Destination}|Stops], Route) ->
   Last = lists:last(Route),

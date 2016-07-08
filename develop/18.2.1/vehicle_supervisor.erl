@@ -1,23 +1,42 @@
 -module(vehicle_supervisor).
+-include("public_transport.hrl").
 -behaviour(supervisor).
 
--export([start_link/0]).
+-export([ start_link/0
+        , start_vehicle/4
+        , stop_vehicle/1]).
+
 -export([init/1]).
 
 start_link() ->
-    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+  supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+
+start_vehicle(Capacity, Line, Target, Type) ->
+  LineNumber = line:?GET_NUMBER(Line),
+  Result = gen_server:start_child({global, ?MODULE}, [Capacity, Line, LineNumber, Target, Type]),
+  case Result of
+    {ok, Pid} ->
+      Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),
+      ?ADDRESS(vehicle);
+    Result ->
+      Result
+  end.
+
+stop_vehicle(?ADDRESS(vehicle)) ->
+  supervisor:terminate_child({global, ?MODULE}, Pid).
+  
 
 init(_Args) ->
-    SupFlags = { simple_one_for_one
-               , 0
-               , 1
-               },
-    ChildSpecs = [ { vehicle
-                   , {vehicle, start_link, []}
-                   , transient
-                   , 1000
-                   , worker
-                   , [vehicle]
-                   }
-                 ],
-    {ok, {SupFlags, ChildSpecs}}.
+  SupFlags = { simple_one_for_one
+             , 0
+             , 1
+             },
+  ChildSpecs = [ { vehicle
+                 , {vehicle, start_link, []}
+                 , transient
+                 , 1000
+                 , worker
+                 , [vehicle]
+                 }
+               ],
+  {ok, {SupFlags, ChildSpecs}}.

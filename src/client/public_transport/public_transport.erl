@@ -1,16 +1,14 @@
 -module(public_transport).
 -include("public_transport.hrl").
--include_lib("eunit/include/eunit.hrl").
 -behaviour(gen_server).
 
 %% Public API
--export([ start_link/0
-        , stop/1
-        , state/1
-        , ?GET_ROUTE/3]).
+-export([ ?GET_ROUTE/2
+        , state/0]).
 
 %% gen_server and internally spawned functions
--export([ init/1
+-export([ start_link/0
+        , init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
@@ -21,24 +19,21 @@
 
 %% Public API
 
--spec start_link() -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
-start_link() ->
-  gen_server:start_link(?MODULE, [], []).
+-spec ?GET_ROUTE(atom(), atom()) -> route() | none.
+?GET_ROUTE(FromId, ToId) ->
+  gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}).
 
--spec stop(pid()) -> ok.
-stop(Pid) ->
-  gen_server:call(Pid, stop).
-
--spec state(pid()) -> public_transport_state().
-state(Pid) ->
-  gen_server:call(Pid, state).
-
--spec ?GET_ROUTE(pid(), atom(), atom()) -> route() | none.
-?GET_ROUTE(Pid, FromId, ToId) ->
-  gen_server:call(Pid, {?GET_ROUTE, FromId, ToId}).
+-spec state() -> public_transport_state().
+state() ->
+  gen_server:call({global, ?MODULE}, state).
 
 
 %% gen_server
+
+-spec start_link() -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+start_link() ->
+  gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).
+
 
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->

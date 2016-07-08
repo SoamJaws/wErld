@@ -5,33 +5,50 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl by COVER 2016-07-07 at 05:00:11
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl by COVER 2016-07-08 at 05:26:23
 
 ****************************************************************************
 
         |  -module(stop_supervisor).
+        |  -include("public_transport.hrl").
         |  -behaviour(supervisor).
         |  
-        |  -export([start_link/0]).
+        |  -export([ start_link/0
+        |          , start_stop/1
+        |          , stop_stop/1]).
+        |  
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-     1..|      supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+<font color=red>     0..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).</font>
+        |  
+        |  start_stop(Id) -&gt;
+<font color=red>     0..|    Result = supervisor:start_child({global, ?MODULE}, [Id]),</font>
+<font color=red>     0..|    case Result of</font>
+        |      {ok, Pid} -&gt;
+<font color=red>     0..|        ?ADDRESS(stop);</font>
+        |      Result -&gt;
+<font color=red>     0..|        Result</font>
+        |    end.
+        |  
+        |  stop_stop(?ADDRESS(stop)) -&gt;
+<font color=red>     0..|    supervisor:terminate_child({global, ?MODULE}, Pid).</font>
+        |    
         |  
         |  init(_Args) -&gt;
-     1..|      SupFlags = { simple_one_for_one
-        |                 , 0
-        |                 , 1
-        |                 },
-     1..|      ChildSpecs = [ { stop
-        |                     , {stop, start_link, []}
-        |                     , transient
-        |                     , 1000
-        |                     , worker
-        |                     , [stop]
-        |                     }
-        |                   ],
-     1..|      {ok, {SupFlags, ChildSpecs}}.
+<font color=red>     0..|    SupFlags = { simple_one_for_one</font>
+        |               , 0
+        |               , 1
+        |               },
+<font color=red>     0..|    ChildSpecs = [ { stop</font>
+        |                   , {stop, start_link, []}
+        |                   , transient
+        |                   , 1000
+        |                   , worker
+        |                   , [stop]
+        |                   }
+        |                 ],
+<font color=red>     0..|    {ok, {SupFlags, ChildSpecs}}.</font>
 </pre>
 </body>
 </html>

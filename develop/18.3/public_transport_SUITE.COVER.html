@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport_SUITE.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport_SUITE.erl by COVER 2016-07-08 at 05:26:23
+
+****************************************************************************
+
+        |  -module(public_transport_SUITE).
+        |  -include("public_transport.hrl").
+        |  -include_lib("common_test/include/ct.hrl").
+        |  
+<font color=red>     0..|  all() -&gt; [test1].</font>
+        |  
+        |  test1(_Config) -&gt;
+<font color=red>     0..|    {ok, _PublicTransportSupervisor} = public_transport_supervisor:start_link(),</font>
+<font color=red>     0..|    {ok, PublicTransport} = public_transport:start_link(),</font>
+<font color=red>     0..|    {Route, Dur} = public_transport:?GET_ROUTE(PublicTransport, a, o),</font>
+<font color=red>     0..|    Ids = lists:map(fun({L1,S2,S3}) -&gt;</font>
+<font color=red>     0..|                      LS1 = stop:state(L1),</font>
+<font color=red>     0..|                      SS2 = stop:state(S2),</font>
+<font color=red>     0..|                      SS3 = stop:state(S3),</font>
+<font color=red>     0..|                      {LS1#line_state.number, SS2#stop_state.id, SS3#stop_state.id}</font>
+        |                    end, Route).
+</pre>
+</body>
+</html>

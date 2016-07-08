@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-07 at 05:01:33
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-08 at 05:27:58
 
 ****************************************************************************
 
@@ -15,16 +15,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  -behaviour(gen_server).
         |  
         |  %% Public API
-        |  -export([ start_link/4
-        |          , stop/1
-        |          , state/1
-        |          , ?PASSENGER_BOARD/2
+        |  -export([ ?PASSENGER_BOARD/2
         |          , ?NEW_TIME/3
         |          , ?INCREMENT_BOARDING_PASSENGER/2
-        |          , ?CHECKIN_OK/4]).
+        |          , ?CHECKIN_OK/4
+        |          , state/1]).
         |  
         |  %% gen_server
-        |  -export([ init/1
+        |  -export([ start_link/5
+        |          , init/1
         |          , handle_call/3
         |          , handle_cast/2
         |          , handle_info/2
@@ -34,10 +33,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% Public API
         |  
-        |  -spec start_link(pos_integer(), pid(), pid(), vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
-        |  start_link(Capacity, Line, Target, Type) -&gt;
-<font color=red>     0..|    gen_server:start_link(?MODULE, {Capacity, Line, Target, Type}, []).</font>
-        |  
         |  -spec stop(pid()) -&gt; ok.
         |  stop(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, stop).</font>
@@ -46,38 +41,41 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  state(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
-        |  -spec ?PASSENGER_BOARD(pid(), pid()) -&gt; ok | nok.
-        |  ?PASSENGER_BOARD(Pid, Passenger) -&gt;
+        |  -spec ?PASSENGER_BOARD(vehicle(), pid()) -&gt; ok | nok.
+        |  ?PASSENGER_BOARD(?RECIPENT, Passenger) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).</font>
         |  
-        |  -spec ?NEW_TIME(pid(), non_neg_integer(), boolean()) -&gt; ok.
-        |  ?NEW_TIME(Pid, Time, BlockCaller) -&gt;
+        |  -spec ?NEW_TIME(vehicle(), non_neg_integer(), boolean()) -&gt; ok.
+        |  ?NEW_TIME(?RECIPENT, Time, BlockCaller) -&gt;
 <font color=red>     0..|    gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).</font>
         |  
-        |  -spec ?INCREMENT_BOARDING_PASSENGER(pid(), boolean()) -&gt; ok.
-        |  ?INCREMENT_BOARDING_PASSENGER(Pid, BlockCaller) -&gt;
+        |  -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -&gt; ok.
+        |  ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) -&gt;
 <font color=red>     0..|    gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).</font>
         |  
-        |  -spec ?CHECKIN_OK(pid(), pid(), non_neg_integer(), boolean()) -&gt; ok.
-        |  ?CHECKIN_OK(Pid, Stop, BoardingPassengers, BlockCaller) -&gt;
+        |  -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -&gt; ok.
+        |  ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) -&gt;
 <font color=red>     0..|    gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).</font>
         |  
         |  
         |  %% gen_server
         |  
-        |  -spec init({pos_integer(), pid(), pid(), vehicle_type()}) -&gt; {ok, vehicle_state()}.
-        |  init({Capacity, Line, Target, Type}) -&gt;
+        |  -spec start_link(pos_integer(), line(), pos_integer(), stop(), vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+        |  start_link(Capacity, Line, LineNumber, Target, Type) -&gt;
+<font color=red>     0..|    gen_server:start_link(?MODULE, {Capacity, Line, LineNumber, Target, Type}, []).</font>
+        |  
+        |  
+        |  -spec init({pos_integer(), line(), pos_integer(), stop(), vehicle_type()}) -&gt; {ok, vehicle_state()}.
+        |  init({Capacity, Line, LineNumber, Target, Type}) -&gt;
 <font color=red>     0..|    gen_server:cast({global, blackboard}, {subscribe, time}),</font>
-<font color=red>     0..|    LineNumber = line:?GET_NUMBER(Line),</font>
-<font color=red>     0..|    put(id,  "List_" ++ list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber))),</font>
 <font color=red>     0..|    Stop = line:?GET_OTHER_END(Line, Target),</font>
 <font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, self(), false),</font>
 <font color=red>     0..|    {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.</font>
         |  
         |  
-        |  -spec handle_call({?PASSENGER_BOARD, pid()}, {pid(), any()}, vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}
-        |        ;          (stop,                      {pid(), any()}, vehicle_state()) -&gt; {stop, normal, stopped, vehicle_state()}
-        |        ;          (state,                     {pid(), any()}, vehicle_state()) -&gt; {reply, vehicle_state(), vehicle_state()}.
+        |  -spec handle_call({?PASSENGER_BOARD, stop()}, {pid(), any()}, vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}
+        |        ;          (stop,                       {pid(), any()}, vehicle_state()) -&gt; {stop, normal, stopped, vehicle_state()}
+        |        ;          (state,                      {pid(), any()}, vehicle_state()) -&gt; {reply, vehicle_state(), vehicle_state()}.
         |  handle_call({?PASSENGER_BOARD, Passenger}, _From, State) -&gt;
 <font color=red>     0..|    Passengers = State#vehicle_state.passengers,</font>
 <font color=red>     0..|    Capacity = State#vehicle_state.capacity,</font>

@@ -74,7 +74,7 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
           end
       end,
       {reply, ok, State#stop_state{passengers=Passengers++[Passenger]}}
-  end;
+  end.
 
 
 -spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}

@@ -140,7 +140,7 @@ handle_call(?GET_NUMBER, _From, State) ->
 
 handle_call({?GET_TARGET, FromStop, ToStop}, _From, State) ->
   Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),
-  {reply, Reply, State};
+  {reply, Reply, State}.
 
 
 -spec handle_cast(any(), line_state()) -> {noreply, line_state()}.

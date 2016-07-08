@@ -62,7 +62,7 @@ init([]) ->
 -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}.
 handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
   Reply = get_route_helper(FromId, ToId, State),
-  {reply, Reply, State};
+  {reply, Reply, State}.
 
 
 -spec handle_cast(any(), public_transport_state()) -> {noreply, public_transport_state()}.

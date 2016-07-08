@@ -70,7 +70,7 @@ handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
       {reply, ok, NewState};
     true ->
       {reply, nok, State}
-  end;
+  end.
 
 
 -spec handle_cast({?NEW_TIME, non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}

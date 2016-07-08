@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-07 at 05:01:56
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-08 at 05:27:46
 
 ****************************************************************************
 
@@ -44,7 +44,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  state(Pid) -&gt;
         |    gen_server:call(Pid, state).
         |  
-        |  -spec ?GET_ROUTE(pid(), atom(), atom()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
+        |  -spec ?GET_ROUTE(pid(), atom(), atom()) -&gt; route() | none.
         |  ?GET_ROUTE(Pid, FromId, ToId) -&gt;
         |    gen_server:call(Pid, {?GET_ROUTE, FromId, ToId}).
         |  
@@ -58,8 +58,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |    %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
         |    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
         |    StopDict = lists:foldl(fun(StopId, Dict) -&gt;
-        |                             {ok, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
-        |                             dict:store(StopId, Pid, Dict)
+        |                             {{stop, StopId}, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
+        |                             dict:store({stop, StopId}, Pid, Dict)
         |                           end , dict:new() , StopIds),
         |    Lines = lists:map(fun({Number, Stops, Type}) -&gt;
         |                        UpdatedStops = lists:map(fun(Element) -&gt;
@@ -70,14 +70,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |                                                       dict:fetch(Element, StopDict)
         |                                                   end
         |                                                 end, Stops),
-        |                        {ok, Line} = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
+        |                        Line = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
         |                        Line
         |                      end, LineSpecs),
         |    {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
         |  
-        |  -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -&gt; {reply, {[{pid(), pid(), pid()}], pos_integer()} | none, public_transport_state()}
-        |        ;          (stop,                       {pid(), any()}, public_transport_state()) -&gt; {stop, normal, stopped, stop_state()}
-        |        ;          (state,                      {pid(), any()}, public_transport_state()) -&gt; {reply, public_transport_state(), public_transport_state()}.
+        |  -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -&gt; {reply, route() | none, public_transport_state()}
+        |        ;          (stop,                         {pid(), any()}, public_transport_state()) -&gt; {stop, normal, stopped, public_transport_state()}
+        |        ;          (state,                        {pid(), any()}, public_transport_state()) -&gt; {reply, public_transport_state(), public_transport_state()}.
         |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
         |    Reply = get_route_helper(FromId, ToId, State),
         |    {reply, Reply, State};
@@ -113,11 +113,12 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
         |  %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
-        |  -spec get_route_helper(atom(), atom(), public_transport_state()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
+        |  -spec get_route_helper(atom(), atom(), public_transport_state()) -&gt; route() | none.
         |  get_route_helper(FromId, ToId, State) -&gt;
         |    AllLines = State#public_transport_state.lines,
-        |    From = dict:fetch(FromId, State#public_transport_state.stops),
-        |    To = dict:fetch(ToId, State#public_transport_state.stops),
+        |    From = {FromId, dict:fetch(FromId, State#public_transport_state.stops)},
+        |    To = {ToId, dict:fetch(ToId, State#public_transport_state.stops)},
+        |  
         |    ToLines = lists:filter(fun(Line) -&gt; line:?CONTAINS_STOP(Line, To) end, AllLines),
         |    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
         |    receive
@@ -128,7 +129,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |    end.
         |  
         |  
-        |  -spec get_route_concurrent(pid(), pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], pid()) -&gt; {[{pid(), pid(), pid()}], pos_integer()} | none.
+        |  -spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -&gt; route() | none.
         |  get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) -&gt;
         |    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],
         |    IntersectingLines = get_intersecting_lines(FromLines, ToLines),
@@ -151,11 +152,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |    end.
         |  
         |  
-        |  -spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()]) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
+        |  -spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()]) -&gt; [route()].
         |  spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) -&gt;
         |    spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
         |  
-        |  -spec spawn_get_route_calls([pid()], pid(), [pid()], {[{pid(), pid(), pid()}], pos_integer()}, [pid()], [pid()], non_neg_integer()) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
+        |  -spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()], non_neg_integer()) -&gt; [route()].
         |  spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) -&gt;
         |    receive_routes(NoCalls);
         |  spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) -&gt;
@@ -169,11 +170,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)
         |    end.
         |  
-        |  -spec receive_routes(non_neg_integer()) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
+        |  -spec receive_routes(non_neg_integer()) -&gt; [route()].
         |  receive_routes(NoCalls) -&gt;
         |    receive_routes(NoCalls, []).
         |  
-        |  -spec receive_routes(non_neg_integer(), [{[{pid(), pid(), pid()}], pos_integer()}]) -&gt; [{[{pid(), pid(), pid()}], pos_integer()}].
+        |  -spec receive_routes(non_neg_integer(), [route()]) -&gt; [route()].
         |  receive_routes(0, Routes) -&gt; Routes;
         |  receive_routes(NoCalls, Routes) -&gt;
         |    receive
@@ -183,11 +184,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |        receive_routes(NoCalls-1, [Route|Routes])
         |    end.
         |  
-        |  -spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}]) -&gt; {[{pid(), pid(), pid()}], pos_integer()}.
+        |  -spec get_best_route([route()]) -&gt; route().
         |  get_best_route([Route|Routes]) -&gt;
         |    get_best_route(Routes, Route).
         |  
-        |  -spec get_best_route([{[{pid(), pid(), pid()}], pos_integer()}], {[{pid(), pid(), pid()}], pos_integer()}) -&gt; {[{pid(), pid(), pid()}], pos_integer()}.
+        |  -spec get_best_route([route()], route()) -&gt; route().
         |  get_best_route([], BestRoute) -&gt; BestRoute;
         |  get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) -&gt;
         |    if
@@ -199,11 +200,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  
         |  %% [{FromLine, ToLine, IntersectingStop}]
-        |  -spec get_intersecting_lines([pid()], [pid()]) -&gt; [{pid(), pid(), pid()}].
+        |  -spec get_intersecting_lines([line()], [line()]) -&gt; [{line(), line(), stop()}].
         |  get_intersecting_lines(FromLines, ToLines) -&gt;
         |    get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine &lt;- FromLines, ToLine &lt;- ToLines]).
         |  
-        |  -spec get_intersecting_lines([{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
+        |  -spec get_intersecting_lines([{line(), line(), stop()}]) -&gt; [{line(), line(), stop()}].
         |  get_intersecting_lines([]) -&gt; [];
         |  get_intersecting_lines([{_,_,none}|IntersectingLines]) -&gt;
         |    get_intersecting_lines(IntersectingLines);
@@ -211,11 +212,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |    [IntersectingLine|get_intersecting_lines(IntersectingLines)].
         |  
         |  
-        |  -spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}]) -&gt; {pid(), pid(), pid(), pos_integer()}.
+        |  -spec get_best_intersecting_lines([{line(), line(), stop(), pos_integer()}]) -&gt; {line(), line(), stop(), pos_integer()}.
         |  get_best_intersecting_lines([IntersectingLineWithDuration|IntersectingLinesWithDurations]) -&gt;
         |    get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).
         |  
-        |  -spec get_best_intersecting_lines([{pid(), pid(), pid(), pos_integer()}], {pid(), pid(), pid(), pos_integer()}) -&gt; {pid(), pid(), pid(), pos_integer()}.
+        |  -spec get_best_intersecting_lines([{line(), line(), stop(), pos_integer()}], {line(), line(), stop(), pos_integer()}) -&gt; {line(), line(), stop(), pos_integer()}.
         |  get_best_intersecting_lines([], BestIntersectingLines) -&gt; BestIntersectingLines;
         |  get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) -&gt;
         |    if
@@ -226,11 +227,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |    end.
         |  
         |  
-        |  -spec compress_route([{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
+        |  -spec compress_route([route_step()]) -&gt; [route_step()].
         |  compress_route([Stop|Stops]) -&gt;
         |    compress_route(Stops, [Stop]).
         |  
-        |  -spec compress_route([{pid(), pid(), pid()}], [{pid(), pid(), pid()}]) -&gt; [{pid(), pid(), pid()}].
+        |  -spec compress_route([route_step()], [route_step()]) -&gt; [route_step()].
         |  compress_route([], Route) -&gt; Route;
         |  compress_route([{Line, Target, Destination}|Stops], Route) -&gt;
         |    Last = lists:last(Route),

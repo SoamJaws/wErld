@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-08 at 06:21:04
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-08 at 06:38:33
 
 ****************************************************************************
 
@@ -142,7 +142,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
 <font color=red>     0..|    {reply, Reply, State};</font>
         |  
         |  handle_call({?GET_INTERSECTION, OtherLine}, _From, State) -&gt;
-<font color=red>     0..|    Reply = get_intersection_helper(OtherLine, State#line_state.stops),</font>
+<font color=red>     0..|    Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) -&gt;</font>
+<font color=red>     0..|                                                              case Stop of</font>
+        |                                                                ?ADDRESS(stop) -&gt;
+<font color=red>     0..|                                                                  true;</font>
+        |                                                                _ -&gt;
+<font color=red>     0..|                                                                  false</font>
+        |                                                              end
+        |                                                            end, State#line_state.stops)),
 <font color=red>     0..|    {reply, Reply, State};</font>
         |  
         |  handle_call(?GET_NUMBER, _From, State) -&gt;
@@ -204,19 +211,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
 <font color=red>     0..|        get_duration_helper(FromStop, ToStop, false, Stops)</font>
         |    end.
         |  
-        |  -spec get_intersection_helper(line(), [stop() | pos_integer()]) -&gt; stop() | none.
+        |  -spec get_intersection_helper(line(), [stop()]) -&gt; stop() | none.
+<font color=red>     0..|  get_intersection_helper(OtherLine, []) -&gt; none;</font>
         |  get_intersection_helper(OtherLine, [Stop|Rest]) -&gt;
 <font color=red>     0..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),</font>
 <font color=red>     0..|    case ContainsStop of</font>
         |      true -&gt;
 <font color=red>     0..|        Stop;</font>
         |      false -&gt;
-<font color=red>     0..|        case Rest of</font>
-        |          [] -&gt;
-<font color=red>     0..|            none;</font>
-        |          [_|Stops] -&gt;
-<font color=red>     0..|            get_intersection_helper(OtherLine, Stops)</font>
-        |        end
+<font color=red>     0..|        get_intersection_helper(OtherLine, Rest)</font>
         |    end.
         |  
         |  -spec get_target_helper(stop(), stop(), [stop() | pos_integer()]) -&gt; stop().

@@ -1,4 +1,8 @@
+-ifndef(__PUBLIC_TRANSPORT_HRL).
+-define(__PUBLIC_TRANSPORT_HRL, true).
+
 -include("gen_server_utils.hrl").
+-include("citizen.hrl").
 
 -ifndef(TEST).
 -define(PUBLIC_TRANSPORT_DATA_PATH, code:priv_dir(wErld) ++ "/public_transport").
@@ -26,7 +30,7 @@
 %%------------------------------------------------------------
 -record(stop_state, { id                    :: atom()
                     , currentVehicle = none :: none | vehicle()
-                    , passengers = []       :: [pid()]
+                    , passengers = []       :: [citizen()]
                     , vehicleQueue = []     :: [vehicle()]
                     }).
 -type stop_id() :: id(stop).
@@ -82,7 +86,7 @@
                        , id                       :: atom()
                        , lastDeparture            :: non_neg_integer()
                        , line                     :: {pos_integer(), line()}
-                       , passengers = []          :: [pid()]
+                       , passengers = []          :: [citizen()]
                        , boardingPassengers = 0   :: non_neg_integer()
                        , target                   :: stop()
                        , type                     :: vehicle_type()
@@ -147,3 +151,5 @@
 -type route() :: {[route_step()], pos_integer()}.
 
 -define(GET_ROUTE, get_route).
+
+-endif.

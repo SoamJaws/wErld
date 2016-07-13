@@ -32,19 +32,19 @@ start_global(Module, Id, Type) ->
   {ok, Pid} = gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
   ?ADDRESS(Module).
 
-stop(Pid) ->
+stop(?ADDRESS(Module)) ->
   gen_server:call(Pid, stop).
 
-state(Pid) ->
+state(?ADDRESS(Module)) ->
   gen_server:call(Pid, state).
 
-expect_call(Pid, Msg, Reply) ->
+expect_call(?ADDRESS(Module), Msg, Reply) ->
   gen_server:cast(Pid, {expectCall, Msg, Reply}).
 
-expect_cast(Pid, Msg) ->
+expect_cast(?ADDRESS(Module), Msg) ->
   gen_server:cast(Pid, {expectCast, Msg}).
 
-validate(Pid) ->
+validate(?ADDRESS(Module)) ->
   gen_server:call(Pid, validate).
 
 %% gen_server

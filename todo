@@ -1,2 +1,3 @@
+* Gen_servers should take type as argument and return the ADDRESS format
 * specs for supervisors
 * Fix tests according to above

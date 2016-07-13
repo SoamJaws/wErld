@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-13 at 05:10:58
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-13 at 05:16:35
 
 ****************************************************************************
 
@@ -20,10 +20,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-<font color=red>     0..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).</font>
+     1..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
         |  
         |  start_vehicle(Capacity, Line, Target, Type) -&gt;
-<font color=red>     0..|    LineNumber = line:?GET_NUMBER(Line),</font>
+     1..|    LineNumber = line:?GET_NUMBER(Line),
 <font color=red>     0..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),</font>
 <font color=red>     0..|    Result = supervisor:start_child({global, ?MODULE}, [Capacity, Id, Line, LineNumber, Target, Type]),</font>
 <font color=red>     0..|    case Result of</font>
@@ -38,11 +38,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.
         |    
         |  
         |  init(_Args) -&gt;
-<font color=red>     0..|    SupFlags = { simple_one_for_one</font>
+     1..|    SupFlags = { simple_one_for_one
         |               , 0
         |               , 1
         |               },
-<font color=red>     0..|    ChildSpecs = [ { vehicle</font>
+     1..|    ChildSpecs = [ { vehicle
         |                   , {vehicle, start_link, []}
         |                   , transient
         |                   , 1000
@@ -50,7 +50,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.
         |                   , [vehicle]
         |                   }
         |                 ],
-<font color=red>     0..|    {ok, {SupFlags, ChildSpecs}}.</font>
+     1..|    {ok, {SupFlags, ChildSpecs}}.
 </pre>
 </body>
 </html>

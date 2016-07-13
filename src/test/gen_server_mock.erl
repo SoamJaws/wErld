@@ -19,15 +19,16 @@
         , terminate/2
         , code_change/3]).
 
--record(gen_server_mock_state, {id, type, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
+-record(gen_server_mock_state, {module, id, type, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
 
 %% Public API
 
-start_link(Id, Type) ->
-  gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+start_link(Module, Id, Type) ->
+  {ok, Pid} = gen_server:start_link(?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+  ?ADDRESS(Module).
 
-start_global(Id, Type) ->
-  gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+start_global(Module, Id, Type) ->
+  gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).

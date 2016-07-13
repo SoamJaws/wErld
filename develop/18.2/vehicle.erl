@@ -10,7 +10,7 @@
         , ?CHECKIN_OK/4]).
 
 %% gen_server
--export([ start_link/5
+-export([ start_link/6
         , init/1
         , handle_call/3
         , handle_cast/2
@@ -40,17 +40,18 @@
 
 %% gen_server
 
--spec start_link(pos_integer(), line(), pos_integer(), stop(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
-start_link(Capacity, Line, LineNumber, Target, Type) ->
-  gen_server:start_link(?MODULE, {Capacity, Line, LineNumber, Target, Type}, []).
+-spec start_link(pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+start_link(Capacity, Id, Line, LineNumber, Target, Type) ->
+  gen_server:start_link(?MODULE, {Capacity, Id, Line, LineNumber, Target, Type}, []).
 
 
--spec init({pos_integer(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
-init({Capacity, Line, LineNumber, Target, Type}) ->
+-spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
+init({Capacity, Id, Line, LineNumber, Target, Type}) ->
   gen_server:cast({global, blackboard}, {subscribe, time}),
   Stop = line:?GET_OTHER_END(Line, Target),
-  stop:?VEHICLE_CHECK_IN(Stop, self(), false),
-  {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.
+  Pid = self(),
+  stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
+  {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
 -spec handle_call({?PASSENGER_BOARD, stop()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}.
@@ -90,7 +91,9 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                                       State
                                     end,
                      StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
-                     stop:?VEHICLE_CHECK_IN(Stop, self(), false),
+                     Id = State#vehicle_state.id,
+                     Pid = self(),
+                     stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
                      UpdatedState#vehicle_state{passengers=StayingPassengers};
                    true ->
                      State
@@ -140,7 +143,9 @@ boarding_complete(State) ->
   {boarding, Stop} = State#vehicle_state.action,
   {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
   TimePid = gen_server:call({global, blackboard}, {request, timePid}),
-  stop:?VEHICLE_CHECK_OUT(Stop, self(), false),
+  Id = State#vehicle_state.id,
+  Pid = self(),
+  stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT, false),
   Time = gen_server:call(TimePid, {request, currentTime}),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 

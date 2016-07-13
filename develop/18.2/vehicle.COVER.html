@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-08 at 06:50:46
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-13 at 05:11:42
 
 ****************************************************************************
 
@@ -21,7 +21,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |          , ?CHECKIN_OK/4]).
         |  
         |  %% gen_server
-        |  -export([ start_link/5
+        |  -export([ start_link/6
         |          , init/1
         |          , handle_call/3
         |          , handle_cast/2
@@ -51,17 +51,18 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% gen_server
         |  
-        |  -spec start_link(pos_integer(), line(), pos_integer(), stop(), vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
-        |  start_link(Capacity, Line, LineNumber, Target, Type) -&gt;
-<font color=red>     0..|    gen_server:start_link(?MODULE, {Capacity, Line, LineNumber, Target, Type}, []).</font>
+        |  -spec start_link(pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+        |  start_link(Capacity, Id, Line, LineNumber, Target, Type) -&gt;
+<font color=red>     0..|    gen_server:start_link(?MODULE, {Capacity, Id, Line, LineNumber, Target, Type}, []).</font>
         |  
         |  
-        |  -spec init({pos_integer(), line(), pos_integer(), stop(), vehicle_type()}) -&gt; {ok, vehicle_state()}.
-        |  init({Capacity, Line, LineNumber, Target, Type}) -&gt;
+        |  -spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -&gt; {ok, vehicle_state()}.
+        |  init({Capacity, Id, Line, LineNumber, Target, Type}) -&gt;
 <font color=red>     0..|    gen_server:cast({global, blackboard}, {subscribe, time}),</font>
 <font color=red>     0..|    Stop = line:?GET_OTHER_END(Line, Target),</font>
-<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, self(), false),</font>
-<font color=red>     0..|    {ok, #vehicle_state{capacity=Capacity, line={LineNumber, Line}, target=Target, type=Type}}.</font>
+<font color=red>     0..|    Pid = self(),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),</font>
+<font color=red>     0..|    {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.</font>
         |  
         |  
         |  -spec handle_call({?PASSENGER_BOARD, stop()}, {pid(), any()}, vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}.
@@ -101,7 +102,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|                                        State</font>
         |                                      end,
 <font color=red>     0..|                       StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),</font>
-<font color=red>     0..|                       stop:?VEHICLE_CHECK_IN(Stop, self(), false),</font>
+<font color=red>     0..|                       Id = State#vehicle_state.id,</font>
+<font color=red>     0..|                       Pid = self(),</font>
+<font color=red>     0..|                       stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),</font>
 <font color=red>     0..|                       UpdatedState#vehicle_state{passengers=StayingPassengers};</font>
         |                     true -&gt;
 <font color=red>     0..|                       State</font>
@@ -151,7 +154,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    {boarding, Stop} = State#vehicle_state.action,</font>
 <font color=red>     0..|    {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),</font>
 <font color=red>     0..|    TimePid = gen_server:call({global, blackboard}, {request, timePid}),</font>
-<font color=red>     0..|    stop:?VEHICLE_CHECK_OUT(Stop, self(), false),</font>
+<font color=red>     0..|    Id = State#vehicle_state.id,</font>
+<font color=red>     0..|    Pid = self(),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT, false),</font>
 <font color=red>     0..|    Time = gen_server:call(TimePid, {request, currentTime}),</font>
 <font color=red>     0..|    State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.</font>
         |  

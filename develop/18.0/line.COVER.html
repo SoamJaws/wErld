@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-13 at 08:15:17
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-13 at 15:35:12
 
 ****************************************************************************
 
@@ -38,39 +38,39 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_NEXT_STOP(line(), stop(), stop()) -&gt; {stop(), pos_integer()} | none.
         |  ?GET_NEXT_STOP(?RECIPENT, Target, Stop) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).</font>
+     6..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
         |  
         |  -spec ?GET_NEIGHBORS(line(), stop()) -&gt; [{stop(), pos_integer(), stop(), line()}].
         |  ?GET_NEIGHBORS(?RECIPENT, Stop) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).</font>
+     1..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
         |  
         |  -spec ?GET_OTHER_END(line(), stop()) -&gt; stop().
         |  ?GET_OTHER_END(?RECIPENT, Stop) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).</font>
+     2..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
         |  
         |  -spec ?CONTAINS_STOP(line(), stop()) -&gt; boolean().
         |  ?CONTAINS_STOP(?RECIPENT, Stop) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).</font>
+     4..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
         |  
         |  -spec ?GET_DURATION(line(), stop(), stop()) -&gt; pos_integer().
         |  ?GET_DURATION(?RECIPENT, FromStop, ToStop) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).</font>
+    20..|    gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
         |  
         |  -spec ?IS_END_STOP(line(), stop()) -&gt; boolean().
         |  ?IS_END_STOP(?RECIPENT, Stop) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?IS_END_STOP, Stop}).</font>
+     3..|    gen_server:call(Pid, {?IS_END_STOP, Stop}).
         |  
         |  -spec ?GET_INTERSECTION(line(), line()) -&gt; stop() | none.
         |  ?GET_INTERSECTION(?RECIPENT, OtherLine) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).</font>
+     1..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
         |  
         |  -spec ?GET_NUMBER(line()) -&gt; pos_integer().
         |  ?GET_NUMBER(?RECIPENT) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, ?GET_NUMBER).</font>
+     1..|    gen_server:call(Pid, ?GET_NUMBER).
         |  
         |  -spec ?GET_TARGET(line(), stop(), stop()) -&gt; stop().
         |  ?GET_TARGET(?RECIPENT, FromStop, ToStop) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).</font>
+     4..|    gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
         |  
         |  %% gen_server
         |  
@@ -96,69 +96,69 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |        ;          (?GET_NUMBER,                      {pid(), any()}, line_state()) -&gt; {reply, pos_integer(), line_state()}
         |        ;          ({?GET_TARGET, stop(), stop()},    {pid(), any()}, line_state()) -&gt; {reply, stop(), line_state()}.
         |  handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) -&gt;
-<font color=red>     0..|    [EndStop|_] = State#line_state.stops,</font>
-<font color=red>     0..|    Reply = case EndStop of</font>
-<font color=red>     0..|              Target -&gt; get_next_stop_helper(Stop, pre, State#line_state.stops);</font>
-<font color=red>     0..|              _      -&gt; get_next_stop_helper(Stop, post, State#line_state.stops)</font>
+     6..|    [EndStop|_] = State#line_state.stops,
+     6..|    Reply = case EndStop of
+     3..|              Target -&gt; get_next_stop_helper(Stop, pre, State#line_state.stops);
+     3..|              _      -&gt; get_next_stop_helper(Stop, post, State#line_state.stops)
         |            end,
-<font color=red>     0..|    {reply, Reply, State};</font>
+     6..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_NEIGHBORS, Stop}, _From, State) -&gt;
-<font color=red>     0..|    {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -&gt; X /= Stop end, State#line_state.stops),</font>
-<font color=red>     0..|    N1 = case BeforeStop of</font>
+     1..|    {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -&gt; X /= Stop end, State#line_state.stops),
+     1..|    N1 = case BeforeStop of
         |           [FirstTarget|_] -&gt;
 <font color=red>     0..|             FirstNeighbor = lists:last(lists:droplast(BeforeStop)),</font>
 <font color=red>     0..|             [{FirstNeighbor, lists:last(BeforeStop), FirstTarget, self()}];</font>
         |           [] -&gt;
-<font color=red>     0..|             []</font>
+     1..|             []
         |         end,
-<font color=red>     0..|    N2 = case AfterStop of</font>
+     1..|    N2 = case AfterStop of
         |           [SecondDur|[SecondNeighbor|_]] -&gt;
-<font color=red>     0..|             [{SecondNeighbor, SecondDur, lists:last(AfterStop), self()}];</font>
+     1..|             [{SecondNeighbor, SecondDur, lists:last(AfterStop), self()}];
         |           [] -&gt;
 <font color=red>     0..|             []</font>
         |         end,
-<font color=red>     0..|    Reply = N1 ++ N2,</font>
-<font color=red>     0..|    {reply, Reply, State};</font>
+     1..|    Reply = N1 ++ N2,
+     1..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_OTHER_END, Stop}, _From, State) -&gt;
-<font color=red>     0..|    [H|T] = State#line_state.stops,</font>
-<font color=red>     0..|    Reply = case H of</font>
-<font color=red>     0..|              Stop -&gt; lists:last(T);</font>
-<font color=red>     0..|              _    -&gt; H</font>
+     2..|    [H|T] = State#line_state.stops,
+     2..|    Reply = case H of
+     1..|              Stop -&gt; lists:last(T);
+     1..|              _    -&gt; H
         |            end,
-<font color=red>     0..|    {reply, Reply, State};</font>
+     2..|    {reply, Reply, State};
         |  
         |  handle_call({?CONTAINS_STOP, Stop}, _From, State) -&gt;
-<font color=red>     0..|    Reply = lists:member(Stop, State#line_state.stops),</font>
-<font color=red>     0..|    {reply, Reply, State};</font>
+     4..|    Reply = lists:member(Stop, State#line_state.stops),
+     4..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_DURATION, FromStop, ToStop}, _From, State) -&gt;
-<font color=red>     0..|    Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),</font>
-<font color=red>     0..|    {reply, Reply, State};</font>
+    20..|    Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),
+    20..|    {reply, Reply, State};
         |  
         |  handle_call({?IS_END_STOP, Stop}, _From, State) -&gt;
-<font color=red>     0..|    Reply = lists:prefix([Stop], State#line_state.stops) or lists:suffix([Stop], State#line_state.stops),</font>
-<font color=red>     0..|    {reply, Reply, State};</font>
+     3..|    Reply = lists:prefix([Stop], State#line_state.stops) or lists:suffix([Stop], State#line_state.stops),
+     3..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_INTERSECTION, OtherLine}, _From, State) -&gt;
-<font color=red>     0..|    Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) -&gt;</font>
-<font color=red>     0..|                                                              case Stop of</font>
+     1..|    Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) -&gt;
+     5..|                                                              case Stop of
         |                                                                ?ADDRESS(stop) -&gt;
 <font color=red>     0..|                                                                  true;</font>
         |                                                                _ -&gt;
-<font color=red>     0..|                                                                  false</font>
+     5..|                                                                  false
         |                                                              end
         |                                                            end, State#line_state.stops)),
-<font color=red>     0..|    {reply, Reply, State};</font>
+     1..|    {reply, Reply, State};
         |  
         |  handle_call(?GET_NUMBER, _From, State) -&gt;
-<font color=red>     0..|    Reply = State#line_state.number,</font>
-<font color=red>     0..|    {reply, Reply, State};</font>
+     1..|    Reply = State#line_state.number,
+     1..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_TARGET, FromStop, ToStop}, _From, State) -&gt;
-<font color=red>     0..|    Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),</font>
-<font color=red>     0..|    {reply, Reply, State}.</font>
+     4..|    Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),
+     4..|    {reply, Reply, State}.
         |  
         |  
         |  -spec handle_cast(any(), line_state()) -&gt; {noreply, line_state()}.
@@ -184,35 +184,35 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  %% Backend
         |  
         |  -spec get_next_stop_helper(stop(), pre | post, [stop() | pos_integer()]) -&gt; {stop(), pos_integer()} | none.
-<font color=red>     0..|  get_next_stop_helper(_Stop, _, [_|[]]) -&gt; none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.</font>
+     2..|  get_next_stop_helper(_Stop, _, [_|[]]) -&gt; none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
         |  get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) -&gt;
-<font color=red>     0..|    {NextStop, Dur};</font>
+     2..|    {NextStop, Dur};
         |  get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) -&gt;
-<font color=red>     0..|    {NextStop, Dur};</font>
+     2..|    {NextStop, Dur};
         |  get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) -&gt;
-<font color=red>     0..|    get_next_stop_helper(Stop, Alignment, Stops).</font>
+     6..|    get_next_stop_helper(Stop, Alignment, Stops).
         |  
         |  -spec get_duration_helper(stop(), stop(), [stop() | pos_integer()]) -&gt; pos_integer().
         |  get_duration_helper(FromStop, ToStop, Stops) -&gt;
-<font color=red>     0..|    get_duration_helper(FromStop, ToStop, false, Stops).</font>
+    20..|    get_duration_helper(FromStop, ToStop, false, Stops).
         |  
         |  -spec get_duration_helper(stop(), stop(), boolean(), [stop() | pos_integer()]) -&gt; non_neg_integer().
-<font color=red>     0..|  get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -&gt; 0;</font>
-<font color=red>     0..|  get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -&gt; 0;</font>
+    10..|  get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -&gt; 0;
+    10..|  get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -&gt; 0;
         |  get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) -&gt;
-<font color=red>     0..|    Dur + get_duration_helper(FromStop, ToStop, true, Stops);</font>
+    10..|    Dur + get_duration_helper(FromStop, ToStop, true, Stops);
         |  get_duration_helper(FromStop, ToStop, _OnPath, [ToStop|[Dur|Stops]]) -&gt;
-<font color=red>     0..|    Dur + get_duration_helper(FromStop, ToStop, true, Stops);</font>
+    10..|    Dur + get_duration_helper(FromStop, ToStop, true, Stops);
         |  get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) -&gt;
-<font color=red>     0..|    case OnPath of</font>
+    40..|    case OnPath of
         |      true -&gt;
-<font color=red>     0..|        Dur + get_duration_helper(FromStop, ToStop, true, Stops);</font>
+    20..|        Dur + get_duration_helper(FromStop, ToStop, true, Stops);
         |      false -&gt;
-<font color=red>     0..|        get_duration_helper(FromStop, ToStop, false, Stops)</font>
+    20..|        get_duration_helper(FromStop, ToStop, false, Stops)
         |    end.
         |  
         |  -spec get_intersection_helper(line(), [stop()]) -&gt; stop() | none.
-<font color=red>     0..|  get_intersection_helper(OtherLine, []) -&gt; none;</font>
+     1..|  get_intersection_helper(OtherLine, []) -&gt; none;
         |  get_intersection_helper(OtherLine, [Stop|Rest]) -&gt;
 <font color=red>     0..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),</font>
 <font color=red>     0..|    case ContainsStop of</font>
@@ -224,19 +224,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec get_target_helper(stop(), stop(), [stop() | pos_integer()]) -&gt; stop().
         |  get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) -&gt;
-<font color=red>     0..|    get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -&gt; is_pid(Stop) end, Stops)).</font>
+     4..|    get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -&gt; is_pid(Stop) end, Stops)).
         |  
         |  -spec get_target_helper(stop(), stop(), stop(), [stop() | pos_integer()]) -&gt; stop().
         |  get_target_helper(FromStop, _ToStop, FromStop, Stops) -&gt;
-<font color=red>     0..|    lists:last(Stops);</font>
+     1..|    lists:last(Stops);
         |  get_target_helper(FromStop, ToStop, FirstEnd, [Stop|Stops]) -&gt;
-<font color=red>     0..|    case Stop of</font>
+     5..|    case Stop of
         |      FromStop -&gt;
-<font color=red>     0..|        lists:last(Stops);</font>
+     1..|        lists:last(Stops);
         |      ToStop -&gt;
-<font color=red>     0..|        FirstEnd;</font>
+     2..|        FirstEnd;
         |      Stop -&gt;
-<font color=red>     0..|        get_target_helper(FromStop, ToStop, FirstEnd, Stops)</font>
+     2..|        get_target_helper(FromStop, ToStop, FirstEnd, Stops)
         |    end.
 </pre>
 </body>

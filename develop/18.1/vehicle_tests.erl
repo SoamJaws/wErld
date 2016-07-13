@@ -4,6 +4,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 checkin_ok_test() ->
+  vehicle_supervisor:start_link(),
   {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
   {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
   {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
@@ -14,7 +15,7 @@ checkin_ok_test() ->
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(3, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),

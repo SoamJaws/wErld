@@ -7,8 +7,8 @@ checkin_ok_test() ->
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
-  {{blackboard, blackboard}, BlackBoard} = gen_server_mock:start_global(blackboard, blackboard, strict),
-  {{time, time}, Time} = gen_server_mock:start_link(time, time, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard, blackboard, strict),
+  Time = gen_server_mock:start_link(time, time, strict),
   L1 = gen_server_mock:start_link(line, l1, strict),
   S1 = gen_server_mock:start_link(stop, s1, strict),
 
@@ -41,21 +41,22 @@ checkin_ok_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 boarding_passenger_capacity_reached_test() ->
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, S1} = gen_server_mock:start_link(s1, strict),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, P4} = gen_server_mock:start_link(p4, strict),
+  vehicle_supervisor:start_link(),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard, blackboard, strict),
+  Time = gen_server_mock:start_link(blackboard, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  S1 = gen_server_mock:start_link(stop, s1, strict),
+  P1 = gen_server_mock:start_link(stop, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
+  P4 = gen_server_mock:start_link(citizen, p4, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(3, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
@@ -91,23 +92,24 @@ boarding_passenger_capacity_reached_test() ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).
 
 boarding_passenger_below_capacity_test() ->
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, S1} = gen_server_mock:start_link(s1, strict),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
+  vehicle_supervisor:start_link(),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard, blackboard, strict),
+  Time = gen_server_mock:start_link(time, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  S1 = gen_server_mock:start_link(stop, s1, strict),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(4, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
@@ -140,23 +142,24 @@ boarding_passenger_below_capacity_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).
 
 next_stop_reached_test() ->
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, S1} = gen_server_mock:start_link(s1, strict),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
+  vehicle_supervisor:start_link(),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard, blackboard, strict),
+  Time = gen_server_mock:start_link(time, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  S1 = gen_server_mock:start_link(stop, s1, strict),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(4, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
@@ -195,23 +198,24 @@ next_stop_reached_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).
 
 next_stop_not_reached_test() ->
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, S1} = gen_server_mock:start_link(s1, strict),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
+  vehicle_supervisor:start_link(),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard, blackboard, strict),
+  Time = gen_server_mock:start_link(time, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  S1 = gen_server_mock:start_link(stop, s1, strict),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(4, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
@@ -246,22 +250,23 @@ next_stop_not_reached_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).
 
 target_stop_reached_test() ->
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
+  vehicle_supervisor:start_link(),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard, blackboard, strict),
+  Time = gen_server_mock:start_link(time, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(4, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
@@ -300,23 +305,24 @@ target_stop_reached_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).
 
 increment_boarding_passenger_test() ->
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, S1} = gen_server_mock:start_link(s1, strict),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
+  vehicle_supervisor:start_link(),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard, blackboard, strict),
+  Time = gen_server_mock:start_link(time, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  S1 = gen_server_mock:start_link(stop, s1, strict),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(4, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, Vehicle}),
@@ -351,20 +357,21 @@ increment_boarding_passenger_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).
 
 new_time_not_driving_test() ->
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, S1} = gen_server_mock:start_link(s1, strict),
+  vehicle_supervisor:start_link(),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  BlackBoard = gen_server_mock:start_global(blackboard,  blackboard, strict),
+  Time = gen_server_mock:start_link(time, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  S1 = gen_server_mock:start_link(stop, s1, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
-  {ok, Vehicle} = vehicle:start_link(3, L1, TargetStop, bus),
+  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
   vehicle:?NEW_TIME(Vehicle, 1233, true),
   
   %% Hack, setting expected cast after call, will work since
@@ -389,4 +396,4 @@ new_time_not_driving_test() ->
   gen_server_mock:stop(Time),
   gen_server_mock:stop(L1),
   gen_server_mock:stop(S1),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).

@@ -3,10 +3,11 @@
 -include_lib("eunit/include/eunit.hrl").
 
 passenger_check_in_test() ->
-  {ok, Stop} = stop:start_link(stop1),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
+  stop_supervisor:start_link(),
+  Stop = stop_supervisor:start_stop(stop1),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
   
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertMatch({nok, _}, stop:?PASSENGER_CHECK_IN(Stop, P1)),
@@ -19,14 +20,15 @@ passenger_check_in_test() ->
   gen_server_mock:stop(P1),
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
-  stop:stop(Stop).
+  stop_supervisor:stop_stop(Stop).
 
 passenger_check_out_test() ->
-  {ok, Stop} = stop:start_link(stop1),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, V1} = gen_server_mock:start_link(v1, strict),
+  stop_supervisor:start_link(),
+  Stop = stop_supervisor:start_stop(stop1),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
+  V1 = gen_server_mock:start_link(vehicle, v1, strict),
   
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
@@ -51,15 +53,16 @@ passenger_check_out_test() ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(V1),
-  stop:stop(Stop).
+  stop_supervisor:stop_stop(Stop).
 
 vehicle_check_in_test() ->
-  {ok, Stop} = stop:start_link(stop1),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, P4} = gen_server_mock:start_link(p4, strict),
-  {ok, V1} = gen_server_mock:start_link(v1, strict),
+  stop_supervisor:start_link(),
+  Stop = stop_supervisor:start_stop(stop1),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
+  P4 = gen_server_mock:start_link(citizen, p4, strict),
+  V1 = gen_server_mock:start_link(vehicle, v1, strict),
   
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
@@ -86,15 +89,16 @@ vehicle_check_in_test() ->
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
   gen_server_mock:stop(V1),
-  stop:stop(Stop).
+  stop_supervisor:stop_stop(Stop).
 
 vehicle_check_out_test() ->
-  {ok, Stop} = stop:start_link(stop1),
-  {ok, P1} = gen_server_mock:start_link(p1, strict),
-  {ok, P2} = gen_server_mock:start_link(p2, strict),
-  {ok, P3} = gen_server_mock:start_link(p3, strict),
-  {ok, V1} = gen_server_mock:start_link(v1, strict),
-  {ok, V2} = gen_server_mock:start_link(v2, strict),
+  stop_supervisor:start_link(),
+  Stop = stop_supervisor:start_stop(stop1),
+  P1 = gen_server_mock:start_link(citizen, p1, strict),
+  P2 = gen_server_mock:start_link(citizen, p2, strict),
+  P3 = gen_server_mock:start_link(citizen, p3, strict),
+  V1 = gen_server_mock:start_link(vehicle, v1, strict),
+  V2 = gen_server_mock:start_link(vehicle, v2, strict),
   
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   stop:?PASSENGER_CHECK_OUT(Stop, P1, false),
@@ -131,12 +135,13 @@ vehicle_check_out_test() ->
   gen_server_mock:stop(P3),
   gen_server_mock:stop(V1),
   gen_server_mock:stop(V2),
-  stop:stop(Stop).
+  stop_supervisor:stop_stop(Stop).
 
 invalid_vehicle_check_out_test() ->
-  {ok, Stop} = stop:start_link(stop1),
-  {ok, V1} = gen_server_mock:start_link(v1, strict),
-  {ok, V2} = gen_server_mock:start_link(v2, strict),
+  stop_supervisor:start_link(),
+  Stop = stop_supervisor:start_stop(stop1),
+  V1 = gen_server_mock:start_link(vehicle, v1, strict),
+  V2 = gen_server_mock:start_link(vehicle, v2, strict),
   
   gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 0, false, Stop}),
 
@@ -147,4 +152,4 @@ invalid_vehicle_check_out_test() ->
   ?assert(gen_server_mock:validate(V2)),
   gen_server_mock:stop(V1),
   gen_server_mock:stop(V2),
-  stop:stop(Stop).
+  stop_supervisor:stop_stop(Stop).

@@ -83,6 +83,7 @@
 %%------------------------------------------------------------
 -record(vehicle_state, { action = {waiting, none} :: {waiting, stop() | none} | {boarding, stop()} | {driving, stop(), pos_integer()}
                        , capacity                 :: pos_integer()
+                       , id                       :: atom()
                        , lastDeparture            :: non_neg_integer()
                        , line                     :: {pos_integer(), line()}
                        , passengers = []          :: [pid()]
@@ -118,8 +119,8 @@
                     , stops  :: [stop() | pos_integer()]
                     , type   :: vehicle_type()
                     }).
--type line() :: {line, atom()}.
--type line_id() :: {line, atom()}.
+-type line_id() :: id(line).
+-type line() :: address(line).
 -type line_state() :: #line_state{}.
 
 -define(GET_NEXT_STOP,    get_next_stop).

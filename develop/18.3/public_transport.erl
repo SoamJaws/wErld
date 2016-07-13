@@ -37,7 +37,7 @@ init([]) ->
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
   {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
   StopDict = lists:foldl(fun(StopId, Dict) ->
-                           {{stop, StopId}, Pid} = supervisor:start_child({global, stop_supervisor}, [StopId]),
+                           {{stop, StopId}, Pid} = stop_supervisor:start_stop(StopId),
                            dict:store({stop, StopId}, Pid, Dict)
                          end , dict:new() , StopIds),
   Lines = lists:map(fun({Number, Stops, Type}) ->
@@ -49,7 +49,7 @@ init([]) ->
                                                      dict:fetch(Element, StopDict)
                                                  end
                                                end, Stops),
-                      Line = supervisor:start_child({global, line_supervisor}, [Number, UpdatedStops, Type]),
+                      Line = line_supervisor:start_line(Number, UpdatedStops, Type),
                       Line
                     end, LineSpecs),
   {ok, #public_transport_state{lines=Lines, stops=StopDict}}.

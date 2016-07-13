@@ -89,7 +89,9 @@ handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
   NewState = case State#stop_state.currentVehicle of
                none ->
                  BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
-                 vehicle:?CHECKIN_OK(Vehicle, self(), BoardingPassengers, false),
+                 Id = State#stop_state.id,
+                 Pid = self(),
+                 vehicle:?CHECKIN_OK(Vehicle, ?RECIPENT, BoardingPassengers, false),
                  State#stop_state{currentVehicle=Vehicle};
                _    ->
                  VehicleQueue = State#stop_state.vehicleQueue,
@@ -104,7 +106,9 @@ handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
                  case State#stop_state.vehicleQueue of
                    [NextVehicle|VehicleQueue] ->
                      BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
-                     vehicle:?CHECKIN_OK(NextVehicle, self(), BoardingPassengers, false),
+                     Id = State#stop_state.id,
+                     Pid = self(),
+                     vehicle:?CHECKIN_OK(NextVehicle, ?RECIPENT, BoardingPassengers, false),
                      State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
                    [] ->
                      State#stop_state{currentVehicle=none}

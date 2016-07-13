@@ -13,10 +13,10 @@ start_link() ->
 
 start_vehicle(Capacity, Line, Target, Type) ->
   LineNumber = line:?GET_NUMBER(Line),
-  Result = gen_server:start_child({global, ?MODULE}, [Capacity, Line, LineNumber, Target, Type]),
+  Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),
+  Result = supervisor:start_child({global, ?MODULE}, [Capacity, Id, Line, LineNumber, Target, Type]),
   case Result of
     {ok, Pid} ->
-      Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),
       ?ADDRESS(vehicle);
     Result ->
       Result

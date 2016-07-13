@@ -21,7 +21,7 @@
 
 %% Public API
 
--spec ?PASSENGER_BOARD(vehicle(), pid()) -> ok | nok.
+-spec ?PASSENGER_BOARD(vehicle(), citizen()) -> ok | nok.
 ?PASSENGER_BOARD(?RECIPENT, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
@@ -54,7 +54,7 @@ init({Capacity, Id, Line, LineNumber, Target, Type}) ->
   {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
--spec handle_call({?PASSENGER_BOARD, stop()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}.
+-spec handle_call({?PASSENGER_BOARD, citizen()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}.
 handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   Passengers = State#vehicle_state.passengers,
   Capacity = State#vehicle_state.capacity,
@@ -76,7 +76,7 @@ handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
 
 -spec handle_cast({?NEW_TIME, non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
       ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
-      ;          ({?CHECKIN_OK, pid(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}.
+      ;          ({?CHECKIN_OK, stop(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}.
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
   NewState = case State#vehicle_state.action of
                {driving, Stop, Duration} ->
@@ -149,7 +149,7 @@ boarding_complete(State) ->
   Time = gen_server:call(TimePid, {request, currentTime}),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
--spec notify_passengers_checkin([pid()]) -> [pid()].
+-spec notify_passengers_checkin([citizen()]) -> [citizen()].
 notify_passengers_checkin([]) -> [];
 notify_passengers_checkin([Passenger|Passengers]) ->
   Reply = citizen:vehicle_checked_in(Passenger, self()),

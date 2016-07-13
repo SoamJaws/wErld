@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line_supervisor.erl by COVER 2016-07-13 at 08:14:27
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line_supervisor.erl by COVER 2016-07-13 at 15:33:04
 
 ****************************************************************************
 
@@ -20,14 +20,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line_supervisor.erl
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-<font color=red>     0..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).</font>
+     8..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
         |  
         |  start_line(Number, Stops, Type) -&gt;
-<font color=red>     0..|    Result = supervisor:start_child({global, ?MODULE}, [Number, Stops, Type]),</font>
-<font color=red>     0..|    case Result of</font>
+    12..|    Result = supervisor:start_child({global, ?MODULE}, [Number, Stops, Type]),
+    12..|    case Result of
         |      {ok, Pid} -&gt;
-<font color=red>     0..|        Id = list_to_atom(atom_to_list(Type) ++ [$_|integer_to_list(Number)]),</font>
-<font color=red>     0..|        ?ADDRESS(line);</font>
+    12..|        Id = list_to_atom(atom_to_list(Type) ++ [$_|integer_to_list(Number)]),
+    12..|        ?ADDRESS(line);
         |      Result -&gt;
 <font color=red>     0..|        Result</font>
         |    end.
@@ -37,11 +37,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line_supervisor.erl
         |    
         |  
         |  init(_Args) -&gt;
-<font color=red>     0..|    SupFlags = { simple_one_for_one</font>
+     1..|    SupFlags = { simple_one_for_one
         |               , 0
         |               , 1
         |               },
-<font color=red>     0..|    ChildSpecs = [ { line</font>
+     1..|    ChildSpecs = [ { line
         |                   , {line, start_link, []}
         |                   , transient
         |                   , 1000
@@ -49,7 +49,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line_supervisor.erl
         |                   , [line]
         |                   }
         |                 ],
-<font color=red>     0..|    {ok, {SupFlags, ChildSpecs}}.</font>
+     1..|    {ok, {SupFlags, ChildSpecs}}.
 </pre>
 </body>
 </html>

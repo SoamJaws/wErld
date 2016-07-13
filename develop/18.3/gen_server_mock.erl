@@ -1,10 +1,11 @@
 -module(gen_server_mock).
 -behaviour(gen_server).
+-include("gen_server_utils.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
 %% Public API
--export([ start_link/2
-        , start_global/2
+-export([ start_link/3
+        , start_global/3
         , stop/1
         , state/1
         , expect_call/3
@@ -19,15 +20,16 @@
         , terminate/2
         , code_change/3]).
 
--record(gen_server_mock_state, {id, type, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
+-record(gen_server_mock_state, {module, id, type, calls = [], casts = [], expectedCalls = [], expectedCasts = [], callReturns = []}).
 
 %% Public API
 
-start_link(Id, Type) ->
-  gen_server:start_link(?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+start_link(Module, Id, Type) ->
+  {ok, Pid} = gen_server:start_link(?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+  ?ADDRESS(Module).
 
-start_global(Id, Type) ->
-  gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{id=Id, type=Type}, []).
+start_global(Module, Id, Type) ->
+  gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).

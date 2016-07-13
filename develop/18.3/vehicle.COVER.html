@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-13 at 08:13:28
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-13 at 15:29:59
 
 ****************************************************************************
 
@@ -32,7 +32,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% Public API
         |  
-        |  -spec ?PASSENGER_BOARD(vehicle(), pid()) -&gt; ok | nok.
+        |  -spec ?PASSENGER_BOARD(vehicle(), citizen()) -&gt; ok | nok.
         |  ?PASSENGER_BOARD(?RECIPENT, Passenger) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).</font>
         |  
@@ -65,7 +65,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.</font>
         |  
         |  
-        |  -spec handle_call({?PASSENGER_BOARD, stop()}, {pid(), any()}, vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}.
+        |  -spec handle_call({?PASSENGER_BOARD, citizen()}, {pid(), any()}, vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}.
         |  handle_call({?PASSENGER_BOARD, Passenger}, _From, State) -&gt;
 <font color=red>     0..|    Passengers = State#vehicle_state.passengers,</font>
 <font color=red>     0..|    Capacity = State#vehicle_state.capacity,</font>
@@ -87,7 +87,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  -spec handle_cast({?NEW_TIME, non_neg_integer(), boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}
         |        ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}
-        |        ;          ({?CHECKIN_OK, pid(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}.
+        |        ;          ({?CHECKIN_OK, stop(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}.
         |  handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) -&gt;
 <font color=red>     0..|    NewState = case State#vehicle_state.action of</font>
         |                 {driving, Stop, Duration} -&gt;
@@ -160,7 +160,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    Time = gen_server:call(TimePid, {request, currentTime}),</font>
 <font color=red>     0..|    State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.</font>
         |  
-        |  -spec notify_passengers_checkin([pid()]) -&gt; [pid()].
+        |  -spec notify_passengers_checkin([citizen()]) -&gt; [citizen()].
 <font color=red>     0..|  notify_passengers_checkin([]) -&gt; [];</font>
         |  notify_passengers_checkin([Passenger|Passengers]) -&gt;
 <font color=red>     0..|    Reply = citizen:vehicle_checked_in(Passenger, self()),</font>

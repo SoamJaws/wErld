@@ -21,11 +21,11 @@
 
 %% Public API
 
--spec ?PASSENGER_CHECK_IN(stop(), pid()) -> ok | {nok, nonempty_string()}.
+-spec ?PASSENGER_CHECK_IN(stop(), citizen()) -> ok | {nok, nonempty_string()}.
 ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
--spec ?PASSENGER_CHECK_OUT(stop(), pid(), boolean())-> ok.
+-spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) ->
   gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
@@ -52,7 +52,7 @@ init(Id) ->
   {ok, #stop_state{id=Id}}.
 
 
--spec handle_call({?PASSENGER_CHECK_IN, pid()}, {pid(), any()}, stop_state()) -> {reply, ok | {nok, string()}, stop_state()}.
+-spec handle_call({?PASSENGER_CHECK_IN, citizen()}, {pid(), any()}, stop_state()) -> {reply, ok | {nok, string()}, stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   Passengers = State#stop_state.passengers,
   AlreadyCheckedIn = lists:member(Passenger, Passengers),
@@ -77,7 +77,7 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
   end.
 
 
--spec handle_cast({?PASSENGER_CHECK_OUT, pid(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
+-spec handle_cast({?PASSENGER_CHECK_OUT, citizen(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
       ;          ({?VEHICLE_CHECK_IN, vehicle(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
       ;          ({?VEHICLE_CHECK_OUT, vehicle(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}.
 handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->

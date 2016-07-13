@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-13 at 08:13:20
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-13 at 15:31:07
 
 ****************************************************************************
 
@@ -16,20 +16,20 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.er
         |  
         |  -spec cast(pid(), tuple(), boolean()) -&gt; ok.
         |  cast(Pid, Msg, BlockCaller) -&gt;
-<font color=red>     0..|    UpdatedMsg = if</font>
+     1..|    UpdatedMsg = if
         |                   is_tuple(Msg) -&gt;
-<font color=red>     0..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);</font>
+     1..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);
         |                   true -&gt;
 <font color=red>     0..|                     {Msg, BlockCaller, self()}</font>
         |                 end,
-<font color=red>     0..|    gen_server:cast(Pid, UpdatedMsg),</font>
-<font color=red>     0..|    block_caller(BlockCaller).</font>
+     1..|    gen_server:cast(Pid, UpdatedMsg),
+     1..|    block_caller(BlockCaller).
         |  
         |  -spec block_caller(boolean()) -&gt; ok.
         |  block_caller(BlockCaller) -&gt;
-<font color=red>     0..|    if</font>
+     1..|    if
         |      BlockCaller -&gt;
-<font color=red>     0..|        receive</font>
+     1..|        receive
 <font color=red>     0..|          ok -&gt; ok</font>
         |        end;
         |      true -&gt;

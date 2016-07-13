@@ -29,7 +29,8 @@ start_link(Module, Id, Type) ->
   ?ADDRESS(Module).
 
 start_global(Module, Id, Type) ->
-  gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []).
+  {ok, Pid} = gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+  ?ADDRESS(Module).
 
 stop(Pid) ->
   gen_server:call(Pid, stop).

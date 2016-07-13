@@ -5,12 +5,12 @@
 
 checkin_ok_test() ->
   vehicle_supervisor:start_link(),
-  {ok, StartStop} = gen_server_mock:start_link(startstop, strict),
-  {ok, TargetStop} = gen_server_mock:start_link(targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
-  {ok, L1} = gen_server_mock:start_link(l1, strict),
-  {ok, S1} = gen_server_mock:start_link(s1, strict),
+  StartStop = gen_server_mock:start_link(stop, startstop, strict),
+  TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
+  {{blackboard, blackboard}, BlackBoard} = gen_server_mock:start_global(blackboard, blackboard, strict),
+  {{time, time}, Time} = gen_server_mock:start_link(time, time, strict),
+  L1 = gen_server_mock:start_link(line, l1, strict),
+  S1 = gen_server_mock:start_link(stop, s1, strict),
 
   gen_server_mock:expect_cast(BlackBoard, {subscribe, time}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
@@ -38,7 +38,7 @@ checkin_ok_test() ->
   gen_server_mock:stop(Time),
   gen_server_mock:stop(L1),
   gen_server_mock:stop(S1),
-  vehicle:stop(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle).
 
 boarding_passenger_capacity_reached_test() ->
   {ok, StartStop} = gen_server_mock:start_link(startstop, strict),

@@ -1,14 +1,10 @@
+-include("gen_server_utils.hrl").
+
 -ifndef(TEST).
 -define(PUBLIC_TRANSPORT_DATA_PATH, code:priv_dir(wErld) ++ "/public_transport").
 -else.
 -define(PUBLIC_TRANSPORT_DATA_PATH, code:priv_dir(wErld) ++ "/public_transport_test").
 -endif.
-
--type id(Type) :: {Type, atom()}.
--type address(Type) :: {id(Type), pid()}.
-
--define(ADDRESS(Type), {{Type, Id}, Pid}).
--define(RECIPENT, ?ADDRESS(?MODULE)).
 
 %%-----------------------------------------------------------
 %% Data Type: public_transport stop

@@ -1,10 +1,11 @@
 -module(gen_server_mock).
 -behaviour(gen_server).
+-include("gen_server_utils.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
 %% Public API
--export([ start_link/2
-        , start_global/2
+-export([ start_link/3
+        , start_global/3
         , stop/1
         , state/1
         , expect_call/3

@@ -7,8 +7,8 @@ checkin_ok_test() ->
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
-  {ok, BlackBoard} = gen_server_mock:start_global(blackboard, strict),
-  {ok, Time} = gen_server_mock:start_link(time, strict),
+  {{blackboard, blackboard}, BlackBoard} = gen_server_mock:start_global(blackboard, blackboard, strict),
+  {{time, time}, Time} = gen_server_mock:start_link(time, time, strict),
   L1 = gen_server_mock:start_link(line, l1, strict),
   S1 = gen_server_mock:start_link(stop, s1, strict),
 

@@ -60,6 +60,8 @@
 %%    capacity:           An int. The max number of passengers
 %%                        for this Vehicle.
 %%
+%%    id:                 An atom.
+%%
 %%    lastDeparture:      A timestamp. The time at which the
 %%                        vehicle left the previous stop.
 %%
@@ -104,6 +106,8 @@
 %% Data Type: public_transport vehicle
 %% where:
 %%
+%%    id:         An atom.
+%%
 %%    number:     An int.
 %%
 %%    stops:      A list of Pids with durations (ints) in
@@ -115,7 +119,8 @@
 %%                The type of Vehicle, i.e. bus, train, tram.
 %%
 %%------------------------------------------------------------
--record(line_state, { number :: pos_integer()
+-record(line_state, { id     :: atom()
+                    , number :: pos_integer()
                     , stops  :: [stop() | pos_integer()]
                     , type   :: vehicle_type()
                     }).

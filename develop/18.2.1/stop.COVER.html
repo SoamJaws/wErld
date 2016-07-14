@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-13 at 15:31:07
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-14 at 16:14:58
 
 ****************************************************************************
 
@@ -53,14 +53,14 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec start_link(atom()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Id) -&gt;
-    42..|    gen_server:start_link(?MODULE, Id, []).
+     2..|    gen_server:start_link(?MODULE, Id, []).
         |  
         |  
         |  -spec init(atom()) -&gt; {ok, stop_state()}.
         |  init(Id) -&gt;
-    42..|    put(id, Id),
-    42..|    ?LOG_INFO("Stop started"),
-    42..|    {ok, #stop_state{id=Id}}.
+     2..|    put(id, Id),
+     2..|    ?LOG_INFO("Stop started"),
+     2..|    {ok, #stop_state{id=Id}}.
         |  
         |  
         |  -spec handle_call({?PASSENGER_CHECK_IN, citizen()}, {pid(), any()}, stop_state()) -&gt; {reply, ok | {nok, string()}, stop_state()}.

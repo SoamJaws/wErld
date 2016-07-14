@@ -70,9 +70,9 @@ start_link(Number, Stops, Type) ->
 
 -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -> {ok, line_state()}.
 init({Number, Stops, Type}) ->
-  put(id, list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number))),
+  Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
   %gen_server:call(blackboard, {subscribe, time}),
-  {ok, #line_state{number=Number, stops=Stops, type=Type}}.
+  {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
 
 
 -spec handle_call({?GET_NEXT_STOP, stop(), stop()}, {pid(), any()}, line_state()) -> {reply, {stop(), pos_integer()} | none, line_state()}
@@ -94,16 +94,18 @@ handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
 
 handle_call({?GET_NEIGHBORS, Stop}, _From, State) ->
   {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, State#line_state.stops),
+  Id = State#line_state.id,
+  Pid = self(),
   N1 = case BeforeStop of
          [FirstTarget|_] ->
            FirstNeighbor = lists:last(lists:droplast(BeforeStop)),
-           [{FirstNeighbor, lists:last(BeforeStop), FirstTarget, self()}];
+           [{FirstNeighbor, lists:last(BeforeStop), FirstTarget, ?RECIPENT}];
          [] ->
            []
        end,
   N2 = case AfterStop of
          [SecondDur|[SecondNeighbor|_]] ->
-           [{SecondNeighbor, SecondDur, lists:last(AfterStop), self()}];
+           [{SecondNeighbor, SecondDur, lists:last(AfterStop), ?RECIPENT}];
          [] ->
            []
        end,
@@ -213,7 +215,7 @@ get_intersection_helper(OtherLine, [Stop|Rest]) ->
 
 -spec get_target_helper(stop(), stop(), [stop() | pos_integer()]) -> stop().
 get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) ->
-  get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -> is_pid(Stop) end, Stops)).
+  get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -> not is_integer(Stop) end, Stops)).
 
 -spec get_target_helper(stop(), stop(), stop(), [stop() | pos_integer()]) -> stop().
 get_target_helper(FromStop, _ToStop, FromStop, Stops) ->

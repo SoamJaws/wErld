@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-13 at 15:34:51
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-14 at 16:33:50
 
 ****************************************************************************
 
@@ -42,7 +42,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_NEIGHBORS(line(), stop()) -&gt; [{stop(), pos_integer(), stop(), line()}].
         |  ?GET_NEIGHBORS(?RECIPENT, Stop) -&gt;
-     1..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
+     5..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
         |  
         |  -spec ?GET_OTHER_END(line(), stop()) -&gt; stop().
         |  ?GET_OTHER_END(?RECIPENT, Stop) -&gt;
@@ -50,7 +50,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?CONTAINS_STOP(line(), stop()) -&gt; boolean().
         |  ?CONTAINS_STOP(?RECIPENT, Stop) -&gt;
-     4..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
+    34..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
         |  
         |  -spec ?GET_DURATION(line(), stop(), stop()) -&gt; pos_integer().
         |  ?GET_DURATION(?RECIPENT, FromStop, ToStop) -&gt;
@@ -62,7 +62,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_INTERSECTION(line(), line()) -&gt; stop() | none.
         |  ?GET_INTERSECTION(?RECIPENT, OtherLine) -&gt;
-     1..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
+    12..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
         |  
         |  -spec ?GET_NUMBER(line()) -&gt; pos_integer().
         |  ?GET_NUMBER(?RECIPENT) -&gt;
@@ -81,9 +81,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -&gt; {ok, line_state()}.
         |  init({Number, Stops, Type}) -&gt;
-    12..|    put(id, list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number))),
+    12..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
         |    %gen_server:call(blackboard, {subscribe, time}),
-    12..|    {ok, #line_state{number=Number, stops=Stops, type=Type}}.
+    12..|    {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
         |  
         |  
         |  -spec handle_call({?GET_NEXT_STOP, stop(), stop()}, {pid(), any()}, line_state()) -&gt; {reply, {stop(), pos_integer()} | none, line_state()}
@@ -104,22 +104,24 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      6..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_NEIGHBORS, Stop}, _From, State) -&gt;
-     1..|    {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -&gt; X /= Stop end, State#line_state.stops),
-     1..|    N1 = case BeforeStop of
+     5..|    {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -&gt; X /= Stop end, State#line_state.stops),
+     5..|    Id = State#line_state.id,
+     5..|    Pid = self(),
+     5..|    N1 = case BeforeStop of
         |           [FirstTarget|_] -&gt;
-<font color=red>     0..|             FirstNeighbor = lists:last(lists:droplast(BeforeStop)),</font>
-<font color=red>     0..|             [{FirstNeighbor, lists:last(BeforeStop), FirstTarget, self()}];</font>
+     4..|             FirstNeighbor = lists:last(lists:droplast(BeforeStop)),
+     4..|             [{FirstNeighbor, lists:last(BeforeStop), FirstTarget, ?RECIPENT}];
         |           [] -&gt;
      1..|             []
         |         end,
-     1..|    N2 = case AfterStop of
+     5..|    N2 = case AfterStop of
         |           [SecondDur|[SecondNeighbor|_]] -&gt;
-     1..|             [{SecondNeighbor, SecondDur, lists:last(AfterStop), self()}];
+     4..|             [{SecondNeighbor, SecondDur, lists:last(AfterStop), ?RECIPENT}];
         |           [] -&gt;
-<font color=red>     0..|             []</font>
+     1..|             []
         |         end,
-     1..|    Reply = N1 ++ N2,
-     1..|    {reply, Reply, State};
+     5..|    Reply = N1 ++ N2,
+     5..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_OTHER_END, Stop}, _From, State) -&gt;
      2..|    [H|T] = State#line_state.stops,
@@ -130,8 +132,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      2..|    {reply, Reply, State};
         |  
         |  handle_call({?CONTAINS_STOP, Stop}, _From, State) -&gt;
-     4..|    Reply = lists:member(Stop, State#line_state.stops),
-     4..|    {reply, Reply, State};
+    34..|    Reply = lists:member(Stop, State#line_state.stops),
+    34..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_DURATION, FromStop, ToStop}, _From, State) -&gt;
     20..|    Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),
@@ -142,15 +144,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      3..|    {reply, Reply, State};
         |  
         |  handle_call({?GET_INTERSECTION, OtherLine}, _From, State) -&gt;
-     1..|    Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) -&gt;
-     5..|                                                              case Stop of
+    12..|    Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) -&gt;
+    60..|                                                              case Stop of
         |                                                                ?ADDRESS(stop) -&gt;
-<font color=red>     0..|                                                                  true;</font>
+    36..|                                                                  true;
         |                                                                _ -&gt;
-     5..|                                                                  false
+    24..|                                                                  false
         |                                                              end
         |                                                            end, State#line_state.stops)),
-     1..|    {reply, Reply, State};
+    12..|    {reply, Reply, State};
         |  
         |  handle_call(?GET_NUMBER, _From, State) -&gt;
      1..|    Reply = State#line_state.number,
@@ -212,19 +214,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |    end.
         |  
         |  -spec get_intersection_helper(line(), [stop()]) -&gt; stop() | none.
-     1..|  get_intersection_helper(OtherLine, []) -&gt; none;
+     6..|  get_intersection_helper(OtherLine, []) -&gt; none;
         |  get_intersection_helper(OtherLine, [Stop|Rest]) -&gt;
-<font color=red>     0..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),</font>
-<font color=red>     0..|    case ContainsStop of</font>
+    30..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
+    30..|    case ContainsStop of
         |      true -&gt;
-<font color=red>     0..|        Stop;</font>
+     6..|        Stop;
         |      false -&gt;
-<font color=red>     0..|        get_intersection_helper(OtherLine, Rest)</font>
+    24..|        get_intersection_helper(OtherLine, Rest)
         |    end.
         |  
         |  -spec get_target_helper(stop(), stop(), [stop() | pos_integer()]) -&gt; stop().
         |  get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) -&gt;
-     4..|    get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -&gt; is_pid(Stop) end, Stops)).
+     4..|    get_target_helper(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -&gt; not is_integer(Stop) end, Stops)).
         |  
         |  -spec get_target_helper(stop(), stop(), stop(), [stop() | pos_integer()]) -&gt; stop().
         |  get_target_helper(FromStop, _ToStop, FromStop, Stops) -&gt;

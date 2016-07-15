@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-15 at 04:39:48
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-15 at 07:54:52
 
 ****************************************************************************
 
@@ -82,7 +82,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -&gt; {ok, line_state()}.
         |  init({Number, Stops, Type}) -&gt;
     12..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
-        |    %gen_server:call(blackboard, {subscribe, time}),
     12..|    {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
         |  
         |  
@@ -178,7 +177,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
 <font color=red>     0..|    ok.</font>
         |  
         |  
-        |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, line_state()}.
+        |  -spec code_change(term() | {down, term()}, line_state(), term()) -&gt; {ok, line_state()}.
         |  code_change(_OldVsn, State, _Extra) -&gt;
 <font color=red>     0..|    {ok, State}.</font>
         |  

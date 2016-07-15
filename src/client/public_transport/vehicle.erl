@@ -58,7 +58,7 @@ start_link(Capacity, Id, Line, LineNumber, Target, Type) ->
 
 -spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
 init({Capacity, Id, Line, LineNumber, Target, Type}) ->
-  Pid = self()
+  Pid = self(),
   time:?SUBSCRIBE(?RECIPENT),
   Stop = line:?GET_OTHER_END(Line, Target),
   Pid = self(),

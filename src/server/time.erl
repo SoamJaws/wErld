@@ -36,11 +36,11 @@
 
 -spec start_link(non_neg_integer(), pos_integer()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
 start_link(Delta, Frequency) ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, [Delta, Frequency], []).
+  gen_server:start_link({global, ?MODULE}, ?MODULE, {Delta, Frequency}, []).
 
 
--spec init({non_neg_integer(), pos_integer()) -> {ok, time_state()}.
-init([Delta, Frequency]) ->
+-spec init({non_neg_integer(), pos_integer()}) -> {ok, time_state()}.
+init({Delta, Frequency}) ->
   gen_server:cast(self(), tick),
   {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=0, time=0}}. % Epoch in gregorian seconds
 

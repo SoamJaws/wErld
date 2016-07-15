@@ -3,6 +3,7 @@
 
 -type id(Type) :: {Type, atom()}.
 -type address(Type) :: {id(Type), pid()}.
+-type gen_address() :: address(atom()).
 
 -define(ADDRESS(Type), {{Type, Id}, Pid}).
 -define(RECIPENT, ?ADDRESS(?MODULE)).

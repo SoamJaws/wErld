@@ -71,7 +71,7 @@ start_link(Number, Stops, Type) ->
 -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -> {ok, line_state()}.
 init({Number, Stops, Type}) ->
   Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
-  %gen_server:call(blackboard, {subscribe, time}),
+  %gen_server:call({global, time}, subscribe),
   {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
 
 

@@ -2,6 +2,7 @@
 -include("public_transport.hrl").
 -include("time.hrl").
 -behaviour(gen_server).
+-behaviour(time_subscriber).
 
 %% Public API
 -export([ ?PASSENGER_BOARD/2
@@ -142,7 +143,6 @@ boarding_complete(State) ->
   {_, Line} = State#vehicle_state.line,
   {boarding, Stop} = State#vehicle_state.action,
   {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
-  TimePid = gen_server:call({global, blackboard}, {request, timePid}),
   Id = State#vehicle_state.id,
   Pid = self(),
   stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT, false),

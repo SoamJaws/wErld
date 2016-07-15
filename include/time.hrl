@@ -5,10 +5,10 @@
 
 -type time() :: non_neg_integer().
 
--record(time_state, { delta      :: non_neg_integer()
-                    , frequency  :: pos_integer()
-                    , subcribers :: [gen_address()]
-                    , time       :: non_neg_integer()
+-record(time_state, { delta       :: non_neg_integer()
+                    , frequency   :: pos_integer()
+                    , subscribers :: [gen_address()]
+                    , time        :: non_neg_integer()
                     }).
 -type time_state() :: #time_state{}.
 

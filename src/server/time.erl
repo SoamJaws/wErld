@@ -68,16 +68,16 @@ handle_info(_Info, State) ->
   {noreply, State}.
 
 
--spec code_change(term() | {down, term()}, time_state(), term()) -> {ok, tim_state()}.
+-spec code_change(term() | {down, term()}, time_state(), term()) -> {ok, time_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
 
 %% Helpers
 
--spec broadcast_time([gen_address()], time()) -> ok.
+-spec broadcast_time([gen_address()], time()) -> ok;
 broadcast_time([], _Time) -> ok.
 broadcast_time([Subscriber|Subscribers], Time) ->
   Module = gen_server_utils:extract_module(Subscriber),
   apply(Module, ?NEW_TIME, [Subscriber, Time]),
-  broadcast_time(Subscribers).
+  broadcast_time(Subscribers, Time).

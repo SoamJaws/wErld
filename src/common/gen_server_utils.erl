@@ -1,4 +1,5 @@
 -module(gen_server_utils).
+-include("gen_server_utils.hrl").
 
 -export([ cast/3
         , notify_caller/2

@@ -3,7 +3,7 @@
 
 -include("gen_server_utils.hrl").
 
--type time :: non_neg_integer().
+-type time() :: non_neg_integer().
 
 -record(time_state, { delta      :: non_neg_integer()
                     , frequency  :: pos_integer()
@@ -15,3 +15,5 @@
 -define(SUBSCRIBE,        subscribe).
 -define(GET_CURRENT_TIME, get_current_time).
 -define(NEW_TIME,         new_time).
+
+-endif.

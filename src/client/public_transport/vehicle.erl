@@ -58,6 +58,7 @@ start_link(Capacity, Id, Line, LineNumber, Target, Type) ->
 
 -spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
 init({Capacity, Id, Line, LineNumber, Target, Type}) ->
+  Pid = self()
   time:?SUBSCRIBE(?RECIPENT),
   Stop = line:?GET_OTHER_END(Line, Target),
   Pid = self(),
@@ -156,7 +157,7 @@ boarding_complete(State) ->
   Id = State#vehicle_state.id,
   Pid = self(),
   stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT, false),
-  Time = gen_server:call(TimePid, {request, currentTime}),
+  Time = time:?GET_CURRENT_TIME(),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
 -spec notify_passengers_checkin([citizen()]) -> [citizen()].

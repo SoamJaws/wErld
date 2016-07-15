@@ -2,12 +2,16 @@
 -include("public_transport.hrl").
 -include("time.hrl").
 -behaviour(gen_server).
+-behaviour(time_subscriber).
 
 %% Public API
 -export([ ?PASSENGER_BOARD/2
-        , ?NEW_TIME/3
         , ?INCREMENT_BOARDING_PASSENGER/2
         , ?CHECKIN_OK/4]).
+
+%% Time subscriber
+-export([ ?NEW_TIME/2
+        , ?NEW_TIME/3]).
 
 %% gen_server
 -export([ start_link/6
@@ -25,10 +29,6 @@
 ?PASSENGER_BOARD(?RECIPENT, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
--spec ?NEW_TIME(vehicle(), non_neg_integer(), boolean()) -> ok.
-?NEW_TIME(?RECIPENT, Time, BlockCaller) ->
-  gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
-
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -> ok.
 ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) ->
   gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
@@ -36,6 +36,17 @@
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -> ok.
 ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) ->
   gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
+
+
+%% Time subscriber
+
+-spec ?NEW_TIME(vehicle(), time()) -> ok.
+?NEW_TIME(?RECIPENT, Time) ->
+  ?NEW_TIME(?RECIPENT, Time, false).
+
+-spec ?NEW_TIME(vehicle(), time(), boolean()) -> ok.
+?NEW_TIME(?RECIPENT, Time, BlockCaller) ->
+  gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
 
 %% gen_server
@@ -47,7 +58,8 @@ start_link(Capacity, Id, Line, LineNumber, Target, Type) ->
 
 -spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
 init({Capacity, Id, Line, LineNumber, Target, Type}) ->
-  gen_server:cast({global, blackboard}, {subscribe, time}),
+  Pid = self(),
+  time:?SUBSCRIBE(?RECIPENT),
   Stop = line:?GET_OTHER_END(Line, Target),
   Pid = self(),
   stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
@@ -74,7 +86,7 @@ handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
   end.
 
 
--spec handle_cast({?NEW_TIME, non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
+-spec handle_cast({?NEW_TIME, time(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
       ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
       ;          ({?CHECKIN_OK, stop(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}.
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
@@ -142,11 +154,10 @@ boarding_complete(State) ->
   {_, Line} = State#vehicle_state.line,
   {boarding, Stop} = State#vehicle_state.action,
   {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
-  TimePid = gen_server:call({global, blackboard}, {request, timePid}),
   Id = State#vehicle_state.id,
   Pid = self(),
   stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT, false),
-  Time = gen_server:call(TimePid, {request, currentTime}),
+  Time = time:?GET_CURRENT_TIME(),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
 -spec notify_passengers_checkin([citizen()]) -> [citizen()].

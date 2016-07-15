@@ -41,7 +41,7 @@ start_link(Delta, Frequency) ->
 -spec init({non_neg_integer(), pos_integer()}) -> {ok, time_state()}.
 init({Delta, Frequency}) ->
   gen_server:cast(self(), tick),
-  {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=0, time=0}}. % Epoch in gregorian seconds
+  {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=[], time=0}}. % Epoch in gregorian seconds
 
 
 -spec handle_call(?GET_CURRENT_TIME, {pid(), any()}, time_state()) -> {reply, time()}.

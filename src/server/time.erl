@@ -75,8 +75,8 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Helpers
 
--spec broadcast_time([gen_address()], time()) -> ok;
-broadcast_time([], _Time) -> ok.
+-spec broadcast_time([gen_address()], time()) -> ok.
+broadcast_time([], _Time) -> ok;
 broadcast_time([Subscriber|Subscribers], Time) ->
   Module = gen_server_utils:extract_module(Subscriber),
   apply(Module, ?NEW_TIME, [Subscriber, Time]),

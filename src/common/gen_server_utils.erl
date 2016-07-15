@@ -1,7 +1,8 @@
 -module(gen_server_utils).
 
 -export([ cast/3
-        , notify_caller/2]).
+        , notify_caller/2
+        , extract_module/1]).
 
 -spec cast(pid(), tuple(), boolean()) -> ok.
 cast(Pid, Msg, BlockCaller) ->
@@ -33,3 +34,6 @@ notify_caller(NotifyCaller, Caller) ->
     true ->
       ok
   end.
+
+-spec extract_module(gen_address()) -> atom().
+extract_module({{Module, _Id}, _Pid}) -> Module.

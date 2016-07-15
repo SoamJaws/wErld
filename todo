@@ -1,3 +1,4 @@
-* Adapt blackboard and time to tagged pids
+* Adapt blackboard to tagged pids
+* handle cast should have a booleanless version
 * Specs for supervisors
 * Fix tests according to above

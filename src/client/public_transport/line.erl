@@ -71,7 +71,6 @@ start_link(Number, Stops, Type) ->
 -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -> {ok, line_state()}.
 init({Number, Stops, Type}) ->
   Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
-  %gen_server:call({global, time}, subscribe),
   {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
 
 
@@ -167,7 +166,7 @@ terminate(_Reason, _State) ->
   ok.
 
 
--spec code_change(term() | {down, term()}, stop_state(), term()) -> {ok, line_state()}.
+-spec code_change(term() | {down, term()}, line_state(), term()) -> {ok, line_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 

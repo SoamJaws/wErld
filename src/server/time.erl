@@ -45,7 +45,7 @@ init({Delta, Frequency}) ->
   {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=[], time=0}}. % Epoch in gregorian seconds
 
 
--spec handle_call(?GET_CURRENT_TIME, {pid(), any()}, time_state()) -> {reply, time()}.
+-spec handle_call(?GET_CURRENT_TIME, {pid(), any()}, time_state()) -> {reply, time(), time_state()}.
 handle_call(?GET_CURRENT_TIME, _From, State) ->
   {reply, State#time_state.time, State}. 
 

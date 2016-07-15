@@ -14,6 +14,7 @@
         , handle_call/3
         , handle_cast/2
         , handle_info/2
+        , terminate/2
         , code_change/3]).
 
 %% Public API
@@ -66,6 +67,11 @@ handle_cast(tick, State) ->
 -spec handle_info(timeout | any(), time_state()) -> {noreply, time_state()}.
 handle_info(_Info, State) ->
   {noreply, State}.
+
+
+-spec terminate(normal | shutdown | {shutdown, any()} | any(), time_state()) -> ok.
+terminate(_Reason, _State) ->
+  ok.
 
 
 -spec code_change(term() | {down, term()}, time_state(), term()) -> {ok, time_state()}.

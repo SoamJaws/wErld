@@ -6,7 +6,9 @@
 
 %% Public API
 -export([ ?PASSENGER_BOARD/2
+        , ?INCREMENT_BOARDING_PASSENGER/1
         , ?INCREMENT_BOARDING_PASSENGER/2
+        , ?CHECKIN_OK/3
         , ?CHECKIN_OK/4]).
 
 %% Time subscriber
@@ -29,9 +31,17 @@
 ?PASSENGER_BOARD(?RECIPENT, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
+-spec ?INCREMENT_BOARDING_PASSENGER(vehicle()) -> ok.
+?INCREMENT_BOARDING_PASSENGER(?RECIPENT) ->
+  ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, false).
+
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -> ok.
 ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) ->
   gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
+
+-spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer()) -> ok.
+?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers) ->
+  ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, false).
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -> ok.
 ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) ->
@@ -62,7 +72,7 @@ init({Capacity, Id, Line, LineNumber, Target, Type}) ->
   time:?SUBSCRIBE(?RECIPENT),
   Stop = line:?GET_OTHER_END(Line, Target),
   Pid = self(),
-  stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
+  stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
   {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
@@ -105,7 +115,7 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                      Id = State#vehicle_state.id,
                      Pid = self(),
                      StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers, Id),
-                     stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
+                     stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
                      UpdatedState#vehicle_state{passengers=StayingPassengers};
                    true ->
                      State
@@ -156,7 +166,7 @@ boarding_complete(State) ->
   {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
   Id = State#vehicle_state.id,
   Pid = self(),
-  stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT, false),
+  stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT),
   Time = time:?GET_CURRENT_TIME(),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 

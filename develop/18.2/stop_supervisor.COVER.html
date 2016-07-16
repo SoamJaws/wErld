@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl by COVER 2016-07-15 at 07:54:53
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl by COVER 2016-07-16 at 19:34:41
 
 ****************************************************************************
 
@@ -20,19 +20,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-     2..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+     5..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
         |  
         |  start_stop(Id) -&gt;
-     2..|    Result = supervisor:start_child({global, ?MODULE}, [Id]),
-     2..|    case Result of
+     5..|    Result = supervisor:start_child({global, ?MODULE}, [Id]),
+     5..|    case Result of
         |      {ok, Pid} -&gt;
-     2..|        ?ADDRESS(stop);
+     5..|        ?ADDRESS(stop);
         |      Result -&gt;
 <font color=red>     0..|        Result</font>
         |    end.
         |  
         |  stop_stop(?ADDRESS(stop)) -&gt;
-     1..|    supervisor:terminate_child({global, ?MODULE}, Pid).
+     5..|    supervisor:terminate_child({global, ?MODULE}, Pid).
         |    
         |  
         |  init(_Args) -&gt;

@@ -102,9 +102,9 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                                     true ->
                                       State
                                     end,
-                     StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers),
                      Id = State#vehicle_state.id,
                      Pid = self(),
+                     StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers, Id),
                      stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
                      UpdatedState#vehicle_state{passengers=StayingPassengers};
                    true ->
@@ -160,13 +160,14 @@ boarding_complete(State) ->
   Time = time:?GET_CURRENT_TIME(),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
--spec notify_passengers_checkin([citizen()]) -> [citizen()].
-notify_passengers_checkin([]) -> [];
-notify_passengers_checkin([Passenger|Passengers]) ->
-  Reply = citizen:vehicle_checked_in(Passenger, self()),
+-spec notify_passengers_checkin([citizen()], atom()) -> [citizen()].
+notify_passengers_checkin([], Id) -> [];
+notify_passengers_checkin([Passenger|Passengers], Id) ->
+  Pid = self(),
+  Reply = citizen:vehicle_checked_in(Passenger, ?RECIPENT),
   case Reply of
     leave ->
-      notify_passengers_checkin(Passengers);
+      notify_passengers_checkin(Passengers, Id);
     stay ->
-      [Passenger|notify_passengers_checkin(Passengers)]
+      [Passenger|notify_passengers_checkin(Passengers, Id)]
   end.

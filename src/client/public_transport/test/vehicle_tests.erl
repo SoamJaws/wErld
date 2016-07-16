@@ -11,10 +11,10 @@ checkin_ok_test() ->
   L1 = gen_server_mock:start_link(line, l1, strict),
   S1 = gen_server_mock:start_link(stop, s1, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
@@ -48,10 +48,10 @@ boarding_passenger_capacity_reached_test() ->
   P3 = gen_server_mock:start_link(citizen, p3, strict),
   P4 = gen_server_mock:start_link(citizen, p4, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
@@ -97,10 +97,10 @@ boarding_passenger_below_capacity_test() ->
   P2 = gen_server_mock:start_link(citizen, p2, strict),
   P3 = gen_server_mock:start_link(citizen, p3, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
@@ -143,10 +143,10 @@ next_stop_reached_test() ->
   P2 = gen_server_mock:start_link(citizen, p2, strict),
   P3 = gen_server_mock:start_link(citizen, p3, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
@@ -195,10 +195,10 @@ next_stop_not_reached_test() ->
   P2 = gen_server_mock:start_link(citizen, p2, strict),
   P3 = gen_server_mock:start_link(citizen, p3, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
@@ -242,10 +242,10 @@ target_stop_reached_test() ->
   P2 = gen_server_mock:start_link(citizen, p2, strict),
   P3 = gen_server_mock:start_link(citizen, p3, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
@@ -294,10 +294,10 @@ increment_boarding_passenger_test() ->
   P2 = gen_server_mock:start_link(citizen, p2, strict),
   P3 = gen_server_mock:start_link(citizen, p3, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   %% Hack, setting expected cast after call, will work since
   %% casts are not verified until validate is called
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
@@ -339,10 +339,10 @@ new_time_not_driving_test() ->
   L1 = gen_server_mock:start_link(line, l1, strict),
   S1 = gen_server_mock:start_link(stop, s1, strict),
 
-  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle}),
   gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),
   gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),
+  Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   vehicle:?NEW_TIME(Vehicle, 1233, true),
   
   %% Hack, setting expected cast after call, will work since

@@ -11,3 +11,12 @@ rel/example_project
 *.swo
 *.swp
 *.asc
+*.html
+*.css
+*.js
+*.info
+*.log
+*ct_log_cache
+*Haddock
+*.summary
+*last_name

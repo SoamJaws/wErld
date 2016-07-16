@@ -5,11 +5,12 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/citizen.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/citizen.erl by COVER 2016-07-15 at 07:56:12
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/citizen.erl by COVER 2016-07-16 at 19:35:22
 
 ****************************************************************************
 
         |  -module(citizen).
+        |  -include("gen_server_utils.hrl").
         |  -behaviour(gen_server).
         |  
         |  
@@ -36,8 +37,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/citizen.erl by COVE
         |  state(Pid) -&gt;
 <font color=red>     0..|    gen_server:call(Pid, state).</font>
         |  
-        |  vehicle_checked_in(Pid, Vehicle) -&gt;
-     1..|    gen_server:call(Pid, {vehicle_checked_in, Vehicle}).
+        |  vehicle_checked_in(?RECIPENT, Vehicle) -&gt;
+    16..|    gen_server:call(Pid, {vehicle_checked_in, Vehicle}).
         |  
         |  init([Name]) -&gt;
 <font color=red>     0..|    {ok, [Name]}.</font>

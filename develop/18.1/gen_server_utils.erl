@@ -3,7 +3,8 @@
 
 -export([ cast/3
         , notify_caller/2
-        , extract_module/1]).
+        , extract_module/1
+        , extract_pid/1]).
 
 -spec cast(pid() | {global, atom()}, tuple(), boolean()) -> ok.
 cast(Address, Msg, BlockCaller) ->
@@ -38,3 +39,6 @@ notify_caller(NotifyCaller, Caller) ->
 
 -spec extract_module(gen_address()) -> atom().
 extract_module({{Module, _Id}, _Pid}) -> Module.
+
+-spec extract_pid(gen_address()) -> pid().
+extract_pid({{_Module, _Id}, Pid}) -> Pid.

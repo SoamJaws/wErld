@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-07-15 at 07:57:28
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-07-16 at 19:35:29
 
 ****************************************************************************
 
@@ -108,7 +108,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |        Casts = State#gen_server_mock_state.casts,
         |        ExpectedCasts = State#gen_server_mock_state.expectedCasts,
         |        ExpectedCalls = State#gen_server_mock_state.expectedCalls,
-        |        error(io_lib:format("No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]));
+        |        ?debugFmt("No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]),
+        |        error(unexpected_call_error);
         |      _ -&gt;
         |        {reply, lists:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}
         |    end.

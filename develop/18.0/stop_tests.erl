@@ -34,7 +34,7 @@ passenger_check_out_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
-  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, Stop}),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, gen_server_utils:extract_pid(Stop)}),
   gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, true),
   gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, true),
   gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, true),
@@ -67,7 +67,7 @@ vehicle_check_in_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
 
-  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 1, false, Stop}),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 1, false, gen_server_utils:extract_pid(Stop)}),
   gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, true),
   gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, false),
 
@@ -75,7 +75,7 @@ vehicle_check_in_test() ->
 
   gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, true),
   gen_server_mock:expect_call(P4, {vehicle_checked_in, V1}, false),
-  gen_server_mock:expect_cast(V1, {?INCREMENT_BOARDING_PASSENGER, false, Stop}),
+  gen_server_mock:expect_cast(V1, {?INCREMENT_BOARDING_PASSENGER, false, gen_server_utils:extract_pid(Stop)}),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P4)),
 
@@ -107,7 +107,7 @@ vehicle_check_out_test() ->
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),
   ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),
 
-  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, Stop}),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, gen_server_utils:extract_pid(Stop)}),
   gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, true),
   gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, true),
   gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, true),
@@ -119,7 +119,7 @@ vehicle_check_out_test() ->
   stop:?PASSENGER_CHECK_OUT(Stop, P2, false),
 
   ?assert(gen_server_mock:validate(V2)), %% Validate that the checkin_ok has not been sent prematurely
-  gen_server_mock:expect_cast(V2, {?CHECKIN_OK, Stop, 0, false, Stop}),
+  gen_server_mock:expect_cast(V2, {?CHECKIN_OK, Stop, 0, false, gen_server_utils:extract_pid(Stop)}),
 
   stop:?PASSENGER_CHECK_OUT(Stop, P3, true),
   stop:?VEHICLE_CHECK_OUT(Stop, V1, true),
@@ -143,7 +143,7 @@ invalid_vehicle_check_out_test() ->
   V1 = gen_server_mock:start_link(vehicle, v1, strict),
   V2 = gen_server_mock:start_link(vehicle, v2, strict),
   
-  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 0, false, Stop}),
+  gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 0, false, gen_server_utils:extract_pid(Stop)}),
 
   stop:?VEHICLE_CHECK_IN(Stop, V1, true),
   stop:?VEHICLE_CHECK_OUT(Stop, V2, true),

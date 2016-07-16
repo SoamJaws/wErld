@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-16 at 19:34:41
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-16 at 19:42:27
 
 ****************************************************************************
 
@@ -17,7 +17,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  %% Public API
         |  -export([ ?PASSENGER_BOARD/2
+        |          , ?INCREMENT_BOARDING_PASSENGER/1
         |          , ?INCREMENT_BOARDING_PASSENGER/2
+        |          , ?CHECKIN_OK/3
         |          , ?CHECKIN_OK/4]).
         |  
         |  %% Time subscriber
@@ -40,9 +42,17 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  ?PASSENGER_BOARD(?RECIPENT, Passenger) -&gt;
     19..|    gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
         |  
+        |  -spec ?INCREMENT_BOARDING_PASSENGER(vehicle()) -&gt; ok.
+        |  ?INCREMENT_BOARDING_PASSENGER(?RECIPENT) -&gt;
+     1..|    ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, false).
+        |  
         |  -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -&gt; ok.
         |  ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) -&gt;
      2..|    gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
+        |  
+        |  -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer()) -&gt; ok.
+        |  ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers) -&gt;
+     1..|    ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, false).
         |  
         |  -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -&gt; ok.
         |  ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) -&gt;
@@ -73,7 +83,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      8..|    time:?SUBSCRIBE(?RECIPENT),
      8..|    Stop = line:?GET_OTHER_END(Line, Target),
      8..|    Pid = self(),
-     8..|    stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
+     8..|    stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
      8..|    {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.
         |  
         |  
@@ -116,7 +126,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      2..|                       Id = State#vehicle_state.id,
      2..|                       Pid = self(),
      2..|                       StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers, Id),
-     2..|                       stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT, false),
+     2..|                       stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
      2..|                       UpdatedState#vehicle_state{passengers=StayingPassengers};
         |                     true -&gt;
      1..|                       State
@@ -167,7 +177,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
      8..|    {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
      8..|    Id = State#vehicle_state.id,
      8..|    Pid = self(),
-     8..|    stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT, false),
+     8..|    stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT),
      8..|    Time = time:?GET_CURRENT_TIME(),
      8..|    State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
         |  

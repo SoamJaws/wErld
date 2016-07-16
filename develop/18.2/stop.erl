@@ -5,8 +5,11 @@
 
 %% Public API
 -export([ ?PASSENGER_CHECK_IN/2
+        , ?PASSENGER_CHECK_OUT/2
         , ?PASSENGER_CHECK_OUT/3
+        , ?VEHICLE_CHECK_IN/2
         , ?VEHICLE_CHECK_IN/3
+        , ?VEHICLE_CHECK_OUT/2
         , ?VEHICLE_CHECK_OUT/3]).
 
 %% gen_server
@@ -25,13 +28,25 @@
 ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
+-spec ?PASSENGER_CHECK_OUT(stop(), citizen())-> ok.
+?PASSENGER_CHECK_OUT(?RECIPENT, Passenger) ->
+  ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, false).
+
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) ->
   gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
+-spec ?VEHICLE_CHECK_IN(stop(), vehicle()) -> ok.
+?VEHICLE_CHECK_IN(?RECIPENT, Vehicle) ->
+  ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, false).
+
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) ->
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
+
+-spec ?VEHICLE_CHECK_OUT(stop(), vehicle()) -> ok.
+?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle) ->
+  ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, false).
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) ->
@@ -68,7 +83,7 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
           WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
           if
             WillBoard ->
-              vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false);
+              vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle);
             true ->
               ok
           end
@@ -108,7 +123,7 @@ handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
                      BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
                      Id = State#stop_state.id,
                      Pid = self(),
-                     vehicle:?CHECKIN_OK(NextVehicle, ?RECIPENT, BoardingPassengers, false),
+                     vehicle:?CHECKIN_OK(NextVehicle, ?RECIPENT, BoardingPassengers),
                      State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
                    [] ->
                      State#stop_state{currentVehicle=none}

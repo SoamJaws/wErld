@@ -121,6 +121,22 @@ then
     RESULT=1
   fi
 
+  echo "===================== Common test ====================="
+  rebar clean
+  rebar compile -DTEST
+  CT_OUTPUT=$(rebar ct)
+  CT_RESULT=$?
+
+  if [ "$CT_RESULT" -ne 0 ];
+  then
+    echo "$CT_OUTPUT"
+    exit $CT_RESULT
+  fi
+
+  if [ "$VERBOSE" == "true" ];
+  then
+    echo "$CT_OUTPUT"
+  fi
 fi
 
 echo -e "http://soamjaws.github.io/wErld/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE\n"

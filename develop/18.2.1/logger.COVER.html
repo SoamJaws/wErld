@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/logger.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-15 at 07:52:52
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-16 at 19:33:52
 
 ****************************************************************************
 
@@ -41,7 +41,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  
         |  -spec log_info(string(), string(), pos_integer(), atom()) -&gt; ok.
         |  log_info(Content, Module, Line, Id) -&gt;
-     2..|    log(Content, Module, Line, Id, "INFO").
+     5..|    log(Content, Module, Line, Id, "INFO").
         |  
         |  -spec log_warning(string(), string(), pos_integer(), atom()) -&gt; ok.
         |  log_warning(Content, Module, Line, Id) -&gt;
@@ -53,9 +53,9 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  
         |  -spec log(string(), string(), pos_integer(), atom(), string()) -&gt; ok.
         |  log(Content, Module, Line, Id, Mode) -&gt;
-     2..|    {_Date, {H, M, S}} = calendar:local_time(),
-     2..|    Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
-     2..|    gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
+     5..|    {_Date, {H, M, S}} = calendar:local_time(),
+     5..|    Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
+     5..|    gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
         |  
         |  handle_call(stop, _From, State) -&gt;
 <font color=red>     0..|    {stop, normal, stopped, State}.</font>

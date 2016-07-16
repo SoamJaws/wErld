@@ -97,7 +97,8 @@ handle_call(Msg, _From, State) ->
       Casts = State#gen_server_mock_state.casts,
       ExpectedCasts = State#gen_server_mock_state.expectedCasts,
       ExpectedCalls = State#gen_server_mock_state.expectedCalls,
-      error(io_lib:format("No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]));
+      ?debugFmt("No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]),
+      error(unexpected_call_error);
     _ ->
       {reply, lists:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}
   end.

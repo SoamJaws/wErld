@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-16 at 19:33:52
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-16 at 19:41:38
 
 ****************************************************************************
 
@@ -16,8 +16,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  %% Public API
         |  -export([ ?PASSENGER_CHECK_IN/2
+        |          , ?PASSENGER_CHECK_OUT/2
         |          , ?PASSENGER_CHECK_OUT/3
+        |          , ?VEHICLE_CHECK_IN/2
         |          , ?VEHICLE_CHECK_IN/3
+        |          , ?VEHICLE_CHECK_OUT/2
         |          , ?VEHICLE_CHECK_OUT/3]).
         |  
         |  %% gen_server
@@ -36,13 +39,25 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) -&gt;
     15..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
         |  
+        |  -spec ?PASSENGER_CHECK_OUT(stop(), citizen())-&gt; ok.
+        |  ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger) -&gt;
+<font color=red>     0..|    ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, false).</font>
+        |  
         |  -spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-&gt; ok.
         |  ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) -&gt;
      7..|    gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
         |  
+        |  -spec ?VEHICLE_CHECK_IN(stop(), vehicle()) -&gt; ok.
+        |  ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle) -&gt;
+    10..|    ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, false).
+        |  
         |  -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) -&gt;
     15..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
+        |  
+        |  -spec ?VEHICLE_CHECK_OUT(stop(), vehicle()) -&gt; ok.
+        |  ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle) -&gt;
+     8..|    ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, false).
         |  
         |  -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) -&gt;
@@ -79,7 +94,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      2..|            WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
      2..|            if
         |              WillBoard -&gt;
-     1..|                vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, false);
+     1..|                vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle);
         |              true -&gt;
      1..|                ok
         |            end
@@ -119,7 +134,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
      1..|                       BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
      1..|                       Id = State#stop_state.id,
      1..|                       Pid = self(),
-     1..|                       vehicle:?CHECKIN_OK(NextVehicle, ?RECIPENT, BoardingPassengers, false),
+     1..|                       vehicle:?CHECKIN_OK(NextVehicle, ?RECIPENT, BoardingPassengers),
      1..|                       State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
         |                     [] -&gt;
      1..|                       State#stop_state{currentVehicle=none}

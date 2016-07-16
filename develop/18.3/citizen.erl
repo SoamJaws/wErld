@@ -1,4 +1,5 @@
 -module(citizen).
+-include("gen_server_utils.hrl").
 -behaviour(gen_server).
 
 
@@ -25,7 +26,7 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-vehicle_checked_in(Pid, Vehicle) ->
+vehicle_checked_in(?RECIPENT, Vehicle) ->
   gen_server:call(Pid, {vehicle_checked_in, Vehicle}).
 
 init([Name]) ->

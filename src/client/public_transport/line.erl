@@ -73,6 +73,7 @@ start_link(Number, Stops, Type) ->
 init({Number, Stops, Type}) ->
   Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
   put(id, Id),
+  put(module, ?MODULE_STRING),
   ?LOG_INFO("Line started"),
   {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
 
@@ -220,9 +221,7 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
 get_intersection_helper(OtherLine, []) -> none;
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ?LOG_INFO(io_lib:format("get_intersection_helper OtherLine=~p Stop=~p Rest=~p", [OtherLine, Stop, Rest])),
-  ?LOG_SEND(io_lib:format("CONTAINS_STOP OtherLine=~p Stop=~p", [OtherLine, Stop])),
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
-  ?LOG_RECEIVE(io_lib:format("REPLY CONTAINS_STOP ~p", [ContainsStop])),
   case ContainsStop of
     true ->
       Stop;

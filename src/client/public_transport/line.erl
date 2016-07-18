@@ -1,5 +1,6 @@
 -module(line).
 -include("public_transport.hrl").
+-include("logger.hrl").
 -behaviour(gen_server).
 
 %% Public API

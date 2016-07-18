@@ -27,38 +27,47 @@
 
 -spec ?GET_NEXT_STOP(line(), stop(), stop()) -> {stop(), pos_integer()} | none.
 ?GET_NEXT_STOP(?RECIPENT, Target, Stop) ->
+  ?LOG_SEND(io_lib:format("GET_NEXT_STOP Target=~p Stop=~p", [Target, Stop])),
   gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
 
 -spec ?GET_NEIGHBORS(line(), stop()) -> [{stop(), pos_integer(), stop(), line()}].
 ?GET_NEIGHBORS(?RECIPENT, Stop) ->
+  ?LOG_SEND(io_lib:format("GET_NEIGHBORS Stop=~p", [Stop])),
   gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
 
 -spec ?GET_OTHER_END(line(), stop()) -> stop().
 ?GET_OTHER_END(?RECIPENT, Stop) ->
+  ?LOG_SEND(io_lib:format("GET_OTHER_END Stop=~p", [Stop])),
   gen_server:call(Pid, {?GET_OTHER_END, Stop}).
 
 -spec ?CONTAINS_STOP(line(), stop()) -> boolean().
 ?CONTAINS_STOP(?RECIPENT, Stop) ->
+  ?LOG_SEND(io_lib:format("CONTAINS_STOP Stop=~p", [Stop])),
   gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
 
 -spec ?GET_DURATION(line(), stop(), stop()) -> pos_integer().
 ?GET_DURATION(?RECIPENT, FromStop, ToStop) ->
+  ?LOG_SEND(io_lib:format("GET_DURATION FromStop=~p ToStop=~p", [FromStop, ToStop])),
   gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
 
 -spec ?IS_END_STOP(line(), stop()) -> boolean().
 ?IS_END_STOP(?RECIPENT, Stop) ->
+  ?LOG_SEND(io_lib:format("IS_END_STOP Stop=~p", [Stop])),
   gen_server:call(Pid, {?IS_END_STOP, Stop}).
 
 -spec ?GET_INTERSECTION(line(), line()) -> stop() | none.
 ?GET_INTERSECTION(?RECIPENT, OtherLine) ->
+  ?LOG_SEND(io_lib:format("GET_INTERSECTION OtherLine=~p", [OtherLine])),
   gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
 
 -spec ?GET_NUMBER(line()) -> pos_integer().
 ?GET_NUMBER(?RECIPENT) ->
+  ?LOG_SEND(io_lib:format("GET_NUMBER", [])),
   gen_server:call(Pid, ?GET_NUMBER).
 
 -spec ?GET_TARGET(line(), stop(), stop()) -> stop().
 ?GET_TARGET(?RECIPENT, FromStop, ToStop) ->
+  ?LOG_SEND(io_lib:format("GET_TARGET FromStop=~p ToStop=~p", [FromStop, ToStop])),
   gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
 
 %% gen_server
@@ -71,6 +80,8 @@ start_link(Number, Stops, Type) ->
 -spec init({pos_integer(), [pid() | pos_integer()], vehicle_type()}) -> {ok, line_state()}.
 init({Number, Stops, Type}) ->
   Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
+  put(id, Id),
+  ?LOG_INFO("Line started"),
   {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
 
 
@@ -84,6 +95,7 @@ init({Number, Stops, Type}) ->
       ;          (?GET_NUMBER,                      {pid(), any()}, line_state()) -> {reply, pos_integer(), line_state()}
       ;          ({?GET_TARGET, stop(), stop()},    {pid(), any()}, line_state()) -> {reply, stop(), line_state()}.
 handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_NEXT_STOP Target=~p Stop=~p", [Target, Stop])),
   [EndStop|_] = State#line_state.stops,
   Reply = case EndStop of
             Target -> get_next_stop_helper(Stop, pre, State#line_state.stops);
@@ -92,8 +104,9 @@ handle_call({?GET_NEXT_STOP, Target, Stop}, _From, State) ->
   {reply, Reply, State};
 
 handle_call({?GET_NEIGHBORS, Stop}, _From, State) ->
-  {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, State#line_state.stops),
+  ?LOG_RECEIVE(io_lib:format("GET_NEIGHBORS Stop=~p", [Stop])),
   Id = State#line_state.id,
+  {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, State#line_state.stops),
   Pid = self(),
   N1 = case BeforeStop of
          [FirstTarget|_] ->
@@ -112,6 +125,7 @@ handle_call({?GET_NEIGHBORS, Stop}, _From, State) ->
   {reply, Reply, State};
 
 handle_call({?GET_OTHER_END, Stop}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_OTHER_END Stop=~p", [Stop])),
   [H|T] = State#line_state.stops,
   Reply = case H of
             Stop -> lists:last(T);
@@ -120,18 +134,22 @@ handle_call({?GET_OTHER_END, Stop}, _From, State) ->
   {reply, Reply, State};
 
 handle_call({?CONTAINS_STOP, Stop}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("CONTAINS_STOP Stop=~p", [Stop])),
   Reply = lists:member(Stop, State#line_state.stops),
   {reply, Reply, State};
 
 handle_call({?GET_DURATION, FromStop, ToStop}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_DURATION FromStop=~p ToStop=~p", [FromStop, ToStop])),
   Reply = get_duration_helper(FromStop, ToStop, State#line_state.stops),
   {reply, Reply, State};
 
 handle_call({?IS_END_STOP, Stop}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("IS_END_STOP Stop=~p", [Stop])),
   Reply = lists:prefix([Stop], State#line_state.stops) or lists:suffix([Stop], State#line_state.stops),
   {reply, Reply, State};
 
 handle_call({?GET_INTERSECTION, OtherLine}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_INTERSECTION OtherLine=~p", [OtherLine])),
   Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) ->
                                                             case Stop of
                                                               ?ADDRESS(stop) ->
@@ -143,10 +161,12 @@ handle_call({?GET_INTERSECTION, OtherLine}, _From, State) ->
   {reply, Reply, State};
 
 handle_call(?GET_NUMBER, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_NUMBER", [])),
   Reply = State#line_state.number,
   {reply, Reply, State};
 
 handle_call({?GET_TARGET, FromStop, ToStop}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_TARGET FromStop=~p ToStop=~p", [FromStop, ToStop])),
   Reply = get_target_helper(FromStop, ToStop, State#line_state.stops),
   {reply, Reply, State}.
 
@@ -190,10 +210,13 @@ get_duration_helper(FromStop, ToStop, Stops) ->
 get_duration_helper(_FromStop, ToStop, true, [ToStop|_Stops]) -> 0;
 get_duration_helper(FromStop, _ToStop, true, [FromStop|_Stops]) -> 0;
 get_duration_helper(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) ->
+  ?LOG_INFO(io_lib:format("get_duration_helper Stops head is FromStop, FromStop=~p ToStop=~p Dur=~p Stops=~p", [FromStop, ToStop, Dur, Stops])),
   Dur + get_duration_helper(FromStop, ToStop, true, Stops);
 get_duration_helper(FromStop, ToStop, _OnPath, [ToStop|[Dur|Stops]]) ->
+  ?LOG_INFO(io_lib:format("get_duration_helper Stops head is ToStop, FromStop=~p ToStop=~p Dur=~p Stops=~p", [FromStop, ToStop, Dur, Stops])),
   Dur + get_duration_helper(FromStop, ToStop, true, Stops);
 get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
+  ?LOG_INFO(io_lib:format("get_duration_helper Stops head does not match FromStop or ToStop, FromStop=~p ToStop=~p OnPath~p Dur=~p Stops=~p", [FromStop, ToStop, OnPath, Dur, Stops])),
   case OnPath of
     true ->
       Dur + get_duration_helper(FromStop, ToStop, true, Stops);
@@ -204,7 +227,9 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
 -spec get_intersection_helper(line(), [stop()]) -> stop() | none.
 get_intersection_helper(OtherLine, []) -> none;
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
+  ?LOG_INFO(io_lib:format("get_intersection_helper OtherLine=~p Stop=~p Rest=~p", [OtherLine, Stop, Rest])),
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
+  ?LOG_RECEIVE(io_lib:format("REPLY CONTAINS_STOP ~p", [ContainsStop])),
   case ContainsStop of
     true ->
       Stop;
@@ -220,6 +245,7 @@ get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) ->
 get_target_helper(FromStop, _ToStop, FromStop, Stops) ->
   lists:last(Stops);
 get_target_helper(FromStop, ToStop, FirstEnd, [Stop|Stops]) ->
+  ?LOG_INFO(io_lib:format("get_target_helper FromStop=~p ToStop=~p FirstEnd=~p Stop=~p Stops=~p", [FromStop, ToStop, FirstEnd, [Stop|Stops]])),
   case Stop of
     FromStop ->
       lists:last(Stops);

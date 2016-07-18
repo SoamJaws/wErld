@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-16 at 19:42:27
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.erl by COVER 2016-07-18 at 11:29:29
 
 ****************************************************************************
 
@@ -19,40 +19,40 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_utils.er
         |  
         |  -spec cast(pid() | {global, atom()}, tuple(), boolean()) -&gt; ok.
         |  cast(Address, Msg, BlockCaller) -&gt;
-    60..|    UpdatedMsg = if
+<font color=red>     0..|    UpdatedMsg = if</font>
         |                   is_tuple(Msg) -&gt;
-    60..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);
+<font color=red>     0..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);</font>
         |                   true -&gt;
 <font color=red>     0..|                     {Msg, BlockCaller, self()}</font>
         |                 end,
-    60..|    gen_server:cast(Address, UpdatedMsg),
-    60..|    block_caller(BlockCaller).
+<font color=red>     0..|    gen_server:cast(Address, UpdatedMsg),</font>
+<font color=red>     0..|    block_caller(BlockCaller).</font>
         |  
         |  -spec block_caller(boolean()) -&gt; ok.
         |  block_caller(BlockCaller) -&gt;
-    60..|    if
+<font color=red>     0..|    if</font>
         |      BlockCaller -&gt;
-    23..|        receive
-    23..|          ok -&gt; ok
+<font color=red>     0..|        receive</font>
+<font color=red>     0..|          ok -&gt; ok</font>
         |        end;
         |      true -&gt;
-    37..|        ok
+<font color=red>     0..|        ok</font>
         |    end.
         |  
         |  -spec notify_caller(boolean(), pid()) -&gt; ok.
         |  notify_caller(NotifyCaller, Caller) -&gt;
-    28..|    if
+<font color=red>     0..|    if</font>
         |      NotifyCaller -&gt;
-    23..|        Caller ! ok;
+<font color=red>     0..|        Caller ! ok;</font>
         |      true -&gt;
-     5..|        ok
+<font color=red>     0..|        ok</font>
         |    end.
         |  
         |  -spec extract_module(gen_address()) -&gt; atom().
 <font color=red>     0..|  extract_module({{Module, _Id}, _Pid}) -&gt; Module.</font>
         |  
         |  -spec extract_pid(gen_address()) -&gt; pid().
-    32..|  extract_pid({{_Module, _Id}, Pid}) -&gt; Pid.
+<font color=red>     0..|  extract_pid({{_Module, _Id}, Pid}) -&gt; Pid.</font>
 </pre>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-16 at 19:41:38
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.erl by COVER 2016-07-18 at 11:28:24
 
 ****************************************************************************
 
@@ -20,29 +20,29 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-     8..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+<font color=red>     0..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).</font>
         |  
         |  start_vehicle(Capacity, Line, Target, Type) -&gt;
-     8..|    LineNumber = line:?GET_NUMBER(Line),
-     8..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),
-     8..|    Result = supervisor:start_child({global, ?MODULE}, [Capacity, Id, Line, LineNumber, Target, Type]),
-     8..|    case Result of
+<font color=red>     0..|    LineNumber = line:?GET_NUMBER(Line),</font>
+<font color=red>     0..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),</font>
+<font color=red>     0..|    Result = supervisor:start_child({global, ?MODULE}, [Capacity, Id, Line, LineNumber, Target, Type]),</font>
+<font color=red>     0..|    case Result of</font>
         |      {ok, Pid} -&gt;
-     8..|        ?ADDRESS(vehicle);
+<font color=red>     0..|        ?ADDRESS(vehicle);</font>
         |      Result -&gt;
 <font color=red>     0..|        Result</font>
         |    end.
         |  
         |  stop_vehicle(?ADDRESS(vehicle)) -&gt;
-     8..|    supervisor:terminate_child({global, ?MODULE}, Pid).
+<font color=red>     0..|    supervisor:terminate_child({global, ?MODULE}, Pid).</font>
         |    
         |  
         |  init(_Args) -&gt;
-     1..|    SupFlags = { simple_one_for_one
+<font color=red>     0..|    SupFlags = { simple_one_for_one</font>
         |               , 0
         |               , 1
         |               },
-     1..|    ChildSpecs = [ { vehicle
+<font color=red>     0..|    ChildSpecs = [ { vehicle</font>
         |                   , {vehicle, start_link, []}
         |                   , transient
         |                   , 1000
@@ -50,7 +50,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle_supervisor.
         |                   , [vehicle]
         |                   }
         |                 ],
-     1..|    {ok, {SupFlags, ChildSpecs}}.
+<font color=red>     0..|    {ok, {SupFlags, ChildSpecs}}.</font>
 </pre>
 </body>
 </html>

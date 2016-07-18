@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-16 at 19:41:38
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-18 at 11:28:24
 
 ****************************************************************************
 
@@ -57,7 +57,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |                                                     is_integer(Element) -&gt;
 <font color=red>     0..|                                                       Element;</font>
         |                                                     true -&gt;
-<font color=red>     0..|                                                       dict:fetch(Element, StopDict)</font>
+<font color=red>     0..|                                                       dict:fetch({stop, Element}, StopDict)</font>
         |                                                   end
         |                                                 end, Stops),
 <font color=red>     0..|                        Line = line_supervisor:start_line(Number, UpdatedStops, Type),</font>
@@ -99,8 +99,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  -spec get_route_helper(atom(), atom(), public_transport_state()) -&gt; route() | none.
         |  get_route_helper(FromId, ToId, State) -&gt;
 <font color=red>     0..|    AllLines = State#public_transport_state.lines,</font>
-<font color=red>     0..|    From = {FromId, dict:fetch(FromId, State#public_transport_state.stops)},</font>
-<font color=red>     0..|    To = {ToId, dict:fetch(ToId, State#public_transport_state.stops)},</font>
+<font color=red>     0..|    From = {FromId, dict:fetch({stop, FromId}, State#public_transport_state.stops)},</font>
+<font color=red>     0..|    To = {ToId, dict:fetch({stop, ToId}, State#public_transport_state.stops)},</font>
         |  
 <font color=red>     0..|    ToLines = lists:filter(fun(Line) -&gt; line:?CONTAINS_STOP(Line, To) end, AllLines),</font>
 <font color=red>     0..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),</font>

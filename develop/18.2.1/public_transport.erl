@@ -46,7 +46,7 @@ init([]) ->
                                                    is_integer(Element) ->
                                                      Element;
                                                    true ->
-                                                     dict:fetch(Element, StopDict)
+                                                     dict:fetch({stop, Element}, StopDict)
                                                  end
                                                end, Stops),
                       Line = line_supervisor:start_line(Number, UpdatedStops, Type),
@@ -88,8 +88,8 @@ code_change(_OldVsn, State, _Extra) ->
 -spec get_route_helper(atom(), atom(), public_transport_state()) -> route() | none.
 get_route_helper(FromId, ToId, State) ->
   AllLines = State#public_transport_state.lines,
-  From = {FromId, dict:fetch(FromId, State#public_transport_state.stops)},
-  To = {ToId, dict:fetch(ToId, State#public_transport_state.stops)},
+  From = {FromId, dict:fetch({stop, FromId}, State#public_transport_state.stops)},
+  To = {ToId, dict:fetch({stop, ToId}, State#public_transport_state.stops)},
 
   ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
   spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),

@@ -3,6 +3,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 get_next_stop_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
@@ -28,6 +29,7 @@ get_next_stop_test() ->
   line_supervisor:stop_line(Line).
 
 get_neighbors_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
@@ -59,6 +61,7 @@ get_neighbors_test() ->
   line_supervisor:stop_line(Line).
 
 get_other_end_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
@@ -79,6 +82,7 @@ get_other_end_test() ->
   line_supervisor:stop_line(Line).
 
 contains_stop_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
@@ -104,6 +108,7 @@ contains_stop_test() ->
   line_supervisor:stop_line(Line).
 
 get_duration_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
@@ -151,6 +156,7 @@ get_duration_test() ->
   line_supervisor:stop_line(Line).
 
 is_end_stop_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
@@ -172,6 +178,7 @@ is_end_stop_test() ->
   line_supervisor:stop_line(Line).
 
 get_intersection_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
@@ -225,6 +232,7 @@ get_intersection_test() ->
   line_supervisor:stop_line(Line4).
 
 get_number_test() ->
+  put(module, "test"),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),
   Stop3 = gen_server_mock:start_link(stop, stop3, strict),
@@ -241,6 +249,7 @@ get_number_test() ->
   line_supervisor:stop_line(Line).
 
 get_target_test() ->
+  put(module, "test"),
   line_supervisor:start_link(),
   Stop1 = gen_server_mock:start_link(stop, stop1, strict),
   Stop2 = gen_server_mock:start_link(stop, stop2, strict),

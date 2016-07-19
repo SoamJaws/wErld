@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/logger.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-18 at 11:28:24
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-19 at 06:35:49
 
 ****************************************************************************
 
@@ -15,11 +15,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  
         |  -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
         |  
-        |  -export([ log_info/4
-        |          , log_warning/4
-        |          , log_error/4
-        |          , log_send/4
-        |          , log_receive/4]).
+        |  -export([ log_info/3
+        |          , log_warning/3
+        |          , log_error/3
+        |          , log_send/3
+        |          , log_receive/3]).
         |  
         |  -export([ start_link/1
         |          , init/1
@@ -32,25 +32,25 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  
         |  %% Public API
         |  
-        |  -spec log_info(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_info(Content, Module, Line, Id) -&gt;
-   102..|    log(Content, Module, Line, Id, "INFO").
+        |  -spec log_info(string(), string(), atom()) -&gt; ok.
+        |  log_info(Content, Module, Id) -&gt;
+   108..|    log(Content, Module, Id, "INFO").
         |  
-        |  -spec log_warning(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_warning(Content, Module, Line, Id) -&gt;
-<font color=red>     0..|    log(Content, Module, Line, Id, "WARNING").</font>
+        |  -spec log_warning(string(), string(), atom()) -&gt; ok.
+        |  log_warning(Content, Module, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Id, "WARNING").</font>
         |  
-        |  -spec log_error(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_error(Content, Module, Line, Id) -&gt;
-<font color=red>     0..|    log(Content, Module, Line, Id, "ERROR").</font>
+        |  -spec log_error(string(), string(), atom()) -&gt; ok.
+        |  log_error(Content, Module, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Id, "ERROR").</font>
         |  
-        |  -spec log_send(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_send(Content, Module, Line, Id) -&gt;
-    30..|    log(Content, Module, Line, Id, "SEND").
+        |  -spec log_send(string(), string(), atom()) -&gt; ok.
+        |  log_send(Content, Module, Id) -&gt;
+    85..|    log(Content, Module, Id, "SEND").
         |  
-        |  -spec log_receive(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_receive(Content, Module, Line, Id) -&gt;
-   115..|    log(Content, Module, Line, Id, "RECEIVE").
+        |  -spec log_receive(string(), string(), atom()) -&gt; ok.
+        |  log_receive(Content, Module, Id) -&gt;
+   169..|    log(Content, Module, Id, "RECEIVE").
         |  
         |  
         |  %% Gen server
@@ -90,11 +90,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  
         |  %% Helpers
         |  
-        |  -spec log(string(), string(), pos_integer(), atom(), string()) -&gt; ok.
-        |  log(Content, Module, Line, Id, Mode) -&gt;
-   247..|    {_Date, {H, M, S}} = calendar:local_time(),
-   247..|    Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
-   247..|    gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
+        |  -spec log(string(), string(), atom(), string()) -&gt; ok.
+        |  log(Content, Module, Id, Mode) -&gt;
+   362..|    {_Date, {H, M, S}} = calendar:local_time(),
+   362..|    Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s - ~w", [Mode, H, M, S, Module, self()]),
+   362..|    gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
         |  
 </pre>
 </body>

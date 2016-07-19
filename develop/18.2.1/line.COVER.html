@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/line.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-18 at 11:28:24
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2016-07-19 at 06:35:49
 
 ****************************************************************************
 
@@ -39,39 +39,66 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  
         |  -spec ?GET_NEXT_STOP(line(), stop(), stop()) -&gt; {stop(), pos_integer()} | none.
         |  ?GET_NEXT_STOP(?RECIPENT, Target, Stop) -&gt;
-     6..|    gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
+     6..|    ?LOG_SEND(io_lib:format("GET_NEXT_STOP Line=~p TargetStop=~p CurrentStop=~p", [?RECIPENT, Target, Stop])),
+     6..|    Reply = gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}),
+     6..|    ?LOG_RECEIVE(io_lib:format("REPLY GET_NEXT_STOP ~p", [Reply])),
+     6..|    Reply.
         |  
         |  -spec ?GET_NEIGHBORS(line(), stop()) -&gt; [{stop(), pos_integer(), stop(), line()}].
         |  ?GET_NEIGHBORS(?RECIPENT, Stop) -&gt;
-     5..|    gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
+     5..|    ?LOG_SEND(io_lib:format("GET_NEIGHBORS Line=~p Stop=~p", [?RECIPENT, Stop])),
+     5..|    Reply = gen_server:call(Pid, {?GET_NEIGHBORS, Stop}),
+     5..|    ?LOG_RECEIVE(io_lib:format("REPLY GET_NEIGHBORS ~p", [Reply])),
+     5..|    Reply.
         |  
         |  -spec ?GET_OTHER_END(line(), stop()) -&gt; stop().
         |  ?GET_OTHER_END(?RECIPENT, Stop) -&gt;
-     2..|    gen_server:call(Pid, {?GET_OTHER_END, Stop}).
+     2..|    ?LOG_SEND(io_lib:format("GET_OTHER_END Line=~p Stop=~p", [?RECIPENT, Stop])),
+     2..|    Reply = gen_server:call(Pid, {?GET_OTHER_END, Stop}),
+     2..|    ?LOG_RECEIVE(io_lib:format("REPLY GET_OTHER_END ~p", [Reply])),
+     2..|    Reply.
         |  
         |  -spec ?CONTAINS_STOP(line(), stop()) -&gt; boolean().
         |  ?CONTAINS_STOP(?RECIPENT, Stop) -&gt;
-    34..|    gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
+    34..|    ?LOG_SEND(io_lib:format("CONTAINS_STOP Line=~p Stop=~p", [?RECIPENT, Stop])),
+    34..|    Reply = gen_server:call(Pid, {?CONTAINS_STOP, Stop}),
+    34..|    ?LOG_RECEIVE(io_lib:format("REPLY CONTAINS_STOP ~p", [Reply])),
+    34..|    Reply.
         |  
         |  -spec ?GET_DURATION(line(), stop(), stop()) -&gt; pos_integer().
         |  ?GET_DURATION(?RECIPENT, FromStop, ToStop) -&gt;
-    20..|    gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
+    20..|    ?LOG_SEND(io_lib:format("GET_DURATION Line=~p FromStop=~p ToStop=~p", [?RECIPENT, FromStop, ToStop])),
+    20..|    Reply = gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}),
+    20..|    ?LOG_RECEIVE(io_lib:format("REPLY GET_DURATION ~p", [Reply])),
+    20..|    Reply.
         |  
         |  -spec ?IS_END_STOP(line(), stop()) -&gt; boolean().
         |  ?IS_END_STOP(?RECIPENT, Stop) -&gt;
-     3..|    gen_server:call(Pid, {?IS_END_STOP, Stop}).
+     3..|    ?LOG_SEND(io_lib:format("IS_END_STOP Line=~p Stop=~p", [?RECIPENT, Stop])),
+     3..|    Reply = gen_server:call(Pid, {?IS_END_STOP, Stop}),
+     3..|    ?LOG_RECEIVE(io_lib:format("REPLY IS_END_STOP ~p", [Reply])),
+     3..|    Reply.
         |  
         |  -spec ?GET_INTERSECTION(line(), line()) -&gt; stop() | none.
         |  ?GET_INTERSECTION(?RECIPENT, OtherLine) -&gt;
-    12..|    gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
+    12..|    ?LOG_SEND(io_lib:format("GET_INTERSECTION Line=~p OtherLine=~p", [?RECIPENT, OtherLine])),
+    12..|    Reply = gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}),
+    12..|    ?LOG_RECEIVE(io_lib:format("REPLY GET_INTERSECTION ~p", [Reply])),
+    12..|    Reply.
         |  
         |  -spec ?GET_NUMBER(line()) -&gt; pos_integer().
         |  ?GET_NUMBER(?RECIPENT) -&gt;
-     1..|    gen_server:call(Pid, ?GET_NUMBER).
+     1..|    ?LOG_SEND(io_lib:format("GET_NUMBER Line=~p", [?RECIPENT])),
+     1..|    Reply = gen_server:call(Pid, ?GET_NUMBER),
+     1..|    ?LOG_RECEIVE(io_lib:format("REPLY GET_NUMBER ~p", [Reply])),
+     1..|    Reply.
         |  
         |  -spec ?GET_TARGET(line(), stop(), stop()) -&gt; stop().
         |  ?GET_TARGET(?RECIPENT, FromStop, ToStop) -&gt;
-     2..|    gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
+     2..|    ?LOG_SEND(io_lib:format("GET_TARGET Line=~p FromStop=~p ToStop=~p", [?RECIPENT, FromStop, ToStop])),
+     2..|    Reply = gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}),
+     1..|    ?LOG_RECEIVE(io_lib:format("REPLY GET_TARGET ~p", [Reply])),
+     1..|    Reply.
         |  
         |  %% gen_server
         |  
@@ -84,6 +111,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  init({Number, Stops, Type}) -&gt;
     12..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
     12..|    put(id, Id),
+    12..|    put(module, ?MODULE_STRING),
     12..|    ?LOG_INFO("Line started"),
     12..|    {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
         |  
@@ -203,6 +231,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
         |  get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) -&gt;
      2..|    {NextStop, Dur};
         |  get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) -&gt;
+     6..|    ?LOG_INFO(io_lib:format("get_next_stop_helper Stop=~p Alignment=~p Stops=~p", [Stop, Alignment, Stops])),
      6..|    get_next_stop_helper(Stop, Alignment, Stops).
         |  
         |  -spec get_duration_helper(stop(), stop(), [stop() | pos_integer()]) -&gt; pos_integer().
@@ -231,9 +260,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/line.erl by COVER 2
      6..|  get_intersection_helper(OtherLine, []) -&gt; none;
         |  get_intersection_helper(OtherLine, [Stop|Rest]) -&gt;
     30..|    ?LOG_INFO(io_lib:format("get_intersection_helper OtherLine=~p Stop=~p Rest=~p", [OtherLine, Stop, Rest])),
-    30..|    ?LOG_SEND(io_lib:format("CONTAINS_STOP OtherLine=~p Stop=~p", [OtherLine, Stop])),
     30..|    ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
-    30..|    ?LOG_RECEIVE(io_lib:format("REPLY CONTAINS_STOP ~p", [ContainsStop])),
     30..|    case ContainsStop of
         |      true -&gt;
      6..|        Stop;

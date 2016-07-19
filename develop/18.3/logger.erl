@@ -1,5 +1,4 @@
 -module(logger).
--include_lib("eunit/include/eunit.hrl").
 -behaviour(gen_server).
 
 -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).

@@ -1,6 +1,7 @@
 -module(vehicle).
 -include("public_transport.hrl").
 -include("time.hrl").
+-include("logger.hrl").
 -behaviour(gen_server).
 -behaviour(time_subscriber).
 
@@ -29,7 +30,10 @@
 
 -spec ?PASSENGER_BOARD(vehicle(), citizen()) -> ok | nok.
 ?PASSENGER_BOARD(?RECIPENT, Passenger) ->
-  gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
+  ?LOG_SEND(io_lib:format("PASSENGER_BOARD Vehicle=~p Passenger=~p", [?RECIPENT, Passenger])),
+  Reply = gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}),
+  ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_BOARD ~p", [Reply])),
+  Reply.
 
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle()) -> ok.
 ?INCREMENT_BOARDING_PASSENGER(?RECIPENT) ->
@@ -37,6 +41,7 @@
 
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -> ok.
 ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("INCREMENT_BOARDING_PASSENGER Vehicle=~p", [?RECIPENT])),
   gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer()) -> ok.
@@ -45,6 +50,7 @@
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -> ok.
 ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers~p", [?RECIPENT, Stop, BoardingPassengers])),
   gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
 
 
@@ -56,6 +62,7 @@
 
 -spec ?NEW_TIME(vehicle(), time(), boolean()) -> ok.
 ?NEW_TIME(?RECIPENT, Time, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("NEW_TIME Vehicle=~p Time=~p", [?RECIPENT, Time])),
   gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
 
@@ -68,16 +75,19 @@ start_link(Capacity, Id, Line, LineNumber, Target, Type) ->
 
 -spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
 init({Capacity, Id, Line, LineNumber, Target, Type}) ->
+  put(id, Id),
+  put(module, ?MODULE_STRING),
   Pid = self(),
   time:?SUBSCRIBE(?RECIPENT),
   Stop = line:?GET_OTHER_END(Line, Target),
-  Pid = self(),
   stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
+  ?LOG_INFO("Vehicle started"),
   {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.
 
 
 -spec handle_call({?PASSENGER_BOARD, citizen()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}.
 handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("PASSENGER_BOARD Passenger=~p", [Passenger])),
   Passengers = State#vehicle_state.passengers,
   Capacity = State#vehicle_state.capacity,
   NoPassengers = length(Passengers),
@@ -100,6 +110,7 @@ handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
       ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}
       ;          ({?CHECKIN_OK, stop(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -> {noreply, vehicle_state()}.
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
+  ?LOG_RECEIVE(io_lib:format("NEW_TIME Time=~p", [Time])),
   NewState = case State#vehicle_state.action of
                {driving, Stop, Duration} ->
                  if
@@ -107,8 +118,9 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                      UpdatedState = if
                                       Stop == State#vehicle_state.target ->
                                         {_, Line} = State#vehicle_state.line,
-                                        Target = line:?GET_OTHER_END(Line, State#vehicle_state.target),
-                                        State#vehicle_state{target=Target};
+                                        CurrentTarget = State#vehicle_state.target,
+                                        NewTarget = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+                                        State#vehicle_state{target=NewTarget};
                                     true ->
                                       State
                                     end,
@@ -127,11 +139,13 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
   {noreply, NewState};
 
 handle_cast({?INCREMENT_BOARDING_PASSENGER, NotifyCaller, Caller}, State) ->
+  ?LOG_RECEIVE(io_lib:format("INCREMENT_BOARDING_PASSENGER", [])),
   BoardingPassengers = State#vehicle_state.boardingPassengers,
   gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#vehicle_state{boardingPassengers=BoardingPassengers+1}};
 
 handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State) ->
+  ?LOG_RECEIVE(io_lib:format("CHECKIN_OK Stop=~p BoardingPassengers=~p", [Stop, BoardingPassengers])),
   NewState = if
                BoardingPassengers == 0 ->
                  boarding_complete(State#vehicle_state{action={boarding, Stop}});
@@ -161,18 +175,21 @@ code_change(_OldVsn, State, _Extra) ->
 
 -spec boarding_complete(vehicle_state()) -> vehicle_state().
 boarding_complete(State) ->
+  ?LOG_INFO(io_lib:format("boarding_complete", [])),
   {_, Line} = State#vehicle_state.line,
-  {boarding, Stop} = State#vehicle_state.action,
-  {NextStop, Dur} = line:?GET_NEXT_STOP(Line, State#vehicle_state.target, Stop),
+  {boarding, CurrentStop} = State#vehicle_state.action,
+  TargetStop = State#vehicle_state.target,
+  {NextStop, Dur} = line:?GET_NEXT_STOP(Line, TargetStop, CurrentStop),
   Id = State#vehicle_state.id,
   Pid = self(),
-  stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT),
+  stop:?VEHICLE_CHECK_OUT(CurrentStop, ?RECIPENT),
   Time = time:?GET_CURRENT_TIME(),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
 -spec notify_passengers_checkin([citizen()], atom()) -> [citizen()].
 notify_passengers_checkin([], Id) -> [];
 notify_passengers_checkin([Passenger|Passengers], Id) ->
+  ?LOG_INFO(io_lib:format("notify_passengers_checkin Passenger=~p Passengers=~p Id=~P", [Passenger, Passengers, Id])),
   Pid = self(),
   Reply = citizen:vehicle_checked_in(Passenger, ?RECIPENT),
   case Reply of

@@ -1,5 +1,6 @@
 -module(public_transport).
 -include("public_transport.hrl").
+-include("logger.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -20,7 +21,10 @@
 
 -spec ?GET_ROUTE(atom(), atom()) -> route() | none.
 ?GET_ROUTE(FromId, ToId) ->
-  gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}).
+  ?LOG_SEND(io_lib:format("GET_ROUTE ~p FromId=~p ToId=~p", [?MODULE, FromId, ToId])),
+  Reply = gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_ROUTE ~p", [Reply])),
+  Reply.
 
 
 %% gen_server

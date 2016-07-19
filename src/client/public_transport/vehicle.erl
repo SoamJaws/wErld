@@ -1,6 +1,7 @@
 -module(vehicle).
 -include("public_transport.hrl").
 -include("time.hrl").
+-include("logger.hrl").
 -behaviour(gen_server).
 -behaviour(time_subscriber).
 
@@ -181,7 +182,7 @@ boarding_complete(State) ->
   {NextStop, Dur} = line:?GET_NEXT_STOP(Line, TargetStop, CurrentStop),
   Id = State#vehicle_state.id,
   Pid = self(),
-  stop:?VEHICLE_CHECK_OUT(Stop, ?RECIPENT),
+  stop:?VEHICLE_CHECK_OUT(CurrentStop, ?RECIPENT),
   Time = time:?GET_CURRENT_TIME(),
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 

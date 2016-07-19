@@ -26,7 +26,10 @@
 
 -spec ?PASSENGER_CHECK_IN(stop(), citizen()) -> ok | {nok, nonempty_string()}.
 ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) ->
-  gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
+  ?LOG_SEND(io_lib:format("PASSENGER_CHECK_IN Stop=~p Passenger=~p", [?RECIPENT, Passenger])),
+  Reply = gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}),
+  ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_CHECK_IN ~p", [Reply])),
+  Reply.
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger) ->
@@ -34,6 +37,7 @@
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("PASSENGER_CHECK_OUT Stop=~p Passenger=~p", [?RECIPENT, Passenger])),
   gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle()) -> ok.
@@ -42,6 +46,7 @@
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("VEHICLE_CHECK_IN Stop=~p Vehicle=~p", [?RECIPENT, Vehicle])),
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle()) -> ok.
@@ -50,6 +55,7 @@
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("VEHICLE_CHECK_OUT Stop=~p Vehicle=~p", [?RECIPENT, Vehicle])),
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
 

@@ -4,11 +4,11 @@
 
 -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
 
--export([ log_info/4
-        , log_warning/4
-        , log_error/4
-        , log_send/4
-        , log_receive/4]).
+-export([ log_info/3
+        , log_warning/3
+        , log_error/3
+        , log_send/3
+        , log_receive/3]).
 
 -export([ start_link/1
         , init/1
@@ -82,6 +82,6 @@ code_change(_OldVsn, State, _Extra) ->
 -spec log(string(), string(), atom(), string()) -> ok.
 log(Content, Module, Id, Mode) ->
   {_Date, {H, M, S}} = calendar:local_time(),
-  Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, self()]),
+  Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s - ~w", [Mode, H, M, S, Module, self()]),
   gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
 

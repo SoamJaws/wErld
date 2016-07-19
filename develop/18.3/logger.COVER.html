@@ -5,60 +5,68 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/logger.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-16 at 19:41:37
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER 2016-07-19 at 06:35:30
 
 ****************************************************************************
 
         |  -module(logger).
         |  -include_lib("eunit/include/eunit.hrl").
-        |  -compile(export_all).
+        |  -behaviour(gen_server).
         |  
         |  -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
         |  
-        |  -behaviour(gen_server).
-        |  -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+        |  -export([ log_info/3
+        |          , log_warning/3
+        |          , log_error/3
+        |          , log_send/3
+        |          , log_receive/3]).
+        |  
+        |  -export([ start_link/1
+        |          , init/1
+        |          , handle_call/3
+        |          , handle_cast/2
+        |          , handle_info/2
+        |          , terminate/2
+        |          , code_change/3]).
+        |  
         |  
         |  %% Public API
+        |  
+        |  -spec log_info(string(), string(), atom()) -&gt; ok.
+        |  log_info(Content, Module, Id) -&gt;
+   108..|    log(Content, Module, Id, "INFO").
+        |  
+        |  -spec log_warning(string(), string(), atom()) -&gt; ok.
+        |  log_warning(Content, Module, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Id, "WARNING").</font>
+        |  
+        |  -spec log_error(string(), string(), atom()) -&gt; ok.
+        |  log_error(Content, Module, Id) -&gt;
+<font color=red>     0..|    log(Content, Module, Id, "ERROR").</font>
+        |  
+        |  -spec log_send(string(), string(), atom()) -&gt; ok.
+        |  log_send(Content, Module, Id) -&gt;
+    85..|    log(Content, Module, Id, "SEND").
+        |  
+        |  -spec log_receive(string(), string(), atom()) -&gt; ok.
+        |  log_receive(Content, Module, Id) -&gt;
+   169..|    log(Content, Module, Id, "RECEIVE").
+        |  
+        |  
+        |  %% Gen server
         |  
         |  start_link(LogDir) -&gt;
 <font color=red>     0..|    gen_server:start_link({global, ?MODULE}, ?MODULE, [LogDir], []).</font>
         |  
-        |  stop(Module) -&gt;
-<font color=red>     0..|    gen_server:call(Module, stop).</font>
-        |  
-        |  stop() -&gt;
-<font color=red>     0..|    stop(?MODULE).</font>
-        |  
-        |  state(Module) -&gt;
-<font color=red>     0..|    gen_server:call(Module, state).</font>
-        |  
-        |  state() -&gt;
-<font color=red>     0..|    state(?MODULE).</font>
         |  
         |  init([LogDir]) -&gt;
 <font color=red>     0..|    filelib:ensure_dir(?COMPOSITE_LOG(LogDir)),</font>
 <font color=red>     0..|    {ok, LogDir}.</font>
         |  
-        |  -spec log_info(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_info(Content, Module, Line, Id) -&gt;
-     5..|    log(Content, Module, Line, Id, "INFO").
         |  
-        |  -spec log_warning(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_warning(Content, Module, Line, Id) -&gt;
-<font color=red>     0..|    log(Content, Module, Line, Id, "WARNING").</font>
+        |  handle_call(_Call, _From, State) -&gt;
+<font color=red>     0..|    {reply, undefined, State}.</font>
         |  
-        |  -spec log_error(string(), string(), pos_integer(), atom()) -&gt; ok.
-        |  log_error(Content, Module, Line, Id) -&gt;
-<font color=red>     0..|    log(Content, Module, Line, Id, "ERROR").</font>
-        |  
-        |  -spec log(string(), string(), pos_integer(), atom(), string()) -&gt; ok.
-        |  log(Content, Module, Line, Id, Mode) -&gt;
-     5..|    {_Date, {H, M, S}} = calendar:local_time(),
-     5..|    Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
-     5..|    gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
-        |  
-        |  handle_call(stop, _From, State) -&gt;
-<font color=red>     0..|    {stop, normal, stopped, State}.</font>
         |  
         |  -spec handle_cast({log, string(), atom(), string()}, string()) -&gt; {noreply, string()}.
         |  handle_cast({log, Module, Id, Content}, LogDir) -&gt;
@@ -78,6 +86,16 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/logger.erl by COVER
         |  
         |  code_change(_OldVsn, State, _Extra) -&gt;
 <font color=red>     0..|    {ok, State}.</font>
+        |  
+        |  
+        |  %% Helpers
+        |  
+        |  -spec log(string(), string(), atom(), string()) -&gt; ok.
+        |  log(Content, Module, Id, Mode) -&gt;
+   362..|    {_Date, {H, M, S}} = calendar:local_time(),
+   362..|    Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s - ~w", [Mode, H, M, S, Module, self()]),
+   362..|    gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
+        |  
 </pre>
 </body>
 </html>

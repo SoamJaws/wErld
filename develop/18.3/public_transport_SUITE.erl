@@ -7,5 +7,6 @@
 all() -> [test1].
 
 test1(_Config) ->
+  put(module, "test"),
   {ok, _PublicTransportSupervisor} = public_transport_supervisor:start_link(),
-  {Route, Dur} = public_transport:?GET_ROUTE(a, o).
+  public_transport:?GET_ROUTE(a, o).

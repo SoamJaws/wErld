@@ -4,6 +4,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 checkin_ok_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
@@ -37,6 +38,7 @@ checkin_ok_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 boarding_passenger_capacity_reached_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
@@ -87,6 +89,7 @@ boarding_passenger_capacity_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 boarding_passenger_below_capacity_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
@@ -133,6 +136,7 @@ boarding_passenger_below_capacity_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 next_stop_reached_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
@@ -185,6 +189,7 @@ next_stop_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 next_stop_not_reached_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
@@ -233,6 +238,7 @@ next_stop_not_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 target_stop_reached_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
@@ -284,6 +290,7 @@ target_stop_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 increment_boarding_passenger_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),
@@ -332,6 +339,7 @@ increment_boarding_passenger_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 new_time_not_driving_test() ->
+  put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
   TargetStop = gen_server_mock:start_link(stop, targetstop, strict),

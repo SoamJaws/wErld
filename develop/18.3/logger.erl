@@ -1,53 +1,61 @@
 -module(logger).
 -include_lib("eunit/include/eunit.hrl").
--compile(export_all).
+-behaviour(gen_server).
 
 -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
 
--behaviour(gen_server).
--export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+-export([ log_info/3
+        , log_warning/3
+        , log_error/3
+        , log_send/3
+        , log_receive/3]).
+
+-export([ start_link/1
+        , init/1
+        , handle_call/3
+        , handle_cast/2
+        , handle_info/2
+        , terminate/2
+        , code_change/3]).
+
 
 %% Public API
+
+-spec log_info(string(), string(), atom()) -> ok.
+log_info(Content, Module, Id) ->
+  log(Content, Module, Id, "INFO").
+
+-spec log_warning(string(), string(), atom()) -> ok.
+log_warning(Content, Module, Id) ->
+  log(Content, Module, Id, "WARNING").
+
+-spec log_error(string(), string(), atom()) -> ok.
+log_error(Content, Module, Id) ->
+  log(Content, Module, Id, "ERROR").
+
+-spec log_send(string(), string(), atom()) -> ok.
+log_send(Content, Module, Id) ->
+  log(Content, Module, Id, "SEND").
+
+-spec log_receive(string(), string(), atom()) -> ok.
+log_receive(Content, Module, Id) ->
+  log(Content, Module, Id, "RECEIVE").
+
+
+%% Gen server
 
 start_link(LogDir) ->
   gen_server:start_link({global, ?MODULE}, ?MODULE, [LogDir], []).
 
-stop(Module) ->
-  gen_server:call(Module, stop).
-
-stop() ->
-  stop(?MODULE).
-
-state(Module) ->
-  gen_server:call(Module, state).
-
-state() ->
-  state(?MODULE).
 
 init([LogDir]) ->
   filelib:ensure_dir(?COMPOSITE_LOG(LogDir)),
   {ok, LogDir}.
 
--spec log_info(string(), string(), pos_integer(), atom()) -> ok.
-log_info(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "INFO").
 
--spec log_warning(string(), string(), pos_integer(), atom()) -> ok.
-log_warning(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "WARNING").
+handle_call(_Call, _From, State) ->
+  {reply, undefined, State}.
 
--spec log_error(string(), string(), pos_integer(), atom()) -> ok.
-log_error(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "ERROR").
-
--spec log(string(), string(), pos_integer(), atom(), string()) -> ok.
-log(Content, Module, Line, Id, Mode) ->
-  {_Date, {H, M, S}} = calendar:local_time(),
-  Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
-  gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
-
-handle_call(stop, _From, State) ->
-  {stop, normal, stopped, State}.
 
 -spec handle_cast({log, string(), atom(), string()}, string()) -> {noreply, string()}.
 handle_cast({log, Module, Id, Content}, LogDir) ->
@@ -67,3 +75,13 @@ terminate(_Reason, _State) ->
 
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
+
+
+%% Helpers
+
+-spec log(string(), string(), atom(), string()) -> ok.
+log(Content, Module, Id, Mode) ->
+  {_Date, {H, M, S}} = calendar:local_time(),
+  Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s - ~w", [Mode, H, M, S, Module, self()]),
+  gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
+

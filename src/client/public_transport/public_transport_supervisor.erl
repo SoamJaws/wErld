@@ -8,7 +8,7 @@ start_link() ->
     supervisor:start_link(public_transport_supervisor, []).
 
 init(_Args) ->
-    SupFlags = {one_for_one, 1, 5},
+    SupFlags = {one_for_one, 5, 1},
     ChildSpecs = [ { line_supervisor
                    , {line_supervisor, start_link, []}
                    , permanent

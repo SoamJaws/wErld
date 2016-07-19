@@ -41,7 +41,10 @@ init([]) ->
   %% StopIds = [atom()]
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
   {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
+  ?LOG_INFO(io_lib:format("Read stops ~p", [StopIds])),
+  ?LOG_INFO(io_lib:format("Read lines ~p", [LineSpecs])),
   StopDict = lists:foldl(fun(StopId, Dict) ->
+                           ?LOG_INFO(io_lib:format("Starting stop ~p", [StopId])),
                            {{stop, StopId}, Pid} = stop_supervisor:start_stop(StopId),
                            dict:store({stop, StopId}, Pid, Dict)
                          end , dict:new() , StopIds),
@@ -54,6 +57,7 @@ init([]) ->
                                                      dict:fetch({stop, Element}, StopDict)
                                                  end
                                                end, Stops),
+                      ?LOG_INFO(io_lib:format("Starting line ~w ~p", [Number, Type])),
                       Line = line_supervisor:start_line(Number, UpdatedStops, Type),
                       Line
                     end, LineSpecs),

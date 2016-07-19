@@ -7,6 +7,8 @@
 all() -> [test1].
 
 test1(_Config) ->
+  put(id, test),
   put(module, "test"),
-  {ok, _PublicTransportSupervisor} = public_transport_supervisor:start_link(),
+  logger:start_link("log"),
+  {ok, PublicTransportSupervisor} = public_transport_supervisor:start_link(),
   public_transport:?GET_ROUTE(a, o).

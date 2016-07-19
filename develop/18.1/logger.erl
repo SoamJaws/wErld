@@ -4,11 +4,11 @@
 
 -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
 
--export([ log_info/4
-        , log_warning/4
-        , log_error/4
-        , log_send/4
-        , log_receive/4]).
+-export([ log_info/3
+        , log_warning/3
+        , log_error/3
+        , log_send/3
+        , log_receive/3]).
 
 -export([ start_link/1
         , init/1
@@ -21,25 +21,25 @@
 
 %% Public API
 
--spec log_info(string(), string(), pos_integer(), atom()) -> ok.
-log_info(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "INFO").
+-spec log_info(string(), string(), atom()) -> ok.
+log_info(Content, Module, Id) ->
+  log(Content, Module, Id, "INFO").
 
--spec log_warning(string(), string(), pos_integer(), atom()) -> ok.
-log_warning(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "WARNING").
+-spec log_warning(string(), string(), atom()) -> ok.
+log_warning(Content, Module, Id) ->
+  log(Content, Module, Id, "WARNING").
 
--spec log_error(string(), string(), pos_integer(), atom()) -> ok.
-log_error(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "ERROR").
+-spec log_error(string(), string(), atom()) -> ok.
+log_error(Content, Module, Id) ->
+  log(Content, Module, Id, "ERROR").
 
--spec log_send(string(), string(), pos_integer(), atom()) -> ok.
-log_send(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "SEND").
+-spec log_send(string(), string(), atom()) -> ok.
+log_send(Content, Module, Id) ->
+  log(Content, Module, Id, "SEND").
 
--spec log_receive(string(), string(), pos_integer(), atom()) -> ok.
-log_receive(Content, Module, Line, Id) ->
-  log(Content, Module, Line, Id, "RECEIVE").
+-spec log_receive(string(), string(), atom()) -> ok.
+log_receive(Content, Module, Id) ->
+  log(Content, Module, Id, "RECEIVE").
 
 
 %% Gen server
@@ -79,9 +79,9 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Helpers
 
--spec log(string(), string(), pos_integer(), atom(), string()) -> ok.
-log(Content, Module, Line, Id, Mode) ->
+-spec log(string(), string(), atom(), string()) -> ok.
+log(Content, Module, Id, Mode) ->
   {_Date, {H, M, S}} = calendar:local_time(),
-  Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s:~w - ~w", [Mode, H, M, S, Module, Line, self()]),
+  Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s - ~w", [Mode, H, M, S, Module, self()]),
   gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
 

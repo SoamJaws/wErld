@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-18 at 11:30:17
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2016-07-19 at 06:37:16
 
 ****************************************************************************
 
@@ -37,7 +37,10 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec ?PASSENGER_CHECK_IN(stop(), citizen()) -&gt; ok | {nok, nonempty_string()}.
         |  ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) -&gt;
-<font color=red>     0..|    gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).</font>
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("PASSENGER_CHECK_IN Stop=~p Passenger=~p", [?RECIPENT, Passenger])),</font>
+<font color=red>     0..|    Reply = gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}),</font>
+<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_CHECK_IN ~p", [Reply])),</font>
+<font color=red>     0..|    Reply.</font>
         |  
         |  -spec ?PASSENGER_CHECK_OUT(stop(), citizen())-&gt; ok.
         |  ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger) -&gt;
@@ -45,6 +48,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-&gt; ok.
         |  ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) -&gt;
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("PASSENGER_CHECK_OUT Stop=~p Passenger=~p", [?RECIPENT, Passenger])),</font>
 <font color=red>     0..|    gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).</font>
         |  
         |  -spec ?VEHICLE_CHECK_IN(stop(), vehicle()) -&gt; ok.
@@ -53,6 +57,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) -&gt;
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("VEHICLE_CHECK_IN Stop=~p Vehicle=~p", [?RECIPENT, Vehicle])),</font>
 <font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).</font>
         |  
         |  -spec ?VEHICLE_CHECK_OUT(stop(), vehicle()) -&gt; ok.
@@ -61,6 +66,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  
         |  -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -&gt; ok.
         |  ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) -&gt;
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("VEHICLE_CHECK_OUT Stop=~p Vehicle=~p", [?RECIPENT, Vehicle])),</font>
 <font color=red>     0..|    gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).</font>
         |  
         |  
@@ -74,6 +80,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  -spec init(atom()) -&gt; {ok, stop_state()}.
         |  init(Id) -&gt;
 <font color=red>     0..|    put(id, Id),</font>
+<font color=red>     0..|    put(module, ?MODULE_STRING),</font>
 <font color=red>     0..|    ?LOG_INFO("Stop started"),</font>
 <font color=red>     0..|    {ok, #stop_state{id=Id}}.</font>
         |  
@@ -95,7 +102,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
 <font color=red>     0..|            WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),</font>
 <font color=red>     0..|            if</font>
         |              WillBoard -&gt;
-<font color=red>     0..|                ?LOG_SEND(io_lib:format("INCREMENT_BOARDING_PASSENGER Vehicle=~p", [Vehicle])),</font>
 <font color=red>     0..|                vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle);</font>
         |              true -&gt;
 <font color=red>     0..|                ok</font>
@@ -121,7 +127,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
 <font color=red>     0..|                   BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),</font>
 <font color=red>     0..|                   Id = State#stop_state.id,</font>
 <font color=red>     0..|                   Pid = self(),</font>
-<font color=red>     0..|                   ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers=~p", [Vehicle, ?RECIPENT, BoardingPassengers])),</font>
 <font color=red>     0..|                   vehicle:?CHECKIN_OK(Vehicle, ?RECIPENT, BoardingPassengers, false),</font>
 <font color=red>     0..|                   State#stop_state{currentVehicle=Vehicle};</font>
         |                 _    -&gt;
@@ -140,7 +145,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
 <font color=red>     0..|                       BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),</font>
 <font color=red>     0..|                       Id = State#stop_state.id,</font>
 <font color=red>     0..|                       Pid = self(),</font>
-<font color=red>     0..|                       ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers=~p", [NextVehicle, ?RECIPENT, BoardingPassengers])),</font>
 <font color=red>     0..|                       vehicle:?CHECKIN_OK(NextVehicle, ?RECIPENT, BoardingPassengers),</font>
 <font color=red>     0..|                       State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};</font>
         |                     [] -&gt;
@@ -177,9 +181,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop.erl by COVER 2
         |  -spec notify_vehicle_checked_in([pid()], vehicle(), non_neg_integer()) -&gt; non_neg_integer().
 <font color=red>     0..|  notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -&gt; BoardingPassengers;</font>
         |  notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) -&gt;
-<font color=red>     0..|    ?LOG_SEND(io_lib:format("VEHICLE_CHECKED_IN Passenger=~p Vehicle=~p", [Passenger, Vehicle])),</font>
+<font color=red>     0..|    ?LOG_INFO(io_lib:format("notify_vehicle_checked_in Passenger=~p Passengers=~p Vehicle=~p BoardingPassengers=~p", [Passenger, Passengers, Vehicle, BoardingPassengers])),</font>
 <font color=red>     0..|    WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),</font>
-<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("REPLY VEHICLE_CHECKED_IN ~p", [WillBoard])),</font>
 <font color=red>     0..|    if</font>
         |      WillBoard -&gt;
 <font color=red>     0..|        notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers + 1);</font>

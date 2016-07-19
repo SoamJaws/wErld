@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/time.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/time.erl by COVER 2016-07-18 at 11:30:17
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/time.erl by COVER 2016-07-19 at 06:37:16
 
 ****************************************************************************
 
@@ -52,6 +52,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/time.erl by COVER 2
         |  
         |  -spec init({non_neg_integer(), pos_integer()}) -&gt; {ok, time_state()}.
         |  init({Delta, Frequency}) -&gt;
+<font color=red>     0..|    put(id, time),</font>
+<font color=red>     0..|    put(module, ?MODULE_STRING),</font>
 <font color=red>     0..|    gen_server:cast(self(), tick),</font>
 <font color=red>     0..|    {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=[], time=0}}. % Epoch in gregorian seconds</font>
         |  

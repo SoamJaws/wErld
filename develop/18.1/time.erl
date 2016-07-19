@@ -41,6 +41,8 @@ start_link(Delta, Frequency) ->
 
 -spec init({non_neg_integer(), pos_integer()}) -> {ok, time_state()}.
 init({Delta, Frequency}) ->
+  put(id, time),
+  put(module, ?MODULE_STRING),
   gen_server:cast(self(), tick),
   {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=[], time=0}}. % Epoch in gregorian seconds
 

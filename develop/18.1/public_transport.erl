@@ -1,5 +1,6 @@
 -module(public_transport).
 -include("public_transport.hrl").
+-include("logger.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -20,7 +21,10 @@
 
 -spec ?GET_ROUTE(atom(), atom()) -> route() | none.
 ?GET_ROUTE(FromId, ToId) ->
-  gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}).
+  ?LOG_SEND(io_lib:format("GET_ROUTE ~p FromId=~p ToId=~p", [?MODULE, FromId, ToId])),
+  Reply = gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_ROUTE ~p", [Reply])),
+  Reply.
 
 
 %% gen_server
@@ -33,6 +37,7 @@ start_link() ->
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->
   put(id, public_transport),
+  put(module, ?MODULE_STRING),
   %% StopIds = [atom()]
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
   {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
@@ -52,11 +57,13 @@ init([]) ->
                       Line = line_supervisor:start_line(Number, UpdatedStops, Type),
                       Line
                     end, LineSpecs),
+  ?LOG_INFO("Puplic transport started"),
   {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
 
 
 -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}.
 handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_ROUTE FromId=~p ToId=~p", [FromId, ToId])),
   Reply = get_route_helper(FromId, ToId, State),
   {reply, Reply, State}.
 
@@ -87,10 +94,10 @@ code_change(_OldVsn, State, _Extra) ->
 %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
 -spec get_route_helper(atom(), atom(), public_transport_state()) -> route() | none.
 get_route_helper(FromId, ToId, State) ->
+  ?LOG_INFO(io_lib:format("get_route_helper FromId=~p ToId=~p State=~p", [FromId, ToId, State])),
   AllLines = State#public_transport_state.lines,
   From = {FromId, dict:fetch({stop, FromId}, State#public_transport_state.stops)},
   To = {ToId, dict:fetch({stop, ToId}, State#public_transport_state.stops)},
-
   ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
   spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
   receive

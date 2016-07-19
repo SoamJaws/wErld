@@ -28,39 +28,66 @@
 
 -spec ?GET_NEXT_STOP(line(), stop(), stop()) -> {stop(), pos_integer()} | none.
 ?GET_NEXT_STOP(?RECIPENT, Target, Stop) ->
-  gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
+  ?LOG_SEND(io_lib:format("GET_NEXT_STOP Line=~p TargetStop=~p CurrentStop=~p", [?RECIPENT, Target, Stop])),
+  Reply = gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_NEXT_STOP ~p", [Reply])),
+  Reply.
 
 -spec ?GET_NEIGHBORS(line(), stop()) -> [{stop(), pos_integer(), stop(), line()}].
 ?GET_NEIGHBORS(?RECIPENT, Stop) ->
-  gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
+  ?LOG_SEND(io_lib:format("GET_NEIGHBORS Line=~p Stop=~p", [?RECIPENT, Stop])),
+  Reply = gen_server:call(Pid, {?GET_NEIGHBORS, Stop}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_NEIGHBORS ~p", [Reply])),
+  Reply.
 
 -spec ?GET_OTHER_END(line(), stop()) -> stop().
 ?GET_OTHER_END(?RECIPENT, Stop) ->
-  gen_server:call(Pid, {?GET_OTHER_END, Stop}).
+  ?LOG_SEND(io_lib:format("GET_OTHER_END Line=~p Stop=~p", [?RECIPENT, Stop])),
+  Reply = gen_server:call(Pid, {?GET_OTHER_END, Stop}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_OTHER_END ~p", [Reply])),
+  Reply.
 
 -spec ?CONTAINS_STOP(line(), stop()) -> boolean().
 ?CONTAINS_STOP(?RECIPENT, Stop) ->
-  gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
+  ?LOG_SEND(io_lib:format("CONTAINS_STOP Line=~p Stop=~p", [?RECIPENT, Stop])),
+  Reply = gen_server:call(Pid, {?CONTAINS_STOP, Stop}),
+  ?LOG_RECEIVE(io_lib:format("REPLY CONTAINS_STOP ~p", [Reply])),
+  Reply.
 
 -spec ?GET_DURATION(line(), stop(), stop()) -> pos_integer().
 ?GET_DURATION(?RECIPENT, FromStop, ToStop) ->
-  gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
+  ?LOG_SEND(io_lib:format("GET_DURATION Line=~p FromStop=~p ToStop=~p", [?RECIPENT, FromStop, ToStop])),
+  Reply = gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_DURATION ~p", [Reply])),
+  Reply.
 
 -spec ?IS_END_STOP(line(), stop()) -> boolean().
 ?IS_END_STOP(?RECIPENT, Stop) ->
-  gen_server:call(Pid, {?IS_END_STOP, Stop}).
+  ?LOG_SEND(io_lib:format("IS_END_STOP Line=~p Stop=~p", [?RECIPENT, Stop])),
+  Reply = gen_server:call(Pid, {?IS_END_STOP, Stop}),
+  ?LOG_RECEIVE(io_lib:format("REPLY IS_END_STOP ~p", [Reply])),
+  Reply.
 
 -spec ?GET_INTERSECTION(line(), line()) -> stop() | none.
 ?GET_INTERSECTION(?RECIPENT, OtherLine) ->
-  gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
+  ?LOG_SEND(io_lib:format("GET_INTERSECTION Line=~p OtherLine=~p", [?RECIPENT, OtherLine])),
+  Reply = gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_INTERSECTION ~p", [Reply])),
+  Reply.
 
 -spec ?GET_NUMBER(line()) -> pos_integer().
 ?GET_NUMBER(?RECIPENT) ->
-  gen_server:call(Pid, ?GET_NUMBER).
+  ?LOG_SEND(io_lib:format("GET_NUMBER Line=~p", [?RECIPENT])),
+  Reply = gen_server:call(Pid, ?GET_NUMBER),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_NUMBER ~p", [Reply])),
+  Reply.
 
 -spec ?GET_TARGET(line(), stop(), stop()) -> stop().
 ?GET_TARGET(?RECIPENT, FromStop, ToStop) ->
-  gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
+  ?LOG_SEND(io_lib:format("GET_TARGET Line=~p FromStop=~p ToStop=~p", [?RECIPENT, FromStop, ToStop])),
+  Reply = gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_TARGET ~p", [Reply])),
+  Reply.
 
 %% gen_server
 
@@ -73,6 +100,7 @@ start_link(Number, Stops, Type) ->
 init({Number, Stops, Type}) ->
   Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(Number)),
   put(id, Id),
+  put(module, ?MODULE_STRING),
   ?LOG_INFO("Line started"),
   {ok, #line_state{id=Id, number=Number, stops=Stops, type=Type}}.
 
@@ -192,6 +220,7 @@ get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) ->
 get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) ->
   {NextStop, Dur};
 get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) ->
+  ?LOG_INFO(io_lib:format("get_next_stop_helper Stop=~p Alignment=~p Stops=~p", [Stop, Alignment, Stops])),
   get_next_stop_helper(Stop, Alignment, Stops).
 
 -spec get_duration_helper(stop(), stop(), [stop() | pos_integer()]) -> pos_integer().
@@ -220,9 +249,7 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
 get_intersection_helper(OtherLine, []) -> none;
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ?LOG_INFO(io_lib:format("get_intersection_helper OtherLine=~p Stop=~p Rest=~p", [OtherLine, Stop, Rest])),
-  ?LOG_SEND(io_lib:format("CONTAINS_STOP OtherLine=~p Stop=~p", [OtherLine, Stop])),
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
-  ?LOG_RECEIVE(io_lib:format("REPLY CONTAINS_STOP ~p", [ContainsStop])),
   case ContainsStop of
     true ->
       Stop;

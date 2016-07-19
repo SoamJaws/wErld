@@ -26,7 +26,10 @@
 
 -spec ?PASSENGER_CHECK_IN(stop(), citizen()) -> ok | {nok, nonempty_string()}.
 ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) ->
-  gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
+  ?LOG_SEND(io_lib:format("PASSENGER_CHECK_IN Stop=~p Passenger=~p", [?RECIPENT, Passenger])),
+  Reply = gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}),
+  ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_CHECK_IN ~p", [Reply])),
+  Reply.
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger) ->
@@ -34,6 +37,7 @@
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("PASSENGER_CHECK_OUT Stop=~p Passenger=~p", [?RECIPENT, Passenger])),
   gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle()) -> ok.
@@ -42,6 +46,7 @@
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("VEHICLE_CHECK_IN Stop=~p Vehicle=~p", [?RECIPENT, Vehicle])),
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle()) -> ok.
@@ -50,6 +55,7 @@
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) ->
+  ?LOG_SEND(io_lib:format("VEHICLE_CHECK_OUT Stop=~p Vehicle=~p", [?RECIPENT, Vehicle])),
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
 
@@ -63,6 +69,7 @@ start_link(Id) ->
 -spec init(atom()) -> {ok, stop_state()}.
 init(Id) ->
   put(id, Id),
+  put(module, ?MODULE_STRING),
   ?LOG_INFO("Stop started"),
   {ok, #stop_state{id=Id}}.
 
@@ -84,7 +91,6 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
           WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
           if
             WillBoard ->
-              ?LOG_SEND(io_lib:format("INCREMENT_BOARDING_PASSENGER Vehicle=~p", [Vehicle])),
               vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle);
             true ->
               ok
@@ -110,7 +116,6 @@ handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
                  BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
                  Id = State#stop_state.id,
                  Pid = self(),
-                 ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers=~p", [Vehicle, ?RECIPENT, BoardingPassengers])),
                  vehicle:?CHECKIN_OK(Vehicle, ?RECIPENT, BoardingPassengers, false),
                  State#stop_state{currentVehicle=Vehicle};
                _    ->
@@ -129,7 +134,6 @@ handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
                      BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, NextVehicle),
                      Id = State#stop_state.id,
                      Pid = self(),
-                     ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers=~p", [NextVehicle, ?RECIPENT, BoardingPassengers])),
                      vehicle:?CHECKIN_OK(NextVehicle, ?RECIPENT, BoardingPassengers),
                      State#stop_state{currentVehicle=NextVehicle, vehicleQueue=VehicleQueue};
                    [] ->
@@ -166,9 +170,8 @@ notify_vehicle_checked_in(Passengers, Vehicle) ->
 -spec notify_vehicle_checked_in([pid()], vehicle(), non_neg_integer()) -> non_neg_integer().
 notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -> BoardingPassengers;
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) ->
-  ?LOG_SEND(io_lib:format("VEHICLE_CHECKED_IN Passenger=~p Vehicle=~p", [Passenger, Vehicle])),
+  ?LOG_INFO(io_lib:format("notify_vehicle_checked_in Passenger=~p Passengers=~p Vehicle=~p BoardingPassengers=~p", [Passenger, Passengers, Vehicle, BoardingPassengers])),
   WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
-  ?LOG_RECEIVE(io_lib:format("REPLY VEHICLE_CHECKED_IN ~p", [WillBoard])),
   if
     WillBoard ->
       notify_vehicle_checked_in(Passengers, Vehicle, BoardingPassengers + 1);

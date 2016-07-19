@@ -3,6 +3,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 passenger_check_in_test() ->
+  put(module, "test"),
   stop_supervisor:start_link(),
   Stop = stop_supervisor:start_stop(stop1),
   P1 = gen_server_mock:start_link(citizen, p1, strict),
@@ -23,6 +24,7 @@ passenger_check_in_test() ->
   stop_supervisor:stop_stop(Stop).
 
 passenger_check_out_test() ->
+  put(module, "test"),
   stop_supervisor:start_link(),
   Stop = stop_supervisor:start_stop(stop1),
   P1 = gen_server_mock:start_link(citizen, p1, strict),
@@ -56,6 +58,7 @@ passenger_check_out_test() ->
   stop_supervisor:stop_stop(Stop).
 
 vehicle_check_in_test() ->
+  put(module, "test"),
   stop_supervisor:start_link(),
   Stop = stop_supervisor:start_stop(stop1),
   P1 = gen_server_mock:start_link(citizen, p1, strict),
@@ -92,6 +95,7 @@ vehicle_check_in_test() ->
   stop_supervisor:stop_stop(Stop).
 
 vehicle_check_out_test() ->
+  put(module, "test"),
   stop_supervisor:start_link(),
   Stop = stop_supervisor:start_stop(stop1),
   P1 = gen_server_mock:start_link(citizen, p1, strict),
@@ -138,6 +142,7 @@ vehicle_check_out_test() ->
   stop_supervisor:stop_stop(Stop).
 
 invalid_vehicle_check_out_test() ->
+  put(module, "test"),
   stop_supervisor:start_link(),
   Stop = stop_supervisor:start_stop(stop1),
   V1 = gen_server_mock:start_link(vehicle, v1, strict),

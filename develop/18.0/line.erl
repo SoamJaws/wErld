@@ -265,7 +265,7 @@ get_target_helper(FromStop, ToStop, [FirstEnd|[_|Stops]]) ->
 get_target_helper(FromStop, _ToStop, FromStop, Stops) ->
   lists:last(Stops);
 get_target_helper(FromStop, ToStop, FirstEnd, [Stop|Stops]) ->
-  ?LOG_INFO(io_lib:format("get_target_helper FromStop=~p ToStop=~p FirstEnd=~p Stop=~p Stops=~p", [FromStop, ToStop, FirstEnd, [Stop|Stops]])),
+  ?LOG_INFO(io_lib:format("get_target_helper FromStop=~p ToStop=~p FirstEnd=~p Stop=~p Stops=~p", [FromStop, ToStop, FirstEnd, Stop, Stops])),
   case Stop of
     FromStop ->
       lists:last(Stops);

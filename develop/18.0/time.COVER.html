@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/time.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/time.erl by COVER 2016-07-19 at 11:26:55
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/time.erl by COVER 2016-07-20 at 06:57:38
 
 ****************************************************************************
 
@@ -32,15 +32,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/time.erl by COVER 2
         |  
         |  -spec ?SUBSCRIBE(gen_address()) -&gt; ok.
         |  ?SUBSCRIBE(Subscriber) -&gt;
-<font color=red>     0..|    ?SUBSCRIBE(Subscriber, false).</font>
+     4..|    ?SUBSCRIBE(Subscriber, false).
         |  
         |  -spec ?SUBSCRIBE(gen_address(), boolean()) -&gt; ok.
         |  ?SUBSCRIBE(Subscriber, BlockCaller) -&gt;
-<font color=red>     0..|    gen_server_utils:cast({global, ?MODULE}, {?SUBSCRIBE, Subscriber}, BlockCaller).</font>
+     4..|    gen_server_utils:cast({global, ?MODULE}, {?SUBSCRIBE, Subscriber}, BlockCaller).
         |  
         |  -spec ?GET_CURRENT_TIME() -&gt; non_neg_integer().
         |  ?GET_CURRENT_TIME() -&gt;
-<font color=red>     0..|    gen_server:call({global, ?MODULE}, ?GET_CURRENT_TIME).</font>
+     4..|    gen_server:call({global, ?MODULE}, ?GET_CURRENT_TIME).
         |  
         |  
         |  %% gen_server

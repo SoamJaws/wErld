@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl by COVER 2016-07-19 at 11:25:49
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl by COVER 2016-07-20 at 06:56:45
 
 ****************************************************************************
 
@@ -20,27 +20,27 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl
         |  -export([init/1]).
         |  
         |  start_link() -&gt;
-<font color=red>     0..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).</font>
+     5..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
         |  
         |  start_stop(Id) -&gt;
-<font color=red>     0..|    Result = supervisor:start_child({global, ?MODULE}, [Id]),</font>
-<font color=red>     0..|    case Result of</font>
+     5..|    Result = supervisor:start_child({global, ?MODULE}, [Id]),
+     5..|    case Result of
         |      {ok, Pid} -&gt;
-<font color=red>     0..|        ?ADDRESS(stop);</font>
+     5..|        ?ADDRESS(stop);
         |      Result -&gt;
 <font color=red>     0..|        Result</font>
         |    end.
         |  
         |  stop_stop(?ADDRESS(stop)) -&gt;
-<font color=red>     0..|    supervisor:terminate_child({global, ?MODULE}, Pid).</font>
+     5..|    supervisor:terminate_child({global, ?MODULE}, Pid).
         |    
         |  
         |  init(_Args) -&gt;
-<font color=red>     0..|    SupFlags = { simple_one_for_one</font>
+     1..|    SupFlags = { simple_one_for_one
         |               , 0
         |               , 1
         |               },
-<font color=red>     0..|    ChildSpecs = [ { stop</font>
+     1..|    ChildSpecs = [ { stop
         |                   , {stop, start_link, []}
         |                   , transient
         |                   , 1000
@@ -48,7 +48,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/stop_supervisor.erl
         |                   , [stop]
         |                   }
         |                 ],
-<font color=red>     0..|    {ok, {SupFlags, ChildSpecs}}.</font>
+     1..|    {ok, {SupFlags, ChildSpecs}}.
 </pre>
 </body>
 </html>

@@ -25,6 +25,8 @@ stop_stop(?ADDRESS(stop)) ->
   
 
 init(_Args) ->
+  put(id, ?MODULE),
+  put(module, ?MODULE_NAME),
   SupFlags = { simple_one_for_one
              , 0
              , 1

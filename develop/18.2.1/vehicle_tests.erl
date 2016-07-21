@@ -4,6 +4,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 checkin_ok_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
@@ -38,6 +39,7 @@ checkin_ok_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 boarding_passenger_capacity_reached_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
@@ -89,6 +91,7 @@ boarding_passenger_capacity_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 boarding_passenger_below_capacity_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
@@ -136,6 +139,7 @@ boarding_passenger_below_capacity_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 next_stop_reached_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
@@ -189,6 +193,7 @@ next_stop_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 next_stop_not_reached_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
@@ -238,6 +243,7 @@ next_stop_not_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 target_stop_reached_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
@@ -290,6 +296,7 @@ target_stop_reached_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 increment_boarding_passenger_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),
@@ -339,6 +346,7 @@ increment_boarding_passenger_test() ->
   vehicle_supervisor:stop_vehicle(Vehicle).
 
 new_time_not_driving_test() ->
+  put(id, test),
   put(module, "test"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start_link(stop, startstop, strict),

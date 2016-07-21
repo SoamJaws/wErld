@@ -36,33 +36,8 @@ start_link() ->
 
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->
-  put(id, public_transport),
-  put(module, ?MODULE_STRING),
-  %% StopIds = [atom()]
-  %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
-  {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
-  ?LOG_INFO(io_lib:format("Read stops ~p", [StopIds])),
-  ?LOG_INFO(io_lib:format("Read lines ~p", [LineSpecs])),
-  StopDict = lists:foldl(fun(StopId, Dict) ->
-                           ?LOG_INFO(io_lib:format("Starting stop ~p", [StopId])),
-                           {{stop, StopId}, Pid} = stop_supervisor:start_stop(StopId),
-                           dict:store({stop, StopId}, Pid, Dict)
-                         end , dict:new() , StopIds),
-  Lines = lists:map(fun({Number, Stops, Type}) ->
-                      UpdatedStops = lists:map(fun(Element) ->
-                                                 if
-                                                   is_integer(Element) ->
-                                                     Element;
-                                                   true ->
-                                                     dict:fetch({stop, Element}, StopDict)
-                                                 end
-                                               end, Stops),
-                      ?LOG_INFO(io_lib:format("Starting line ~w ~p", [Number, Type])),
-                      Line = line_supervisor:start_line(Number, UpdatedStops, Type),
-                      Line
-                    end, LineSpecs),
-  ?LOG_INFO("Puplic transport started"),
-  {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
+  gen_server:cast(self(), init),
+  {ok, #public_transport_state{lines=[], stops=dict:new()}}.
 
 
 -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}.
@@ -72,9 +47,19 @@ handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
   {reply, Reply, State}.
 
 
--spec handle_cast(any(), public_transport_state()) -> {noreply, public_transport_state()}.
-handle_cast(_, State) ->
-  {noreply, State}.
+-spec handle_cast(init, public_transport_state()) -> {noreply, public_transport_state()}.
+handle_cast(init, State) ->
+  put(id, public_transport),
+  put(module, ?MODULE_STRING),
+  %% StopIds = [atom()]
+  %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
+  {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
+  ?LOG_INFO(io_lib:format("Starting stops ~p", [StopIds])),
+  StopDict = init_stops(StopIds),
+  ?LOG_INFO(io_lib:format("Starting lines ~p", [LineSpecs])),
+  Lines = init_lines(LineSpecs, StopDict),
+  ?LOG_INFO("Puplic transport started"),
+  {noreply, #public_transport_state{lines=Lines, stops=StopDict}}.
 
 
 -spec handle_info(timeout | any(), public_transport_state()) -> {noreply, public_transport_state()}.
@@ -93,6 +78,37 @@ code_change(_OldVsn, State, _Extra) ->
 
 
 %% Backend
+-spec init_stops([atom()]) -> dict:dict(stop_id(), pid()).
+init_stops(StopIds) ->
+  init_stops(StopIds, dict:new()).
+
+-spec init_stops([atom()], dict:dict(stop_id(), pid())) -> dict:dict(stop_id(), pid()).
+init_stops([], StopDict) -> StopDict;
+init_stops([StopId|StopIds], StopDict) ->
+  ?LOG_INFO(io_lib:format("Starting stop ~p, stops left ~p", [StopId, StopIds])),
+  {{stop, StopId}, Pid} = stop_supervisor:start_stop(StopId),
+  init_stops(StopIds, dict:store({stop, StopId}, Pid, StopDict)).
+
+
+-spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid())) -> [line()].
+init_lines(LineSpecs, StopDict) ->
+  init_lines(LineSpecs, StopDict, []).
+
+-spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid()), [line()]) -> [line()].
+init_lines([], _StopDict, Lines) -> Lines;
+init_lines([{Number, Stops, Type}|LineSpecs], StopDict, Lines) ->
+  ?LOG_INFO(io_lib:format("Starting line ~w ~p ~p ~p", [Number, Stops, StopDict, Type])),
+  UpdatedStops = lists:map(fun(Element) ->
+                             if
+                               is_integer(Element) ->
+                                 Element;
+                               true ->
+                                 dict:fetch({stop, Element}, StopDict)
+                             end
+                           end, Stops),
+  Line = line_supervisor:start_line(Number, UpdatedStops, Type),
+  init_lines(LineSpecs, StopDict, [Line|Lines]).
+
 
 %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
 %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To

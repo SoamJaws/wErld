@@ -9,7 +9,7 @@ start_link() ->
 
 init(_Args) ->
   put(id, ?MODULE),
-  put(module, ?MODULE_NAME),
+  put(module, ?MODULE_STRING),
   SupFlags = {one_for_one, 0, 1},
   ChildSpecs = [ { line_supervisor
                  , {line_supervisor, start_link, []}

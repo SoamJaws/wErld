@@ -129,7 +129,7 @@ get_route_helper(FromId, ToId, State) ->
 
 -spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -> route() | none.
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
-  put(id, get_route_concurrent@?MODULE),
+  put(id, get_route_concurrent@public_transport),
   put(module, ?MODULE_STRING),
   FromLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),

@@ -189,7 +189,7 @@ boarding_complete(State) ->
 -spec notify_passengers_checkin([citizen()], atom()) -> [citizen()].
 notify_passengers_checkin([], Id) -> [];
 notify_passengers_checkin([Passenger|Passengers], Id) ->
-  ?LOG_INFO(io_lib:format("notify_passengers_checkin Passenger=~p Passengers=~p Id=~P", [Passenger, Passengers, Id])),
+  ?LOG_INFO(io_lib:format("notify_passengers_checkin Passenger=~p Passengers=~p Id=~p", [Passenger, Passengers, Id])),
   Pid = self(),
   Reply = citizen:vehicle_checked_in(Passenger, ?RECIPENT),
   case Reply of

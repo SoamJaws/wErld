@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/vehicle.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-20 at 06:55:31
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVER 2016-07-21 at 06:46:08
 
 ****************************************************************************
 
@@ -41,28 +41,28 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  -spec ?PASSENGER_BOARD(vehicle(), citizen()) -&gt; ok | nok.
         |  ?PASSENGER_BOARD(?RECIPENT, Passenger) -&gt;
-    10..|    ?LOG_SEND(io_lib:format("PASSENGER_BOARD Vehicle=~p Passenger=~p", [?RECIPENT, Passenger])),
-    10..|    Reply = gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}),
-    10..|    ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_BOARD ~p", [Reply])),
-    10..|    Reply.
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("PASSENGER_BOARD Vehicle=~p Passenger=~p", [?RECIPENT, Passenger])),</font>
+<font color=red>     0..|    Reply = gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}),</font>
+<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_BOARD ~p", [Reply])),</font>
+<font color=red>     0..|    Reply.</font>
         |  
         |  -spec ?INCREMENT_BOARDING_PASSENGER(vehicle()) -&gt; ok.
         |  ?INCREMENT_BOARDING_PASSENGER(?RECIPENT) -&gt;
-     1..|    ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, false).
+<font color=red>     0..|    ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, false).</font>
         |  
         |  -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -&gt; ok.
         |  ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) -&gt;
-     1..|    ?LOG_SEND(io_lib:format("INCREMENT_BOARDING_PASSENGER Vehicle=~p", [?RECIPENT])),
-     1..|    gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("INCREMENT_BOARDING_PASSENGER Vehicle=~p", [?RECIPENT])),</font>
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).</font>
         |  
         |  -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer()) -&gt; ok.
         |  ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers) -&gt;
-     1..|    ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, false).
+<font color=red>     0..|    ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, false).</font>
         |  
         |  -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -&gt; ok.
         |  ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) -&gt;
-     9..|    ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers~p", [?RECIPENT, Stop, BoardingPassengers])),
-     9..|    gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers~p", [?RECIPENT, Stop, BoardingPassengers])),</font>
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).</font>
         |  
         |  
         |  %% Time subscriber
@@ -73,47 +73,47 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  -spec ?NEW_TIME(vehicle(), time(), boolean()) -&gt; ok.
         |  ?NEW_TIME(?RECIPENT, Time, BlockCaller) -&gt;
-     1..|    ?LOG_SEND(io_lib:format("NEW_TIME Vehicle=~p Time=~p", [?RECIPENT, Time])),
-     1..|    gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
+<font color=red>     0..|    ?LOG_SEND(io_lib:format("NEW_TIME Vehicle=~p Time=~p", [?RECIPENT, Time])),</font>
+<font color=red>     0..|    gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).</font>
         |  
         |  
         |  %% gen_server
         |  
         |  -spec start_link(pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
         |  start_link(Capacity, Id, Line, LineNumber, Target, Type) -&gt;
-     4..|    gen_server:start_link(?MODULE, {Capacity, Id, Line, LineNumber, Target, Type}, []).
+<font color=red>     0..|    gen_server:start_link(?MODULE, {Capacity, Id, Line, LineNumber, Target, Type}, []).</font>
         |  
         |  
         |  -spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -&gt; {ok, vehicle_state()}.
         |  init({Capacity, Id, Line, LineNumber, Target, Type}) -&gt;
-     4..|    put(id, Id),
-     4..|    put(module, ?MODULE_STRING),
-     4..|    Pid = self(),
-     4..|    time:?SUBSCRIBE(?RECIPENT),
-     4..|    Stop = line:?GET_OTHER_END(Line, Target),
-     4..|    stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
-     4..|    ?LOG_INFO("Vehicle started"),
-     4..|    {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.
+<font color=red>     0..|    put(id, Id),</font>
+<font color=red>     0..|    put(module, ?MODULE_STRING),</font>
+<font color=red>     0..|    Pid = self(),</font>
+<font color=red>     0..|    time:?SUBSCRIBE(?RECIPENT),</font>
+<font color=red>     0..|    Stop = line:?GET_OTHER_END(Line, Target),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),</font>
+<font color=red>     0..|    ?LOG_INFO("Vehicle started"),</font>
+<font color=red>     0..|    {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.</font>
         |  
         |  
         |  -spec handle_call({?PASSENGER_BOARD, citizen()}, {pid(), any()}, vehicle_state()) -&gt; {reply, ok | nok, vehicle_state()}.
         |  handle_call({?PASSENGER_BOARD, Passenger}, _From, State) -&gt;
-    10..|    ?LOG_RECEIVE(io_lib:format("PASSENGER_BOARD Passenger=~p", [Passenger])),
-    10..|    Passengers = State#vehicle_state.passengers,
-    10..|    Capacity = State#vehicle_state.capacity,
-    10..|    NoPassengers = length(Passengers),
-    10..|    BoardingPassengers = State#vehicle_state.boardingPassengers,
-    10..|    if
+<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("PASSENGER_BOARD Passenger=~p", [Passenger])),</font>
+<font color=red>     0..|    Passengers = State#vehicle_state.passengers,</font>
+<font color=red>     0..|    Capacity = State#vehicle_state.capacity,</font>
+<font color=red>     0..|    NoPassengers = length(Passengers),</font>
+<font color=red>     0..|    BoardingPassengers = State#vehicle_state.boardingPassengers,</font>
+<font color=red>     0..|    if</font>
         |      NoPassengers &lt; Capacity -&gt;
-     9..|        UpdatedState = State#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1},
-     9..|        NewState = if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) -&gt;
-     3..|                     boarding_complete(UpdatedState);
+<font color=red>     0..|        UpdatedState = State#vehicle_state{passengers=Passengers++[Passenger], boardingPassengers=BoardingPassengers-1},</font>
+<font color=red>     0..|        NewState = if (Capacity - NoPassengers == 1) or (BoardingPassengers == 1) -&gt;</font>
+<font color=red>     0..|                     boarding_complete(UpdatedState);</font>
         |                   true -&gt;
-     6..|                     UpdatedState
+<font color=red>     0..|                     UpdatedState</font>
         |                   end,
-     9..|        {reply, ok, NewState};
+<font color=red>     0..|        {reply, ok, NewState};</font>
         |      true -&gt;
-     1..|        {reply, nok, State}
+<font color=red>     0..|        {reply, nok, State}</font>
         |    end.
         |  
         |  
@@ -121,23 +121,23 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |        ;          ({?INCREMENT_BOARDING_PASSENGER, boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}
         |        ;          ({?CHECKIN_OK, stop(), non_neg_integer(), boolean(), pid()}, vehicle_state()) -&gt; {noreply, vehicle_state()}.
         |  handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) -&gt;
-     1..|    ?LOG_RECEIVE(io_lib:format("NEW_TIME Time=~p", [Time])),
-     1..|    NewState = case State#vehicle_state.action of
+<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("NEW_TIME Time=~p", [Time])),</font>
+<font color=red>     0..|    NewState = case State#vehicle_state.action of</font>
         |                 {driving, Stop, Duration} -&gt;
-     1..|                   if
+<font color=red>     0..|                   if</font>
         |                     Time - State#vehicle_state.lastDeparture &gt;= Duration -&gt;
-     1..|                       UpdatedState = if
+<font color=red>     0..|                       UpdatedState = if</font>
         |                                        Stop == State#vehicle_state.target -&gt;
 <font color=red>     0..|                                          {_, Line} = State#vehicle_state.line,</font>
 <font color=red>     0..|                                          CurrentTarget = State#vehicle_state.target,</font>
 <font color=red>     0..|                                          NewTarget = line:?GET_OTHER_END(Line, State#vehicle_state.target),</font>
 <font color=red>     0..|                                          State#vehicle_state{target=NewTarget};</font>
         |                                      true -&gt;
-     1..|                                        State
+<font color=red>     0..|                                        State</font>
         |                                      end,
-     1..|                       Id = State#vehicle_state.id,
-     1..|                       Pid = self(),
-     1..|                       StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers, Id),
+<font color=red>     0..|                       Id = State#vehicle_state.id,</font>
+<font color=red>     0..|                       Pid = self(),</font>
+<font color=red>     0..|                       StayingPassengers = notify_passengers_checkin(State#vehicle_state.passengers, Id),</font>
 <font color=red>     0..|                       stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),</font>
 <font color=red>     0..|                       UpdatedState#vehicle_state{passengers=StayingPassengers};</font>
         |                     true -&gt;
@@ -156,15 +156,15 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
 <font color=red>     0..|    {noreply, State#vehicle_state{boardingPassengers=BoardingPassengers+1}};</font>
         |  
         |  handle_cast({?CHECKIN_OK, Stop, BoardingPassengers, NotifyCaller, Caller}, State) -&gt;
-     4..|    ?LOG_RECEIVE(io_lib:format("CHECKIN_OK Stop=~p BoardingPassengers=~p", [Stop, BoardingPassengers])),
-     4..|    NewState = if
+<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("CHECKIN_OK Stop=~p BoardingPassengers=~p", [Stop, BoardingPassengers])),</font>
+<font color=red>     0..|    NewState = if</font>
         |                 BoardingPassengers == 0 -&gt;
-     1..|                   boarding_complete(State#vehicle_state{action={boarding, Stop}});
+<font color=red>     0..|                   boarding_complete(State#vehicle_state{action={boarding, Stop}});</font>
         |                 true -&gt;
-     3..|                   State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}
+<font color=red>     0..|                   State#vehicle_state{action={boarding, Stop}, boardingPassengers=BoardingPassengers}</font>
         |               end,
-     4..|    gen_server_utils:notify_caller(NotifyCaller, Caller),
-     4..|    {noreply, NewState}.
+<font color=red>     0..|    gen_server_utils:notify_caller(NotifyCaller, Caller),</font>
+<font color=red>     0..|    {noreply, NewState}.</font>
         |  
         |  
         |  -spec handle_info(timeout | any(), vehicle_state()) -&gt; {noreply, vehicle_state()}.
@@ -174,7 +174,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), vehicle_state()) -&gt; ok.
         |  terminate(_Reason, _State) -&gt;
-     1..|    ok.
+<font color=red>     0..|    ok.</font>
         |  
         |  
         |  -spec code_change(term() | {down, term()}, stop_state(), term()) -&gt; {ok, vehicle_state()}.
@@ -186,21 +186,21 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/vehicle.erl by COVE
         |  
         |  -spec boarding_complete(vehicle_state()) -&gt; vehicle_state().
         |  boarding_complete(State) -&gt;
-     4..|    ?LOG_INFO(io_lib:format("boarding_complete", [])),
-     4..|    {_, Line} = State#vehicle_state.line,
-     4..|    {boarding, CurrentStop} = State#vehicle_state.action,
-     4..|    TargetStop = State#vehicle_state.target,
-     4..|    {NextStop, Dur} = line:?GET_NEXT_STOP(Line, TargetStop, CurrentStop),
-     4..|    Id = State#vehicle_state.id,
-     4..|    Pid = self(),
-     4..|    stop:?VEHICLE_CHECK_OUT(CurrentStop, ?RECIPENT),
-     4..|    Time = time:?GET_CURRENT_TIME(),
-     4..|    State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
+<font color=red>     0..|    ?LOG_INFO(io_lib:format("boarding_complete", [])),</font>
+<font color=red>     0..|    {_, Line} = State#vehicle_state.line,</font>
+<font color=red>     0..|    {boarding, CurrentStop} = State#vehicle_state.action,</font>
+<font color=red>     0..|    TargetStop = State#vehicle_state.target,</font>
+<font color=red>     0..|    {NextStop, Dur} = line:?GET_NEXT_STOP(Line, TargetStop, CurrentStop),</font>
+<font color=red>     0..|    Id = State#vehicle_state.id,</font>
+<font color=red>     0..|    Pid = self(),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_OUT(CurrentStop, ?RECIPENT),</font>
+<font color=red>     0..|    Time = time:?GET_CURRENT_TIME(),</font>
+<font color=red>     0..|    State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.</font>
         |  
         |  -spec notify_passengers_checkin([citizen()], atom()) -&gt; [citizen()].
 <font color=red>     0..|  notify_passengers_checkin([], Id) -&gt; [];</font>
         |  notify_passengers_checkin([Passenger|Passengers], Id) -&gt;
-     1..|    ?LOG_INFO(io_lib:format("notify_passengers_checkin Passenger=~p Passengers=~p Id=~P", [Passenger, Passengers, Id])),
+<font color=red>     0..|    ?LOG_INFO(io_lib:format("notify_passengers_checkin Passenger=~p Passengers=~p Id=~p", [Passenger, Passengers, Id])),</font>
 <font color=red>     0..|    Pid = self(),</font>
 <font color=red>     0..|    Reply = citizen:vehicle_checked_in(Passenger, ?RECIPENT),</font>
 <font color=red>     0..|    case Reply of</font>

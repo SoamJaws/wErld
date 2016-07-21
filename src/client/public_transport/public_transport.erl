@@ -36,19 +36,6 @@ start_link() ->
 
 -spec init([]) -> {ok, public_transport_state()}.
 init([]) ->
-  gen_server:cast(self(), init),
-  {ok, #public_transport_state{lines=[], stops=dict:new()}}.
-
-
--spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}.
-handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
-  ?LOG_RECEIVE(io_lib:format("GET_ROUTE FromId=~p ToId=~p", [FromId, ToId])),
-  Reply = get_route_helper(FromId, ToId, State),
-  {reply, Reply, State}.
-
-
--spec handle_cast(init, public_transport_state()) -> {noreply, public_transport_state()}.
-handle_cast(init, State) ->
   put(id, public_transport),
   put(module, ?MODULE_STRING),
   %% StopIds = [atom()]
@@ -59,7 +46,19 @@ handle_cast(init, State) ->
   ?LOG_INFO(io_lib:format("Starting lines ~p", [LineSpecs])),
   Lines = init_lines(LineSpecs, StopDict),
   ?LOG_INFO("Puplic transport started"),
-  {noreply, #public_transport_state{lines=Lines, stops=StopDict}}.
+  {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
+
+
+-spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}.
+handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
+  ?LOG_RECEIVE(io_lib:format("GET_ROUTE FromId=~p ToId=~p", [FromId, ToId])),
+  Reply = get_route_helper(FromId, ToId, State),
+  {reply, Reply, State}.
+
+
+-spec handle_cast(any()) -> {noreply, public_transport_state()}.
+handle_cast(_Cast, State) ->
+  {noreply, State}.
 
 
 -spec handle_info(timeout | any(), public_transport_state()) -> {noreply, public_transport_state()}.
@@ -130,6 +129,8 @@ get_route_helper(FromId, ToId, State) ->
 
 -spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -> route() | none.
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
+  put(id, ?FUNCTION_NAME@?MODULE),
+  put(module, ?MODULE_STRING),
   FromLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
   case IntersectingLines of

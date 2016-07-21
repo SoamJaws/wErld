@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-20 at 06:57:25
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-21 at 06:47:34
 
 ****************************************************************************
 
@@ -47,33 +47,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec init([]) -&gt; {ok, public_transport_state()}.
         |  init([]) -&gt;
-<font color=red>     0..|    put(id, public_transport),</font>
-<font color=red>     0..|    put(module, ?MODULE_STRING),</font>
-        |    %% StopIds = [atom()]
-        |    %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
-<font color=red>     0..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),</font>
-<font color=red>     0..|    ?LOG_INFO(io_lib:format("Read stops ~p", [StopIds])),</font>
-<font color=red>     0..|    ?LOG_INFO(io_lib:format("Read lines ~p", [LineSpecs])),</font>
-<font color=red>     0..|    StopDict = lists:foldl(fun(StopId, Dict) -&gt;</font>
-<font color=red>     0..|                             ?LOG_INFO(io_lib:format("Starting stop ~p", [StopId])),</font>
-<font color=red>     0..|                             {{stop, StopId}, Pid} = stop_supervisor:start_stop(StopId),</font>
-<font color=red>     0..|                             dict:store({stop, StopId}, Pid, Dict)</font>
-        |                           end , dict:new() , StopIds),
-<font color=red>     0..|    Lines = lists:map(fun({Number, Stops, Type}) -&gt;</font>
-<font color=red>     0..|                        UpdatedStops = lists:map(fun(Element) -&gt;</font>
-<font color=red>     0..|                                                   if</font>
-        |                                                     is_integer(Element) -&gt;
-<font color=red>     0..|                                                       Element;</font>
-        |                                                     true -&gt;
-<font color=red>     0..|                                                       dict:fetch({stop, Element}, StopDict)</font>
-        |                                                   end
-        |                                                 end, Stops),
-<font color=red>     0..|                        ?LOG_INFO(io_lib:format("Starting line ~w ~p", [Number, Type])),</font>
-<font color=red>     0..|                        Line = line_supervisor:start_line(Number, UpdatedStops, Type),</font>
-<font color=red>     0..|                        Line</font>
-        |                      end, LineSpecs),
-<font color=red>     0..|    ?LOG_INFO("Puplic transport started"),</font>
-<font color=red>     0..|    {ok, #public_transport_state{lines=Lines, stops=StopDict}}.</font>
+<font color=red>     0..|    gen_server:cast(self(), init),</font>
+<font color=red>     0..|    {ok, #public_transport_state{lines=[], stops=dict:new()}}.</font>
         |  
         |  
         |  -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -&gt; {reply, route() | none, public_transport_state()}.
@@ -83,9 +58,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
 <font color=red>     0..|    {reply, Reply, State}.</font>
         |  
         |  
-        |  -spec handle_cast(any(), public_transport_state()) -&gt; {noreply, public_transport_state()}.
-        |  handle_cast(_, State) -&gt;
-<font color=red>     0..|    {noreply, State}.</font>
+        |  -spec handle_cast(init, public_transport_state()) -&gt; {noreply, public_transport_state()}.
+        |  handle_cast(init, State) -&gt;
+<font color=red>     0..|    put(id, public_transport),</font>
+<font color=red>     0..|    put(module, ?MODULE_STRING),</font>
+        |    %% StopIds = [atom()]
+        |    %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
+<font color=red>     0..|    {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),</font>
+<font color=red>     0..|    ?LOG_INFO(io_lib:format("Starting stops ~p", [StopIds])),</font>
+<font color=red>     0..|    StopDict = init_stops(StopIds),</font>
+<font color=red>     0..|    ?LOG_INFO(io_lib:format("Starting lines ~p", [LineSpecs])),</font>
+<font color=red>     0..|    Lines = init_lines(LineSpecs, StopDict),</font>
+<font color=red>     0..|    ?LOG_INFO("Puplic transport started"),</font>
+<font color=red>     0..|    {noreply, #public_transport_state{lines=Lines, stops=StopDict}}.</font>
         |  
         |  
         |  -spec handle_info(timeout | any(), public_transport_state()) -&gt; {noreply, public_transport_state()}.
@@ -104,6 +89,37 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  
         |  %% Backend
+        |  -spec init_stops([atom()]) -&gt; dict:dict(stop_id(), pid()).
+        |  init_stops(StopIds) -&gt;
+<font color=red>     0..|    init_stops(StopIds, dict:new()).</font>
+        |  
+        |  -spec init_stops([atom()], dict:dict(stop_id(), pid())) -&gt; dict:dict(stop_id(), pid()).
+<font color=red>     0..|  init_stops([], StopDict) -&gt; StopDict;</font>
+        |  init_stops([StopId|StopIds], StopDict) -&gt;
+<font color=red>     0..|    ?LOG_INFO(io_lib:format("Starting stop ~p, stops left ~p", [StopId, StopIds])),</font>
+<font color=red>     0..|    {{stop, StopId}, Pid} = stop_supervisor:start_stop(StopId),</font>
+<font color=red>     0..|    init_stops(StopIds, dict:store({stop, StopId}, Pid, StopDict)).</font>
+        |  
+        |  
+        |  -spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid())) -&gt; [line()].
+        |  init_lines(LineSpecs, StopDict) -&gt;
+<font color=red>     0..|    init_lines(LineSpecs, StopDict, []).</font>
+        |  
+        |  -spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid()), [line()]) -&gt; [line()].
+<font color=red>     0..|  init_lines([], _StopDict, Lines) -&gt; Lines;</font>
+        |  init_lines([{Number, Stops, Type}|LineSpecs], StopDict, Lines) -&gt;
+<font color=red>     0..|    ?LOG_INFO(io_lib:format("Starting line ~w ~p ~p ~p", [Number, Stops, StopDict, Type])),</font>
+<font color=red>     0..|    UpdatedStops = lists:map(fun(Element) -&gt;</font>
+<font color=red>     0..|                               if</font>
+        |                                 is_integer(Element) -&gt;
+<font color=red>     0..|                                   Element;</font>
+        |                                 true -&gt;
+<font color=red>     0..|                                   dict:fetch({stop, Element}, StopDict)</font>
+        |                               end
+        |                             end, Stops),
+<font color=red>     0..|    Line = line_supervisor:start_line(Number, UpdatedStops, Type),</font>
+<font color=red>     0..|    init_lines(LineSpecs, StopDict, [Line|Lines]).</font>
+        |  
         |  
         |  %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
         |  %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To

@@ -20,3 +20,5 @@ rel/example_project
 *Haddock
 *.summary
 *last_name
+test/logs/*
+*@nohost

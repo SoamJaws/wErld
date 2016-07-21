@@ -56,7 +56,7 @@ handle_call({?GET_ROUTE, FromId, ToId}, _From, State) ->
   {reply, Reply, State}.
 
 
--spec handle_cast(any()) -> {noreply, public_transport_state()}.
+-spec handle_cast(any(), public_transport_state()) -> {noreply, public_transport_state()}.
 handle_cast(_Cast, State) ->
   {noreply, State}.
 

@@ -7,7 +7,8 @@
         , log_warning/3
         , log_error/3
         , log_send/3
-        , log_receive/3]).
+        , log_receive/3
+        , stop/0]).
 
 -export([ start_link/1
         , init/1
@@ -40,6 +41,10 @@ log_send(Content, Module, Id) ->
 log_receive(Content, Module, Id) ->
   log(Content, Module, Id, "RECEIVE").
 
+-spec stop() -> ok.
+stop() ->
+  gen_server:call({global, ?MODULE}, stop).
+
 
 %% Gen server
 
@@ -51,6 +56,10 @@ init([LogDir]) ->
   filelib:ensure_dir(?COMPOSITE_LOG(LogDir)),
   {ok, LogDir}.
 
+
+-spec handle_call(stop, {pid(), any()}, any()) -> {stop, normal, stopped, any()}.
+handle_call(stop, _From, State) ->
+  {stop, normal, stopped, State};
 
 handle_call(_Call, _From, State) ->
   {reply, undefined, State}.

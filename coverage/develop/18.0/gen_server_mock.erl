@@ -4,7 +4,7 @@
 -include_lib("eunit/include/eunit.hrl").
 
 %% Public API
--export([ start_link/3
+-export([ start/3
         , start_global/3
         , stop/1
         , state/1
@@ -24,12 +24,12 @@
 
 %% Public API
 
-start_link(Module, Id, Type) ->
-  {ok, Pid} = gen_server:start_link(?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+start(Module, Id, Type) ->
+  {ok, Pid} = gen_server:start(?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
   ?ADDRESS(Module).
 
 start_global(Module, Id, Type) ->
-  {ok, Pid} = gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+  {ok, Pid} = gen_server:start({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
   ?ADDRESS(Module).
 
 stop(?ADDRESS(Module)) ->

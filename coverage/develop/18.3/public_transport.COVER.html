@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-21 at 06:46:08
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-22 at 06:17:23
 
 ****************************************************************************
 
@@ -47,19 +47,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec init([]) -&gt; {ok, public_transport_state()}.
         |  init([]) -&gt;
-<font color=red>     0..|    gen_server:cast(self(), init),</font>
-<font color=red>     0..|    {ok, #public_transport_state{lines=[], stops=dict:new()}}.</font>
-        |  
-        |  
-        |  -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -&gt; {reply, route() | none, public_transport_state()}.
-        |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
-<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("GET_ROUTE FromId=~p ToId=~p", [FromId, ToId])),</font>
-<font color=red>     0..|    Reply = get_route_helper(FromId, ToId, State),</font>
-<font color=red>     0..|    {reply, Reply, State}.</font>
-        |  
-        |  
-        |  -spec handle_cast(init, public_transport_state()) -&gt; {noreply, public_transport_state()}.
-        |  handle_cast(init, State) -&gt;
 <font color=red>     0..|    put(id, public_transport),</font>
 <font color=red>     0..|    put(module, ?MODULE_STRING),</font>
         |    %% StopIds = [atom()]
@@ -70,7 +57,19 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
 <font color=red>     0..|    ?LOG_INFO(io_lib:format("Starting lines ~p", [LineSpecs])),</font>
 <font color=red>     0..|    Lines = init_lines(LineSpecs, StopDict),</font>
 <font color=red>     0..|    ?LOG_INFO("Puplic transport started"),</font>
-<font color=red>     0..|    {noreply, #public_transport_state{lines=Lines, stops=StopDict}}.</font>
+<font color=red>     0..|    {ok, #public_transport_state{lines=Lines, stops=StopDict}}.</font>
+        |  
+        |  
+        |  -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -&gt; {reply, route() | none, public_transport_state()}.
+        |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
+<font color=red>     0..|    ?LOG_RECEIVE(io_lib:format("GET_ROUTE FromId=~p ToId=~p", [FromId, ToId])),</font>
+<font color=red>     0..|    Reply = get_route_helper(FromId, ToId, State),</font>
+<font color=red>     0..|    {reply, Reply, State}.</font>
+        |  
+        |  
+        |  -spec handle_cast(any(), public_transport_state()) -&gt; {noreply, public_transport_state()}.
+        |  handle_cast(_Cast, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
         |  
         |  
         |  -spec handle_info(timeout | any(), public_transport_state()) -&gt; {noreply, public_transport_state()}.
@@ -114,7 +113,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |                                 is_integer(Element) -&gt;
 <font color=red>     0..|                                   Element;</font>
         |                                 true -&gt;
-<font color=red>     0..|                                   dict:fetch({stop, Element}, StopDict)</font>
+<font color=red>     0..|                                   {{stop, Element}, dict:fetch({stop, Element}, StopDict)}</font>
         |                               end
         |                             end, Stops),
 <font color=red>     0..|    Line = line_supervisor:start_line(Number, UpdatedStops, Type),</font>
@@ -127,8 +126,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  get_route_helper(FromId, ToId, State) -&gt;
 <font color=red>     0..|    ?LOG_INFO(io_lib:format("get_route_helper FromId=~p ToId=~p State=~p", [FromId, ToId, State])),</font>
 <font color=red>     0..|    AllLines = State#public_transport_state.lines,</font>
-<font color=red>     0..|    From = {FromId, dict:fetch({stop, FromId}, State#public_transport_state.stops)},</font>
-<font color=red>     0..|    To = {ToId, dict:fetch({stop, ToId}, State#public_transport_state.stops)},</font>
+<font color=red>     0..|    From = {{stop, FromId}, dict:fetch({stop, FromId}, State#public_transport_state.stops)},</font>
+<font color=red>     0..|    To = {{stop, ToId}, dict:fetch({stop, ToId}, State#public_transport_state.stops)},</font>
 <font color=red>     0..|    ToLines = lists:filter(fun(Line) -&gt; line:?CONTAINS_STOP(Line, To) end, AllLines),</font>
 <font color=red>     0..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),</font>
 <font color=red>     0..|    receive</font>
@@ -141,6 +140,8 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -&gt; route() | none.
         |  get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) -&gt;
+<font color=red>     0..|    put(id, get_route_concurrent@public_transport),</font>
+<font color=red>     0..|    put(module, ?MODULE_STRING),</font>
 <font color=red>     0..|    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],</font>
 <font color=red>     0..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),</font>
 <font color=red>     0..|    case IntersectingLines of</font>

@@ -29,7 +29,7 @@ shift $((OPTIND-1))
 echo ""
 
 echo "================= Resolve dependencies ================"
-rebar get-deps
+rebar3 get-deps
 echo ""
 
 echo "==================== Setup dialyzer ==================="
@@ -42,13 +42,13 @@ fi
 
 #if [[ ! -f $DEPSPLT ]];
 #then
-#    rebar compile
+#    rebar3 compile
 #    echo "Dialyzing dependencies"
 #    dialyzer --add_to_plt --plt $OTPPLT --output_plt $DEPSPLT -r deps/*/ebin/
 #fi
 
 echo "======================== Clean ========================"
-rebar clean
+rebar3 clean
 rm -rf priv/log
 echo ""
 
@@ -56,7 +56,7 @@ if [[ "$SUITE" == "compile" ]];
 then
 
   echo "======================= Compile ======================="
-  rebar compile
+  rebar3 compile
   echo ""
 
   echo "====================== Dialyzing ======================"
@@ -74,7 +74,7 @@ if [[ "$SUITE" == "test" ]];
 then
 
   echo "======================== EUnit ========================"
-  EUNIT_OUTPUT=$(rebar compile eunit)
+  EUNIT_OUTPUT=$(rebar3 compile eunit)
   EUNIT_RESULT=$?
   COVOK=true
 
@@ -122,9 +122,9 @@ then
   fi
 
   echo "===================== Common test ====================="
-  rebar compile -DTEST
+  rebar3 compile -DTEST
   SUITES=$(git ls-files | grep SUITE | sed -e 's/, /,/g')
-  CT_OUTPUT=$(rebar ct --suite=$SUITES)
+  CT_OUTPUT=$(rebar3 ct --suite=$SUITES)
   CT_RESULT=$?
 
   if [ "$CT_RESULT" -ne 0 ];

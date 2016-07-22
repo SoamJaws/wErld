@@ -123,7 +123,8 @@ then
 
   echo "===================== Common test ====================="
   rebar compile -DTEST
-  CT_OUTPUT=$(rebar ct)
+  SUITES=$(git ls-files | grep SUITE | sed -e 's/, /,/g')
+  CT_OUTPUT=$(rebar ct --suite=$SUITES)
   CT_RESULT=$?
 
   if [ "$CT_RESULT" -ne 0 ];

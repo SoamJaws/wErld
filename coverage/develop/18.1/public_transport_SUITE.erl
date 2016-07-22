@@ -18,11 +18,7 @@ init_per_testcase(_TestCase, Config) ->
   Config.
 
 end_per_testcase(_TestCase, Config) ->
-  %% Let logger finish
-  receive
-    after 1000 ->
-      ok
-  end,
+  logger:stop(),
   Config.
 
 test1(_Config) ->

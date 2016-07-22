@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-07-22 at 06:17:23
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl by COVER 2016-07-22 at 07:00:56
 
 ****************************************************************************
 
@@ -15,7 +15,7 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  -include_lib("eunit/include/eunit.hrl").
         |  
         |  %% Public API
-        |  -export([ start_link/3
+        |  -export([ start/3
         |          , start_global/3
         |          , stop/1
         |          , state/1
@@ -35,12 +35,12 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/gen_server_mock.erl
         |  
         |  %% Public API
         |  
-        |  start_link(Module, Id, Type) -&gt;
-   109..|    {ok, Pid} = gen_server:start_link(?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+        |  start(Module, Id, Type) -&gt;
+   109..|    {ok, Pid} = gen_server:start(?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
    109..|    ?ADDRESS(Module).
         |  
         |  start_global(Module, Id, Type) -&gt;
-     8..|    {ok, Pid} = gen_server:start_link({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+     8..|    {ok, Pid} = gen_server:start({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
      8..|    ?ADDRESS(Module).
         |  
         |  stop(?ADDRESS(Module)) -&gt;

@@ -122,7 +122,6 @@ then
   fi
 
   echo "===================== Common test ====================="
-  rebar clean
   rebar compile -DTEST
   CT_OUTPUT=$(rebar ct)
   CT_RESULT=$?

@@ -118,7 +118,11 @@ get_route_helper(FromId, ToId, State) ->
   From = {{stop, FromId}, dict:fetch({stop, FromId}, State#public_transport_state.stops)},
   To = {{stop, ToId}, dict:fetch({stop, ToId}, State#public_transport_state.stops)},
   ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
-  spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),
+  ?SPAWN( get_route_concurrent@public_transport
+        , fun() ->
+            get_route_concurrent(From, To, ToLines, {[], 0}, [], AllLines, self())
+          end
+        ),
   receive
     {Route, Dur} ->
       {compress_route(Route), Dur};
@@ -129,8 +133,6 @@ get_route_helper(FromId, ToId, State) ->
 
 -spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -> route() | none.
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
-  put(id, get_route_concurrent@public_transport),
-  put(module, ?MODULE_STRING),
   FromLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, From)],
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
   case IntersectingLines of
@@ -164,7 +166,11 @@ spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, Visi
   if
     not VisitedNeighbor ->
       {From, Dur, Target, Line} = Neighbor,
-      spawn(?MODULE, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),
+      ?SPAWN( get_route_concurrent@public_transport
+            , fun() ->
+                get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self())
+              end
+            ),
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
     true ->
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)

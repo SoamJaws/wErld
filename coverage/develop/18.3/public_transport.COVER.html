@@ -5,7 +5,7 @@
 <title>/home/travis/build/SoamJaws/wErld/.eunit/public_transport.COVER.html</title>
 </head><body style='background-color: white; color: black'>
 <pre>
-File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-23 at 09:39:55
+File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.erl by COVER 2016-07-23 at 10:03:57
 
 ****************************************************************************
 
@@ -129,7 +129,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
 <font color=red>     0..|    From = {{stop, FromId}, dict:fetch({stop, FromId}, State#public_transport_state.stops)},</font>
 <font color=red>     0..|    To = {{stop, ToId}, dict:fetch({stop, ToId}, State#public_transport_state.stops)},</font>
 <font color=red>     0..|    ToLines = lists:filter(fun(Line) -&gt; line:?CONTAINS_STOP(Line, To) end, AllLines),</font>
-<font color=red>     0..|    spawn(public_transport, get_route_concurrent, [From, To, ToLines, {[], 0}, [], AllLines, self()]),</font>
+<font color=red>     0..|    ?SPAWN( get_route_concurrent@public_transport</font>
+<font color=red>     0..|          , fun() -&gt;</font>
+<font color=red>     0..|              get_route_concurrent(From, To, ToLines, {[], 0}, [], AllLines, self())</font>
+        |            end
+        |          ),
 <font color=red>     0..|    receive</font>
         |      {Route, Dur} -&gt;
 <font color=red>     0..|        {compress_route(Route), Dur};</font>
@@ -140,8 +144,6 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
         |  
         |  -spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -&gt; route() | none.
         |  get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) -&gt;
-<font color=red>     0..|    put(id, get_route_concurrent@public_transport),</font>
-<font color=red>     0..|    put(module, ?MODULE_STRING),</font>
 <font color=red>     0..|    FromLines = [Line || Line &lt;- AllLines, line:?CONTAINS_STOP(Line, From)],</font>
 <font color=red>     0..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),</font>
 <font color=red>     0..|    case IntersectingLines of</font>
@@ -175,7 +177,11 @@ File generated from /home/travis/build/SoamJaws/wErld/.eunit/public_transport.er
 <font color=red>     0..|    if</font>
         |      not VisitedNeighbor -&gt;
 <font color=red>     0..|        {From, Dur, Target, Line} = Neighbor,</font>
-<font color=red>     0..|        spawn(?MODULE, get_route_concurrent, [From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self()]),</font>
+<font color=red>     0..|        ?SPAWN( get_route_concurrent@public_transport</font>
+<font color=red>     0..|              , fun() -&gt;</font>
+<font color=red>     0..|                  get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self())</font>
+        |                end
+        |              ),
 <font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);</font>
         |      true -&gt;
 <font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)</font>

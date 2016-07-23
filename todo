@@ -1,3 +1,2 @@
-* Define macro for spawning anonymous processes, include put for module and id
 * Adapt blackboard to tagged pids
 * Specs for supervisors

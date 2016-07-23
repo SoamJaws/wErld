@@ -1,2 +1,4 @@
+* Convert eunit tests to common tests
+* Fix coverage evalution according to above
 * Adapt blackboard to tagged pids
-* Specs for supervisors
+* Function Specs for supervisors

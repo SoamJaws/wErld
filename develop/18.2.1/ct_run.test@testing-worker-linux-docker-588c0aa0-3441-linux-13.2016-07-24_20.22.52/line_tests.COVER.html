@@ -1,0 +1,303 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-588c0aa0-3441-linux-13.2016-07-24_20.22.52/line_tests.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/test/line_tests.erl by COVER 2016-07-24 at 20:22:55
+
+****************************************************************************
+
+        |  -module(line_tests).
+        |  -include("public_transport.hrl").
+        |  -include_lib("eunit/include/eunit.hrl").
+        |  
+        |  get_next_stop_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Dur1_2 = 10,</font>
+<font color=red>     0..|    Dur2_3 = 20,</font>
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3], bus),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_NEXT_STOP(Line, Stop3, Stop1), {Stop2, Dur1_2}),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEXT_STOP(Line, Stop3, Stop2), {Stop3, Dur2_3}),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEXT_STOP(Line, Stop3, Stop3), none),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEXT_STOP(Line, Stop1, Stop3), {Stop2, Dur2_3}),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEXT_STOP(Line, Stop1, Stop2), {Stop1, Dur1_2}),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEXT_STOP(Line, Stop1, Stop1), none),</font>
+        |  
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+        |  
+        |  get_neighbors_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Stop4 = gen_server_mock:start(stop, stop4, strict),</font>
+<font color=red>     0..|    Stop5 = gen_server_mock:start(stop, stop5, strict),</font>
+<font color=red>     0..|    Dur1_2 = 7,</font>
+<font color=red>     0..|    Dur2_3 = 11,</font>
+<font color=red>     0..|    Dur3_4 = 13,</font>
+<font color=red>     0..|    Dur4_5 = 17,</font>
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3, Dur3_4, Stop4, Dur4_5, Stop5], bus),</font>
+        |    
+<font color=red>     0..|    ?assertEqual(line:?GET_NEIGHBORS(Line, Stop1), [{Stop2, Dur1_2, Stop5, Line}]),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEIGHBORS(Line, Stop2), [{Stop1, Dur1_2, Stop1, Line}, {Stop3, Dur2_3, Stop5, Line}]),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEIGHBORS(Line, Stop3), [{Stop2, Dur2_3, Stop1, Line}, {Stop4, Dur3_4, Stop5, Line}]),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEIGHBORS(Line, Stop4), [{Stop3, Dur3_4, Stop1, Line}, {Stop5, Dur4_5, Stop5, Line}]),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_NEIGHBORS(Line, Stop5), [{Stop4, Dur4_5, Stop1, Line}]),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop4)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop5)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop4),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop5),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+        |  
+        |  get_other_end_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Dur1_2 = 10,</font>
+<font color=red>     0..|    Dur2_3 = 20,</font>
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3], bus),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_OTHER_END(Line, Stop1), Stop3),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_OTHER_END(Line, Stop3), Stop1),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+        |  
+        |  contains_stop_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Stop4 = gen_server_mock:start(stop, stop4, strict),</font>
+<font color=red>     0..|    Dur1_2 = 10,</font>
+<font color=red>     0..|    Dur2_3 = 20,</font>
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3], bus),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(true, line:?CONTAINS_STOP(Line, Stop1)),</font>
+<font color=red>     0..|    ?assertEqual(true, line:?CONTAINS_STOP(Line, Stop2)),</font>
+<font color=red>     0..|    ?assertEqual(true, line:?CONTAINS_STOP(Line, Stop3)),</font>
+<font color=red>     0..|    ?assertEqual(false, line:?CONTAINS_STOP(Line, Stop4)),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop4)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop4),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+        |  
+        |  get_duration_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Stop4 = gen_server_mock:start(stop, stop4, strict),</font>
+<font color=red>     0..|    Stop5 = gen_server_mock:start(stop, stop5, strict),</font>
+<font color=red>     0..|    Dur1_2 = 7,</font>
+<font color=red>     0..|    Dur2_3 = 11,</font>
+<font color=red>     0..|    Dur3_4 = 13,</font>
+<font color=red>     0..|    Dur4_5 = 17,</font>
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3, Dur3_4, Stop4, Dur4_5, Stop5], bus),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop1, Stop2), Dur1_2),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop1, Stop3), Dur1_2 + Dur2_3),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop1, Stop4), Dur1_2 + Dur2_3 + Dur3_4),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop1, Stop5), Dur1_2 + Dur2_3 + Dur3_4 + Dur4_5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop2, Stop3), Dur2_3),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop2, Stop4), Dur2_3 + Dur3_4),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop2, Stop5), Dur2_3 + Dur3_4 + Dur4_5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop3, Stop4), Dur3_4),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop3, Stop5), Dur3_4 + Dur4_5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop4, Stop5), Dur4_5),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop2, Stop1), Dur1_2),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop3, Stop1), Dur1_2 + Dur2_3),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop4, Stop1), Dur1_2 + Dur2_3 + Dur3_4),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop5, Stop1), Dur1_2 + Dur2_3 + Dur3_4 + Dur4_5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop3, Stop2), Dur2_3),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop4, Stop2), Dur2_3 + Dur3_4),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop5, Stop2), Dur2_3 + Dur3_4 + Dur4_5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop4, Stop3), Dur3_4),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop5, Stop3), Dur3_4 + Dur4_5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_DURATION(Line, Stop5, Stop4), Dur4_5),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop4)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop5)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop4),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop5),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+        |  
+        |  is_end_stop_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Dur1_2 = 10,</font>
+<font color=red>     0..|    Dur2_3 = 20,</font>
+        |  
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3], bus),</font>
+<font color=red>     0..|    ?assertEqual(true, line:?IS_END_STOP(Line, Stop1)),</font>
+<font color=red>     0..|    ?assertEqual(false, line:?IS_END_STOP(Line, Stop2)),</font>
+<font color=red>     0..|    ?assertEqual(true, line:?IS_END_STOP(Line, Stop3)),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+        |  
+        |  get_intersection_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Stop4 = gen_server_mock:start(stop, stop4, strict),</font>
+<font color=red>     0..|    Stop5 = gen_server_mock:start(stop, stop5, strict),</font>
+<font color=red>     0..|    Stop6 = gen_server_mock:start(stop, stop6, strict),</font>
+<font color=red>     0..|    Stop7 = gen_server_mock:start(stop, stop7, strict),</font>
+<font color=red>     0..|    Stop8 = gen_server_mock:start(stop, stop8, strict),</font>
+<font color=red>     0..|    Stop9 = gen_server_mock:start(stop, stop9, strict),</font>
+<font color=red>     0..|    Line1 = line_supervisor:start_line(1, [Stop1, 5, Stop2, 5, Stop3], bus),</font>
+<font color=red>     0..|    Line2 = line_supervisor:start_line(2, [Stop4, 5, Stop2, 5, Stop5], bus),</font>
+<font color=red>     0..|    Line3 = line_supervisor:start_line(3, [Stop1, 5, Stop6, 5, Stop7], bus),</font>
+<font color=red>     0..|    Line4 = line_supervisor:start_line(4, [Stop8, 5, Stop9, 5, Stop7], bus),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line1, Line2), Stop2),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line2, Line1), Stop2),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line1, Line3), Stop1),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line3, Line1), Stop1),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line3, Line4), Stop7),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line4, Line3), Stop7),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line1, Line4), none),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line4, Line1), none),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line2, Line3), none),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line3, Line2), none),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line2, Line4), none),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_INTERSECTION(Line4, Line2), none),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop4)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop5)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop6)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop7)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop8)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop9)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop4),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop5),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop6),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop7),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop8),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop9),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line1),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line2),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line3),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line4).</font>
+        |  
+        |  get_number_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, 5, Stop2, 5, Stop3], bus),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_NUMBER(Line), 1),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+        |  
+        |  get_target_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    line_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop1 = gen_server_mock:start(stop, stop1, strict),</font>
+<font color=red>     0..|    Stop2 = gen_server_mock:start(stop, stop2, strict),</font>
+<font color=red>     0..|    Stop3 = gen_server_mock:start(stop, stop3, strict),</font>
+<font color=red>     0..|    Stop4 = gen_server_mock:start(stop, stop4, strict),</font>
+<font color=red>     0..|    Stop5 = gen_server_mock:start(stop, stop5, strict),</font>
+<font color=red>     0..|    Dur1_2 = 7,</font>
+<font color=red>     0..|    Dur2_3 = 11,</font>
+<font color=red>     0..|    Dur3_4 = 13,</font>
+<font color=red>     0..|    Dur4_5 = 17,</font>
+<font color=red>     0..|    Line = line_supervisor:start_line(1, [Stop1, Dur1_2, Stop2, Dur2_3, Stop3, Dur3_4, Stop4, Dur4_5, Stop5], bus),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(line:?GET_TARGET(Line, Stop1, Stop3), Stop5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_TARGET(Line, Stop5, Stop3), Stop1),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_TARGET(Line, Stop3, Stop4), Stop5),</font>
+<font color=red>     0..|    ?assertEqual(line:?GET_TARGET(Line, Stop3, Stop2), Stop1),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop4)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Stop5)),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop1),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop2),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop3),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop4),</font>
+<font color=red>     0..|    gen_server_mock:stop(Stop5),</font>
+<font color=red>     0..|    line_supervisor:stop_line(Line).</font>
+</pre>
+</body>
+</html>

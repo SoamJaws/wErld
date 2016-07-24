@@ -120,7 +120,7 @@ get_route_helper(FromId, ToId, State) ->
   ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
   ?SPAWN( get_route_concurrent@public_transport
         , fun() ->
-            get_route_concurrent(From, To, ToLines, {[], 0}, [], AllLines, self())
+            get_route_concurrent(From, To, ToLines, {[], 1}, [], AllLines, self())
           end
         ),
   receive

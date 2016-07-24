@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-e3af9065-3431-linux-10.2016-07-24_20.23.46/stop_tests.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/test/stop_tests.erl by COVER 2016-07-24 at 20:23:49
+
+****************************************************************************
+
+        |  -module(stop_tests).
+        |  -include("public_transport.hrl").
+        |  -include_lib("eunit/include/eunit.hrl").
+        |  
+        |  passenger_check_in_test() -&gt;
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    stop_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop = stop_supervisor:start_stop(stop1),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+        |    
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),</font>
+<font color=red>     0..|    ?assertMatch({nok, _}, stop:?PASSENGER_CHECK_IN(Stop, P1)),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),</font>
+<font color=red>     0..|    ?assertMatch(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    stop_supervisor:stop_stop(Stop).</font>
+        |  
+        |  passenger_check_out_test() -&gt;
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    stop_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop = stop_supervisor:start_stop(stop1),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+<font color=red>     0..|    V1 = gen_server_mock:start(vehicle, v1, strict),</font>
+        |    
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, gen_server_utils:extract_pid(Stop)}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, true),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, true),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, true),</font>
+        |  
+<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, V1, true),</font>
+        |  
+<font color=red>     0..|    stop:?PASSENGER_CHECK_OUT(Stop, P1, false),</font>
+<font color=red>     0..|    stop:?PASSENGER_CHECK_OUT(Stop, P2, false),</font>
+<font color=red>     0..|    stop:?PASSENGER_CHECK_OUT(Stop, P3, true),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(V1)),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    gen_server_mock:stop(V1),</font>
+<font color=red>     0..|    stop_supervisor:stop_stop(Stop).</font>
+        |  
+        |  vehicle_check_in_test() -&gt;
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    stop_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop = stop_supervisor:start_stop(stop1),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+<font color=red>     0..|    P4 = gen_server_mock:start(citizen, p4, strict),</font>
+<font color=red>     0..|    V1 = gen_server_mock:start(vehicle, v1, strict),</font>
+        |    
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 1, false, gen_server_utils:extract_pid(Stop)}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, true),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, false),</font>
+        |  
+<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, V1, true),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, true),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P4, {vehicle_checked_in, V1}, false),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(V1, {?INCREMENT_BOARDING_PASSENGER, false, gen_server_utils:extract_pid(Stop)}),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P4)),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P4)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(V1)),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    gen_server_mock:stop(P4),</font>
+<font color=red>     0..|    gen_server_mock:stop(V1),</font>
+<font color=red>     0..|    stop_supervisor:stop_stop(Stop).</font>
+        |  
+        |  vehicle_check_out_test() -&gt;
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    stop_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop = stop_supervisor:start_stop(stop1),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+<font color=red>     0..|    V1 = gen_server_mock:start(vehicle, v1, strict),</font>
+<font color=red>     0..|    V2 = gen_server_mock:start(vehicle, v2, strict),</font>
+        |    
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),</font>
+<font color=red>     0..|    stop:?PASSENGER_CHECK_OUT(Stop, P1, false),</font>
+        |  
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P1)),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P2)),</font>
+<font color=red>     0..|    ?assertEqual(ok, stop:?PASSENGER_CHECK_IN(Stop, P3)),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 3, false, gen_server_utils:extract_pid(Stop)}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P1, {vehicle_checked_in, V1}, true),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P2, {vehicle_checked_in, V1}, true),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P3, {vehicle_checked_in, V1}, true),</font>
+        |  
+<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, V1, true),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, V2, true),</font>
+        |  
+<font color=red>     0..|    stop:?PASSENGER_CHECK_OUT(Stop, P1, false),</font>
+<font color=red>     0..|    stop:?PASSENGER_CHECK_OUT(Stop, P2, false),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(V2)), %% Validate that the checkin_ok has not been sent prematurely</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(V2, {?CHECKIN_OK, Stop, 0, false, gen_server_utils:extract_pid(Stop)}),</font>
+        |  
+<font color=red>     0..|    stop:?PASSENGER_CHECK_OUT(Stop, P3, true),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_OUT(Stop, V1, true),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_OUT(Stop, V2, true), %% Exercise check out when no vehicles queued</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(V1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(V2)),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    gen_server_mock:stop(V1),</font>
+<font color=red>     0..|    gen_server_mock:stop(V2),</font>
+<font color=red>     0..|    stop_supervisor:stop_stop(Stop).</font>
+        |  
+        |  invalid_vehicle_check_out_test() -&gt;
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    stop_supervisor:start_link(),</font>
+<font color=red>     0..|    Stop = stop_supervisor:start_stop(stop1),</font>
+<font color=red>     0..|    V1 = gen_server_mock:start(vehicle, v1, strict),</font>
+<font color=red>     0..|    V2 = gen_server_mock:start(vehicle, v2, strict),</font>
+        |    
+<font color=red>     0..|    gen_server_mock:expect_cast(V1, {?CHECKIN_OK, Stop, 0, false, gen_server_utils:extract_pid(Stop)}),</font>
+        |  
+<font color=red>     0..|    stop:?VEHICLE_CHECK_IN(Stop, V1, true),</font>
+<font color=red>     0..|    stop:?VEHICLE_CHECK_OUT(Stop, V2, true),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(V1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(V2)),</font>
+<font color=red>     0..|    gen_server_mock:stop(V1),</font>
+<font color=red>     0..|    gen_server_mock:stop(V2),</font>
+<font color=red>     0..|    stop_supervisor:stop_stop(Stop).</font>
+</pre>
+</body>
+</html>

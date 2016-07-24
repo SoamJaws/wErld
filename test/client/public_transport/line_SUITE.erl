@@ -60,8 +60,8 @@ init_per_group(three_stops, Config) ->
   Stop1 = gen_server_mock:start(stop, stop1, strict),
   Stop2 = gen_server_mock:start(stop, stop2, strict),
   Stop3 = gen_server_mock:start(stop, stop3, strict),
-  Dur1_2 = 10,
-  Dur2_3 = 20,
+  Dur1_2 = 7,
+  Dur2_3 = 11,
   Config ++ [ {stop1, Stop1}
             , {stop2, Stop2}
             , {stop3, Stop3}
@@ -70,61 +70,28 @@ init_per_group(three_stops, Config) ->
             ];
 
 init_per_group(four_stops, Config) ->
-  Stop1 = gen_server_mock:start(stop, stop1, strict),
-  Stop2 = gen_server_mock:start(stop, stop2, strict),
-  Stop3 = gen_server_mock:start(stop, stop3, strict),
   Stop4 = gen_server_mock:start(stop, stop4, strict),
-  Dur1_2 = 10,
-  Dur2_3 = 20,
-  Config ++ [ {stop1, Stop1}
-            , {stop2, Stop2}
-            , {stop3, Stop3}
-            , {stop4, Stop4}
-            , {dur1_2, Dur1_2}
-            , {dur2_3, Dur2_3}
-            ];
+  init_per_group(three_stops, Config) ++[{stop4, Stop4}];
 
 init_per_group(five_stops, Config) ->
-  Stop1 = gen_server_mock:start(stop, stop1, strict),
-  Stop2 = gen_server_mock:start(stop, stop2, strict),
-  Stop3 = gen_server_mock:start(stop, stop3, strict),
-  Stop4 = gen_server_mock:start(stop, stop4, strict),
   Stop5 = gen_server_mock:start(stop, stop5, strict),
-  Dur1_2 = 7,
-  Dur2_3 = 11,
   Dur3_4 = 13,
   Dur4_5 = 17,
-  Config ++ [ {stop1, Stop1}
-            , {stop2, Stop2}
-            , {stop3, Stop3}
-            , {stop4, Stop4}
-            , {stop5, Stop5}
-            , {dur1_2, Dur1_2}
-            , {dur2_3, Dur2_3}
-            , {dur3_4, Dur3_4}
-            , {dur4_5, Dur4_5}
-            ];
+  init_per_group(four_stops, Config) ++ [ {stop5, Stop5}
+                                        , {dur3_4, Dur3_4}
+                                        , {dur4_5, Dur4_5}
+                                        ];
 
 init_per_group(nine_stops, Config) ->
-  Stop1 = gen_server_mock:start(stop, stop1, strict),
-  Stop2 = gen_server_mock:start(stop, stop2, strict),
-  Stop3 = gen_server_mock:start(stop, stop3, strict),
-  Stop4 = gen_server_mock:start(stop, stop4, strict),
-  Stop5 = gen_server_mock:start(stop, stop5, strict),
   Stop6 = gen_server_mock:start(stop, stop6, strict),
   Stop7 = gen_server_mock:start(stop, stop7, strict),
   Stop8 = gen_server_mock:start(stop, stop8, strict),
   Stop9 = gen_server_mock:start(stop, stop9, strict),
-  Config ++ [ {stop1, Stop1}
-            , {stop2, Stop2}
-            , {stop3, Stop3}
-            , {stop4, Stop4}
-            , {stop5, Stop5}
-            , {stop6, Stop6}
-            , {stop7, Stop7}
-            , {stop8, Stop8}
-            , {stop9, Stop9}
-            ];
+  init_per_group(five_stops, Config) ++ [ {stop6, Stop6}
+                                        , {stop7, Stop7}
+                                        , {stop8, Stop8}
+                                        , {stop9, Stop9}
+                                        ];
 
 init_per_group(_Group, Config) ->
   Config.
@@ -142,60 +109,27 @@ end_per_group(three_stops, Config) ->
   gen_server_mock:stop(Stop3);
 
 end_per_group(four_stops, Config) ->
-  Stop1 = ?config(stop1, Config),
-  Stop2 = ?config(stop2, Config),
-  Stop3 = ?config(stop3, Config),
+  end_per_group(three_stops, Config),
   Stop4 = ?config(stop4, Config),
-  ?assert(gen_server_mock:validate(Stop1)),
-  ?assert(gen_server_mock:validate(Stop2)),
-  ?assert(gen_server_mock:validate(Stop3)),
   ?assert(gen_server_mock:validate(Stop4)),
-  gen_server_mock:stop(Stop1),
-  gen_server_mock:stop(Stop2),
-  gen_server_mock:stop(Stop3),
   gen_server_mock:stop(Stop4);
 
 end_per_group(five_stops, Config) ->
-  Stop1 = ?config(stop1, Config),
-  Stop2 = ?config(stop2, Config),
-  Stop3 = ?config(stop3, Config),
-  Stop4 = ?config(stop4, Config),
+  end_per_group(four_stops, Config),
   Stop5 = ?config(stop5, Config),
-  ?assert(gen_server_mock:validate(Stop1)),
-  ?assert(gen_server_mock:validate(Stop2)),
-  ?assert(gen_server_mock:validate(Stop3)),
-  ?assert(gen_server_mock:validate(Stop4)),
   ?assert(gen_server_mock:validate(Stop5)),
-  gen_server_mock:stop(Stop1),
-  gen_server_mock:stop(Stop2),
-  gen_server_mock:stop(Stop3),
-  gen_server_mock:stop(Stop4),
   gen_server_mock:stop(Stop5);
 
 end_per_group(nine_stops, Config) ->
-  Stop1 = ?config(stop1, Config),
-  Stop2 = ?config(stop2, Config),
-  Stop3 = ?config(stop3, Config),
-  Stop4 = ?config(stop4, Config),
-  Stop5 = ?config(stop5, Config),
+  end_per_group(five_stop, Config),
   Stop6 = ?config(stop6, Config),
   Stop7 = ?config(stop7, Config),
   Stop8 = ?config(stop8, Config),
   Stop9 = ?config(stop9, Config),
-  ?assert(gen_server_mock:validate(Stop1)),
-  ?assert(gen_server_mock:validate(Stop2)),
-  ?assert(gen_server_mock:validate(Stop3)),
-  ?assert(gen_server_mock:validate(Stop4)),
-  ?assert(gen_server_mock:validate(Stop5)),
   ?assert(gen_server_mock:validate(Stop6)),
   ?assert(gen_server_mock:validate(Stop7)),
   ?assert(gen_server_mock:validate(Stop8)),
   ?assert(gen_server_mock:validate(Stop9)),
-  gen_server_mock:stop(Stop1),
-  gen_server_mock:stop(Stop2),
-  gen_server_mock:stop(Stop3),
-  gen_server_mock:stop(Stop4),
-  gen_server_mock:stop(Stop5),
   gen_server_mock:stop(Stop6),
   gen_server_mock:stop(Stop7),
   gen_server_mock:stop(Stop8),

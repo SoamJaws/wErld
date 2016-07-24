@@ -2,8 +2,9 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   echo -e "Starting to update gh-pages\n"
 
   #copy data we're interested in to other place
+  
   mkdir -p $HOME/ct
-  cp -R .test/logs/* $HOME/ct
+  cp -R ./test/logs/* $HOME/ct
 
   #go to home and setup git
   cd $HOME

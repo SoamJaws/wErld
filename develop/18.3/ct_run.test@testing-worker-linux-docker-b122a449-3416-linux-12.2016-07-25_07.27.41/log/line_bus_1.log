@@ -1,0 +1,1784 @@
+--- INFO --- 7:27:43 line - <0.422.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.422.0>
+
+    GET_NEXT_STOP Target={{stop,stop3},<0.416.0>} Stop={{stop,stop1},<0.414.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.422.0>
+
+    GET_NEXT_STOP Target={{stop,stop3},<0.416.0>} Stop={{stop,stop2},<0.415.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.422.0>
+
+    get_next_stop_helper Stop={{stop,stop2},<0.415.0>} Alignment=post Stops=[{{stop,
+                                                                           stop2},
+                                                                          <0.415.0>},
+                                                                         11,
+                                                                         {{stop,
+                                                                           stop3},
+                                                                          <0.416.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.422.0>
+
+    GET_NEXT_STOP Target={{stop,stop3},<0.416.0>} Stop={{stop,stop3},<0.416.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.422.0>
+
+    get_next_stop_helper Stop={{stop,stop3},<0.416.0>} Alignment=post Stops=[{{stop,
+                                                                           stop2},
+                                                                          <0.415.0>},
+                                                                         11,
+                                                                         {{stop,
+                                                                           stop3},
+                                                                          <0.416.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.422.0>
+
+    get_next_stop_helper Stop={{stop,stop3},<0.416.0>} Alignment=post Stops=[{{stop,
+                                                                           stop3},
+                                                                          <0.416.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.422.0>
+
+    GET_NEXT_STOP Target={{stop,stop1},<0.414.0>} Stop={{stop,stop3},<0.416.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.422.0>
+
+    get_next_stop_helper Stop={{stop,stop3},<0.416.0>} Alignment=pre Stops=[{{stop,
+                                                                          stop2},
+                                                                         <0.415.0>},
+                                                                        11,
+                                                                        {{stop,
+                                                                          stop3},
+                                                                         <0.416.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.422.0>
+
+    GET_NEXT_STOP Target={{stop,stop1},<0.414.0>} Stop={{stop,stop2},<0.415.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.422.0>
+
+    GET_NEXT_STOP Target={{stop,stop1},<0.414.0>} Stop={{stop,stop1},<0.414.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.422.0>
+
+    get_next_stop_helper Stop={{stop,stop1},<0.414.0>} Alignment=pre Stops=[{{stop,
+                                                                          stop2},
+                                                                         <0.415.0>},
+                                                                        11,
+                                                                        {{stop,
+                                                                          stop3},
+                                                                         <0.416.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.422.0>
+
+    get_next_stop_helper Stop={{stop,stop1},<0.414.0>} Alignment=pre Stops=[{{stop,
+                                                                          stop3},
+                                                                         <0.416.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.478.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.478.0>
+
+    GET_OTHER_END Stop={{stop,stop1},<0.414.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.478.0>
+
+    GET_OTHER_END Stop={{stop,stop3},<0.416.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.498.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.498.0>
+
+    IS_END_STOP Stop={{stop,stop1},<0.414.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.498.0>
+
+    IS_END_STOP Stop={{stop,stop2},<0.415.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.498.0>
+
+    IS_END_STOP Stop={{stop,stop3},<0.416.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.524.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.524.0>
+
+    GET_NUMBER
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.548.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.548.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.540.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.548.0>
+
+    CONTAINS_STOP Stop={{stop,stop2},<0.541.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.548.0>
+
+    CONTAINS_STOP Stop={{stop,stop3},<0.542.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.548.0>
+
+    CONTAINS_STOP Stop={{stop,stop4},<0.539.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.591.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.591.0>
+
+    GET_NEIGHBORS Stop={{stop,stop1},<0.583.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.591.0>
+
+    GET_NEIGHBORS Stop={{stop,stop2},<0.584.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.591.0>
+
+    GET_NEIGHBORS Stop={{stop,stop3},<0.585.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.591.0>
+
+    GET_NEIGHBORS Stop={{stop,stop4},<0.582.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.591.0>
+
+    GET_NEIGHBORS Stop={{stop,stop5},<0.581.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,stop2},<0.584.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,
+                                                                                       stop2},
+                                                                                      <0.584.0>} Dur=7 Stops=[{{stop,
+                                                                                                                stop2},
+                                                                                                               <0.584.0>},
+                                                                                                              11,
+                                                                                                              {{stop,
+                                                                                                                stop3},
+                                                                                                               <0.585.0>},
+                                                                                                              13,
+                                                                                                              {{stop,
+                                                                                                                stop4},
+                                                                                                               <0.582.0>},
+                                                                                                              17,
+                                                                                                              {{stop,
+                                                                                                                stop5},
+                                                                                                               <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,stop3},<0.585.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,
+                                                                                       stop3},
+                                                                                      <0.585.0>} Dur=7 Stops=[{{stop,
+                                                                                                                stop2},
+                                                                                                               <0.584.0>},
+                                                                                                              11,
+                                                                                                              {{stop,
+                                                                                                                stop3},
+                                                                                                               <0.585.0>},
+                                                                                                              13,
+                                                                                                              {{stop,
+                                                                                                                stop4},
+                                                                                                               <0.582.0>},
+                                                                                                              17,
+                                                                                                              {{stop,
+                                                                                                                stop5},
+                                                                                                               <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop1},
+                                                                            <0.583.0>} ToStop={{stop,
+                                                                                                stop3},
+                                                                                               <0.585.0>} OnPathtrue Dur=11 Stops=[{{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,stop4},<0.582.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,
+                                                                                       stop4},
+                                                                                      <0.582.0>} Dur=7 Stops=[{{stop,
+                                                                                                                stop2},
+                                                                                                               <0.584.0>},
+                                                                                                              11,
+                                                                                                              {{stop,
+                                                                                                                stop3},
+                                                                                                               <0.585.0>},
+                                                                                                              13,
+                                                                                                              {{stop,
+                                                                                                                stop4},
+                                                                                                               <0.582.0>},
+                                                                                                              17,
+                                                                                                              {{stop,
+                                                                                                                stop5},
+                                                                                                               <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop1},
+                                                                            <0.583.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathtrue Dur=11 Stops=[{{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop1},
+                                                                            <0.583.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,stop5},<0.581.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,
+                                                                                       stop5},
+                                                                                      <0.581.0>} Dur=7 Stops=[{{stop,
+                                                                                                                stop2},
+                                                                                                               <0.584.0>},
+                                                                                                              11,
+                                                                                                              {{stop,
+                                                                                                                stop3},
+                                                                                                               <0.585.0>},
+                                                                                                              13,
+                                                                                                              {{stop,
+                                                                                                                stop4},
+                                                                                                               <0.582.0>},
+                                                                                                              17,
+                                                                                                              {{stop,
+                                                                                                                stop5},
+                                                                                                               <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop1},
+                                                                            <0.583.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathtrue Dur=11 Stops=[{{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop1},
+                                                                            <0.583.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop1},
+                                                                            <0.583.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathtrue Dur=17 Stops=[{{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,stop3},<0.585.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop2},
+                                                                            <0.584.0>} ToStop={{stop,
+                                                                                                stop3},
+                                                                                               <0.585.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,
+                                                                                       stop3},
+                                                                                      <0.585.0>} Dur=11 Stops=[{{stop,
+                                                                                                                 stop3},
+                                                                                                                <0.585.0>},
+                                                                                                               13,
+                                                                                                               {{stop,
+                                                                                                                 stop4},
+                                                                                                                <0.582.0>},
+                                                                                                               17,
+                                                                                                               {{stop,
+                                                                                                                 stop5},
+                                                                                                                <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,stop4},<0.582.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop2},
+                                                                            <0.584.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,
+                                                                                       stop4},
+                                                                                      <0.582.0>} Dur=11 Stops=[{{stop,
+                                                                                                                 stop3},
+                                                                                                                <0.585.0>},
+                                                                                                               13,
+                                                                                                               {{stop,
+                                                                                                                 stop4},
+                                                                                                                <0.582.0>},
+                                                                                                               17,
+                                                                                                               {{stop,
+                                                                                                                 stop5},
+                                                                                                                <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop2},
+                                                                            <0.584.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,stop5},<0.581.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop2},
+                                                                            <0.584.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,
+                                                                                       stop5},
+                                                                                      <0.581.0>} Dur=11 Stops=[{{stop,
+                                                                                                                 stop3},
+                                                                                                                <0.585.0>},
+                                                                                                               13,
+                                                                                                               {{stop,
+                                                                                                                 stop4},
+                                                                                                                <0.582.0>},
+                                                                                                               17,
+                                                                                                               {{stop,
+                                                                                                                 stop5},
+                                                                                                                <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop2},
+                                                                            <0.584.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop2},
+                                                                            <0.584.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathtrue Dur=17 Stops=[{{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop4},<0.582.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop3},
+                                                                            <0.585.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop3},
+                                                                            <0.585.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathfalse Dur=11 Stops=[{{stop,
+                                                                                                                                      stop3},
+                                                                                                                                     <0.585.0>},
+                                                                                                                                    13,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,
+                                                                                       stop4},
+                                                                                      <0.582.0>} Dur=13 Stops=[{{stop,
+                                                                                                                 stop4},
+                                                                                                                <0.582.0>},
+                                                                                                               17,
+                                                                                                               {{stop,
+                                                                                                                 stop5},
+                                                                                                                <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop5},<0.581.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop3},
+                                                                            <0.585.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop3},
+                                                                            <0.585.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathfalse Dur=11 Stops=[{{stop,
+                                                                                                                                      stop3},
+                                                                                                                                     <0.585.0>},
+                                                                                                                                    13,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,
+                                                                                       stop5},
+                                                                                      <0.581.0>} Dur=13 Stops=[{{stop,
+                                                                                                                 stop4},
+                                                                                                                <0.582.0>},
+                                                                                                               17,
+                                                                                                               {{stop,
+                                                                                                                 stop5},
+                                                                                                                <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop3},
+                                                                            <0.585.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathtrue Dur=17 Stops=[{{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,stop5},<0.581.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathfalse Dur=11 Stops=[{{stop,
+                                                                                                                                      stop3},
+                                                                                                                                     <0.585.0>},
+                                                                                                                                    13,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop5},
+                                                                                               <0.581.0>} OnPathfalse Dur=13 Stops=[{{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is FromStop, FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,
+                                                                                       stop5},
+                                                                                      <0.581.0>} Dur=17 Stops=[{{stop,
+                                                                                                                 stop5},
+                                                                                                                <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,stop1},<0.583.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop2},<0.584.0>} ToStop={{stop,
+                                                                                     stop1},
+                                                                                    <0.583.0>} Dur=7 Stops=[{{stop,
+                                                                                                              stop2},
+                                                                                                             <0.584.0>},
+                                                                                                            11,
+                                                                                                            {{stop,
+                                                                                                              stop3},
+                                                                                                             <0.585.0>},
+                                                                                                            13,
+                                                                                                            {{stop,
+                                                                                                              stop4},
+                                                                                                             <0.582.0>},
+                                                                                                            17,
+                                                                                                            {{stop,
+                                                                                                              stop5},
+                                                                                                             <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop1},<0.583.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,
+                                                                                     stop1},
+                                                                                    <0.583.0>} Dur=7 Stops=[{{stop,
+                                                                                                              stop2},
+                                                                                                             <0.584.0>},
+                                                                                                            11,
+                                                                                                            {{stop,
+                                                                                                              stop3},
+                                                                                                             <0.585.0>},
+                                                                                                            13,
+                                                                                                            {{stop,
+                                                                                                              stop4},
+                                                                                                             <0.582.0>},
+                                                                                                            17,
+                                                                                                            {{stop,
+                                                                                                              stop5},
+                                                                                                             <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop3},
+                                                                            <0.585.0>} ToStop={{stop,
+                                                                                                stop1},
+                                                                                               <0.583.0>} OnPathtrue Dur=11 Stops=[{{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,stop1},<0.583.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,
+                                                                                     stop1},
+                                                                                    <0.583.0>} Dur=7 Stops=[{{stop,
+                                                                                                              stop2},
+                                                                                                             <0.584.0>},
+                                                                                                            11,
+                                                                                                            {{stop,
+                                                                                                              stop3},
+                                                                                                             <0.585.0>},
+                                                                                                            13,
+                                                                                                            {{stop,
+                                                                                                              stop4},
+                                                                                                             <0.582.0>},
+                                                                                                            17,
+                                                                                                            {{stop,
+                                                                                                              stop5},
+                                                                                                             <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop1},
+                                                                                               <0.583.0>} OnPathtrue Dur=11 Stops=[{{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop1},
+                                                                                               <0.583.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,stop1},<0.583.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,
+                                                                                     stop1},
+                                                                                    <0.583.0>} Dur=7 Stops=[{{stop,
+                                                                                                              stop2},
+                                                                                                             <0.584.0>},
+                                                                                                            11,
+                                                                                                            {{stop,
+                                                                                                              stop3},
+                                                                                                             <0.585.0>},
+                                                                                                            13,
+                                                                                                            {{stop,
+                                                                                                              stop4},
+                                                                                                             <0.582.0>},
+                                                                                                            17,
+                                                                                                            {{stop,
+                                                                                                              stop5},
+                                                                                                             <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop1},
+                                                                                               <0.583.0>} OnPathtrue Dur=11 Stops=[{{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop1},
+                                                                                               <0.583.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop1},
+                                                                                               <0.583.0>} OnPathtrue Dur=17 Stops=[{{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop2},<0.584.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop3},
+                                                                            <0.585.0>} ToStop={{stop,
+                                                                                                stop2},
+                                                                                               <0.584.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,
+                                                                                     stop2},
+                                                                                    <0.584.0>} Dur=11 Stops=[{{stop,
+                                                                                                               stop3},
+                                                                                                              <0.585.0>},
+                                                                                                             13,
+                                                                                                             {{stop,
+                                                                                                               stop4},
+                                                                                                              <0.582.0>},
+                                                                                                             17,
+                                                                                                             {{stop,
+                                                                                                               stop5},
+                                                                                                              <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,stop2},<0.584.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop2},
+                                                                                               <0.584.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,
+                                                                                     stop2},
+                                                                                    <0.584.0>} Dur=11 Stops=[{{stop,
+                                                                                                               stop3},
+                                                                                                              <0.585.0>},
+                                                                                                             13,
+                                                                                                             {{stop,
+                                                                                                               stop4},
+                                                                                                              <0.582.0>},
+                                                                                                             17,
+                                                                                                             {{stop,
+                                                                                                               stop5},
+                                                                                                              <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop2},
+                                                                                               <0.584.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,stop2},<0.584.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop2},
+                                                                                               <0.584.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,
+                                                                                     stop2},
+                                                                                    <0.584.0>} Dur=11 Stops=[{{stop,
+                                                                                                               stop3},
+                                                                                                              <0.585.0>},
+                                                                                                             13,
+                                                                                                             {{stop,
+                                                                                                               stop4},
+                                                                                                              <0.582.0>},
+                                                                                                             17,
+                                                                                                             {{stop,
+                                                                                                               stop5},
+                                                                                                              <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop2},
+                                                                                               <0.584.0>} OnPathtrue Dur=13 Stops=[{{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop2},
+                                                                                               <0.584.0>} OnPathtrue Dur=17 Stops=[{{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,stop3},<0.585.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop3},
+                                                                                               <0.585.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop4},
+                                                                            <0.582.0>} ToStop={{stop,
+                                                                                                stop3},
+                                                                                               <0.585.0>} OnPathfalse Dur=11 Stops=[{{stop,
+                                                                                                                                      stop3},
+                                                                                                                                     <0.585.0>},
+                                                                                                                                    13,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop4},<0.582.0>} ToStop={{stop,
+                                                                                     stop3},
+                                                                                    <0.585.0>} Dur=13 Stops=[{{stop,
+                                                                                                               stop4},
+                                                                                                              <0.582.0>},
+                                                                                                             17,
+                                                                                                             {{stop,
+                                                                                                               stop5},
+                                                                                                              <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,stop3},<0.585.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop3},
+                                                                                               <0.585.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop3},
+                                                                                               <0.585.0>} OnPathfalse Dur=11 Stops=[{{stop,
+                                                                                                                                      stop3},
+                                                                                                                                     <0.585.0>},
+                                                                                                                                    13,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,
+                                                                                     stop3},
+                                                                                    <0.585.0>} Dur=13 Stops=[{{stop,
+                                                                                                               stop4},
+                                                                                                              <0.582.0>},
+                                                                                                             17,
+                                                                                                             {{stop,
+                                                                                                               stop5},
+                                                                                                              <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop3},
+                                                                                               <0.585.0>} OnPathtrue Dur=17 Stops=[{{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.629.0>
+
+    GET_DURATION FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,stop4},<0.582.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathfalse Dur=7 Stops=[{{stop,
+                                                                                                                                     stop2},
+                                                                                                                                    <0.584.0>},
+                                                                                                                                   11,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop3},
+                                                                                                                                    <0.585.0>},
+                                                                                                                                   13,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop4},
+                                                                                                                                    <0.582.0>},
+                                                                                                                                   17,
+                                                                                                                                   {{stop,
+                                                                                                                                     stop5},
+                                                                                                                                    <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathfalse Dur=11 Stops=[{{stop,
+                                                                                                                                      stop3},
+                                                                                                                                     <0.585.0>},
+                                                                                                                                    13,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head does not match FromStop or ToStop, FromStop={{stop,
+                                                                             stop5},
+                                                                            <0.581.0>} ToStop={{stop,
+                                                                                                stop4},
+                                                                                               <0.582.0>} OnPathfalse Dur=13 Stops=[{{stop,
+                                                                                                                                      stop4},
+                                                                                                                                     <0.582.0>},
+                                                                                                                                    17,
+                                                                                                                                    {{stop,
+                                                                                                                                      stop5},
+                                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.629.0>
+
+    get_duration_helper Stops head is ToStop, FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,
+                                                                                     stop4},
+                                                                                    <0.582.0>} Dur=17 Stops=[{{stop,
+                                                                                                               stop5},
+                                                                                                              <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.877.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.877.0>
+
+    GET_TARGET FromStop={{stop,stop1},<0.583.0>} ToStop={{stop,stop3},<0.585.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.877.0>
+
+    GET_TARGET FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,stop3},<0.585.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.877.0>
+
+    get_target_helper FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,stop3},
+                                                            <0.585.0>} FirstEnd={{stop,
+                                                                                  stop1},
+                                                                                 <0.583.0>} Stop={{stop,
+                                                                                                   stop2},
+                                                                                                  <0.584.0>} Stops=[{{stop,
+                                                                                                                      stop3},
+                                                                                                                     <0.585.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop4},
+                                                                                                                     <0.582.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop5},
+                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.877.0>
+
+    get_target_helper FromStop={{stop,stop5},<0.581.0>} ToStop={{stop,stop3},
+                                                            <0.585.0>} FirstEnd={{stop,
+                                                                                  stop1},
+                                                                                 <0.583.0>} Stop={{stop,
+                                                                                                   stop3},
+                                                                                                  <0.585.0>} Stops=[{{stop,
+                                                                                                                      stop4},
+                                                                                                                     <0.582.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop5},
+                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.877.0>
+
+    GET_TARGET FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop4},<0.582.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.877.0>
+
+    get_target_helper FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop4},
+                                                            <0.582.0>} FirstEnd={{stop,
+                                                                                  stop1},
+                                                                                 <0.583.0>} Stop={{stop,
+                                                                                                   stop2},
+                                                                                                  <0.584.0>} Stops=[{{stop,
+                                                                                                                      stop3},
+                                                                                                                     <0.585.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop4},
+                                                                                                                     <0.582.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop5},
+                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.877.0>
+
+    get_target_helper FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop4},
+                                                            <0.582.0>} FirstEnd={{stop,
+                                                                                  stop1},
+                                                                                 <0.583.0>} Stop={{stop,
+                                                                                                   stop3},
+                                                                                                  <0.585.0>} Stops=[{{stop,
+                                                                                                                      stop4},
+                                                                                                                     <0.582.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop5},
+                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.877.0>
+
+    GET_TARGET FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop2},<0.584.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.877.0>
+
+    get_target_helper FromStop={{stop,stop3},<0.585.0>} ToStop={{stop,stop2},
+                                                            <0.584.0>} FirstEnd={{stop,
+                                                                                  stop1},
+                                                                                 <0.583.0>} Stop={{stop,
+                                                                                                   stop2},
+                                                                                                  <0.584.0>} Stops=[{{stop,
+                                                                                                                      stop3},
+                                                                                                                     <0.585.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop4},
+                                                                                                                     <0.582.0>},
+                                                                                                                    {{stop,
+                                                                                                                      stop5},
+                                                                                                                     <0.581.0>}]
+
+-------------------------------------
+
+--- INFO --- 7:27:43 line - <0.934.0>
+
+    Line started
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_2},<0.936.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.934.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.936.0>} Stop={{stop,stop1},
+                                                                 <0.926.0>} Rest=[{{stop,
+                                                                                    stop2},
+                                                                                   <0.927.0>},
+                                                                                  {{stop,
+                                                                                    stop3},
+                                                                                   <0.928.0>}]
+
+-------------------------------------
+
+--- SEND --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.936.0>} Stop={{stop,stop1},<0.926.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.934.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.936.0>} Stop={{stop,stop2},
+                                                                 <0.927.0>} Rest=[{{stop,
+                                                                                    stop3},
+                                                                                   <0.928.0>}]
+
+-------------------------------------
+
+--- SEND --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.936.0>} Stop={{stop,stop2},<0.927.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    REPLY CONTAINS_STOP true
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Stop={{stop,stop4},<0.925.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Stop={{stop,stop2},<0.927.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_3},<0.937.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.934.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.937.0>} Stop={{stop,stop1},
+                                                                 <0.926.0>} Rest=[{{stop,
+                                                                                    stop2},
+                                                                                   <0.927.0>},
+                                                                                  {{stop,
+                                                                                    stop3},
+                                                                                   <0.928.0>}]
+
+-------------------------------------
+
+--- SEND --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.937.0>} Stop={{stop,stop1},<0.926.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    REPLY CONTAINS_STOP true
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.926.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_4},<0.938.0>}
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.934.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.938.0>} Stop={{stop,stop1},
+                                                                 <0.926.0>} Rest=[{{stop,
+                                                                                    stop2},
+                                                                                   <0.927.0>},
+                                                                                  {{stop,
+                                                                                    stop3},
+                                                                                   <0.928.0>}]
+
+-------------------------------------
+
+--- SEND --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.938.0>} Stop={{stop,stop1},<0.926.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.934.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.938.0>} Stop={{stop,stop2},
+                                                                 <0.927.0>} Rest=[{{stop,
+                                                                                    stop3},
+                                                                                   <0.928.0>}]
+
+-------------------------------------
+
+--- SEND --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.938.0>} Stop={{stop,stop2},<0.927.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 7:27:43 line - <0.934.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.938.0>} Stop={{stop,stop3},
+                                                                 <0.928.0>} Rest=[]
+
+-------------------------------------
+
+--- SEND --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.938.0>} Stop={{stop,stop3},<0.928.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Stop={{stop,stop8},<0.922.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Stop={{stop,stop9},<0.923.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:27:43 line - <0.934.0>
+
+    CONTAINS_STOP Stop={{stop,stop7},<0.921.0>}
+
+----------------------------------------
+

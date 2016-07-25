@@ -1,0 +1,397 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-5faa2ca7-3576-linux-2.2016-07-25_07.32.19/vehicle_tests.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/test/vehicle_tests.erl by COVER 2016-07-25 at 07:32:22
+
+****************************************************************************
+
+        |  -module(vehicle_tests).
+        |  -include("public_transport.hrl").
+        |  -include("time.hrl").
+        |  -include_lib("eunit/include/eunit.hrl").
+        |  
+        |  checkin_ok_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    S1 = gen_server_mock:start(stop, s1, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 0, true),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(S1)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(S1),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+        |  
+        |  boarding_passenger_capacity_reached_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    S1 = gen_server_mock:start(stop, s1, strict),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(stop, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+<font color=red>     0..|    P4 = gen_server_mock:start(citizen, p4, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 4, true),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P4), nok),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(S1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P4)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(S1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    gen_server_mock:stop(P4),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+        |  
+        |  boarding_passenger_below_capacity_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    S1 = gen_server_mock:start(stop, s1, strict),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(S1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(S1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+        |  
+        |  next_stop_reached_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    S1 = gen_server_mock:start(stop, s1, strict),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(P1, {vehicle_checked_in, Vehicle}, leave),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P2, {vehicle_checked_in, Vehicle}, stay),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P3, {vehicle_checked_in, Vehicle}, stay),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(S1, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    vehicle:?NEW_TIME(Vehicle, 1234+5, true),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(S1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(S1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+        |  
+        |  next_stop_not_reached_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    S1 = gen_server_mock:start(stop, s1, strict),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),</font>
+        |  
+<font color=red>     0..|    vehicle:?NEW_TIME(Vehicle, 1234+2, true),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(S1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(S1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+        |  
+        |  target_stop_reached_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {TargetStop, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P1, {vehicle_checked_in, Vehicle}, leave),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P2, {vehicle_checked_in, Vehicle}, stay),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(P3, {vehicle_checked_in, Vehicle}, stay),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(TargetStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    vehicle:?NEW_TIME(Vehicle, 1234+5, true),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+        |  
+        |  increment_boarding_passenger_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    S1 = gen_server_mock:start(stop, s1, strict),</font>
+<font color=red>     0..|    P1 = gen_server_mock:start(citizen, p1, strict),</font>
+<font color=red>     0..|    P2 = gen_server_mock:start(citizen, p2, strict),</font>
+<font color=red>     0..|    P3 = gen_server_mock:start(citizen, p3, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 2, true),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),</font>
+        |  
+<font color=red>     0..|    vehicle:?INCREMENT_BOARDING_PASSENGER(Vehicle, true),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(S1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P2)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(P3)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(S1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P1),</font>
+<font color=red>     0..|    gen_server_mock:stop(P2),</font>
+<font color=red>     0..|    gen_server_mock:stop(P3),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+        |  
+        |  new_time_not_driving_test() -&gt;
+<font color=red>     0..|    put(id, test),</font>
+<font color=red>     0..|    put(module, "test"),</font>
+<font color=red>     0..|    vehicle_supervisor:start_link(),</font>
+<font color=red>     0..|    StartStop = gen_server_mock:start(stop, startstop, strict),</font>
+<font color=red>     0..|    TargetStop = gen_server_mock:start(stop, targetstop, strict),</font>
+<font color=red>     0..|    Time = gen_server_mock:start_global(time, time, strict),</font>
+<font color=red>     0..|    L1 = gen_server_mock:start(line, l1, strict),</font>
+<font color=red>     0..|    S1 = gen_server_mock:start(stop, s1, strict),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, ?GET_NUMBER, 1),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_OTHER_END, TargetStop}, StartStop),</font>
+<font color=red>     0..|    Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    vehicle:?NEW_TIME(Vehicle, 1233, true),</font>
+        |    
+        |    %% Hack, setting expected cast after call, will work since
+        |    %% casts are not verified until validate is called
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+        |  
+<font color=red>     0..|    gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),</font>
+<font color=red>     0..|    gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),</font>
+<font color=red>     0..|    gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),</font>
+<font color=red>     0..|    vehicle:?CHECKIN_OK(Vehicle, StartStop, 0, true),</font>
+        |  
+<font color=red>     0..|    ?assert(gen_server_mock:validate(StartStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(TargetStop)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(Time)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(L1)),</font>
+<font color=red>     0..|    ?assert(gen_server_mock:validate(S1)),</font>
+<font color=red>     0..|    gen_server_mock:stop(StartStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(TargetStop),</font>
+<font color=red>     0..|    gen_server_mock:stop(Time),</font>
+<font color=red>     0..|    gen_server_mock:stop(L1),</font>
+<font color=red>     0..|    gen_server_mock:stop(S1),</font>
+<font color=red>     0..|    vehicle_supervisor:stop_vehicle(Vehicle).</font>
+</pre>
+</body>
+</html>

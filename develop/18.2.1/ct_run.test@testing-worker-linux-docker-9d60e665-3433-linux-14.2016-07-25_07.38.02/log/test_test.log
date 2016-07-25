@@ -1,0 +1,1089 @@
+--- SEND --- 7:38:3 test - <0.415.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.419.0>} TargetStop={{stop,stop3},
+                                                        <0.413.0>} CurrentStop={{stop,
+                                                                                 stop1},
+                                                                                <0.411.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.415.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop2},<0.412.0>},7}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.415.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.419.0>} TargetStop={{stop,stop3},
+                                                        <0.413.0>} CurrentStop={{stop,
+                                                                                 stop2},
+                                                                                <0.412.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.415.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop3},<0.413.0>},11}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.415.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.419.0>} TargetStop={{stop,stop3},
+                                                        <0.413.0>} CurrentStop={{stop,
+                                                                                 stop3},
+                                                                                <0.413.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.415.0>
+
+    REPLY GET_NEXT_STOP none
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.415.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.419.0>} TargetStop={{stop,stop1},
+                                                        <0.411.0>} CurrentStop={{stop,
+                                                                                 stop3},
+                                                                                <0.413.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.415.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop2},<0.412.0>},11}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.415.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.419.0>} TargetStop={{stop,stop1},
+                                                        <0.411.0>} CurrentStop={{stop,
+                                                                                 stop2},
+                                                                                <0.412.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.415.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop1},<0.411.0>},7}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.415.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.419.0>} TargetStop={{stop,stop1},
+                                                        <0.411.0>} CurrentStop={{stop,
+                                                                                 stop1},
+                                                                                <0.411.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.415.0>
+
+    REPLY GET_NEXT_STOP none
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.471.0>
+
+    GET_OTHER_END Line={{line,bus_1},<0.475.0>} Stop={{stop,stop1},<0.411.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.471.0>
+
+    REPLY GET_OTHER_END {{stop,stop3},<0.413.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.471.0>
+
+    GET_OTHER_END Line={{line,bus_1},<0.475.0>} Stop={{stop,stop3},<0.413.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.471.0>
+
+    REPLY GET_OTHER_END {{stop,stop1},<0.411.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.491.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.495.0>} Stop={{stop,stop1},<0.411.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.491.0>
+
+    REPLY IS_END_STOP true
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.491.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.495.0>} Stop={{stop,stop2},<0.412.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.491.0>
+
+    REPLY IS_END_STOP false
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.491.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.495.0>} Stop={{stop,stop3},<0.413.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.491.0>
+
+    REPLY IS_END_STOP true
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.517.0>
+
+    GET_NUMBER Line={{line,bus_1},<0.521.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.517.0>
+
+    REPLY GET_NUMBER 1
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.541.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.545.0>} Stop={{stop,stop1},<0.537.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.541.0>
+
+    REPLY CONTAINS_STOP true
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.541.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.545.0>} Stop={{stop,stop2},<0.538.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.541.0>
+
+    REPLY CONTAINS_STOP true
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.541.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.545.0>} Stop={{stop,stop3},<0.539.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.541.0>
+
+    REPLY CONTAINS_STOP true
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.541.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.545.0>} Stop={{stop,stop4},<0.536.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.541.0>
+
+    REPLY CONTAINS_STOP false
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.584.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.588.0>} Stop={{stop,stop1},<0.580.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.584.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop2},<0.581.0>},
+                      7,
+                      {{stop,stop5},<0.578.0>},
+                      {{line,bus_1},<0.588.0>}}]
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.584.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.588.0>} Stop={{stop,stop2},<0.581.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.584.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop1},<0.580.0>},
+                      7,
+                      {{stop,stop1},<0.580.0>},
+                      {{line,bus_1},<0.588.0>}},
+                     {{{stop,stop3},<0.582.0>},
+                      11,
+                      {{stop,stop5},<0.578.0>},
+                      {{line,bus_1},<0.588.0>}}]
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.584.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.588.0>} Stop={{stop,stop3},<0.582.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.584.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop2},<0.581.0>},
+                      11,
+                      {{stop,stop1},<0.580.0>},
+                      {{line,bus_1},<0.588.0>}},
+                     {{{stop,stop4},<0.579.0>},
+                      13,
+                      {{stop,stop5},<0.578.0>},
+                      {{line,bus_1},<0.588.0>}}]
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.584.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.588.0>} Stop={{stop,stop4},<0.579.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.584.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop3},<0.582.0>},
+                      13,
+                      {{stop,stop1},<0.580.0>},
+                      {{line,bus_1},<0.588.0>}},
+                     {{{stop,stop5},<0.578.0>},
+                      17,
+                      {{stop,stop5},<0.578.0>},
+                      {{line,bus_1},<0.588.0>}}]
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.584.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.588.0>} Stop={{stop,stop5},<0.578.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.584.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop4},<0.579.0>},
+                      17,
+                      {{stop,stop1},<0.580.0>},
+                      {{line,bus_1},<0.588.0>}}]
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop1},<0.580.0>} ToStop={{stop,
+                                                                                      stop2},
+                                                                                     <0.581.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 7
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop1},<0.580.0>} ToStop={{stop,
+                                                                                      stop3},
+                                                                                     <0.582.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 18
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop1},<0.580.0>} ToStop={{stop,
+                                                                                      stop4},
+                                                                                     <0.579.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 31
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop1},<0.580.0>} ToStop={{stop,
+                                                                                      stop5},
+                                                                                     <0.578.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 48
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop2},<0.581.0>} ToStop={{stop,
+                                                                                      stop3},
+                                                                                     <0.582.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 11
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop2},<0.581.0>} ToStop={{stop,
+                                                                                      stop4},
+                                                                                     <0.579.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 24
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop2},<0.581.0>} ToStop={{stop,
+                                                                                      stop5},
+                                                                                     <0.578.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 41
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop3},<0.582.0>} ToStop={{stop,
+                                                                                      stop4},
+                                                                                     <0.579.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 13
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop3},<0.582.0>} ToStop={{stop,
+                                                                                      stop5},
+                                                                                     <0.578.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 30
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop4},<0.579.0>} ToStop={{stop,
+                                                                                      stop5},
+                                                                                     <0.578.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 17
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop2},<0.581.0>} ToStop={{stop,
+                                                                                      stop1},
+                                                                                     <0.580.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 7
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop3},<0.582.0>} ToStop={{stop,
+                                                                                      stop1},
+                                                                                     <0.580.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 18
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop4},<0.579.0>} ToStop={{stop,
+                                                                                      stop1},
+                                                                                     <0.580.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 31
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop5},<0.578.0>} ToStop={{stop,
+                                                                                      stop1},
+                                                                                     <0.580.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 48
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop3},<0.582.0>} ToStop={{stop,
+                                                                                      stop2},
+                                                                                     <0.581.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 11
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop4},<0.579.0>} ToStop={{stop,
+                                                                                      stop2},
+                                                                                     <0.581.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 24
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop5},<0.578.0>} ToStop={{stop,
+                                                                                      stop2},
+                                                                                     <0.581.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 41
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop4},<0.579.0>} ToStop={{stop,
+                                                                                      stop3},
+                                                                                     <0.582.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 13
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop5},<0.578.0>} ToStop={{stop,
+                                                                                      stop3},
+                                                                                     <0.582.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 30
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.622.0>
+
+    GET_DURATION Line={{line,bus_1},<0.626.0>} FromStop={{stop,stop5},<0.578.0>} ToStop={{stop,
+                                                                                      stop4},
+                                                                                     <0.579.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.622.0>
+
+    REPLY GET_DURATION 17
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.870.0>
+
+    GET_TARGET Line={{line,bus_1},<0.874.0>} FromStop={{stop,stop1},<0.580.0>} ToStop={{stop,
+                                                                                    stop3},
+                                                                                   <0.582.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.870.0>
+
+    REPLY GET_TARGET {{stop,stop5},<0.578.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.870.0>
+
+    GET_TARGET Line={{line,bus_1},<0.874.0>} FromStop={{stop,stop5},<0.578.0>} ToStop={{stop,
+                                                                                    stop3},
+                                                                                   <0.582.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.870.0>
+
+    REPLY GET_TARGET {{stop,stop1},<0.580.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.870.0>
+
+    GET_TARGET Line={{line,bus_1},<0.874.0>} FromStop={{stop,stop3},<0.582.0>} ToStop={{stop,
+                                                                                    stop4},
+                                                                                   <0.579.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.870.0>
+
+    REPLY GET_TARGET {{stop,stop5},<0.578.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.870.0>
+
+    GET_TARGET Line={{line,bus_1},<0.874.0>} FromStop={{stop,stop3},<0.582.0>} ToStop={{stop,
+                                                                                    stop2},
+                                                                                   <0.581.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.870.0>
+
+    REPLY GET_TARGET {{stop,stop1},<0.580.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.931.0>} OtherLine={{line,bus_2},
+                                                          <0.933.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION {{stop,stop2},<0.924.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_2},<0.933.0>} OtherLine={{line,bus_1},
+                                                          <0.931.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION {{stop,stop2},<0.924.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.931.0>} OtherLine={{line,bus_3},
+                                                          <0.934.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION {{stop,stop1},<0.923.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_3},<0.934.0>} OtherLine={{line,bus_1},
+                                                          <0.931.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION {{stop,stop1},<0.923.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_3},<0.934.0>} OtherLine={{line,bus_4},
+                                                          <0.936.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION {{stop,stop7},<0.918.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_4},<0.936.0>} OtherLine={{line,bus_3},
+                                                          <0.934.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION {{stop,stop7},<0.918.0>}
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.931.0>} OtherLine={{line,bus_4},
+                                                          <0.936.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION none
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_4},<0.936.0>} OtherLine={{line,bus_1},
+                                                          <0.931.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION none
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_2},<0.933.0>} OtherLine={{line,bus_3},
+                                                          <0.934.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION none
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_3},<0.934.0>} OtherLine={{line,bus_2},
+                                                          <0.933.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION none
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_2},<0.933.0>} OtherLine={{line,bus_4},
+                                                          <0.936.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION none
+
+---------------------------------------
+
+--- SEND --- 7:38:3 test - <0.927.0>
+
+    GET_INTERSECTION Line={{line,bus_4},<0.936.0>} OtherLine={{line,bus_2},
+                                                          <0.933.0>}
+
+------------------------------------
+
+--- RECEIVE --- 7:38:3 test - <0.927.0>
+
+    REPLY GET_INTERSECTION none
+
+---------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1289.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1299.0>} Passenger={{citizen,p1},
+                                                             <0.1293.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1289.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1289.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1299.0>} Passenger={{citizen,p1},
+                                                             <0.1293.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1289.0>
+
+    REPLY PASSENGER_CHECK_IN {nok,"Already checked in"}
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1289.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1299.0>} Passenger={{citizen,p2},
+                                                             <0.1294.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1289.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1289.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1299.0>} Passenger={{citizen,p3},
+                                                             <0.1295.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1289.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1327.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1337.0>} Passenger={{citizen,p1},
+                                                             <0.1331.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1327.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1327.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1337.0>} Passenger={{citizen,p2},
+                                                             <0.1332.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1327.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1327.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1337.0>} Passenger={{citizen,p3},
+                                                             <0.1333.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1327.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1327.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.1337.0>} Vehicle={{vehicle,v1},
+                                                         <0.1335.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1327.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.1337.0>} Passenger={{citizen,p1},
+                                                              <0.1331.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1327.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.1337.0>} Passenger={{citizen,p2},
+                                                              <0.1332.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1327.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.1337.0>} Passenger={{citizen,p3},
+                                                              <0.1333.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1383.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1393.0>} Passenger={{citizen,p1},
+                                                             <0.1387.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1383.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1383.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1393.0>} Passenger={{citizen,p2},
+                                                             <0.1388.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1383.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1383.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.1393.0>} Vehicle={{vehicle,v1},
+                                                         <0.1391.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1383.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1393.0>} Passenger={{citizen,p3},
+                                                             <0.1389.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1383.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1383.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1393.0>} Passenger={{citizen,p4},
+                                                             <0.1390.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1383.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p1},
+                                                             <0.1437.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1433.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p1},
+                                                              <0.1437.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p1},
+                                                             <0.1437.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1433.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p2},
+                                                             <0.1438.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1433.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p3},
+                                                             <0.1439.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 7:38:4 test - <0.1433.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.1443.0>} Vehicle={{vehicle,v1},
+                                                         <0.1441.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.1443.0>} Vehicle={{vehicle,v2},
+                                                         <0.1442.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p1},
+                                                              <0.1437.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p2},
+                                                              <0.1438.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.1443.0>} Passenger={{citizen,p3},
+                                                              <0.1439.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.1443.0>} Vehicle={{vehicle,v1},
+                                                          <0.1441.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1433.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.1443.0>} Vehicle={{vehicle,v2},
+                                                          <0.1442.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1513.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.1523.0>} Vehicle={{vehicle,v1},
+                                                         <0.1521.0>}
+
+-------------------------------------
+
+--- SEND --- 7:38:4 test - <0.1513.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.1523.0>} Vehicle={{vehicle,v2},
+                                                          <0.1522.0>}
+
+-------------------------------------
+

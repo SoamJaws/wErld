@@ -70,7 +70,7 @@ end_per_testcase(_TestCase, Config) ->
   gen_server_mock:stop(V1),
   gen_server_mock:stop(V2),
   logger:stop(),
-  stop_supervisor:stop_stop(Stop).
+  stop_supervisor:stop_stop(Stop),
   Config.
 
 

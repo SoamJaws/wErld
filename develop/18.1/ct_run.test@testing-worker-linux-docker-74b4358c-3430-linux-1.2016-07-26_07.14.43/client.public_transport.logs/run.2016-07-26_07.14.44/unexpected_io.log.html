@@ -1,93 +1,21 @@
---- Test run on 2016/07/26 07:14:43 ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Unexpected I/O log</title>
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="../../ct_default.css" type="text/css">
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
 
-=PROGRESS REPORT==== 26-Jul-2016::07:14:43 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.40.0>},
-                       {id,alarm_handler},
-                       {mfargs,{alarm_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
+<br />
+<h3>Unexpected I/O</h3>
+<pre>
 
-=PROGRESS REPORT==== 26-Jul-2016::07:14:43 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.41.0>},
-                       {id,overload},
-                       {mfargs,{overload,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:14:43 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.39.0>},
-                       {id,sasl_safe_sup},
-                       {mfargs,
-                           {supervisor,start_link,
-                               [{local,sasl_safe_sup},sasl,safe]}},
-                       {restart_type,permanent},
-                       {shutdown,infinity},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:14:43 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.42.0>},
-                       {id,release_handler},
-                       {mfargs,{release_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:14:43 ===
-         application: sasl
-          started_at: 'test@testing-worker-linux-docker-74b4358c-3430-linux-1'
-Converting "/home/travis/build/SoamJaws/wErld/." to "/home/travis/build/SoamJaws/wErld" and re-inserting with add_patha/1
-
-
-Common Test v1.11 starting (cwd is /home/travis/build/SoamJaws/wErld)
-
-
-Common Test: Running make in test directories...
-Including the following directories:
-"/home/travis/build/SoamJaws/wErld/include"
-Recompile: vehicle_SUITE
-vehicle_SUITE.erl:64: illegal guard expression
-vehicle_SUITE.erl:69: variable 'L1' is unbound
-vehicle_SUITE.erl:69: variable 'TargetStop' is unbound
-vehicle_SUITE.erl:70: illegal guard expression
-vehicle_SUITE.erl:75: variable 'L1' is unbound
-vehicle_SUITE.erl:75: variable 'TargetStop' is unbound
-vehicle_SUITE.erl:78: variable 'Time' is unbound
-vehicle_SUITE.erl:79: variable 'StartStop' is unbound
-vehicle_SUITE.erl:60: Warning: variable 'TestCase' is unused
-vehicle_SUITE.erl:125: Warning: variable 'P1' is unused
-vehicle_SUITE.erl:126: Warning: variable 'P2' is unused
-vehicle_SUITE.erl:127: Warning: variable 'P3' is unused
-vehicle_SUITE.erl:128: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:167: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:188: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:215: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:234: Warning: variable 'S1' is unused
-vehicle_SUITE.erl:238: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:267: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:287: Warning: variable 'P1' is unused
-vehicle_SUITE.erl:288: Warning: variable 'P2' is unused
-vehicle_SUITE.erl:289: Warning: variable 'P3' is unused
-vehicle_SUITE.erl:290: Warning: variable 'P4' is unused
-Recompile: stop_SUITE
-Recompile: public_transport_SUITE
-public_transport_SUITE.erl:17: Warning: variable 'PublicTransportSupervisor' is unused
-Recompile: line_SUITE
-{error,make_failed}
-
-
-CWD set to: "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-74b4358c-3430-linux-1.2016-07-26_07.14.43"
-
-TEST INFO: 1 test(s), 15 case(s) in 3 suite(s)
-
-Cover compiling 'wErld' (11 files) - this may take some time... done
-
-Testing client.public_transport: Starting test, 15 test cases
+<div class="error_logger"><b>*** System report during line_SUITE:get_next_stop_case/1 in three_stops 2016-07-26 07:14:44.666 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:44 ===
 ** Generic server line_supervisor terminating 
@@ -111,6 +39,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.4413>,1864,ok,[{line_SUITE,get_next_stop_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_next_stop_case/1 in three_stops 2016-07-26 07:14:44.670 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:44 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -130,6 +61,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 347
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_other_end_case/1 in three_stops 2016-07-26 07:14:44.694 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:44 ===
 ** Generic server line_supervisor terminating 
@@ -153,6 +87,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.4546>,437,ok,[{line_SUITE,get_other_end_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_other_end_case/1 in three_stops 2016-07-26 07:14:44.695 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:44 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -172,6 +109,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 338
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:is_end_stop_case/1 in three_stops 2016-07-26 07:14:44.722 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:44 ===
 ** Generic server line_supervisor terminating 
@@ -195,6 +135,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.4645>,569,ok,[{line_SUITE,is_end_stop_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:is_end_stop_case/1 in three_stops 2016-07-26 07:14:44.722 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:44 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -214,6 +157,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 338
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_number_case/1 in three_stops 2016-07-26 07:14:44.748 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:44 ===
 ** Generic server line_supervisor terminating 
@@ -237,6 +183,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.4942>,275,ok,[{line_SUITE,get_number_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_number_case/1 in three_stops 2016-07-26 07:14:44.748 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:44 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -256,6 +205,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 338
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:contains_stop_case/1 in four_stops 2016-07-26 07:14:44.826 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:44 ===
 ** Generic server line_supervisor terminating 
@@ -279,6 +231,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.5458>,726,ok,[{line_SUITE,contains_stop_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:contains_stop_case/1 in four_stops 2016-07-26 07:14:44.827 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:44 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -298,6 +253,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 338
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_neighbors_case/1 in five_stops 2016-07-26 07:14:44.907 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:44 ===
 ** Generic server line_supervisor terminating 
@@ -321,6 +279,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.2768>,1236,ok,[{line_SUITE,get_neighbors_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_neighbors_case/1 in five_stops 2016-07-26 07:14:44.907 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:44 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -340,6 +301,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 335
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_duration_case/1 in five_stops 2016-07-26 07:14:44.972 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:44 ===
 ** Generic server line_supervisor terminating 
@@ -363,6 +327,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.3146>,15665,ok,[{line_SUITE,get_duration_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_duration_case/1 in five_stops 2016-07-26 07:14:44.972 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:44 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -382,6 +349,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 335
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_target_case/1 in five_stops 2016-07-26 07:14:45.003 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:45 ===
 ** Generic server line_supervisor terminating 
@@ -405,6 +375,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.5792>,2208,ok,[{line_SUITE,get_target_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_target_case/1 in five_stops 2016-07-26 07:14:45.004 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:45 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -424,6 +397,9 @@ Testing client.public_transport: Starting test, 15 test cases
     stack_size: 27
     reductions: 335
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_intersection_case/1 in nine_stops 2016-07-26 07:14:45.123 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:45 ===
 ** Generic server line_supervisor terminating 
@@ -447,6 +423,9 @@ Testing client.public_transport: Starting test, 15 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.6488>,10028,ok,[{line_SUITE,get_intersection_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_intersection_case/1 in nine_stops 2016-07-26 07:14:45.123 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:45 ===
   crasher:
     initial call: supervisor:line_supervisor/1
@@ -467,47 +446,8 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 609
   neighbours:
 
-=PROGRESS REPORT==== 26-Jul-2016::07:14:45 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1314.0>},
-                       {id,line_supervisor},
-                       {mfargs,{line_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:14:45 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1315.0>},
-                       {id,stop_supervisor},
-                       {mfargs,{stop_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:14:45 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1317.0>},
-                       {id,vehicle_supervisor},
-                       {mfargs,{vehicle_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:14:45 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1319.0>},
-                       {id,public_transport},
-                       {mfargs,{public_transport,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-gen_server:call failed on line 204
-Reason: timeout
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+</div>
+<div class="error_logger"><b>*** System report during public_transport_SUITE:test1/1 2016-07-26 07:14:55.406 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:55 ===
 ** Generic server <0.1313.0> terminating 
@@ -555,6 +495,9 @@ Reason: timeout
      {test_server,run_test_case_eval,926}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during public_transport_SUITE:test1/1 2016-07-26 07:14:55.410 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:55 ===
   crasher:
     initial call: supervisor:public_transport_supervisor/1
@@ -584,7 +527,9 @@ Reason: timeout
     stack_size: 27
     reductions: 415
   neighbours:
-Testing client.public_transport: *** FAILED test case 10 of 15 ***
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:passenger_check_in_case/1 2016-07-26 07:14:55.511 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:55 ===
 ** Generic server stop_supervisor terminating 
@@ -608,6 +553,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
 ** Reason for termination == 
 ** {#Ref<0.0.1.166674>,868,ok,[{stop_SUITE,passenger_check_in_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:passenger_check_in_case/1 2016-07-26 07:14:55.511 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:55 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -627,6 +575,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
     stack_size: 27
     reductions: 323
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:passenger_check_out_case/1 2016-07-26 07:14:55.543 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:55 ===
 ** Generic server stop_supervisor terminating 
@@ -650,6 +601,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
 ** Reason for termination == 
 ** {#Ref<0.0.1.167030>,2457,ok,[{stop_SUITE,passenger_check_out_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:passenger_check_out_case/1 2016-07-26 07:14:55.544 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:55 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -669,6 +623,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
     stack_size: 27
     reductions: 323
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:vehicle_check_in_case/1 2016-07-26 07:14:55.574 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:55 ===
 ** Generic server stop_supervisor terminating 
@@ -692,6 +649,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
 ** Reason for termination == 
 ** {#Ref<0.0.1.167433>,1163,ok,[{stop_SUITE,vehicle_check_in_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:vehicle_check_in_case/1 2016-07-26 07:14:55.574 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:55 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -711,6 +671,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
     stack_size: 27
     reductions: 323
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:vehicle_check_out_case/1 2016-07-26 07:14:55.611 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:55 ===
 ** Generic server stop_supervisor terminating 
@@ -734,6 +697,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
 ** Reason for termination == 
 ** {#Ref<0.0.1.167799>,2349,ok,[{stop_SUITE,vehicle_check_out_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:vehicle_check_out_case/1 2016-07-26 07:14:55.611 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:55 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -753,6 +719,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
     stack_size: 27
     reductions: 323
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:invalid_vehicle_check_out_case/1 2016-07-26 07:14:55.639 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:14:55 ===
 ** Generic server stop_supervisor terminating 
@@ -778,6 +747,9 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
     [{stop_SUITE,invalid_vehicle_check_out_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:invalid_vehicle_check_out_case/1 2016-07-26 07:14:55.639 ***</b>
+
 =CRASH REPORT==== 26-Jul-2016::07:14:55 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -798,15 +770,17 @@ Testing client.public_transport: *** FAILED test case 10 of 15 ***
     reductions: 323
   neighbours:
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Error detected: 'vehicle_SUITE can not be compiled or loaded'
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-Testing client.public_transport: *** FAILED {ct_framework,error_in_suite} ***
-Testing client.public_transport: TEST COMPLETE, 14 ok, 1 failed of 15 test cases
-
-Cover analysing... done
-
-Updating /home/travis/build/SoamJaws/wErld/test/logs/index.html... done
-Updating /home/travis/build/SoamJaws/wErld/test/logs/all_runs.html... done
-
+</div>
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!date>Tue Jul 26 2016 07:14:44<!/date><br />
+</div>
+</center>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-74b4358c-3430-linux-1.2016-07-26_07.14.43/gen_server_utils.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/common/gen_server_utils.erl by COVER 2016-07-26 at 07:14:56
+
+****************************************************************************
+
+        |  -module(gen_server_utils).
+        |  -include("gen_server_utils.hrl").
+        |  
+        |  -export([ cast/3
+        |          , notify_caller/2
+        |          , extract_module/1
+        |          , extract_pid/1]).
+        |  
+        |  -spec cast(pid() | {global, atom()}, tuple(), boolean()) -&gt; ok.
+        |  cast(Address, Msg, BlockCaller) -&gt;
+    21..|    UpdatedMsg = if
+        |                   is_tuple(Msg) -&gt;
+    21..|                     lists:foldl(fun(V, T) -&gt; erlang:insert_element(tuple_size(T) + 1, T, V) end, Msg, [BlockCaller, self()]);
+        |                   true -&gt;
+<font color=red>     0..|                     {Msg, BlockCaller, self()}</font>
+        |                 end,
+    21..|    gen_server:cast(Address, UpdatedMsg),
+    21..|    block_caller(BlockCaller).
+        |  
+        |  -spec block_caller(boolean()) -&gt; ok.
+        |  block_caller(BlockCaller) -&gt;
+    21..|    if
+        |      BlockCaller -&gt;
+    10..|        receive
+    10..|          ok -&gt; ok
+        |        end;
+        |      true -&gt;
+    11..|        ok
+        |    end.
+        |  
+        |  -spec notify_caller(boolean(), pid()) -&gt; ok.
+        |  notify_caller(NotifyCaller, Caller) -&gt;
+    15..|    if
+        |      NotifyCaller -&gt;
+    10..|        Caller ! ok;
+        |      true -&gt;
+     5..|        ok
+        |    end.
+        |  
+        |  -spec extract_module(gen_address()) -&gt; atom().
+<font color=red>     0..|  extract_module({{Module, _Id}, _Pid}) -&gt; Module.</font>
+        |  
+        |  -spec extract_pid(gen_address()) -&gt; pid().
+     6..|  extract_pid({{_Module, _Id}, Pid}) -&gt; Pid.
+</pre>
+</body>
+</html>

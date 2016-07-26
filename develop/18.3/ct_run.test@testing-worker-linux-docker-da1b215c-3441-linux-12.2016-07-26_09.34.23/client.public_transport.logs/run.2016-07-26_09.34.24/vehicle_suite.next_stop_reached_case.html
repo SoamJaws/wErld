@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Test vehicle_SUITE:next_stop_reached_case result</title>
+<meta http-equiv="cache-control" content="no-cache"></meta>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"></meta>
+<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link>
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
+
+<a name="top"></a><pre>
+=== Test case: <a href="vehicle_suite.src.html#next_stop_reached_case-1">vehicle_SUITE:next_stop_reached_case/1</a> (click for source code)
+
+=== Config value:
+
+    [{watchdog,&lt;0.27012.0&gt;},
+     {tc_logfile,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-da1b215c-3441-linux-12.2016-07-26_09.34.23/client.public_transport.logs/run.2016-07-26_09.34.24/vehicle_suite.next_stop_reached_case.html"},
+     {tc_group_properties,[{suite,vehicle_SUITE}]},
+     {tc_group_path,[]},
+     {data_dir,"/home/travis/build/SoamJaws/wErld/test/client/public_transport/vehicle_SUITE_data/"},
+     {priv_dir,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-da1b215c-3441-linux-12.2016-07-26_09.34.23/client.public_transport.logs/run.2016-07-26_09.34.24/log_private/"}]
+
+=== Current directory is "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-da1b215c-3441-linux-12.2016-07-26_09.34.23"
+
+=== Started at 2016-07-26 09:34:35
+
+<br />
+
+</pre>
+<div class="error_logger"><pre><b>*** System report during vehicle_SUITE:next_stop_reached_case/1 2016-07-26 09:34:35.992 ***</b>
+
+=ERROR REPORT==== 26-Jul-2016::09:34:35 ===
+** Generic server &lt;0.27187.0&gt; terminating 
+** Last message in was {'$gen_cast',{new_time,1239,true,&lt;0.27173.0&gt;}}
+** When Server state == {vehicle_state,
+                            {driving,{{stop,s1},&lt;0.27181.0&gt;},5},
+                            4,bus_1,1234,
+                            {1,{{line,l1},&lt;0.27180.0&gt;}},
+                            [{{stop,p1},&lt;0.27182.0&gt;},
+                             {{citizen,p2},&lt;0.27183.0&gt;},
+                             {{citizen,p3},&lt;0.27184.0&gt;}],
+                            0,
+                            {{stop,targetstop},&lt;0.27178.0&gt;},
+                            bus}
+** Reason for termination == 
+** {function_clause,[{citizen,vehicle_checked_in,
+                              [{{stop,p1},&lt;0.27182.0&gt;},
+                               {{vehicle,bus_1},&lt;0.27187.0&gt;}],
+                              [{file,"src/client/citizen.erl"},{line,29}]},
+                     {vehicle,notify_passengers_checkin,2,
+                              [{file,"src/client/public_transport/vehicle.erl"},
+                               {line,194}]},
+                     {vehicle,handle_cast,2,
+                              [{file,"src/client/public_transport/vehicle.erl"},
+                               {line,129}]},
+                     {gen_server,try_dispatch,4,
+                                 [{file,"gen_server.erl"},{line,615}]},
+                     {gen_server,handle_msg,5,
+                                 [{file,"gen_server.erl"},{line,681}]},
+                     {proc_lib,init_p_do_apply,3,
+                               [{file,"proc_lib.erl"},{line,240}]}]}
+
+</pre></div>
+<pre>
+
+</pre>
+<div class="sasl"><pre><b>*** System report during vehicle_SUITE:next_stop_reached_case/1 2016-07-26 09:34:35.993 ***</b>
+
+=CRASH REPORT==== 26-Jul-2016::09:34:35 ===
+  crasher:
+    initial call: vehicle:init/1
+    pid: &lt;0.27187.0&gt;
+    registered_name: []
+    exception exit: {function_clause,
+                        [{citizen,vehicle_checked_in,
+                             [{{stop,p1},&lt;0.27182.0&gt;},
+                              {{vehicle,bus_1},&lt;0.27187.0&gt;}],
+                             [{file,"src/client/citizen.erl"},{line,29}]},
+                         {vehicle,notify_passengers_checkin,2,
+                             [{file,"src/client/public_transport/vehicle.erl"},
+                              {line,194}]},
+                         {vehicle,handle_cast,2,
+                             [{file,"src/client/public_transport/vehicle.erl"},
+                              {line,129}]},
+                         {gen_server,try_dispatch,4,
+                             [{file,"gen_server.erl"},{line,615}]},
+                         {gen_server,handle_msg,5,
+                             [{file,"gen_server.erl"},{line,681}]},
+                         {proc_lib,init_p_do_apply,3,
+                             [{file,"proc_lib.erl"},{line,240}]}]}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [&lt;0.27176.0&gt;,&lt;0.27173.0&gt;]
+    messages: []
+    links: [&lt;0.27176.0&gt;]
+    dictionary: [{module,"vehicle"},{id,bus_1}]
+    trap_exit: false
+    status: running
+    heap_size: 2586
+    stack_size: 27
+    reductions: 16307
+  neighbours:
+
+</pre></div>
+<pre>
+
+</pre>
+<div class="sasl"><pre><b>*** System report during vehicle_SUITE:next_stop_reached_case/1 2016-07-26 09:34:35.994 ***</b>
+
+=SUPERVISOR REPORT==== 26-Jul-2016::09:34:35 ===
+     Supervisor: {global,vehicle_supervisor}
+     Context:    child_terminated
+     Reason:     {function_clause,
+                     [{citizen,vehicle_checked_in,
+                          [{{stop,p1},&lt;0.27182.0&gt;},
+                           {{vehicle,bus_1},&lt;0.27187.0&gt;}],
+                          [{file,"src/client/citizen.erl"},{line,29}]},
+                      {vehicle,notify_passengers_checkin,2,
+                          [{file,"src/client/public_transport/vehicle.erl"},
+                           {line,194}]},
+                      {vehicle,handle_cast,2,
+                          [{file,"src/client/public_transport/vehicle.erl"},
+                           {line,129}]},
+                      {gen_server,try_dispatch,4,
+                          [{file,"gen_server.erl"},{line,615}]},
+                      {gen_server,handle_msg,5,
+                          [{file,"gen_server.erl"},{line,681}]},
+                      {proc_lib,init_p_do_apply,3,
+                          [{file,"proc_lib.erl"},{line,240}]}]}
+     Offender:   [{pid,&lt;0.27187.0&gt;},
+                  {id,vehicle},
+                  {mfargs,{vehicle,start_link,
+                                   [4,bus_1,
+                                    {{line,l1},&lt;0.27180.0&gt;},
+                                    1,
+                                    {{stop,targetstop},&lt;0.27178.0&gt;},
+                                    bus]}},
+                  {restart_type,transient},
+                  {shutdown,1000},
+                  {child_type,worker}]
+
+
+</pre></div>
+<pre>
+
+</pre>
+<div class="sasl"><pre><b>*** System report during vehicle_SUITE:next_stop_reached_case/1 2016-07-26 09:34:35.995 ***</b>
+
+=SUPERVISOR REPORT==== 26-Jul-2016::09:34:35 ===
+     Supervisor: {global,vehicle_supervisor}
+     Context:    shutdown
+     Reason:     reached_max_restart_intensity
+     Offender:   [{pid,&lt;0.27187.0&gt;},
+                  {id,vehicle},
+                  {mfargs,{vehicle,start_link,
+                                   [4,bus_1,
+                                    {{line,l1},&lt;0.27180.0&gt;},
+                                    1,
+                                    {{stop,targetstop},&lt;0.27178.0&gt;},
+                                    bus]}},
+                  {restart_type,transient},
+                  {shutdown,1000},
+                  {child_type,worker}]
+
+
+</pre></div>
+<pre>
+=== WARNING! vehicle_SUITE:end_per_testcase(next_stop_reached_case, [{tc_status,
+                                                                  {failed,
+                                                                   shutdown}},
+                                                                 {vehicle,
+                                                                  {{vehicle,
+                                                                    bus_1},
+                                                                   <0.27187.0>}},
+                                                                 {watchdog,
+                                                                  <0.27174.0>},
+                                                                 {tc_logfile,
+                                                                  "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-da1b215c-3441-linux-12.2016-07-26_09.34.23/client.public_transport.logs/run.2016-07-26_09.34.24/vehicle_suite.next_stop_reached_case.html"},
+                                                                 {tc_group_properties,
+                                                                  [{suite,
+                                                                    vehicle_SUITE}]},
+                                                                 {tc_group_path,
+                                                                  []},
+                                                                 {data_dir,
+                                                                  "/home/travis/build/SoamJaws/wErld/test/client/public_transport/vehicle_SUITE_data/"},
+                                                                 {priv_dir,
+                                                                  "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-da1b215c-3441-linux-12.2016-07-26_09.34.23/client.public_transport.logs/run.2016-07-26_09.34.24/log_private/"},
+                                                                 {startstop,
+                                                                  {{stop,
+                                                                    startstop},
+                                                                   <0.27177.0>}},
+                                                                 {targetstop,
+                                                                  {{stop,
+                                                                    targetstop},
+                                                                   <0.27178.0>}},
+                                                                 {time,
+                                                                  {{time,time},
+                                                                   <0.27179.0>}},
+                                                                 {l1,
+                                                                  {{line,l1},
+                                                                   <0.27180.0>}},
+                                                                 {s1,
+                                                                  {{stop,s1},
+                                                                   <0.27181.0>}},
+                                                                 {p1,
+                                                                  {{stop,p1},
+                                                                   <0.27182.0>}},
+                                                                 {p2,
+                                                                  {{citizen,
+                                                                    p2},
+                                                                   <0.27183.0>}},
+                                                                 {p3,
+                                                                  {{citizen,
+                                                                    p3},
+                                                                   <0.27184.0>}},
+                                                                 {p4,
+                                                                  {{citizen,
+                                                                    p4},
+                                                                   <0.27185.0>}}]) crashed!
+	Reason: {assert,[{module,vehicle_SUITE},
+         {line,102},
+         {expression,"gen_server_mock : validate ( S1 )"},
+         {expected,true},
+         {value,false}]}
+
+
+</pre>
+<div class="ct_error_notify"><pre><b>*** CT Error Notification 2016-07-26 09:34:35.996 ***</b>
+Error detected: {'EXIT',shutdown}
+
+<a href="#end">Full error description and stacktrace</a>
+</pre></div>
+<pre>
+<a name="end"></a>
+
+
+=== Ended at 2016-07-26 09:34:36
+=== Location: unknown
+=== Reason: {'EXIT',shutdown}
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!--date-->Tue Jul 26 2016 09:34:35<!--/date--><br />
+</div>
+</center>
+</body>
+</html>

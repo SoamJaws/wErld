@@ -59,6 +59,10 @@ init_per_testcase(Config) ->
 
 init_per_testcase(TestCase, Config) ->
   UpdatedConfig = init_per_testcase(Config),
+  StartStop = ?config(startstop, UpdatedConfig),
+  TargetStop = ?config(targetstop, UpdatedConfig),
+  Time = ?config(time, UpdatedConfig),
+  L1 = ?config(l1, UpdatedConfig),
   HasThreeCapacity = lists:member(TestCase, [ checkin_ok_case
                                             , boarding_passenger_capacity_reached_case
                                             , boarding_passenger_below_capacity_case

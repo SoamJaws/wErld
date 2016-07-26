@@ -111,7 +111,7 @@ end_per_testcase(_TestCase, Config) ->
   gen_server_mock:stop(P2),
   gen_server_mock:stop(P3),
   gen_server_mock:stop(P4),
-  vehicle_supervisor:stop_vehicle(Vehicle).
+  vehicle_supervisor:stop_vehicle(Vehicle),
   logger:stop(),
   Config.
 

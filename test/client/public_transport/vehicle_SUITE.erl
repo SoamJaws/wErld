@@ -59,22 +59,20 @@ init_per_testcase(Config) ->
 
 init_per_testcase(TestCase, Config) ->
   UpdatedConfig = init_per_testcase(Config),
-
-  if
-    lists:member(TestCase, [ checkin_ok_case
-                           , boarding_passenger_capacity_reached_case
-                           , boarding_passenger_below_capacity_case
-                           , new_time_not_driving_case
-                           ]) ->
-      Vehicle = vehicle_supervisor:start_vehicle(3, L1, TargetStop, bus);
-    lists:member(TestCase, [ next_stop_reached_case
-                           , next_stop_not_reached_case
-                           , target_stop_reached_case
-                           , increment_boarding_passenger_case
-                           ]) ->
-      Vehicle = vehicle_supervisor:start_vehicle(4, L1, TargetStop, bus)
-  end,
-    
+  HasThreeCapacity = lists:member(TestCase, [ checkin_ok_case
+                                            , boarding_passenger_capacity_reached_case
+                                            , boarding_passenger_below_capacity_case
+                                            , new_time_not_driving_case
+                                            ]),
+  HasFourCapacity = lists:member(TestCase, [ next_stop_reached_case
+                                           , next_stop_not_reached_case
+                                           , target_stop_reached_case
+                                           , increment_boarding_passenger_case
+                                           ]),
+  Vehicle = vehicle_supervisor:start_vehicle(if
+                                               HasThreeCapacity -> 3;
+                                               HasFourCapacity -> 4
+                                             end, L1, TargetStop, bus),
   gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
 

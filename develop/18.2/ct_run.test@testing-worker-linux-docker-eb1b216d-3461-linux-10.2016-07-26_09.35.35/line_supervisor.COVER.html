@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-eb1b216d-3461-linux-10.2016-07-26_09.35.35/line_supervisor.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/line_supervisor.erl by COVER 2016-07-26 at 09:35:49
+
+****************************************************************************
+
+        |  -module(line_supervisor).
+        |  -include("public_transport.hrl").
+        |  -behaviour(supervisor).
+        |  
+        |  -export([ start_link/0
+        |          , start_line/3
+        |          , stop_line/1]).
+        |  
+        |  -export([init/1]).
+        |  
+        |  start_link() -&gt;
+    10..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+        |  
+        |  start_line(Number, Stops, Type) -&gt;
+    16..|    Result = supervisor:start_child({global, ?MODULE}, [Number, Stops, Type]),
+    16..|    case Result of
+        |      {ok, Pid} -&gt;
+    16..|        Id = list_to_atom(atom_to_list(Type) ++ [$_|integer_to_list(Number)]),
+    16..|        ?ADDRESS(line);
+        |      Result -&gt;
+<font color=red>     0..|        Result</font>
+        |    end.
+        |  
+        |  stop_line(?ADDRESS(line)) -&gt;
+    12..|    supervisor:terminate_child({global, ?MODULE}, Pid).
+        |    
+        |  
+        |  init(_Args) -&gt;
+    10..|    put(id, ?MODULE),
+    10..|    put(module, ?MODULE_STRING),
+    10..|    SupFlags = { simple_one_for_one
+        |               , 0
+        |               , 1
+        |               },
+    10..|    ChildSpecs = [ { line
+        |                   , {line, start_link, []}
+        |                   , transient
+        |                   , 1000
+        |                   , worker
+        |                   , [line]
+        |                   }
+        |                 ],
+    10..|    {ok, {SupFlags, ChildSpecs}}.
+</pre>
+</body>
+</html>

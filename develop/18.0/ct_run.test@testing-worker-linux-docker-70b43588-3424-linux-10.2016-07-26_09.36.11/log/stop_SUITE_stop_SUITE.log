@@ -1,0 +1,300 @@
+--- SEND --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18517.0>} Passenger={{citizen,p1},
+                                                              <0.18511.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18517.0>} Passenger={{citizen,p1},
+                                                              <0.18511.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    REPLY PASSENGER_CHECK_IN {nok,"Already checked in"}
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18517.0>} Passenger={{citizen,p2},
+                                                              <0.18512.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18517.0>} Passenger={{citizen,p3},
+                                                              <0.18513.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18507.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18555.0>} Passenger={{citizen,p1},
+                                                              <0.18549.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18555.0>} Passenger={{citizen,p2},
+                                                              <0.18550.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18555.0>} Passenger={{citizen,p3},
+                                                              <0.18551.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.18555.0>} Vehicle={{vehicle,v1},
+                                                          <0.18553.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.18555.0>} Passenger={{citizen,p1},
+                                                               <0.18549.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.18555.0>} Passenger={{citizen,p2},
+                                                               <0.18550.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18545.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.18555.0>} Passenger={{citizen,p3},
+                                                               <0.18551.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18611.0>} Passenger={{citizen,p1},
+                                                              <0.18605.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18611.0>} Passenger={{citizen,p2},
+                                                              <0.18606.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.18611.0>} Vehicle={{vehicle,v1},
+                                                          <0.18609.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18611.0>} Passenger={{citizen,p3},
+                                                              <0.18607.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18611.0>} Passenger={{citizen,p4},
+                                                              <0.18608.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:22 stop_SUITE - <0.18601.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p1},
+                                                              <0.18655.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p1},
+                                                               <0.18655.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p1},
+                                                              <0.18655.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p2},
+                                                              <0.18656.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p3},
+                                                              <0.18657.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.18661.0>} Vehicle={{vehicle,v1},
+                                                          <0.18659.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.18661.0>} Vehicle={{vehicle,v2},
+                                                          <0.18660.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p1},
+                                                               <0.18655.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p2},
+                                                               <0.18656.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.18661.0>} Passenger={{citizen,p3},
+                                                               <0.18657.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.18661.0>} Vehicle={{vehicle,v1},
+                                                           <0.18659.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18651.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.18661.0>} Vehicle={{vehicle,v2},
+                                                           <0.18660.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18731.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.18741.0>} Vehicle={{vehicle,v1},
+                                                          <0.18739.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:36:23 stop_SUITE - <0.18731.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.18741.0>} Vehicle={{vehicle,v2},
+                                                           <0.18740.0>}
+
+---------------------------------------------
+

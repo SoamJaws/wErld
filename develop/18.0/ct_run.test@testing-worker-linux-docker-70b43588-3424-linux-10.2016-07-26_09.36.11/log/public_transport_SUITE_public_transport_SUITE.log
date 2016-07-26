@@ -1,0 +1,6 @@
+--- SEND --- 9:36:12 public_transport_SUITE - <0.1376.0>
+
+    GET_ROUTE public_transport FromId=a ToId=o
+
+--------------------------------------------------------
+

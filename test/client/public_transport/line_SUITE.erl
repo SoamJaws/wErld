@@ -140,8 +140,8 @@ end_per_group(_Group, _Config) ->
 
 
 init_per_testcase(_TestCase, Config) ->
-  put(id, test),
-  put(module, "test"),
+  put(id, ?MODULE),
+  put(module, ?MODULE_STRING),
   logger:start_link("log"),
   line_supervisor:start_link(),
   Config.

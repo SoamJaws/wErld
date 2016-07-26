@@ -11,8 +11,8 @@
 all() -> [test1].
 
 init_per_testcase(_TestCase, Config) ->
-  put(id, test),
-  put(module, "test"),
+  put(id, ?MODULE),
+  put(module, ?MODULE_STRING),
   logger:start_link("log"),
   {ok, PublicTransportSupervisor} = public_transport_supervisor:start_link(),
   Config.

@@ -25,8 +25,8 @@ all() ->
 
 
 init_per_testcase(_TestCase, Config) ->
-  put(id, test),
-  put(module, "test"),
+  put(id, ?MODULE),
+  put(module, ?MODULE_STRING),
   logger:start_link("log"),
   stop_supervisor:start_link(),
   P1 = gen_server_mock:start(citizen, p1, strict),

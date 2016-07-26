@@ -1,99 +1,27 @@
---- Test run on 2016/07/26 07:11:32 ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Unexpected I/O log</title>
+<meta http-equiv="cache-control" content="no-cache"></meta>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"></meta>
+<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link>
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
 
-=PROGRESS REPORT==== 26-Jul-2016::07:11:32 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.40.0>},
-                       {id,alarm_handler},
-                       {mfargs,{alarm_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
+<br />
+<h3>Unexpected I/O</h3>
+<pre>
 
-=PROGRESS REPORT==== 26-Jul-2016::07:11:32 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.41.0>},
-                       {id,overload},
-                       {mfargs,{overload,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:11:32 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.39.0>},
-                       {id,sasl_safe_sup},
-                       {mfargs,
-                           {supervisor,start_link,
-                               [{local,sasl_safe_sup},sasl,safe]}},
-                       {restart_type,permanent},
-                       {shutdown,infinity},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:11:32 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.42.0>},
-                       {id,release_handler},
-                       {mfargs,{release_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:11:32 ===
-         application: sasl
-          started_at: 'test@testing-worker-linux-docker-511823d7-3435-linux-8'
-Converting "/home/travis/build/SoamJaws/wErld/." to "/home/travis/build/SoamJaws/wErld" and re-inserting with add_patha/1
-
-
-Common Test v1.12 starting (cwd is /home/travis/build/SoamJaws/wErld)
-
-
-Common Test: Running make in test directories...
-Including the following directories:
-"/home/travis/build/SoamJaws/wErld/include"
-Recompile: vehicle_SUITE
-vehicle_SUITE.erl:115: syntax error before: ':'
-vehicle_SUITE.erl:64: illegal guard expression
-vehicle_SUITE.erl:69: variable 'L1' is unbound
-vehicle_SUITE.erl:69: variable 'TargetStop' is unbound
-vehicle_SUITE.erl:70: illegal guard expression
-vehicle_SUITE.erl:75: variable 'L1' is unbound
-vehicle_SUITE.erl:75: variable 'TargetStop' is unbound
-vehicle_SUITE.erl:78: variable 'Time' is unbound
-vehicle_SUITE.erl:79: variable 'StartStop' is unbound
-vehicle_SUITE.erl:60: Warning: variable 'TestCase' is unused
-vehicle_SUITE.erl:125: Warning: variable 'P1' is unused
-vehicle_SUITE.erl:126: Warning: variable 'P2' is unused
-vehicle_SUITE.erl:127: Warning: variable 'P3' is unused
-vehicle_SUITE.erl:128: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:167: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:188: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:215: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:234: Warning: variable 'S1' is unused
-vehicle_SUITE.erl:238: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:267: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:287: Warning: variable 'P1' is unused
-vehicle_SUITE.erl:288: Warning: variable 'P2' is unused
-vehicle_SUITE.erl:289: Warning: variable 'P3' is unused
-vehicle_SUITE.erl:290: Warning: variable 'P4' is unused
-Recompile: stop_SUITE
-Recompile: public_transport_SUITE
-public_transport_SUITE.erl:17: Warning: variable 'PublicTransportSupervisor' is unused
-Recompile: line_SUITE
-{error,make_failed}
-
-
-CWD set to: "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-511823d7-3435-linux-8.2016-07-26_07.11.32"
-
-TEST INFO: 1 test(s), 15 case(s) in 3 suite(s)
-
-Cover compiling 'wErld' (11 files) - this may take some time... done
-
-Testing client.public_transport: Starting test, 15 test cases
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:get_next_stop_case/1 in three_stops 2016-07-26 07:11:33.686 ***</b>
 
 =ERROR REPORT==== 26-Jul-2016::07:11:33 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.459.0>,
-                               {#Ref<0.0.2.4448>,2559,ok,
+** Last message in was {'EXIT',&lt;0.459.0&gt;,
+                               {#Ref&lt;0.0.2.4448&gt;,2559,ok,
                                 [{line_SUITE,get_next_stop_case}],
                                 []}}
 ** When Server state == {state,
@@ -110,18 +38,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.2.4448>,2559,ok,[{line_SUITE,get_next_stop_case}],[]}
+** {#Ref&lt;0.0.2.4448&gt;,2559,ok,[{line_SUITE,get_next_stop_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:get_next_stop_case/1 in three_stops 2016-07-26 07:11:33.691 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:33 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.462.0>
+    pid: &lt;0.462.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.2.4448>,2559,ok,
+    exception exit: {#Ref&lt;0.0.2.4448&gt;,2559,ok,
                      [{line_SUITE,get_next_stop_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.459.0>]
+    ancestors: [&lt;0.459.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -132,10 +65,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 347
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:get_other_end_case/1 in three_stops 2016-07-26 07:11:33.735 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:33 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.515.0>,
-                               {#Ref<0.0.1.2055>,892,ok,
+** Last message in was {'EXIT',&lt;0.515.0&gt;,
+                               {#Ref&lt;0.0.1.2055&gt;,892,ok,
                                 [{line_SUITE,get_other_end_case}],
                                 []}}
 ** When Server state == {state,
@@ -152,18 +90,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.1.2055>,892,ok,[{line_SUITE,get_other_end_case}],[]}
+** {#Ref&lt;0.0.1.2055&gt;,892,ok,[{line_SUITE,get_other_end_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:get_other_end_case/1 in three_stops 2016-07-26 07:11:33.735 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:33 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.518.0>
+    pid: &lt;0.518.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.1.2055>,892,ok,
+    exception exit: {#Ref&lt;0.0.1.2055&gt;,892,ok,
                      [{line_SUITE,get_other_end_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.515.0>]
+    ancestors: [&lt;0.515.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -174,10 +117,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 338
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:is_end_stop_case/1 in three_stops 2016-07-26 07:11:33.767 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:33 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.535.0>,
-                               {#Ref<0.0.2.4748>,3731,ok,
+** Last message in was {'EXIT',&lt;0.535.0&gt;,
+                               {#Ref&lt;0.0.2.4748&gt;,3731,ok,
                                 [{line_SUITE,is_end_stop_case}],
                                 []}}
 ** When Server state == {state,
@@ -194,18 +142,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.2.4748>,3731,ok,[{line_SUITE,is_end_stop_case}],[]}
+** {#Ref&lt;0.0.2.4748&gt;,3731,ok,[{line_SUITE,is_end_stop_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:is_end_stop_case/1 in three_stops 2016-07-26 07:11:33.768 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:33 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.538.0>
+    pid: &lt;0.538.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.2.4748>,3731,ok,
+    exception exit: {#Ref&lt;0.0.2.4748&gt;,3731,ok,
                      [{line_SUITE,is_end_stop_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.535.0>]
+    ancestors: [&lt;0.535.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -216,10 +169,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 338
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:get_number_case/1 in three_stops 2016-07-26 07:11:33.798 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:33 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.561.0>,
-                               {#Ref<0.0.1.2370>,476,ok,
+** Last message in was {'EXIT',&lt;0.561.0&gt;,
+                               {#Ref&lt;0.0.1.2370&gt;,476,ok,
                                 [{line_SUITE,get_number_case}],
                                 []}}
 ** When Server state == {state,
@@ -236,18 +194,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.1.2370>,476,ok,[{line_SUITE,get_number_case}],[]}
+** {#Ref&lt;0.0.1.2370&gt;,476,ok,[{line_SUITE,get_number_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:get_number_case/1 in three_stops 2016-07-26 07:11:33.799 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:33 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.564.0>
+    pid: &lt;0.564.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.1.2370>,476,ok,
+    exception exit: {#Ref&lt;0.0.1.2370&gt;,476,ok,
                      [{line_SUITE,get_number_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.561.0>]
+    ancestors: [&lt;0.561.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -258,10 +221,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 338
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:contains_stop_case/1 in four_stops 2016-07-26 07:11:33.885 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:33 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.585.0>,
-                               {#Ref<0.0.1.2900>,746,ok,
+** Last message in was {'EXIT',&lt;0.585.0&gt;,
+                               {#Ref&lt;0.0.1.2900&gt;,746,ok,
                                 [{line_SUITE,contains_stop_case}],
                                 []}}
 ** When Server state == {state,
@@ -278,18 +246,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.1.2900>,746,ok,[{line_SUITE,contains_stop_case}],[]}
+** {#Ref&lt;0.0.1.2900&gt;,746,ok,[{line_SUITE,contains_stop_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:contains_stop_case/1 in four_stops 2016-07-26 07:11:33.886 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:33 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.588.0>
+    pid: &lt;0.588.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.1.2900>,746,ok,
+    exception exit: {#Ref&lt;0.0.1.2900&gt;,746,ok,
                      [{line_SUITE,contains_stop_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.585.0>]
+    ancestors: [&lt;0.585.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -300,10 +273,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 338
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:get_neighbors_case/1 in five_stops 2016-07-26 07:11:33.990 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:33 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.628.0>,
-                               {#Ref<0.0.2.5402>,1883,ok,
+** Last message in was {'EXIT',&lt;0.628.0&gt;,
+                               {#Ref&lt;0.0.2.5402&gt;,1883,ok,
                                 [{line_SUITE,get_neighbors_case}],
                                 []}}
 ** When Server state == {state,
@@ -320,18 +298,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.2.5402>,1883,ok,[{line_SUITE,get_neighbors_case}],[]}
+** {#Ref&lt;0.0.2.5402&gt;,1883,ok,[{line_SUITE,get_neighbors_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:get_neighbors_case/1 in five_stops 2016-07-26 07:11:33.991 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:33 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.631.0>
+    pid: &lt;0.631.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.2.5402>,1883,ok,
+    exception exit: {#Ref&lt;0.0.2.5402&gt;,1883,ok,
                      [{line_SUITE,get_neighbors_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.628.0>]
+    ancestors: [&lt;0.628.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -342,10 +325,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 336
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:get_duration_case/1 in five_stops 2016-07-26 07:11:34.146 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:34 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.666.0>,
-                               {#Ref<0.0.2.5550>,25726,ok,
+** Last message in was {'EXIT',&lt;0.666.0&gt;,
+                               {#Ref&lt;0.0.2.5550&gt;,25726,ok,
                                 [{line_SUITE,get_duration_case}],
                                 []}}
 ** When Server state == {state,
@@ -362,18 +350,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.2.5550>,25726,ok,[{line_SUITE,get_duration_case}],[]}
+** {#Ref&lt;0.0.2.5550&gt;,25726,ok,[{line_SUITE,get_duration_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:get_duration_case/1 in five_stops 2016-07-26 07:11:34.147 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:34 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.669.0>
+    pid: &lt;0.669.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.2.5550>,25726,ok,
+    exception exit: {#Ref&lt;0.0.2.5550&gt;,25726,ok,
                      [{line_SUITE,get_duration_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.666.0>]
+    ancestors: [&lt;0.666.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -384,10 +377,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 336
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:get_target_case/1 in five_stops 2016-07-26 07:11:34.198 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:34 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.914.0>,
-                               {#Ref<0.0.2.5783>,3526,ok,
+** Last message in was {'EXIT',&lt;0.914.0&gt;,
+                               {#Ref&lt;0.0.2.5783&gt;,3526,ok,
                                 [{line_SUITE,get_target_case}],
                                 []}}
 ** When Server state == {state,
@@ -404,18 +402,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.2.5783>,3526,ok,[{line_SUITE,get_target_case}],[]}
+** {#Ref&lt;0.0.2.5783&gt;,3526,ok,[{line_SUITE,get_target_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:get_target_case/1 in five_stops 2016-07-26 07:11:34.199 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:34 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.917.0>
+    pid: &lt;0.917.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.2.5783>,3526,ok,
+    exception exit: {#Ref&lt;0.0.2.5783&gt;,3526,ok,
                      [{line_SUITE,get_target_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.914.0>]
+    ancestors: [&lt;0.914.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -426,10 +429,15 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 336
   neighbours:
 
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during line_SUITE:get_intersection_case/1 in nine_stops 2016-07-26 07:11:34.380 ***</b>
+
 =ERROR REPORT==== 26-Jul-2016::07:11:34 ===
 ** Generic server line_supervisor terminating 
-** Last message in was {'EXIT',<0.971.0>,
-                               {#Ref<0.0.2.6300>,12044,ok,
+** Last message in was {'EXIT',&lt;0.971.0&gt;,
+                               {#Ref&lt;0.0.2.6300&gt;,12044,ok,
                                 [{line_SUITE,get_intersection_case}],
                                 []}}
 ** When Server state == {state,
@@ -446,18 +454,23 @@ Testing client.public_transport: Starting test, 15 test cases
                                   [],[]}}},
                             0,1,[],0,line_supervisor,[]}
 ** Reason for termination == 
-** {#Ref<0.0.2.6300>,12044,ok,[{line_SUITE,get_intersection_case}],[]}
+** {#Ref&lt;0.0.2.6300&gt;,12044,ok,[{line_SUITE,get_intersection_case}],[]}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during line_SUITE:get_intersection_case/1 in nine_stops 2016-07-26 07:11:34.381 ***</b>
 
 =CRASH REPORT==== 26-Jul-2016::07:11:34 ===
   crasher:
     initial call: supervisor:line_supervisor/1
-    pid: <0.974.0>
+    pid: &lt;0.974.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.2.6300>,12044,ok,
+    exception exit: {#Ref&lt;0.0.2.6300&gt;,12044,ok,
                      [{line_SUITE,get_intersection_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.971.0>]
+    ancestors: [&lt;0.971.0&gt;]
     messages: []
     links: []
     dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
@@ -468,44 +481,5 @@ Testing client.public_transport: Starting test, 15 test cases
     reductions: 607
   neighbours:
 
-=PROGRESS REPORT==== 26-Jul-2016::07:11:34 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1314.0>},
-                       {id,line_supervisor},
-                       {mfargs,{line_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:11:34 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1315.0>},
-                       {id,stop_supervisor},
-                       {mfargs,{stop_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:11:34 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1317.0>},
-                       {id,vehicle_supervisor},
-                       {mfargs,{vehicle_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 26-Jul-2016::07:11:34 ===
-          supervisor: {<0.1313.0>,public_transport_supervisor}
-             started: [{pid,<0.1319.0>},
-                       {id,public_transport},
-                       {mfargs,{public_transport,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-gen_server:call failed on line 204
-Reason: timeout
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+</pre></div>
+<pre>

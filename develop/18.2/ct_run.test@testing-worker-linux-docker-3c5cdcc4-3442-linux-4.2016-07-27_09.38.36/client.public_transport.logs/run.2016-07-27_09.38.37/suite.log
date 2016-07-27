@@ -1,0 +1,176 @@
+=== Suite started at 2016-07-27 09:38:37
+=== Starting test, 23 test cases
+=cases         23
+=user          travis
+=host          testing-worker-linux-docker-3c5cdcc4-3442-linux-4
+=hosts         testing-worker-linux-docker-3c5cdcc4-3442-linux-4 
+=emulator_vsn  7.2
+=emulator      beam
+=otp_release   18
+=started       2016-07-27 09:38:37
+=case          ct_framework:init_per_suite
+=logfile       ct_framework.init_per_suite.html
+=group_props   [{suite,line_SUITE}]
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       0.0
+=case          line_SUITE:init_per_group
+=logfile       line_suite.init_per_group.html
+=group_props   [{name,three_stops}]
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       0.001223
+=case          line_SUITE:get_next_stop_case
+=logfile       line_suite.get_next_stop_case.html
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       0.001937
+=case          line_SUITE:get_other_end_case
+=logfile       line_suite.get_other_end_case.html
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       5.05e-4
+=case          line_SUITE:is_end_stop_case
+=logfile       line_suite.is_end_stop_case.html
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       7.82e-4
+=case          line_SUITE:get_number_case
+=logfile       line_suite.get_number_case.html
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       3.73e-4
+=case          line_SUITE:end_per_group
+=logfile       line_suite.end_per_group.html
+=group_props   [{name,three_stops}]
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       3.8e-5
+=group_time    0.163s
+=case          line_SUITE:init_per_group
+=logfile       line_suite.init_per_group.3.html
+=group_props   [{name,four_stops}]
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       3.7e-5
+=case          line_SUITE:contains_stop_case
+=logfile       line_suite.contains_stop_case.html
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       0.001168
+=case          line_SUITE:end_per_group
+=logfile       line_suite.end_per_group.2.html
+=group_props   [{name,four_stops}]
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       1.02e-4
+=group_time    0.060s
+=case          line_SUITE:init_per_group
+=logfile       line_suite.init_per_group.66.html
+=group_props   [{name,five_stops}]
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       5.8e-5
+=case          line_SUITE:get_neighbors_case
+=logfile       line_suite.get_neighbors_case.html
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:37
+=result        ok
+=elapsed       0.001726
+=case          line_SUITE:get_duration_case
+=logfile       line_suite.get_duration_case.html
+=started       2016-07-27 09:38:37
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       0.02146
+=case          line_SUITE:get_target_case
+=logfile       line_suite.get_target_case.html
+=started       2016-07-27 09:38:38
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       0.003341
+=case          line_SUITE:end_per_group
+=logfile       line_suite.end_per_group.130.html
+=group_props   [{name,five_stops}]
+=started       2016-07-27 09:38:38
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       5.9e-5
+=group_time    0.206s
+=case          line_SUITE:init_per_group
+=logfile       line_suite.init_per_group.194.html
+=group_props   [{name,nine_stops}]
+=started       2016-07-27 09:38:38
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       6.6e-5
+=case          line_SUITE:get_intersection_case
+=logfile       line_suite.get_intersection_case.html
+=started       2016-07-27 09:38:38
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       0.008331
+=case          line_SUITE:end_per_group
+=logfile       line_suite.end_per_group.258.html
+=group_props   [{name,nine_stops}]
+=started       2016-07-27 09:38:38
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       5.9e-5
+=group_time    0.133s
+=case          ct_framework:end_per_suite
+=logfile       ct_framework.end_per_suite.html
+=group_props   [{suite,line_SUITE}]
+=started       2016-07-27 09:38:38
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       0.0
+=group_time    0.701s
+=case          ct_framework:init_per_suite
+=logfile       ct_framework.init_per_suite.322.html
+=group_props   [{suite,public_transport_SUITE}]
+=started       2016-07-27 09:38:38
+=ended         2016-07-27 09:38:38
+=result        ok
+=elapsed       1.0e-6
+=case          public_transport_SUITE:test1
+=logfile       public_transport_suite.test1.html
+=started       2016-07-27 09:38:38
+=== WARNING: end_per_testcase crashed!
+Reason: {timeout,{gen_server,call,[{global,logger},stop]}}
+Line: [{gen_server,call,204},
+              {public_transport_SUITE,end_per_testcase,<a href="public_transport_suite.src.html#21">21</a>},
+              {test_server,do_end_per_testcase,1257},
+              {test_server,run_test_case_eval1,1012},
+              {test_server,run_test_case_eval,926}]
+
+=ended         2016-07-27 09:38:48
+=result        failed: {timeout,
+                           {gen_server,call,
+                               [{global,public_transport},{get_route,a,o}]}}, [{gen_server,
+                                                                                call,
+                                                                                204},
+                                                                               {public_transport,
+                                                                                get_route,
+                                                                                25},
+                                                                               {test_server,
+                                                                                ts_tc,
+                                                                                1408},
+                                                                               {test_server,
+                                                                                run_test_case_eval1,
+                                                                                984},
+                                                                               {test_server,
+                                                                                run_test_case_eval,
+                                                                                926}]
+=== *** FAILED test case 10 of 23 ***

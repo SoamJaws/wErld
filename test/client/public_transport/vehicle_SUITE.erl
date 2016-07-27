@@ -292,7 +292,6 @@ new_time_not_driving_case(Config) ->
   P4 = ?config(p4, Config),
   Vehicle = ?config(vehicle, Config),
 
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   vehicle:?NEW_TIME(Vehicle, 1233, true),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),

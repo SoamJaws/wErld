@@ -1,0 +1,71 @@
+--- SEND --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    GET_NUMBER Line={{line,l1},<0.20620.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    REPLY GET_NUMBER 1
+
+---------------------------------------------------
+
+--- SEND --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    CHECKIN_OK Vehicle={{vehicle,bus_1},<0.20627.0>} Stop={{stop,startstop},
+                                                       <0.20617.0>} BoardingPassengers4
+
+------------------------------------------------
+
+--- SEND --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.20627.0>} Passenger={{citizen,p1},
+                                                                 <0.20622.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.20627.0>} Passenger={{citizen,p2},
+                                                                 <0.20623.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.20627.0>} Passenger={{citizen,p3},
+                                                                 <0.20624.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.20627.0>} Passenger={{citizen,p4},
+                                                                 <0.20625.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 9:29:56 vehicle_SUITE - <0.20613.0>
+
+    REPLY PASSENGER_BOARD nok
+
+---------------------------------------------------
+

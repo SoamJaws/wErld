@@ -1,0 +1,67 @@
+--- SEND --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20367.0>} Passenger={{citizen,p1},
+                                                              <0.20361.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20367.0>} Passenger={{citizen,p2},
+                                                              <0.20362.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20367.0>} Passenger={{citizen,p3},
+                                                              <0.20363.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.20367.0>} Vehicle={{vehicle,v1},
+                                                          <0.20365.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.20367.0>} Passenger={{citizen,p1},
+                                                               <0.20361.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.20367.0>} Passenger={{citizen,p2},
+                                                               <0.20362.0>}
+
+---------------------------------------------
+
+--- SEND --- 9:29:55 stop_SUITE - <0.20357.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.20367.0>} Passenger={{citizen,p3},
+                                                               <0.20363.0>}
+
+---------------------------------------------
+

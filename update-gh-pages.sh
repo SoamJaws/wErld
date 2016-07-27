@@ -15,7 +15,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/SoamJaws/wErld.git  gh-pages > /dev/null
 
   #go into directory and copy data we're interested in to that directory
-  rm -rf gh-pages/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/*
+  git rm -rf gh-pages/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/*
   cd gh-pages/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE
   cp -Rf $HOME/ct/* .
 

@@ -38,7 +38,7 @@ init_per_testcase(Config) ->
   Time = gen_server_mock:start_global(time, time, strict),
   L1 = gen_server_mock:start(line, l1, strict),
   S1 = gen_server_mock:start(stop, s1, strict),
-  P1 = gen_server_mock:start(stop, p1, strict),
+  P1 = gen_server_mock:start(citizen, p1, strict),
   P2 = gen_server_mock:start(citizen, p2, strict),
   P3 = gen_server_mock:start(citizen, p3, strict),
   P4 = gen_server_mock:start(citizen, p4, strict),

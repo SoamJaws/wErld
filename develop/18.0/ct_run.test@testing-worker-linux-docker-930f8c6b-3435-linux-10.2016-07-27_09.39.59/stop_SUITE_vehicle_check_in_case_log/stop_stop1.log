@@ -1,0 +1,66 @@
+--- INFO --- 9:40:13 stop - <0.19900.0>
+
+    Stop started
+
+---------------------------------------
+
+--- RECEIVE --- 9:40:13 stop - <0.19900.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.19894.0>}
+
+------------------------------------------
+
+--- RECEIVE --- 9:40:13 stop - <0.19900.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p2},<0.19895.0>}
+
+------------------------------------------
+
+--- RECEIVE --- 9:40:13 stop - <0.19900.0>
+
+    VEHICLE_CHECK_IN Vehicle={{vehicle,v1},<0.19898.0>}
+
+------------------------------------------
+
+--- INFO --- 9:40:13 stop - <0.19900.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p1},<0.19894.0>} Passengers=[{{citizen,
+                                                                             p2},
+                                                                            <0.19895.0>}] Vehicle={{vehicle,
+                                                                                                    v1},
+                                                                                                   <0.19898.0>} BoardingPassengers=0
+
+---------------------------------------
+
+--- INFO --- 9:40:13 stop - <0.19900.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p2},<0.19895.0>} Passengers=[] Vehicle={{vehicle,
+                                                                                       v1},
+                                                                                      <0.19898.0>} BoardingPassengers=1
+
+---------------------------------------
+
+--- SEND --- 9:40:13 stop - <0.19900.0>
+
+    CHECKIN_OK Vehicle={{vehicle,v1},<0.19898.0>} Stop={{stop,stop1},<0.19900.0>} BoardingPassengers1
+
+---------------------------------------
+
+--- RECEIVE --- 9:40:13 stop - <0.19900.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p3},<0.19896.0>}
+
+------------------------------------------
+
+--- SEND --- 9:40:13 stop - <0.19900.0>
+
+    INCREMENT_BOARDING_PASSENGER Vehicle={{vehicle,v1},<0.19898.0>}
+
+---------------------------------------
+
+--- RECEIVE --- 9:40:13 stop - <0.19900.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p4},<0.19897.0>}
+
+------------------------------------------
+

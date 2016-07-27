@@ -24,10 +24,10 @@ all() ->
   ].
 
 
-init_per_testcase(_TestCase, Config) ->
+init_per_testcase(TestCase, Config) ->
   put(id, ?MODULE),
   put(module, ?MODULE_STRING),
-  logger:start_link("log"),
+  logger:start_link(?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log"),
   stop_supervisor:start_link(),
   P1 = gen_server_mock:start(citizen, p1, strict),
   P2 = gen_server_mock:start(citizen, p2, strict),

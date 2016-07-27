@@ -29,9 +29,6 @@ all() ->
   ].
 
 init_per_testcase(Config) ->
-  put(id, ?MODULE),
-  put(module, ?MODULE_STRING),
-  logger:start_link("log"),
   vehicle_supervisor:start_link(),
   StartStop = gen_server_mock:start(stop, startstop, strict),
   TargetStop = gen_server_mock:start(stop, targetstop, strict),
@@ -58,6 +55,9 @@ init_per_testcase(Config) ->
             ].
 
 init_per_testcase(TestCase, Config) ->
+  put(id, ?MODULE),
+  put(module, ?MODULE_STRING),
+  logger:start_link(?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log"),
   UpdatedConfig = init_per_testcase(Config),
   StartStop = ?config(startstop, UpdatedConfig),
   TargetStop = ?config(targetstop, UpdatedConfig),

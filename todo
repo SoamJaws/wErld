@@ -1,4 +1,3 @@
-* Convert eunit tests to common tests
-* Fix coverage evalution according to above
+* Should be started in init_per_suite
 * Adapt blackboard to tagged pids
 * Function Specs for supervisors

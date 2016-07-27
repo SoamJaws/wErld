@@ -10,10 +10,10 @@
 
 all() -> [test1].
 
-init_per_testcase(_TestCase, Config) ->
+init_per_testcase(TestCase, Config) ->
   put(id, ?MODULE),
   put(module, ?MODULE_STRING),
-  logger:start_link("log"),
+  logger:start_link(?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log"),
   {ok, PublicTransportSupervisor} = public_transport_supervisor:start_link(),
   Config.
 

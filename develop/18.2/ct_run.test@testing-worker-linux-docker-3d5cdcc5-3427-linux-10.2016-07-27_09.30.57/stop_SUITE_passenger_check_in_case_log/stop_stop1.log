@@ -1,0 +1,30 @@
+--- INFO --- 9:31:9 stop - <0.25802.0>
+
+    Stop started
+
+--------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.25796.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.25796.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p2},<0.25797.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p3},<0.25798.0>}
+
+-----------------------------------------
+

@@ -1,0 +1,82 @@
+--- INFO --- 9:31:9 stop - <0.25802.0>
+
+    Stop started
+
+--------------------------------------
+
+--- SEND --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.25802.0>} Passenger={{citizen,p1},
+                                                              <0.25796.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.25796.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+
+--- SEND --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.25802.0>} Passenger={{citizen,p1},
+                                                              <0.25796.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.25796.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    REPLY PASSENGER_CHECK_IN {nok,"Already checked in"}
+
+-----------------------------------------------
+
+--- SEND --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.25802.0>} Passenger={{citizen,p2},
+                                                              <0.25797.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p2},<0.25797.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+
+--- SEND --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.25802.0>} Passenger={{citizen,p3},
+                                                              <0.25798.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25802.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p3},<0.25798.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop_SUITE - <0.25792.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+

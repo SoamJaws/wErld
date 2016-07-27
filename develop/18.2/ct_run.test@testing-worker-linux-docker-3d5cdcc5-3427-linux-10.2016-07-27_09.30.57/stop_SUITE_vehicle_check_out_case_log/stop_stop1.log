@@ -1,0 +1,121 @@
+--- INFO --- 9:31:9 stop - <0.25946.0>
+
+    Stop started
+
+--------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.25940.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_OUT Passenger={{citizen,p1},<0.25940.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.25940.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p2},<0.25941.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p3},<0.25942.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    VEHICLE_CHECK_IN Vehicle={{vehicle,v1},<0.25944.0>}
+
+-----------------------------------------
+
+--- INFO --- 9:31:9 stop - <0.25946.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p1},<0.25940.0>} Passengers=[{{citizen,
+                                                                             p2},
+                                                                            <0.25941.0>},
+                                                                           {{citizen,
+                                                                             p3},
+                                                                            <0.25942.0>}] Vehicle={{vehicle,
+                                                                                                    v1},
+                                                                                                   <0.25944.0>} BoardingPassengers=0
+
+--------------------------------------
+
+--- INFO --- 9:31:9 stop - <0.25946.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p2},<0.25941.0>} Passengers=[{{citizen,
+                                                                             p3},
+                                                                            <0.25942.0>}] Vehicle={{vehicle,
+                                                                                                    v1},
+                                                                                                   <0.25944.0>} BoardingPassengers=1
+
+--------------------------------------
+
+--- INFO --- 9:31:9 stop - <0.25946.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p3},<0.25942.0>} Passengers=[] Vehicle={{vehicle,
+                                                                                       v1},
+                                                                                      <0.25944.0>} BoardingPassengers=2
+
+--------------------------------------
+
+--- SEND --- 9:31:9 stop - <0.25946.0>
+
+    CHECKIN_OK Vehicle={{vehicle,v1},<0.25944.0>} Stop={{stop,stop1},<0.25946.0>} BoardingPassengers3
+
+--------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    VEHICLE_CHECK_IN Vehicle={{vehicle,v2},<0.25945.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_OUT Passenger={{citizen,p1},<0.25940.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_OUT Passenger={{citizen,p2},<0.25941.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    PASSENGER_CHECK_OUT Passenger={{citizen,p3},<0.25942.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    VEHICLE_CHECK_OUT Vehicle={{vehicle,v1},<0.25944.0>}
+
+-----------------------------------------
+
+--- SEND --- 9:31:9 stop - <0.25946.0>
+
+    CHECKIN_OK Vehicle={{vehicle,v2},<0.25945.0>} Stop={{stop,stop1},<0.25946.0>} BoardingPassengers0
+
+--------------------------------------
+
+--- RECEIVE --- 9:31:9 stop - <0.25946.0>
+
+    VEHICLE_CHECK_OUT Vehicle={{vehicle,v2},<0.25945.0>}
+
+-----------------------------------------
+

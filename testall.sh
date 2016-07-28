@@ -90,5 +90,10 @@ then
   fi
 fi
 
+if [ "$TRAVIS" == "true" ];
+then
+  ./update-gh-pages.sh
+fi
+
 echo -e "http://soamjaws.github.io/wErld/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE\n"
 exit $RESULT

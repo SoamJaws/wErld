@@ -1,0 +1,86 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 20:34:17 vehicle - <0.15262.0>
+
+    GET_OTHER_END Line={{line,l1},<0.15255.0>} Stop={{stop,targetstop},
+                                                 <0.15253.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 20:34:17 vehicle - <0.15262.0>
+
+    REPLY GET_OTHER_END {{stop,startstop},<0.15252.0>}
+
+----------------------------------------------
+
+--- SEND --- 20:34:17 vehicle - <0.15262.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,startstop},<0.15252.0>} Vehicle={{vehicle,bus_1},
+                                                              <0.15262.0>}
+
+-------------------------------------------
+
+--- INFO --- 20:34:17 vehicle - <0.15262.0>
+
+    Vehicle started
+
+-------------------------------------------
+
+--- RECEIVE --- 20:34:17 vehicle - <0.15262.0>
+
+    CHECKIN_OK Stop={{stop,startstop},<0.15252.0>} BoardingPassengers=2
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 vehicle - <0.15262.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p1},<0.15257.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 vehicle - <0.15262.0>
+
+    INCREMENT_BOARDING_PASSENGER
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 vehicle - <0.15262.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p2},<0.15258.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 vehicle - <0.15262.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p3},<0.15259.0>}
+
+----------------------------------------------
+
+--- INFO --- 20:34:17 vehicle - <0.15262.0>
+
+    boarding_complete
+
+-------------------------------------------
+
+--- SEND --- 20:34:17 vehicle - <0.15262.0>
+
+    GET_NEXT_STOP Line={{line,l1},<0.15255.0>} TargetStop={{stop,targetstop},
+                                                       <0.15253.0>} CurrentStop={{stop,
+                                                                                  startstop},
+                                                                                 <0.15252.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 20:34:17 vehicle - <0.15262.0>
+
+    REPLY GET_NEXT_STOP {{{stop,s1},<0.15256.0>},5}
+
+----------------------------------------------
+
+--- SEND --- 20:34:17 vehicle - <0.15262.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,startstop},<0.15252.0>} Vehicle={{vehicle,bus_1},
+                                                               <0.15262.0>}
+
+-------------------------------------------
+
+</pre>

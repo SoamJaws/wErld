@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14641.0>} Passenger={{citizen,p1},
+                                                              <0.14635.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+--- SEND --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14641.0>} Passenger={{citizen,p1},
+                                                              <0.14635.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    REPLY PASSENGER_CHECK_IN {nok,"Already checked in"}
+
+-------------------------------------------------
+
+--- SEND --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14641.0>} Passenger={{citizen,p2},
+                                                              <0.14636.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+--- SEND --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14641.0>} Passenger={{citizen,p3},
+                                                              <0.14637.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 20:34:17 stop_SUITE - <0.14631.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+</pre>

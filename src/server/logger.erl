@@ -1,7 +1,7 @@
 -module(logger).
 -behaviour(gen_server).
 
--define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log"])).
+-define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log.html"])).
 
 -export([ log_info/3
         , log_warning/3
@@ -67,7 +67,7 @@ handle_call(_Call, _From, State) ->
 
 -spec handle_cast({log, string(), atom(), string()}, string()) -> {noreply, string()}.
 handle_cast({log, Module, Id, Content}, LogDir) ->
-  LogFile = filename:join([LogDir, Module ++ "_" ++ atom_to_list(Id) ++ ".log"]),
+  LogFile = filename:join([LogDir, Module ++ "_" ++ atom_to_list(Id) ++ "_log.html"]),
   file:write_file(LogFile, Content, [append]),
   file:write_file(?COMPOSITE_LOG(LogDir), Content, [append]),
   {noreply, LogDir}.
@@ -92,4 +92,3 @@ log(Content, Module, Id, Mode) ->
   {_Date, {H, M, S}} = calendar:local_time(),
   Header = io_lib:fwrite("--- ~s --- ~w:~w:~w ~s - ~w", [Mode, H, M, S, Module, self()]),
   gen_server:cast({global, ?MODULE}, {log, Module, Id, io_lib:fwrite("~s~n~n    ~s~n~n~s~n~n", [Header, Content, lists:duplicate(length(lists:flatten(Header)), $-)])}).
-

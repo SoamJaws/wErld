@@ -18,6 +18,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   #go into directory and copy data we're interested in to that directory
   cd gh-pages
   git rm -rf $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/*
+  mkdir -p $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
   cp -Rf $HOME/ct/* $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
 
   #add, commit and push files

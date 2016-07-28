@@ -1,0 +1,52 @@
+--- SEND --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.9995.0>} Passenger={{citizen,p1},
+                                                             <0.9989.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+
+--- SEND --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.9995.0>} Passenger={{citizen,p1},
+                                                             <0.9989.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    REPLY PASSENGER_CHECK_IN {nok,"Already checked in"}
+
+-----------------------------------------------
+
+--- SEND --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.9995.0>} Passenger={{citizen,p2},
+                                                             <0.9990.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+
+--- SEND --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.9995.0>} Passenger={{citizen,p3},
+                                                             <0.9991.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:45:23 stop_SUITE - <0.9985.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+

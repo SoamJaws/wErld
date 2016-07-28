@@ -4,6 +4,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   #copy data we're interested in to other place
   
   mkdir -p $HOME/ct
+  ls ./test/logs
   cp -R ./test/logs/* $HOME/ct
 
   #go to home and setup git
@@ -17,6 +18,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   #go into directory and copy data we're interested in to that directory
   cd gh-pages/$TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE
   git rm -rf ./*
+  ls $HOME/ct/
   cp -Rf $HOME/ct/* .
 
   #add, commit and push files

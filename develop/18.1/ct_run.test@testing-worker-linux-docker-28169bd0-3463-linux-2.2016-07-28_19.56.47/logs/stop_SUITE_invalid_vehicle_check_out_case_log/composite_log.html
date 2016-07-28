@@ -1,0 +1,38 @@
+--- INFO --- 19:57:0 stop - <0.11210.0>
+
+    Stop started
+
+---------------------------------------
+
+--- SEND --- 19:57:0 stop_SUITE - <0.11200.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.11210.0>} Vehicle={{vehicle,v1},
+                                                          <0.11208.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 19:57:0 stop - <0.11210.0>
+
+    VEHICLE_CHECK_IN Vehicle={{vehicle,v1},<0.11208.0>}
+
+------------------------------------------
+
+--- SEND --- 19:57:0 stop - <0.11210.0>
+
+    CHECKIN_OK Vehicle={{vehicle,v1},<0.11208.0>} Stop={{stop,stop1},<0.11210.0>} BoardingPassengers0
+
+---------------------------------------
+
+--- SEND --- 19:57:0 stop_SUITE - <0.11200.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.11210.0>} Vehicle={{vehicle,v2},
+                                                           <0.11209.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 19:57:0 stop - <0.11210.0>
+
+    VEHICLE_CHECK_OUT Vehicle={{vehicle,v2},<0.11209.0>}
+
+------------------------------------------
+

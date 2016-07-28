@@ -10,6 +10,8 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   LOGS=$(find . -name "*_log.html")
   HEAD=$(echo "$LOGS" | head -1)
   CT_RUN_DIR=$(echo "$HEAD" | cut -d "/" -f2)
+  cd $CT_RUN_DIR/logs
+  RELATIVE_LOGS=$(find . -name "*_log.html")
 
   #go to home and setup git
   cd $HOME
@@ -32,7 +34,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 <body> \
 <ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
 
-  for file in $LOGS; do
+  for file in $RELATIVE_LOGS; do
     echo "<li><a href=\"$file\">$file</a></li>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
   done
 

@@ -1,0 +1,19 @@
+--- SEND --- 7:40:5 vehicle_SUITE - <0.17546.0>
+
+    GET_NUMBER Line={{line,l1},<0.17553.0>}
+
+-----------------------------------------------
+
+--- RECEIVE --- 7:40:5 vehicle_SUITE - <0.17546.0>
+
+    REPLY GET_NUMBER 1
+
+--------------------------------------------------
+
+--- SEND --- 7:40:5 vehicle_SUITE - <0.17546.0>
+
+    CHECKIN_OK Vehicle={{vehicle,bus_1},<0.17560.0>} Stop={{stop,startstop},
+                                                       <0.17550.0>} BoardingPassengers0
+
+-----------------------------------------------
+

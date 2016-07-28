@@ -1,0 +1,14 @@
+--- SEND --- 7:40:5 stop_SUITE - <0.17515.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.17525.0>} Vehicle={{vehicle,v1},
+                                                          <0.17523.0>}
+
+--------------------------------------------
+
+--- SEND --- 7:40:5 stop_SUITE - <0.17515.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.17525.0>} Vehicle={{vehicle,v2},
+                                                           <0.17524.0>}
+
+--------------------------------------------
+

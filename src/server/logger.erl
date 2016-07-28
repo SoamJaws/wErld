@@ -53,8 +53,9 @@ start_link(LogDir) ->
 
 
 init([LogDir]) ->
-  filelib:ensure_dir(?COMPOSITE_LOG(LogDir)),
-  {ok, LogDir}.
+  UpdatedLogDir = filename:join(["logs", LogDir]),
+  filelib:ensure_dir(?COMPOSITE_LOG(UpdatedLogDir)),
+  {ok, UpdatedLogDir}.
 
 
 -spec handle_call(stop, {pid(), any()}, any()) -> {stop, normal, stopped, any()}.

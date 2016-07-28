@@ -3,10 +3,10 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 
   #copy data we're interested in to other place
   
-  mkdir -p $HOME/ct/logs
-  cp -R ./test/logs/* $HOME/ct/logs
+  mkdir -p $HOME/ct/
+  cp -R ./test/logs/* $HOME/ct/
 
-  cd $HOME/ct/logs
+  cd $HOME/ct/
   LOGS=$(find . -name "*_log.html")
   HEAD=$(echo "$LOGS" | head -1)
   CT_RUN_DIR=$(echo "$HEAD" | cut -d "/" -f2)

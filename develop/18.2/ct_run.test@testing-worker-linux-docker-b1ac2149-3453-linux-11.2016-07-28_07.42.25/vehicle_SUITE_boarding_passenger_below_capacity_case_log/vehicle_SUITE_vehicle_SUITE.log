@@ -1,0 +1,58 @@
+--- SEND --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    GET_NUMBER Line={{line,l1},<0.20843.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    REPLY GET_NUMBER 1
+
+---------------------------------------------------
+
+--- SEND --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    CHECKIN_OK Vehicle={{vehicle,bus_1},<0.20850.0>} Stop={{stop,startstop},
+                                                       <0.20840.0>} BoardingPassengers3
+
+------------------------------------------------
+
+--- SEND --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.20850.0>} Passenger={{citizen,p1},
+                                                                 <0.20845.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.20850.0>} Passenger={{citizen,p2},
+                                                                 <0.20846.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.20850.0>} Passenger={{citizen,p3},
+                                                                 <0.20847.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:42:38 vehicle_SUITE - <0.20836.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+

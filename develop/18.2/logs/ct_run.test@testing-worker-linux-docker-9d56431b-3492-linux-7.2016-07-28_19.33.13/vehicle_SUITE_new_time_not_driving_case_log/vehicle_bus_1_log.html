@@ -1,0 +1,66 @@
+--- SEND --- 19:33:27 vehicle - <0.18999.0>
+
+    GET_OTHER_END Line={{line,l1},<0.18992.0>} Stop={{stop,targetstop},
+                                                 <0.18990.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 19:33:27 vehicle - <0.18999.0>
+
+    REPLY GET_OTHER_END {{stop,startstop},<0.18989.0>}
+
+----------------------------------------------
+
+--- SEND --- 19:33:27 vehicle - <0.18999.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,startstop},<0.18989.0>} Vehicle={{vehicle,bus_1},
+                                                              <0.18999.0>}
+
+-------------------------------------------
+
+--- INFO --- 19:33:27 vehicle - <0.18999.0>
+
+    Vehicle started
+
+-------------------------------------------
+
+--- RECEIVE --- 19:33:27 vehicle - <0.18999.0>
+
+    NEW_TIME Time=1233
+
+----------------------------------------------
+
+--- RECEIVE --- 19:33:27 vehicle - <0.18999.0>
+
+    CHECKIN_OK Stop={{stop,startstop},<0.18989.0>} BoardingPassengers=0
+
+----------------------------------------------
+
+--- INFO --- 19:33:27 vehicle - <0.18999.0>
+
+    boarding_complete
+
+-------------------------------------------
+
+--- SEND --- 19:33:27 vehicle - <0.18999.0>
+
+    GET_NEXT_STOP Line={{line,l1},<0.18992.0>} TargetStop={{stop,targetstop},
+                                                       <0.18990.0>} CurrentStop={{stop,
+                                                                                  startstop},
+                                                                                 <0.18989.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 19:33:27 vehicle - <0.18999.0>
+
+    REPLY GET_NEXT_STOP {{{stop,s1},<0.18993.0>},5}
+
+----------------------------------------------
+
+--- SEND --- 19:33:27 vehicle - <0.18999.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,startstop},<0.18989.0>} Vehicle={{vehicle,bus_1},
+                                                               <0.18999.0>}
+
+-------------------------------------------
+

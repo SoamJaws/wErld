@@ -8,6 +8,12 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 
   cd $HOME/ct/
   LOGS=$(find . -name "*_log.html")
+  for file in $LOGS; do
+    sed -i '1i<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>' $file
+    echo "</pre>" >> $file
+  done
+
+
   HEAD=$(echo "$LOGS" | head -1)
   CT_RUN_DIR=$(echo "$HEAD" | cut -d "/" -f2)
   cd $CT_RUN_DIR/logs
@@ -27,12 +33,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   mkdir -p $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
   cp -Rf $HOME/ct/* $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
 
-  echo "<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> \
-<head> \
-<title>Test line_SUITE:get_next_stop_case result</title> \
-</head> \
-<body> \
-<ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
+  echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
 
   for file in $RELATIVE_LOGS; do
     echo "<li><a href=\"$file\">$file</a></li>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html

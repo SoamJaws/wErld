@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.12393.0>} Passenger={{citizen,p1},
+                                                              <0.12387.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------------
+
+--- SEND --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.12393.0>} Passenger={{citizen,p2},
+                                                              <0.12388.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------------
+
+--- SEND --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.12393.0>} Passenger={{citizen,p3},
+                                                              <0.12389.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+----------------------------------------------
+
+--- SEND --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.12393.0>} Vehicle={{vehicle,v1},
+                                                          <0.12391.0>}
+
+-------------------------------------------
+
+--- SEND --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.12393.0>} Passenger={{citizen,p1},
+                                                               <0.12387.0>}
+
+-------------------------------------------
+
+--- SEND --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.12393.0>} Passenger={{citizen,p2},
+                                                               <0.12388.0>}
+
+-------------------------------------------
+
+--- SEND --- 7:1:2 stop_SUITE - <0.12383.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.12393.0>} Passenger={{citizen,p3},
+                                                               <0.12389.0>}
+
+-------------------------------------------
+
+</pre>

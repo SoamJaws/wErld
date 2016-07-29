@@ -1,0 +1,150 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    GET_NUMBER Line={{line,l1},<0.19299.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    REPLY GET_NUMBER 1
+
+---------------------------------------------------
+
+--- SEND --- 7:11:47 vehicle - <0.19306.0>
+
+    GET_OTHER_END Line={{line,l1},<0.19299.0>} Stop={{stop,targetstop},
+                                                 <0.19297.0>}
+
+------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle - <0.19306.0>
+
+    REPLY GET_OTHER_END {{stop,startstop},<0.19296.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:11:47 vehicle - <0.19306.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,startstop},<0.19296.0>} Vehicle={{vehicle,bus_1},
+                                                              <0.19306.0>}
+
+------------------------------------------
+
+--- INFO --- 7:11:47 vehicle - <0.19306.0>
+
+    Vehicle started
+
+------------------------------------------
+
+--- SEND --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    CHECKIN_OK Vehicle={{vehicle,bus_1},<0.19306.0>} Stop={{stop,startstop},
+                                                       <0.19296.0>} BoardingPassengers3
+
+------------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle - <0.19306.0>
+
+    CHECKIN_OK Stop={{stop,startstop},<0.19296.0>} BoardingPassengers=3
+
+---------------------------------------------
+
+--- SEND --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.19306.0>} Passenger={{citizen,p1},
+                                                                 <0.19301.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle - <0.19306.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p1},<0.19301.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.19306.0>} Passenger={{citizen,p2},
+                                                                 <0.19302.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle - <0.19306.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p2},<0.19302.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.19306.0>} Passenger={{citizen,p3},
+                                                                 <0.19303.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle - <0.19306.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p3},<0.19303.0>}
+
+---------------------------------------------
+
+--- INFO --- 7:11:47 vehicle - <0.19306.0>
+
+    boarding_complete
+
+------------------------------------------
+
+--- SEND --- 7:11:47 vehicle - <0.19306.0>
+
+    GET_NEXT_STOP Line={{line,l1},<0.19299.0>} TargetStop={{stop,targetstop},
+                                                       <0.19297.0>} CurrentStop={{stop,
+                                                                                  startstop},
+                                                                                 <0.19296.0>}
+
+------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle - <0.19306.0>
+
+    REPLY GET_NEXT_STOP {{{stop,s1},<0.19300.0>},5}
+
+---------------------------------------------
+
+--- SEND --- 7:11:47 vehicle - <0.19306.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,startstop},<0.19296.0>} Vehicle={{vehicle,bus_1},
+                                                               <0.19306.0>}
+
+------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:11:47 vehicle_SUITE - <0.19292.0>
+
+    NEW_TIME Vehicle={{vehicle,bus_1},<0.19306.0>} Time=1236
+
+------------------------------------------------
+
+--- RECEIVE --- 7:11:47 vehicle - <0.19306.0>
+
+    NEW_TIME Time=1236
+
+---------------------------------------------
+
+</pre>

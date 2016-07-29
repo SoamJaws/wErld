@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 6:44:50 line_SUITE - <0.525.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.529.0>} TargetStop={{stop,stop3},
+                                                        <0.523.0>} CurrentStop={{stop,
+                                                                                 stop1},
+                                                                                <0.521.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:44:50 line_SUITE - <0.525.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop2},<0.522.0>},7}
+
+----------------------------------------------
+
+--- SEND --- 6:44:50 line_SUITE - <0.525.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.529.0>} TargetStop={{stop,stop3},
+                                                        <0.523.0>} CurrentStop={{stop,
+                                                                                 stop2},
+                                                                                <0.522.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:44:50 line_SUITE - <0.525.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop3},<0.523.0>},11}
+
+----------------------------------------------
+
+--- SEND --- 6:44:50 line_SUITE - <0.525.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.529.0>} TargetStop={{stop,stop3},
+                                                        <0.523.0>} CurrentStop={{stop,
+                                                                                 stop3},
+                                                                                <0.523.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:44:50 line_SUITE - <0.525.0>
+
+    REPLY GET_NEXT_STOP none
+
+----------------------------------------------
+
+--- SEND --- 6:44:50 line_SUITE - <0.525.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.529.0>} TargetStop={{stop,stop1},
+                                                        <0.521.0>} CurrentStop={{stop,
+                                                                                 stop3},
+                                                                                <0.523.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:44:50 line_SUITE - <0.525.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop2},<0.522.0>},11}
+
+----------------------------------------------
+
+--- SEND --- 6:44:50 line_SUITE - <0.525.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.529.0>} TargetStop={{stop,stop1},
+                                                        <0.521.0>} CurrentStop={{stop,
+                                                                                 stop2},
+                                                                                <0.522.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:44:50 line_SUITE - <0.525.0>
+
+    REPLY GET_NEXT_STOP {{{stop,stop1},<0.521.0>},7}
+
+----------------------------------------------
+
+--- SEND --- 6:44:50 line_SUITE - <0.525.0>
+
+    GET_NEXT_STOP Line={{line,bus_1},<0.529.0>} TargetStop={{stop,stop1},
+                                                        <0.521.0>} CurrentStop={{stop,
+                                                                                 stop1},
+                                                                                <0.521.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:44:50 line_SUITE - <0.525.0>
+
+    REPLY GET_NEXT_STOP none
+
+----------------------------------------------
+
+</pre>

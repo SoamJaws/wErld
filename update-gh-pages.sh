@@ -47,7 +47,9 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 <body> \
 <ul>" > index.html
       for CASELOG in $(ls); do
-        echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
+        if [ "$CASELOG" != "index.html"]; then
+          echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
+        fi
       done
       echo "</ul></body>" >> index.html
       cd ..

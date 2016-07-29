@@ -1,0 +1,110 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p1},
+                                                              <0.20122.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p1},
+                                                               <0.20122.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p1},
+                                                              <0.20122.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p2},
+                                                              <0.20123.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p3},
+                                                              <0.20124.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+------------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.20128.0>} Vehicle={{vehicle,v1},
+                                                          <0.20126.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.20128.0>} Vehicle={{vehicle,v2},
+                                                          <0.20127.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p1},
+                                                               <0.20122.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p2},
+                                                               <0.20123.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    PASSENGER_CHECK_OUT Stop={{stop,stop1},<0.20128.0>} Passenger={{citizen,p3},
+                                                               <0.20124.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.20128.0>} Vehicle={{vehicle,v1},
+                                                           <0.20126.0>}
+
+---------------------------------------------
+
+--- SEND --- 7:26:46 stop_SUITE - <0.20118.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.20128.0>} Vehicle={{vehicle,v2},
+                                                           <0.20127.0>}
+
+---------------------------------------------
+
+</pre>

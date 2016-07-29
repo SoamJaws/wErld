@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- INFO --- 7:26:34 line - <0.605.0>
+
+    Line started
+
+-------------------------------------
+
+--- SEND --- 7:26:34 line_SUITE - <0.601.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.605.0>} Stop={{stop,stop1},<0.521.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 7:26:34 line - <0.605.0>
+
+    IS_END_STOP Stop={{stop,stop1},<0.521.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:26:34 line_SUITE - <0.601.0>
+
+    REPLY IS_END_STOP true
+
+----------------------------------------------
+
+--- SEND --- 7:26:34 line_SUITE - <0.601.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.605.0>} Stop={{stop,stop2},<0.522.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 7:26:34 line - <0.605.0>
+
+    IS_END_STOP Stop={{stop,stop2},<0.522.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:26:34 line_SUITE - <0.601.0>
+
+    REPLY IS_END_STOP false
+
+----------------------------------------------
+
+--- SEND --- 7:26:34 line_SUITE - <0.601.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.605.0>} Stop={{stop,stop3},<0.523.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 7:26:34 line - <0.605.0>
+
+    IS_END_STOP Stop={{stop,stop3},<0.523.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 7:26:34 line_SUITE - <0.601.0>
+
+    REPLY IS_END_STOP true
+
+----------------------------------------------
+
+</pre>

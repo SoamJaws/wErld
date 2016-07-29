@@ -17,7 +17,7 @@ init_per_testcase(TestCase, Config) ->
   {ok, PublicTransportSupervisor} = public_transport_supervisor:start_link(),
   Config.
 
-end_per_testcase(_TestCase, Config) ->
+end_per_testcase(TestCase, Config) ->
   logger:stop(),
   LogName = ?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log",
   ct:comment("<a href=\"../../logs/" ++ LogName ++ "/index.html\">" ++ LogName ++ "</a>"),

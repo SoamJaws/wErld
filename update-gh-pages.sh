@@ -36,16 +36,18 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   cd $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/
 
   for CASEDIR in $(ls); do
-    echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
+    echo $CASEDIR
+    if [ -d "$CASEDIR" ]; then
+      cd $CASEDIR
+      echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
 <head> \
 <title>$CASEDIR</title> \
 <link rel="stylesheet" href="../../ct_default.css" type="text/css"></link> \
 </head> \
 <body> \
 <ul>" > index.html
-    if [ -d "$CASEDIR" ]; then
-      cd $CASEDIR
       for CASELOG in $(ls); do
+        echo $CASELOG
         echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
       done
       echo "</ul></body>" >> index.html

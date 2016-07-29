@@ -43,7 +43,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   echo "</ul></body>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
 
   SUITELOG=$(find $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR -iname suite.log.html)
-  sed -n 'H;${x;s/<li><a href="unexpected_io.log.html">Unexpected I/O log</a></li>\n/\&<li><a href="../../logs/index.html">App generated logs</a></li>/;p;}' $SUITELOG
+  awk '/unexpected_io.log.html/ { print; print "<li><a href="../../logs/index.html">App generated logs</a></li>"; next }1' $SUITELOG
 
   #add, commit and push files
   git add -f .

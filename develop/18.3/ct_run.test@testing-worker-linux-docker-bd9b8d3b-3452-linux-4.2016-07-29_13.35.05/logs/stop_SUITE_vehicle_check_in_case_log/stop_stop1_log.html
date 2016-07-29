@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- INFO --- 13:35:17 stop - <0.20829.0>
+
+    Stop started
+
+----------------------------------------
+
+--- RECEIVE --- 13:35:17 stop - <0.20829.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.20823.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:35:17 stop - <0.20829.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p2},<0.20824.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:35:17 stop - <0.20829.0>
+
+    VEHICLE_CHECK_IN Vehicle={{vehicle,v1},<0.20827.0>}
+
+-------------------------------------------
+
+--- INFO --- 13:35:17 stop - <0.20829.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p1},<0.20823.0>} Passengers=[{{citizen,
+                                                                             p2},
+                                                                            <0.20824.0>}] Vehicle={{vehicle,
+                                                                                                    v1},
+                                                                                                   <0.20827.0>} BoardingPassengers=0
+
+----------------------------------------
+
+--- INFO --- 13:35:17 stop - <0.20829.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p2},<0.20824.0>} Passengers=[] Vehicle={{vehicle,
+                                                                                       v1},
+                                                                                      <0.20827.0>} BoardingPassengers=1
+
+----------------------------------------
+
+--- SEND --- 13:35:17 stop - <0.20829.0>
+
+    CHECKIN_OK Vehicle={{vehicle,v1},<0.20827.0>} Stop={{stop,stop1},<0.20829.0>} BoardingPassengers1
+
+----------------------------------------
+
+--- RECEIVE --- 13:35:17 stop - <0.20829.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p3},<0.20825.0>}
+
+-------------------------------------------
+
+--- SEND --- 13:35:17 stop - <0.20829.0>
+
+    INCREMENT_BOARDING_PASSENGER Vehicle={{vehicle,v1},<0.20827.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:35:17 stop - <0.20829.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p4},<0.20826.0>}
+
+-------------------------------------------
+
+</pre>

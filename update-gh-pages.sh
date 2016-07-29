@@ -50,7 +50,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
         echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
       done
       echo "</ul></body>" >> index.html
-      cd -
+      cd ..
     fi
   done
 

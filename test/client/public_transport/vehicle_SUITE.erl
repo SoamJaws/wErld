@@ -57,6 +57,8 @@ init_per_testcase(Config) ->
 init_per_testcase(TestCase, Config) ->
   put(id, ?MODULE),
   put(module, ?MODULE_STRING),
+  LogName = ?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log",
+  ct:comment("<a href=\"../../logs/" ++ LogName ++ "/index.html\">" ++ LogName ++ "</a>"),
   logger:start_link(?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log"),
   UpdatedConfig = init_per_testcase(Config),
   StartStop = ?config(startstop, UpdatedConfig),
@@ -84,7 +86,7 @@ init_per_testcase(TestCase, Config) ->
 
 
 
-end_per_testcase(TestCase, Config) ->
+end_per_testcase(_TestCase, Config) ->
   StartStop = ?config(startstop, Config),
   TargetStop = ?config(targetstop, Config),
   Time = ?config(time, Config),
@@ -115,8 +117,6 @@ end_per_testcase(TestCase, Config) ->
   gen_server_mock:stop(P4),
   vehicle_supervisor:stop_vehicle(Vehicle),
   logger:stop(),
-  LogName = ?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log",
-  ct:comment("<a href=\"../../logs/" ++ LogName ++ "/index.html\">" ++ LogName ++ "</a>"),
   Config.
 
 

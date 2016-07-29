@@ -33,7 +33,13 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   mkdir -p $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
   cp -Rf $HOME/ct/* $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
 
-  echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
+  echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
+<head> \
+<title>Test line_SUITE:get_next_stop_case result</title> \
+<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link> \
+</head> \
+<body> \
+<ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
 
   for FILE in $RELATIVE_LOGS; do
     UPDATEDFILE=$(echo $FILE | sed -e 's/^.\///')

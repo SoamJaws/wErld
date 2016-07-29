@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20865.0>} Passenger={{citizen,p1},
+                                                              <0.20859.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+
+--- SEND --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20865.0>} Passenger={{citizen,p1},
+                                                              <0.20859.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    REPLY PASSENGER_CHECK_IN {nok,"Already checked in"}
+
+-----------------------------------------------
+
+--- SEND --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20865.0>} Passenger={{citizen,p2},
+                                                              <0.20860.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+
+--- SEND --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.20865.0>} Passenger={{citizen,p3},
+                                                              <0.20861.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 7:3:27 stop_SUITE - <0.20855.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-----------------------------------------------
+
+</pre>

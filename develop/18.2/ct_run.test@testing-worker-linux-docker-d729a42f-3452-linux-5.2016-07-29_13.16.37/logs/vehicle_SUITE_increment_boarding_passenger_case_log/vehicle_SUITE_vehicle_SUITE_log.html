@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- SEND --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    GET_NUMBER Line={{line,l1},<0.1980.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    REPLY GET_NUMBER 1
+
+---------------------------------------------------
+
+--- SEND --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    CHECKIN_OK Vehicle={{vehicle,bus_1},<0.1987.0>} Stop={{stop,startstop},
+                                                      <0.1977.0>} BoardingPassengers2
+
+------------------------------------------------
+
+--- SEND --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.1987.0>} Passenger={{citizen,p1},
+                                                                <0.1982.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    INCREMENT_BOARDING_PASSENGER Vehicle={{vehicle,bus_1},<0.1987.0>}
+
+------------------------------------------------
+
+--- SEND --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.1987.0>} Passenger={{citizen,p2},
+                                                                <0.1983.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.1987.0>} Passenger={{citizen,p3},
+                                                                <0.1984.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 13:16:40 vehicle_SUITE - <0.1973.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+</pre>

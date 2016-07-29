@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-398a9cbf-3435-linux-15.2016-07-29_13.08.05/stop_supervisor.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/stop_supervisor.erl by COVER 2016-07-29 at 13:08:08
+
+****************************************************************************
+
+        |  -module(stop_supervisor).
+        |  -include("public_transport.hrl").
+        |  -behaviour(supervisor).
+        |  
+        |  -export([ start_link/0
+        |          , start_stop/1
+        |          , stop_stop/1]).
+        |  
+        |  -export([init/1]).
+        |  
+        |  start_link() -&gt;
+     5..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+        |  
+        |  start_stop(Id) -&gt;
+     5..|    Result = supervisor:start_child({global, ?MODULE}, [Id]),
+     5..|    case Result of
+        |      {ok, Pid} -&gt;
+     5..|        ?ADDRESS(stop);
+        |      Result -&gt;
+<font color=red>     0..|        Result</font>
+        |    end.
+        |  
+        |  stop_stop(?ADDRESS(stop)) -&gt;
+     5..|    supervisor:terminate_child({global, ?MODULE}, Pid).
+        |    
+        |  
+        |  init(_Args) -&gt;
+     5..|    put(id, ?MODULE),
+     5..|    put(module, ?MODULE_STRING),
+     5..|    SupFlags = { simple_one_for_one
+        |               , 0
+        |               , 1
+        |               },
+     5..|    ChildSpecs = [ { stop
+        |                   , {stop, start_link, []}
+        |                   , transient
+        |                   , 1000
+        |                   , worker
+        |                   , [stop]
+        |                   }
+        |                 ],
+     5..|    {ok, {SupFlags, ChildSpecs}}.
+</pre>
+</body>
+</html>

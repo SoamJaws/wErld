@@ -47,7 +47,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 <body> \
 <ul>" > index.html
       for CASELOG in $(ls); do
-        if [ "$CASELOG" != "index.html"]; then
+        if [ "$CASELOG" != "index.html" ]; then
           echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
         fi
       done
@@ -70,10 +70,6 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   done
 
   echo "</ul></body>" >> index.html
-
-  cd ..
-  SUITELOG=$(find . -iname suite.log.html)
-  echo "$(awk '/unexpected_io.log.html/ { print; print "<li><a href=\"../../logs/index.html\">App generated logs</a></li>"; next }1' $SUITELOG)" > $SUITELOG
 
   #add, commit and push files
   git add -f :/

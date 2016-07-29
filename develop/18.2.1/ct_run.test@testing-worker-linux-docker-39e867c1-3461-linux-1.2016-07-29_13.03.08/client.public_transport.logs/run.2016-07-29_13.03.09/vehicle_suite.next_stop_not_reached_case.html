@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Test vehicle_SUITE:next_stop_not_reached_case result</title>
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="../../ct_default.css" type="text/css">
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
+
+<a name="top"></a><pre>
+=== Test case: <a href="vehicle_suite.src.html#next_stop_not_reached_case-1">vehicle_SUITE:next_stop_not_reached_case/1</a> (click for source code)
+
+=== Config value:
+
+    [{watchdog,<0.1597.0>},
+     {tc_logfile,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-39e867c1-3461-linux-1.2016-07-29_13.03.08/client.public_transport.logs/run.2016-07-29_13.03.09/vehicle_suite.next_stop_not_reached_case.html"},
+     {tc_group_properties,[{suite,vehicle_SUITE}]},
+     {tc_group_path,[]},
+     {data_dir,"/home/travis/build/SoamJaws/wErld/test/client/public_transport/vehicle_SUITE_data/"},
+     {priv_dir,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-39e867c1-3461-linux-1.2016-07-29_13.03.08/client.public_transport.logs/run.2016-07-29_13.03.09/log_private/"}]
+
+=== Current directory is "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-39e867c1-3461-linux-1.2016-07-29_13.03.08"
+
+=== Started at 2016-07-29 13:03:10
+
+<br />
+
+<div class="error_logger"><b>*** System report during vehicle_SUITE:next_stop_not_reached_case/1 2016-07-29 13:03:10.410 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::13:03:10 ===
+** Generic server vehicle_supervisor terminating 
+** Last message in was {'EXIT',<0.1835.0>,
+                               {#Ref<0.0.1.10638>,1142,ok,
+                                [{vehicle_SUITE,next_stop_not_reached_case}],
+                                []}}
+** When Server state == {state,
+                            {global,vehicle_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,vehicle,
+                                 {vehicle,start_link,[]},
+                                 transient,1000,worker,
+                                 [vehicle]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],vehicle_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.1.10638>,1142,ok,[{vehicle_SUITE,next_stop_not_reached_case}],[]}
+
+</div>
+
+<div class="sasl"><b>*** System report during vehicle_SUITE:next_stop_not_reached_case/1 2016-07-29 13:03:10.411 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::13:03:10 ===
+  crasher:
+    initial call: supervisor:vehicle_supervisor/1
+    pid: <0.1838.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.1.10638>,1142,ok,
+                     [{vehicle_SUITE,next_stop_not_reached_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.1835.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"vehicle_supervisor"},{id,vehicle_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 610
+    stack_size: 27
+    reductions: 315
+  neighbours:
+
+</div>
+<a name="end"></a>
+
+
+=== Ended at 2016-07-29 13:03:10
+=== successfully completed test case
+=== Returned value: ok
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!date>Fri Jul 29 2016 13:03:10<!/date><br />
+</div>
+</center>
+</body>
+</html>

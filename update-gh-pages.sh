@@ -4,6 +4,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   #copy data we're interested in to other place
   
   mkdir -p $HOME/ct/
+  ls -l ./test/logs
   cp -R ./test/logs/* $HOME/ct/
 
   cd $HOME/ct/

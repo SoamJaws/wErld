@@ -17,7 +17,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   HEAD=$(echo "$LOGS" | head -1)
   CT_RUN_DIR=$(echo "$HEAD" | cut -d "/" -f2)
   cd $CT_RUN_DIR/logs
-  RELATIVE_LOGS=$(echo $(find . -name "*_log.html") | sed -e 's/^.\///')
+  RELATIVE_LOGS=$(find . -name "*_log.html")
 
   #go to home and setup git
   cd $HOME
@@ -36,7 +36,8 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
 
   for FILE in $RELATIVE_LOGS; do
-    echo "<li><a href=\"$FILE\">$FILE</a></li>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
+    UPDATEFILE=$(echo $FILE | sed -e 's/^.\///')
+    echo "<li><a href=\"$UPDATEDFILE\">$UPDATEDFILE</a></li>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
   done
 
   echo "</ul></body>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html

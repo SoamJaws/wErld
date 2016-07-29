@@ -35,6 +35,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 
   cd $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/
 
+  echo "Generating index.html for each testcase log"
   for CASEDIR in $(ls); do
     echo $CASEDIR
     if [ -d "$CASEDIR" ]; then
@@ -55,6 +56,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
     fi
   done
 
+  echo "Generating index.html for logs dir"
   echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
 <head> \
 <title>App generated logs</title> \
@@ -64,6 +66,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 <ul>" > index.html
 
   for FILE in $RELATIVE_LOGS; do
+    echo $FILE
     UPDATEDFILE=$(echo $FILE | sed -e 's/^.\///')
     echo "<li><a href=\"$UPDATEDFILE\">$UPDATEDFILE</a></li>" >> index.html
   done

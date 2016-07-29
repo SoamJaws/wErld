@@ -147,8 +147,10 @@ init_per_testcase(TestCase, Config) ->
   Config.
 
 
-end_per_testcase(_TestCase, Config) ->
+end_per_testcase(TestCase, Config) ->
   logger:stop(),
+  LogName = ?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log",
+  ct:comment("<a href=\"../../logs/" ++ LogName ++ "/index.html\">" ++ LogName ++ "</a>"),
   Config.
 
 

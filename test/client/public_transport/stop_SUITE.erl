@@ -46,7 +46,7 @@ init_per_testcase(TestCase, Config) ->
             ].
 
 
-end_per_testcase(_TestCase, Config) ->
+end_per_testcase(TestCase, Config) ->
   P1 = ?config(p1, Config),
   P2 = ?config(p2, Config),
   P3 = ?config(p3, Config),
@@ -68,6 +68,8 @@ end_per_testcase(_TestCase, Config) ->
   gen_server_mock:stop(V2),
   logger:stop(),
   stop_supervisor:stop_stop(Stop),
+  LogName = ?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log",
+  ct:comment("<a href=\"../../logs/" ++ LogName ++ "/index.html\">" ++ LogName ++ "</a>"),
   Config.
 
 

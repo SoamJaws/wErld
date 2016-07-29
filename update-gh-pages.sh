@@ -36,7 +36,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
 
   for FILE in $RELATIVE_LOGS; do
-    UPDATEFILE=$(echo $FILE | sed -e 's/^.\///')
+    UPDATEDFILE=$(echo $FILE | sed -e 's/^.\///')
     echo "<li><a href=\"$UPDATEDFILE\">$UPDATEDFILE</a></li>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
   done
 

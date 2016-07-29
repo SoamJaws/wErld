@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 12:28:26 vehicle - <0.2050.0>
+
+    GET_OTHER_END Line={{line,l1},<0.2043.0>} Stop={{stop,targetstop},<0.2041.0>}
+
+------------------------------------------
+
+--- RECEIVE --- 12:28:26 vehicle - <0.2050.0>
+
+    REPLY GET_OTHER_END {{stop,startstop},<0.2040.0>}
+
+---------------------------------------------
+
+--- SEND --- 12:28:26 vehicle - <0.2050.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,startstop},<0.2040.0>} Vehicle={{vehicle,bus_1},
+                                                             <0.2050.0>}
+
+------------------------------------------
+
+--- INFO --- 12:28:26 vehicle - <0.2050.0>
+
+    Vehicle started
+
+------------------------------------------
+
+--- RECEIVE --- 12:28:26 vehicle - <0.2050.0>
+
+    NEW_TIME Time=1233
+
+---------------------------------------------
+
+--- RECEIVE --- 12:28:26 vehicle - <0.2050.0>
+
+    CHECKIN_OK Stop={{stop,startstop},<0.2040.0>} BoardingPassengers=0
+
+---------------------------------------------
+
+--- INFO --- 12:28:26 vehicle - <0.2050.0>
+
+    boarding_complete
+
+------------------------------------------
+
+--- SEND --- 12:28:26 vehicle - <0.2050.0>
+
+    GET_NEXT_STOP Line={{line,l1},<0.2043.0>} TargetStop={{stop,targetstop},
+                                                      <0.2041.0>} CurrentStop={{stop,
+                                                                                startstop},
+                                                                               <0.2040.0>}
+
+------------------------------------------
+
+--- RECEIVE --- 12:28:26 vehicle - <0.2050.0>
+
+    REPLY GET_NEXT_STOP {{{stop,s1},<0.2044.0>},5}
+
+---------------------------------------------
+
+--- SEND --- 12:28:26 vehicle - <0.2050.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,startstop},<0.2040.0>} Vehicle={{vehicle,bus_1},
+                                                              <0.2050.0>}
+
+------------------------------------------
+
+</pre>

@@ -1,0 +1,462 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Unexpected I/O log</title>
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="../../ct_default.css" type="text/css">
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
+
+<br />
+<h3>Unexpected I/O</h3>
+<pre>
+
+<div class="error_logger"><b>*** System report during line_SUITE:get_next_stop_case/1 in three_stops 2016-07-29 12:36:32.335 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.481.0>,
+                               {#Ref<0.0.2.2693>,2200,ok,
+                                [{line_SUITE,get_next_stop_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.2.2693>,2200,ok,[{line_SUITE,get_next_stop_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_next_stop_case/1 in three_stops 2016-07-29 12:36:32.339 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.484.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.2.2693>,2200,ok,
+                     [{line_SUITE,get_next_stop_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.481.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 610
+    stack_size: 27
+    reductions: 347
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_other_end_case/1 in three_stops 2016-07-29 12:36:32.365 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.537.0>,
+                               {#Ref<0.0.1.3987>,467,ok,
+                                [{line_SUITE,get_other_end_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.1.3987>,467,ok,[{line_SUITE,get_other_end_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_other_end_case/1 in three_stops 2016-07-29 12:36:32.366 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.540.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.1.3987>,467,ok,
+                     [{line_SUITE,get_other_end_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.537.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 376
+    stack_size: 27
+    reductions: 338
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:is_end_stop_case/1 in three_stops 2016-07-29 12:36:32.410 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.557.0>,
+                               {#Ref<0.0.1.4254>,958,ok,
+                                [{line_SUITE,is_end_stop_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.1.4254>,958,ok,[{line_SUITE,is_end_stop_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:is_end_stop_case/1 in three_stops 2016-07-29 12:36:32.411 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.560.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.1.4254>,958,ok,
+                     [{line_SUITE,is_end_stop_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.557.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 376
+    stack_size: 27
+    reductions: 338
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_number_case/1 in three_stops 2016-07-29 12:36:32.437 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.583.0>,
+                               {#Ref<0.0.2.3325>,370,ok,
+                                [{line_SUITE,get_number_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.2.3325>,370,ok,[{line_SUITE,get_number_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_number_case/1 in three_stops 2016-07-29 12:36:32.438 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.586.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.2.3325>,370,ok,
+                     [{line_SUITE,get_number_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.583.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 376
+    stack_size: 27
+    reductions: 338
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:contains_stop_case/1 in four_stops 2016-07-29 12:36:32.520 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.607.0>,
+                               {#Ref<0.0.2.3845>,724,ok,
+                                [{line_SUITE,contains_stop_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.2.3845>,724,ok,[{line_SUITE,contains_stop_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:contains_stop_case/1 in four_stops 2016-07-29 12:36:32.522 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.610.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.2.3845>,724,ok,
+                     [{line_SUITE,contains_stop_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.607.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 376
+    stack_size: 27
+    reductions: 338
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_neighbors_case/1 in five_stops 2016-07-29 12:36:32.616 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.650.0>,
+                               {#Ref<0.0.2.4256>,1447,ok,
+                                [{line_SUITE,get_neighbors_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.2.4256>,1447,ok,[{line_SUITE,get_neighbors_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_neighbors_case/1 in five_stops 2016-07-29 12:36:32.617 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.653.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.2.4256>,1447,ok,
+                     [{line_SUITE,get_neighbors_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.650.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 610
+    stack_size: 27
+    reductions: 335
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_duration_case/1 in five_stops 2016-07-29 12:36:32.712 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.688.0>,
+                               {#Ref<0.0.1.4869>,17136,ok,
+                                [{line_SUITE,get_duration_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.1.4869>,17136,ok,[{line_SUITE,get_duration_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_duration_case/1 in five_stops 2016-07-29 12:36:32.713 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.691.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.1.4869>,17136,ok,
+                     [{line_SUITE,get_duration_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.688.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 610
+    stack_size: 27
+    reductions: 335
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_target_case/1 in five_stops 2016-07-29 12:36:32.745 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.936.0>,
+                               {#Ref<0.0.1.5115>,2410,ok,
+                                [{line_SUITE,get_target_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.1.5115>,2410,ok,[{line_SUITE,get_target_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_target_case/1 in five_stops 2016-07-29 12:36:32.746 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.939.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.1.5115>,2410,ok,
+                     [{line_SUITE,get_target_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.936.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 610
+    stack_size: 27
+    reductions: 335
+  neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during line_SUITE:get_intersection_case/1 in nine_stops 2016-07-29 12:36:32.879 ***</b>
+
+=ERROR REPORT==== 29-Jul-2016::12:36:32 ===
+** Generic server line_supervisor terminating 
+** Last message in was {'EXIT',<0.993.0>,
+                               {#Ref<0.0.1.5805>,10472,ok,
+                                [{line_SUITE,get_intersection_case}],
+                                []}}
+** When Server state == {state,
+                            {global,line_supervisor},
+                            simple_one_for_one,
+                            [{child,undefined,line,
+                                 {line,start_link,[]},
+                                 transient,1000,worker,
+                                 [line]}],
+                            {dict,0,16,16,8,80,48,
+                                {[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                 []},
+                                {{[],[],[],[],[],[],[],[],[],[],[],[],[],[],
+                                  [],[]}}},
+                            0,1,[],line_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.1.5805>,10472,ok,[{line_SUITE,get_intersection_case}],[]}
+
+</div>
+<div class="sasl"><b>*** System report during line_SUITE:get_intersection_case/1 in nine_stops 2016-07-29 12:36:32.880 ***</b>
+
+=CRASH REPORT==== 29-Jul-2016::12:36:32 ===
+  crasher:
+    initial call: supervisor:line_supervisor/1
+    pid: <0.996.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.1.5805>,10472,ok,
+                     [{line_SUITE,get_intersection_case}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.993.0>]
+    messages: []
+    links: []
+    dictionary: [{module,"line_supervisor"},{id,line_supervisor}]
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 609
+  neighbours:
+
+</div>
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!date>Fri Jul 29 2016 12:36:32<!/date><br />
+</div>
+</center>
+</body>
+</html>

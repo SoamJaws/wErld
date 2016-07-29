@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- INFO --- 6:39:40 stop - <0.16183.0>
+
+    Stop started
+
+---------------------------------------
+
+--- SEND --- 6:39:40 stop_SUITE - <0.16173.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.16183.0>} Vehicle={{vehicle,v1},
+                                                          <0.16181.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 6:39:40 stop - <0.16183.0>
+
+    VEHICLE_CHECK_IN Vehicle={{vehicle,v1},<0.16181.0>}
+
+------------------------------------------
+
+--- SEND --- 6:39:40 stop - <0.16183.0>
+
+    CHECKIN_OK Vehicle={{vehicle,v1},<0.16181.0>} Stop={{stop,stop1},<0.16183.0>} BoardingPassengers0
+
+---------------------------------------
+
+--- SEND --- 6:39:40 stop_SUITE - <0.16173.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,stop1},<0.16183.0>} Vehicle={{vehicle,v2},
+                                                           <0.16182.0>}
+
+---------------------------------------------
+
+--- RECEIVE --- 6:39:40 stop - <0.16183.0>
+
+    VEHICLE_CHECK_OUT Vehicle={{vehicle,v2},<0.16182.0>}
+
+------------------------------------------
+
+</pre>

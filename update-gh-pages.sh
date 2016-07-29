@@ -9,7 +9,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   cd $HOME/ct/
   LOGS=$(find . -name "*_log.html")
   for FILE in $LOGS; do
-    sed -i '1i<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>' $FILE
+    sed -i '1i<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>$FILE</title></head><body><pre>' $FILE
     echo "</pre>" >> $FILE
   done
 

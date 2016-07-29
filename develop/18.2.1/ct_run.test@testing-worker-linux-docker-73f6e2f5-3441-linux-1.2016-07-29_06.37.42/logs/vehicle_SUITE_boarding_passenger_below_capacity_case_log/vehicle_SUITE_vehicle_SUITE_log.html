@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    GET_NUMBER Line={{line,l1},<0.15714.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    REPLY GET_NUMBER 1
+
+---------------------------------------------------
+
+--- SEND --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    CHECKIN_OK Vehicle={{vehicle,bus_1},<0.15721.0>} Stop={{stop,startstop},
+                                                       <0.15711.0>} BoardingPassengers3
+
+------------------------------------------------
+
+--- SEND --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.15721.0>} Passenger={{citizen,p1},
+                                                                 <0.15716.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.15721.0>} Passenger={{citizen,p2},
+                                                                 <0.15717.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.15721.0>} Passenger={{citizen,p3},
+                                                                 <0.15718.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 6:37:54 vehicle_SUITE - <0.15707.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+</pre>

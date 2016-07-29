@@ -33,20 +33,40 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   mkdir -p $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
   cp -Rf $HOME/ct/* $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
 
-  echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
+  cd $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/
+
+  for CASEDIR in $(ls); do
+    echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
 <head> \
-<title>Test line_SUITE:get_next_stop_case result</title> \
+<title>$CASEDIR</title> \
 <link rel="stylesheet" href="../../ct_default.css" type="text/css"></link> \
 </head> \
 <body> \
-<ul>" > $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
+<ul>" > index.html
+    if [ -d "$CASEDIR" ]; then
+      cd $CASEDIR
+      for CASELOG in $(ls); do
+        echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
+      done
+      echo "</ul></body>" >> index.html
+      cd -
+    fi
+  done
+
+  echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
+<head> \
+<title>App generated logs</title> \
+<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link> \
+</head> \
+<body> \
+<ul>" > index.html
 
   for FILE in $RELATIVE_LOGS; do
     UPDATEDFILE=$(echo $FILE | sed -e 's/^.\///')
-    echo "<li><a href=\"$UPDATEDFILE\">$UPDATEDFILE</a></li>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
+    echo "<li><a href=\"$UPDATEDFILE\">$UPDATEDFILE</a></li>" >> index.html
   done
 
-  echo "</ul></body>" >> $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/index.html
+  echo "</ul></body>" >> index.html
 
   SUITELOG=$(find $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR -iname suite.log.html)
   echo "$(awk '/unexpected_io.log.html/ { print; print "<li><a href=\"../../logs/index.html\">App generated logs</a></li>"; next }1' $SUITELOG)" > $SUITELOG

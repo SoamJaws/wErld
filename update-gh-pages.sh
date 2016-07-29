@@ -4,9 +4,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   #copy data we're interested in to other place
   
   mkdir -p $HOME/ct/
-  ls -l ./test/logs
   cp -R ./test/logs/* $HOME/ct/
-  ls -l $HOME/ct
 
   cd $HOME/ct/
   LOGS=$(find . -name "*_log.html")
@@ -34,8 +32,6 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   git rm -rf $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/*
   mkdir -p $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
   cp -Rf $HOME/ct/* $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
-  ls -l $HOME/ct
-  ls -l $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE
 
   cd $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/
 
@@ -78,7 +74,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   echo "$(awk '/unexpected_io.log.html/ { print; print "<li><a href=\"../../logs/index.html\">App generated logs</a></li>"; next }1' $SUITELOG)" > $SUITELOG
 
   #add, commit and push files
-  git add -f .
+  git add -f :/
   git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to gh-pages"
   git pull -r
   git push -fq origin gh-pages > /dev/null

@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    GET_NUMBER Line={{line,l1},<0.14030.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    REPLY GET_NUMBER 1
+
+---------------------------------------------------
+
+--- SEND --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    CHECKIN_OK Vehicle={{vehicle,bus_1},<0.14037.0>} Stop={{stop,startstop},
+                                                       <0.14027.0>} BoardingPassengers3
+
+------------------------------------------------
+
+--- SEND --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.14037.0>} Passenger={{citizen,p1},
+                                                                 <0.14032.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.14037.0>} Passenger={{citizen,p2},
+                                                                 <0.14033.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    PASSENGER_BOARD Vehicle={{vehicle,bus_1},<0.14037.0>} Passenger={{citizen,p3},
+                                                                 <0.14034.0>}
+
+------------------------------------------------
+
+--- RECEIVE --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    REPLY PASSENGER_BOARD ok
+
+---------------------------------------------------
+
+--- SEND --- 7:17:27 vehicle_SUITE - <0.14023.0>
+
+    NEW_TIME Vehicle={{vehicle,bus_1},<0.14037.0>} Time=1239
+
+------------------------------------------------
+
+</pre>

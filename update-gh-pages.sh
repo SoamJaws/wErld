@@ -6,6 +6,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   mkdir -p $HOME/ct/
   ls -l ./test/logs
   cp -R ./test/logs/* $HOME/ct/
+  ls -l $HOME/ct
 
   cd $HOME/ct/
   LOGS=$(find . -name "*_log.html")
@@ -33,6 +34,8 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   git rm -rf $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/*
   mkdir -p $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
   cp -Rf $HOME/ct/* $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
+  ls -l $HOME/ct
+  ls -l $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE
 
   cd $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/
 

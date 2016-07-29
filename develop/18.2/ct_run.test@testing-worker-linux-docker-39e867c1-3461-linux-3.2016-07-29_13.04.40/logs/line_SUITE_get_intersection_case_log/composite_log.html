@@ -1,0 +1,1084 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- INFO --- 13:4:42 line - <0.997.0>
+
+    Line started
+
+-------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    Line started
+
+-------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    Line started
+
+--------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    Line started
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.997.0>} OtherLine={{line,bus_2},
+                                                          <0.999.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_2},<0.999.0>}
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.997.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop1},
+                                                                 <0.989.0>} Rest=[{{stop,
+                                                                                    stop2},
+                                                                                   <0.990.0>},
+                                                                                  {{stop,
+                                                                                    stop3},
+                                                                                   <0.991.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop1},<0.989.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.989.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.997.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop2},
+                                                                 <0.990.0>} Rest=[{{stop,
+                                                                                    stop3},
+                                                                                   <0.991.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop2},<0.990.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop2},<0.990.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    REPLY CONTAINS_STOP true
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION {{stop,stop2},<0.990.0>}
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_2},<0.999.0>} OtherLine={{line,bus_1},
+                                                          <0.997.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_1},<0.997.0>}
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_1},<0.997.0>} Stop={{stop,stop4},
+                                                                 <0.988.0>} Rest=[{{stop,
+                                                                                    stop2},
+                                                                                   <0.990.0>},
+                                                                                  {{stop,
+                                                                                    stop5},
+                                                                                   <0.987.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.997.0>} Stop={{stop,stop4},<0.988.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Stop={{stop,stop4},<0.988.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_1},<0.997.0>} Stop={{stop,stop2},
+                                                                 <0.990.0>} Rest=[{{stop,
+                                                                                    stop5},
+                                                                                   <0.987.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.997.0>} Stop={{stop,stop2},<0.990.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Stop={{stop,stop2},<0.990.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP true
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION {{stop,stop2},<0.990.0>}
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.997.0>} OtherLine={{line,bus_3},
+                                                          <0.1000.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_3},<0.1000.0>}
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.997.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.1000.0>} Stop={{stop,stop1},
+                                                                  <0.989.0>} Rest=[{{stop,
+                                                                                     stop2},
+                                                                                    <0.990.0>},
+                                                                                   {{stop,
+                                                                                     stop3},
+                                                                                    <0.991.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.1000.0>} Stop={{stop,stop1},<0.989.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.989.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    REPLY CONTAINS_STOP true
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION {{stop,stop1},<0.989.0>}
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_3},<0.1000.0>} OtherLine={{line,bus_1},
+                                                           <0.997.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_1},<0.997.0>}
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    get_intersection_helper OtherLine={{line,bus_1},<0.997.0>} Stop={{stop,stop1},
+                                                                 <0.989.0>} Rest=[{{stop,
+                                                                                    stop6},
+                                                                                   <0.983.0>},
+                                                                                  {{stop,
+                                                                                    stop7},
+                                                                                   <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.997.0>} Stop={{stop,stop1},<0.989.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.989.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION {{stop,stop1},<0.989.0>}
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_3},<0.1000.0>} OtherLine={{line,bus_4},
+                                                           <0.1001.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_4},<0.1001.0>}
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop1},
+                                                                  <0.989.0>} Rest=[{{stop,
+                                                                                     stop6},
+                                                                                    <0.983.0>},
+                                                                                   {{stop,
+                                                                                     stop7},
+                                                                                    <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop1},<0.989.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.989.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop6},
+                                                                  <0.983.0>} Rest=[{{stop,
+                                                                                     stop7},
+                                                                                    <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop6},<0.983.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop6},<0.983.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop7},
+                                                                  <0.984.0>} Rest=[]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop7},<0.984.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop7},<0.984.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION {{stop,stop7},<0.984.0>}
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_4},<0.1001.0>} OtherLine={{line,bus_3},
+                                                           <0.1000.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_3},<0.1000.0>}
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.1000.0>} Stop={{stop,stop8},
+                                                                  <0.985.0>} Rest=[{{stop,
+                                                                                     stop9},
+                                                                                    <0.986.0>},
+                                                                                   {{stop,
+                                                                                     stop7},
+                                                                                    <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.1000.0>} Stop={{stop,stop8},<0.985.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Stop={{stop,stop8},<0.985.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.1000.0>} Stop={{stop,stop9},
+                                                                  <0.986.0>} Rest=[{{stop,
+                                                                                     stop7},
+                                                                                    <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.1000.0>} Stop={{stop,stop9},<0.986.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Stop={{stop,stop9},<0.986.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.1000.0>} Stop={{stop,stop7},
+                                                                  <0.984.0>} Rest=[]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.1000.0>} Stop={{stop,stop7},<0.984.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Stop={{stop,stop7},<0.984.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION {{stop,stop7},<0.984.0>}
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.997.0>} OtherLine={{line,bus_4},
+                                                          <0.1001.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_4},<0.1001.0>}
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.997.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop1},
+                                                                  <0.989.0>} Rest=[{{stop,
+                                                                                     stop2},
+                                                                                    <0.990.0>},
+                                                                                   {{stop,
+                                                                                     stop3},
+                                                                                    <0.991.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop1},<0.989.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.989.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.997.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop2},
+                                                                  <0.990.0>} Rest=[{{stop,
+                                                                                     stop3},
+                                                                                    <0.991.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop2},<0.990.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop2},<0.990.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.997.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop3},
+                                                                  <0.991.0>} Rest=[]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop3},<0.991.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop3},<0.991.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION none
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_4},<0.1001.0>} OtherLine={{line,bus_1},
+                                                           <0.997.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_1},<0.997.0>}
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_1},<0.997.0>} Stop={{stop,stop8},
+                                                                 <0.985.0>} Rest=[{{stop,
+                                                                                    stop9},
+                                                                                   <0.986.0>},
+                                                                                  {{stop,
+                                                                                    stop7},
+                                                                                   <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.997.0>} Stop={{stop,stop8},<0.985.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Stop={{stop,stop8},<0.985.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_1},<0.997.0>} Stop={{stop,stop9},
+                                                                 <0.986.0>} Rest=[{{stop,
+                                                                                    stop7},
+                                                                                   <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.997.0>} Stop={{stop,stop9},<0.986.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Stop={{stop,stop9},<0.986.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_1},<0.997.0>} Stop={{stop,stop7},
+                                                                 <0.984.0>} Rest=[]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.997.0>} Stop={{stop,stop7},<0.984.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.997.0>
+
+    CONTAINS_STOP Stop={{stop,stop7},<0.984.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION none
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_2},<0.999.0>} OtherLine={{line,bus_3},
+                                                          <0.1000.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_3},<0.1000.0>}
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.1000.0>} Stop={{stop,stop4},
+                                                                  <0.988.0>} Rest=[{{stop,
+                                                                                     stop2},
+                                                                                    <0.990.0>},
+                                                                                   {{stop,
+                                                                                     stop5},
+                                                                                    <0.987.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.1000.0>} Stop={{stop,stop4},<0.988.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Stop={{stop,stop4},<0.988.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.1000.0>} Stop={{stop,stop2},
+                                                                  <0.990.0>} Rest=[{{stop,
+                                                                                     stop5},
+                                                                                    <0.987.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.1000.0>} Stop={{stop,stop2},<0.990.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Stop={{stop,stop2},<0.990.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_3},<0.1000.0>} Stop={{stop,stop5},
+                                                                  <0.987.0>} Rest=[]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_3},<0.1000.0>} Stop={{stop,stop5},<0.987.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Stop={{stop,stop5},<0.987.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION none
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_3},<0.1000.0>} OtherLine={{line,bus_2},
+                                                           <0.999.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_2},<0.999.0>}
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop1},
+                                                                 <0.989.0>} Rest=[{{stop,
+                                                                                    stop6},
+                                                                                   <0.983.0>},
+                                                                                  {{stop,
+                                                                                    stop7},
+                                                                                   <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop1},<0.989.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop1},<0.989.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop6},
+                                                                 <0.983.0>} Rest=[{{stop,
+                                                                                    stop7},
+                                                                                   <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop6},<0.983.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop6},<0.983.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1000.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop7},
+                                                                 <0.984.0>} Rest=[]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1000.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop7},<0.984.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop7},<0.984.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1000.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION none
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_2},<0.999.0>} OtherLine={{line,bus_4},
+                                                          <0.1001.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_4},<0.1001.0>}
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop4},
+                                                                  <0.988.0>} Rest=[{{stop,
+                                                                                     stop2},
+                                                                                    <0.990.0>},
+                                                                                   {{stop,
+                                                                                     stop5},
+                                                                                    <0.987.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop4},<0.988.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop4},<0.988.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop2},
+                                                                  <0.990.0>} Rest=[{{stop,
+                                                                                     stop5},
+                                                                                    <0.987.0>}]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop2},<0.990.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop2},<0.990.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.999.0>
+
+    get_intersection_helper OtherLine={{line,bus_4},<0.1001.0>} Stop={{stop,stop5},
+                                                                  <0.987.0>} Rest=[]
+
+-------------------------------------
+
+--- SEND --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1001.0>} Stop={{stop,stop5},<0.987.0>}
+
+-------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Stop={{stop,stop5},<0.987.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    REPLY CONTAINS_STOP false
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION none
+
+----------------------------------------------
+
+--- SEND --- 13:4:42 line_SUITE - <0.993.0>
+
+    GET_INTERSECTION Line={{line,bus_4},<0.1001.0>} OtherLine={{line,bus_2},
+                                                           <0.999.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    GET_INTERSECTION OtherLine={{line,bus_2},<0.999.0>}
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop8},
+                                                                 <0.985.0>} Rest=[{{stop,
+                                                                                    stop9},
+                                                                                   <0.986.0>},
+                                                                                  {{stop,
+                                                                                    stop7},
+                                                                                   <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop8},<0.985.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop8},<0.985.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop9},
+                                                                 <0.986.0>} Rest=[{{stop,
+                                                                                    stop7},
+                                                                                   <0.984.0>}]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop9},<0.986.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop9},<0.986.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- INFO --- 13:4:42 line - <0.1001.0>
+
+    get_intersection_helper OtherLine={{line,bus_2},<0.999.0>} Stop={{stop,stop7},
+                                                                 <0.984.0>} Rest=[]
+
+--------------------------------------
+
+--- SEND --- 13:4:42 line - <0.1001.0>
+
+    CONTAINS_STOP Line={{line,bus_2},<0.999.0>} Stop={{stop,stop7},<0.984.0>}
+
+--------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.999.0>
+
+    CONTAINS_STOP Stop={{stop,stop7},<0.984.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 13:4:42 line - <0.1001.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------
+
+--- RECEIVE --- 13:4:42 line_SUITE - <0.993.0>
+
+    REPLY GET_INTERSECTION none
+
+----------------------------------------------
+
+</pre>

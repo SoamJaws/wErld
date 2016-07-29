@@ -37,7 +37,6 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 
   echo "Generating index.html for each testcase log"
   for CASEDIR in $(ls); do
-    echo $CASEDIR
     if [ -d "$CASEDIR" ]; then
       cd $CASEDIR
       echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
@@ -48,7 +47,6 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 <body> \
 <ul>" > index.html
       for CASELOG in $(ls); do
-        echo $CASELOG
         echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
       done
       echo "</ul></body>" >> index.html
@@ -56,7 +54,6 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
     fi
   done
 
-  echo "Generating index.html for logs dir"
   echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
 <head> \
 <title>App generated logs</title> \
@@ -66,14 +63,14 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 <ul>" > index.html
 
   for FILE in $RELATIVE_LOGS; do
-    echo $FILE
     UPDATEDFILE=$(echo $FILE | sed -e 's/^.\///')
     echo "<li><a href=\"$UPDATEDFILE\">$UPDATEDFILE</a></li>" >> index.html
   done
 
   echo "</ul></body>" >> index.html
 
-  SUITELOG=$(find $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR -iname suite.log.html)
+  cd ..
+  SUITELOG=$(find . -iname suite.log.html)
   echo "$(awk '/unexpected_io.log.html/ { print; print "<li><a href=\"../../logs/index.html\">App generated logs</a></li>"; next }1' $SUITELOG)" > $SUITELOG
 
   #add, commit and push files

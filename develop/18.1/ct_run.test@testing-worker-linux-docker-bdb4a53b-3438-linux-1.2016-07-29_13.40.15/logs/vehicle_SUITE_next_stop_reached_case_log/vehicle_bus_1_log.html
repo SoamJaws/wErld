@@ -1,0 +1,118 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- SEND --- 13:40:27 vehicle - <0.17261.0>
+
+    GET_OTHER_END Line={{line,l1},<0.17254.0>} Stop={{stop,targetstop},
+                                                 <0.17252.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:40:27 vehicle - <0.17261.0>
+
+    REPLY GET_OTHER_END {{stop,startstop},<0.17251.0>}
+
+----------------------------------------------
+
+--- SEND --- 13:40:27 vehicle - <0.17261.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,startstop},<0.17251.0>} Vehicle={{vehicle,bus_1},
+                                                              <0.17261.0>}
+
+-------------------------------------------
+
+--- INFO --- 13:40:27 vehicle - <0.17261.0>
+
+    Vehicle started
+
+-------------------------------------------
+
+--- RECEIVE --- 13:40:27 vehicle - <0.17261.0>
+
+    CHECKIN_OK Stop={{stop,startstop},<0.17251.0>} BoardingPassengers=3
+
+----------------------------------------------
+
+--- RECEIVE --- 13:40:27 vehicle - <0.17261.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p1},<0.17256.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 13:40:27 vehicle - <0.17261.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p2},<0.17257.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 13:40:27 vehicle - <0.17261.0>
+
+    PASSENGER_BOARD Passenger={{citizen,p3},<0.17258.0>}
+
+----------------------------------------------
+
+--- INFO --- 13:40:27 vehicle - <0.17261.0>
+
+    boarding_complete
+
+-------------------------------------------
+
+--- SEND --- 13:40:27 vehicle - <0.17261.0>
+
+    GET_NEXT_STOP Line={{line,l1},<0.17254.0>} TargetStop={{stop,targetstop},
+                                                       <0.17252.0>} CurrentStop={{stop,
+                                                                                  startstop},
+                                                                                 <0.17251.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:40:27 vehicle - <0.17261.0>
+
+    REPLY GET_NEXT_STOP {{{stop,s1},<0.17255.0>},5}
+
+----------------------------------------------
+
+--- SEND --- 13:40:27 vehicle - <0.17261.0>
+
+    VEHICLE_CHECK_OUT Stop={{stop,startstop},<0.17251.0>} Vehicle={{vehicle,bus_1},
+                                                               <0.17261.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 13:40:27 vehicle - <0.17261.0>
+
+    NEW_TIME Time=1239
+
+----------------------------------------------
+
+--- INFO --- 13:40:27 vehicle - <0.17261.0>
+
+    notify_passengers_checkin Passenger={{citizen,p1},<0.17256.0>} Passengers=[{{citizen,
+                                                                             p2},
+                                                                            <0.17257.0>},
+                                                                           {{citizen,
+                                                                             p3},
+                                                                            <0.17258.0>}] Id=bus_1
+
+-------------------------------------------
+
+--- INFO --- 13:40:27 vehicle - <0.17261.0>
+
+    notify_passengers_checkin Passenger={{citizen,p2},<0.17257.0>} Passengers=[{{citizen,
+                                                                             p3},
+                                                                            <0.17258.0>}] Id=bus_1
+
+-------------------------------------------
+
+--- INFO --- 13:40:27 vehicle - <0.17261.0>
+
+    notify_passengers_checkin Passenger={{citizen,p3},<0.17258.0>} Passengers=[] Id=bus_1
+
+-------------------------------------------
+
+--- SEND --- 13:40:27 vehicle - <0.17261.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,s1},<0.17255.0>} Vehicle={{vehicle,bus_1},
+                                                       <0.17261.0>}
+
+-------------------------------------------
+
+</pre>

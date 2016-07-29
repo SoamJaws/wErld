@@ -1,0 +1,89 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>Test line_SUITE:get_next_stop_case result</title></head><body><pre>
+--- SEND --- 6:50:57 line_SUITE - <0.694.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.698.0>} Stop={{stop,stop1},<0.690.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:50:57 line_SUITE - <0.694.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop2},<0.691.0>},
+                      7,
+                      {{stop,stop5},<0.688.0>},
+                      {{line,bus_1},<0.698.0>}}]
+
+----------------------------------------------
+
+--- SEND --- 6:50:57 line_SUITE - <0.694.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.698.0>} Stop={{stop,stop2},<0.691.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:50:57 line_SUITE - <0.694.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop1},<0.690.0>},
+                      7,
+                      {{stop,stop1},<0.690.0>},
+                      {{line,bus_1},<0.698.0>}},
+                     {{{stop,stop3},<0.692.0>},
+                      11,
+                      {{stop,stop5},<0.688.0>},
+                      {{line,bus_1},<0.698.0>}}]
+
+----------------------------------------------
+
+--- SEND --- 6:50:57 line_SUITE - <0.694.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.698.0>} Stop={{stop,stop3},<0.692.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:50:57 line_SUITE - <0.694.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop2},<0.691.0>},
+                      11,
+                      {{stop,stop1},<0.690.0>},
+                      {{line,bus_1},<0.698.0>}},
+                     {{{stop,stop4},<0.689.0>},
+                      13,
+                      {{stop,stop5},<0.688.0>},
+                      {{line,bus_1},<0.698.0>}}]
+
+----------------------------------------------
+
+--- SEND --- 6:50:57 line_SUITE - <0.694.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.698.0>} Stop={{stop,stop4},<0.689.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:50:57 line_SUITE - <0.694.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop3},<0.692.0>},
+                      13,
+                      {{stop,stop1},<0.690.0>},
+                      {{line,bus_1},<0.698.0>}},
+                     {{{stop,stop5},<0.688.0>},
+                      17,
+                      {{stop,stop5},<0.688.0>},
+                      {{line,bus_1},<0.698.0>}}]
+
+----------------------------------------------
+
+--- SEND --- 6:50:57 line_SUITE - <0.694.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.698.0>} Stop={{stop,stop5},<0.688.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 6:50:57 line_SUITE - <0.694.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,stop4},<0.689.0>},
+                      17,
+                      {{stop,stop1},<0.690.0>},
+                      {{line,bus_1},<0.698.0>}}]
+
+----------------------------------------------
+
+</pre>

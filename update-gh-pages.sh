@@ -73,11 +73,6 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   SUITELOG=$(find . -iname suite.log.html)
   echo "$(awk '/unexpected_io.log.html/ { print; print "<li><a href=\"../../logs/index.html\">App generated logs</a></li>"; next }1' $SUITELOG)" > $SUITELOG
 
-  ls ../../../
-  ls ../../
-  ls ../
-  ls
-
   #add, commit and push files
   git add -f .
   git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to gh-pages"

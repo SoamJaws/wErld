@@ -1,4 +1,20 @@
 if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
+  apt-get install graphviz
+  wget https://downloads.sourceforge.net/project/plantuml/plantuml.jar
+  DIAGRAMS=$(find ./test/logs -name "composite_diagram.txt")
+
+  for DIAGRAM in $DIAGRAMS; do
+    java -jar plantuml.jar -ttxt $DIAGRAM
+    rm $DIAGRAM
+  done
+
+  SSDS=$(find ./test/logs -name "composite_diagram.atxt")
+  for SSD in $SSDS; do
+    mv "$SSD" "${SSD%.atxt}.html"
+    sed -i '1i<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>$FILE</title></head><body><pre>' $SSD
+    echo "</pre>" >> $SSD
+  done
+
   echo -e "Starting to update gh-pages\n"
 
   #copy data we're interested in to other place

@@ -1,0 +1,1932 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- SEND --- 21:27:1 public_transport - <0.1593.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1593.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1593.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1593.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1593.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1593.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1593.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1593.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1593.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1593.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1593.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1593.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,b},<0.1572.0>},
+                      1,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,h},<0.1578.0>},
+                      2,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,j},<0.1580.0>},
+                      1,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1594.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1594.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,a},<0.1571.0>},
+                      1,
+                      {{stop,a},<0.1571.0>},
+                      {{line,bus_1},<0.1588.0>}},
+                     {{{stop,c},<0.1573.0>},
+                      2,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1595.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1596.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1597.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1598.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1595.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1595.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1596.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1597.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1596.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1597.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1598.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1598.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1595.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1595.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1596.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1597.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1596.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1597.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1598.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1595.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1598.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1595.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1596.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1596.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1597.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1598.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1595.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1597.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1598.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1595.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1596.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1596.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1597.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1597.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1598.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1598.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1595.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1595.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1597.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1597.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1596.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1595.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,i},<0.1579.0>},
+                      3,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,b},<0.1572.0>},
+                      2,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1596.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1599.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1596.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,b},<0.1572.0>},
+                      1,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,k},<0.1581.0>},
+                      2,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1599.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1602.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,k},<0.1581.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1599.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1599.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1602.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1602.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,k},<0.1581.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1599.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1602.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1599.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1602.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,k},<0.1581.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1599.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1602.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1602.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,k},<0.1581.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1598.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1597.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,b},<0.1572.0>},
+                      1,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1598.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1599.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1599.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1602.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1598.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,b},<0.1572.0>},
+                      2,
+                      {{stop,a},<0.1571.0>},
+                      {{line,bus_1},<0.1588.0>}},
+                     {{{stop,d},<0.1574.0>},
+                      1,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1607.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,d},<0.1574.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1606.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1607.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1607.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,d},<0.1574.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1606.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1607.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1607.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,d},<0.1574.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1606.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1607.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1607.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,d},<0.1574.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1599.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1599.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1599.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,h},<0.1578.0>},
+                      3,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1628.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1628.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1628.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1628.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1628.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1628.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1628.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1606.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1607.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1628.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1607.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1628.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1602.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1602.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1602.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,k},<0.1581.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1602.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,j},<0.1580.0>},
+                      2,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1633.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1633.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1633.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,h},<0.1578.0>},
+                      2,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,j},<0.1580.0>},
+                      1,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1603.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1603.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,a},<0.1571.0>},
+                      1,
+                      {{stop,a},<0.1571.0>},
+                      {{line,bus_1},<0.1588.0>}},
+                     {{{stop,c},<0.1573.0>},
+                      2,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1634.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1635.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1636.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1637.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1606.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1628.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1607.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1628.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1607.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,d},<0.1574.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1633.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1633.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,h},<0.1578.0>},
+                      2,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,j},<0.1580.0>},
+                      1,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,h},<0.1578.0>},
+                      2,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,j},<0.1580.0>},
+                      1,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1600.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1601.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1628.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,i},<0.1579.0>},
+                      3,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,b},<0.1572.0>},
+                      2,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1633.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1633.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1645.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1646.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1634.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1634.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1635.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1635.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1636.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1636.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1637.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1634.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1645.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1637.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1635.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1646.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1634.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1635.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1636.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1636.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1645.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1637.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1646.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1634.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1635.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1636.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1637.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1634.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1635.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1636.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1637.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1637.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1645.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1646.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1645.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1646.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1645.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1645.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,i},<0.1579.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1646.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1646.0>
+
+    CONTAINS_STOP Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1606.0>
+
+    REPLY GET_INTERSECTION none
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    GET_NEIGHBORS Line={{line,tram_2},<0.1589.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1607.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,c},<0.1573.0>},
+                      1,
+                      {{stop,a},<0.1571.0>},
+                      {{line,bus_1},<0.1588.0>}},
+                     {{{stop,e},<0.1575.0>},
+                      4,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1600.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,a},<0.1571.0>},
+                      1,
+                      {{stop,a},<0.1571.0>},
+                      {{line,bus_1},<0.1588.0>}},
+                     {{{stop,c},<0.1573.0>},
+                      2,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1601.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,a},<0.1571.0>},
+                      1,
+                      {{stop,a},<0.1571.0>},
+                      {{line,bus_1},<0.1588.0>}},
+                     {{{stop,c},<0.1573.0>},
+                      2,
+                      {{stop,g},<0.1577.0>},
+                      {{line,bus_1},<0.1588.0>}}]
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1633.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1656.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1657.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,e},<0.1575.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1658.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1659.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1660.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1661.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1633.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1662.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1663.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1664.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1665.0>
+
+    CONTAINS_STOP Line={{line,bus_4},<0.1591.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1656.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1646.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1657.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1656.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1658.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1646.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1657.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,e},<0.1575.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1659.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1658.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1660.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1659.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1661.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1660.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1662.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1656.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1661.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1663.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1657.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1634.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1662.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1635.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1636.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1664.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1637.0>
+
+    REPLY CONTAINS_STOP true
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1645.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1656.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1658.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1634.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1635.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1636.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1637.0>
+
+    GET_INTERSECTION Line={{line,bus_1},<0.1588.0>} OtherLine={{line,bus_4},
+                                                           <0.1591.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1663.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1645.0>
+
+    GET_INTERSECTION Line={{line,tram_2},<0.1589.0>} OtherLine={{line,bus_4},
+                                                            <0.1591.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1665.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1606.0>
+
+    REPLY GET_NEIGHBORS [{{{stop,h},<0.1578.0>},
+                      2,
+                      {{stop,i},<0.1579.0>},
+                      {{line,tram_2},<0.1589.0>}},
+                     {{{stop,j},<0.1580.0>},
+                      1,
+                      {{stop,k},<0.1581.0>},
+                      {{line,tram_2},<0.1589.0>}}]
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1658.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1657.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,e},<0.1575.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1659.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1659.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1664.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1606.0>
+
+    GET_NEIGHBORS Line={{line,bus_1},<0.1588.0>} Stop={{stop,b},<0.1572.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1660.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1660.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1665.0>
+
+    CONTAINS_STOP Line={{line,tram_3},<0.1590.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1661.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1662.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1662.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,h},<0.1578.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1664.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1664.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,a},<0.1571.0>}
+
+--------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1661.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,c},<0.1573.0>}
+
+--------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1663.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- RECEIVE --- 21:27:1 public_transport - <0.1665.0>
+
+    REPLY CONTAINS_STOP false
+
+-----------------------------------------------------
+
+--- SEND --- 21:27:1 public_transport - <0.1663.0>
+
+    CONTAINS_STOP Line={{line,tram_2},<0.1589.0>} Stop={{stop,j},<0.1580.0>}
+
+--------------------------------------------------
+
+</pre>

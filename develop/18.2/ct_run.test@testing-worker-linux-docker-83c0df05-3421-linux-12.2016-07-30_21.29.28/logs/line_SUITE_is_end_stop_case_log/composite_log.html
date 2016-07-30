@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- INFO --- 21:29:30 line - <0.623.0>
+
+    Line started
+
+--------------------------------------
+
+--- SEND --- 21:29:30 line_SUITE - <0.619.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.623.0>} Stop={{stop,stop1},<0.521.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 21:29:30 line - <0.623.0>
+
+    IS_END_STOP Stop={{stop,stop1},<0.521.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 21:29:30 line_SUITE - <0.619.0>
+
+    REPLY IS_END_STOP true
+
+-----------------------------------------------
+
+--- SEND --- 21:29:30 line_SUITE - <0.619.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.623.0>} Stop={{stop,stop2},<0.522.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 21:29:30 line - <0.623.0>
+
+    IS_END_STOP Stop={{stop,stop2},<0.522.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 21:29:30 line_SUITE - <0.619.0>
+
+    REPLY IS_END_STOP false
+
+-----------------------------------------------
+
+--- SEND --- 21:29:30 line_SUITE - <0.619.0>
+
+    IS_END_STOP Line={{line,bus_1},<0.623.0>} Stop={{stop,stop3},<0.523.0>}
+
+--------------------------------------------
+
+--- RECEIVE --- 21:29:30 line - <0.623.0>
+
+    IS_END_STOP Stop={{stop,stop3},<0.523.0>}
+
+-----------------------------------------
+
+--- RECEIVE --- 21:29:30 line_SUITE - <0.619.0>
+
+    REPLY IS_END_STOP true
+
+-----------------------------------------------
+
+</pre>

@@ -1,5 +1,4 @@
 if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
-  apt-get install graphviz
   wget https://downloads.sourceforge.net/project/plantuml/plantuml.jar
   DIAGRAMS=$(find ./test/logs -name "composite_diagram.txt")
 

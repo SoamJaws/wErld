@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- INFO --- 21:34:37 stop - <0.14604.0>
+
+    Stop started
+
+----------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14604.0>} Passenger={{citizen,p1},
+                                                              <0.14598.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14604.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.14598.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14604.0>} Passenger={{citizen,p2},
+                                                              <0.14599.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14604.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p2},<0.14599.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    VEHICLE_CHECK_IN Stop={{stop,stop1},<0.14604.0>} Vehicle={{vehicle,v1},
+                                                          <0.14602.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14604.0>
+
+    VEHICLE_CHECK_IN Vehicle={{vehicle,v1},<0.14602.0>}
+
+-------------------------------------------
+
+--- INFO --- 21:34:37 stop - <0.14604.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p1},<0.14598.0>} Passengers=[{{citizen,
+                                                                             p2},
+                                                                            <0.14599.0>}] Vehicle={{vehicle,
+                                                                                                    v1},
+                                                                                                   <0.14602.0>} BoardingPassengers=0
+
+----------------------------------------
+
+--- INFO --- 21:34:37 stop - <0.14604.0>
+
+    notify_vehicle_checked_in Passenger={{citizen,p2},<0.14599.0>} Passengers=[] Vehicle={{vehicle,
+                                                                                       v1},
+                                                                                      <0.14602.0>} BoardingPassengers=1
+
+----------------------------------------
+
+--- SEND --- 21:34:37 stop - <0.14604.0>
+
+    CHECKIN_OK Vehicle={{vehicle,v1},<0.14602.0>} Stop={{stop,stop1},<0.14604.0>} BoardingPassengers1
+
+----------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14604.0>} Passenger={{citizen,p3},
+                                                              <0.14600.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14604.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p3},<0.14600.0>}
+
+-------------------------------------------
+
+--- SEND --- 21:34:37 stop - <0.14604.0>
+
+    INCREMENT_BOARDING_PASSENGER Vehicle={{vehicle,v1},<0.14602.0>}
+
+----------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14604.0>} Passenger={{citizen,p4},
+                                                              <0.14601.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14604.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p4},<0.14601.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14594.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+</pre>

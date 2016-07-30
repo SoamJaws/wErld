@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><title>$FILE</title></head><body><pre>
+--- INFO --- 21:34:37 stop - <0.14489.0>
+
+    Stop started
+
+----------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14489.0>} Passenger={{citizen,p1},
+                                                              <0.14483.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14489.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.14483.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14489.0>} Passenger={{citizen,p1},
+                                                              <0.14483.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14489.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p1},<0.14483.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    REPLY PASSENGER_CHECK_IN {nok,"Already checked in"}
+
+-------------------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14489.0>} Passenger={{citizen,p2},
+                                                              <0.14484.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14489.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p2},<0.14484.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+--- SEND --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    PASSENGER_CHECK_IN Stop={{stop,stop1},<0.14489.0>} Passenger={{citizen,p3},
+                                                              <0.14485.0>}
+
+----------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop - <0.14489.0>
+
+    PASSENGER_CHECK_IN Passenger={{citizen,p3},<0.14485.0>}
+
+-------------------------------------------
+
+--- RECEIVE --- 21:34:37 stop_SUITE - <0.14479.0>
+
+    REPLY PASSENGER_CHECK_IN ok
+
+-------------------------------------------------
+
+</pre>

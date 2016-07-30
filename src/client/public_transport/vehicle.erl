@@ -30,9 +30,9 @@
 
 -spec ?PASSENGER_BOARD(vehicle(), citizen()) -> ok | nok.
 ?PASSENGER_BOARD(?RECIPENT, Passenger) ->
-  ?LOG_SEND(io_lib:format("PASSENGER_BOARD Vehicle=~p Passenger=~p", [?RECIPENT, Passenger])),
+  ?LOG_SEND(io_lib:format("PASSENGER_BOARD Vehicle=~p Passenger=~p", [?RECIPENT, Passenger]), ?RECIPENT),
   Reply = gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}),
-  ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_BOARD ~p", [Reply])),
+  ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_BOARD ~p", [Reply]), ?RECIPENT),
   Reply.
 
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle()) -> ok.
@@ -41,7 +41,7 @@
 
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -> ok.
 ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) ->
-  ?LOG_SEND(io_lib:format("INCREMENT_BOARDING_PASSENGER Vehicle=~p", [?RECIPENT])),
+  ?LOG_SEND(io_lib:format("INCREMENT_BOARDING_PASSENGER Vehicle=~p", [?RECIPENT]), ?RECIPENT),
   gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer()) -> ok.
@@ -50,7 +50,7 @@
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -> ok.
 ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) ->
-  ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers~p", [?RECIPENT, Stop, BoardingPassengers])),
+  ?LOG_SEND(io_lib:format("CHECKIN_OK Vehicle=~p Stop=~p BoardingPassengers~p", [?RECIPENT, Stop, BoardingPassengers]), ?RECIPENT),
   gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
 
 
@@ -62,7 +62,7 @@
 
 -spec ?NEW_TIME(vehicle(), time(), boolean()) -> ok.
 ?NEW_TIME(?RECIPENT, Time, BlockCaller) ->
-  ?LOG_SEND(io_lib:format("NEW_TIME Vehicle=~p Time=~p", [?RECIPENT, Time])),
+  ?LOG_SEND(io_lib:format("NEW_TIME Vehicle=~p Time=~p", [?RECIPENT, Time]), ?RECIPENT),
   gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
 

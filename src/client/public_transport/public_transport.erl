@@ -21,9 +21,11 @@
 
 -spec ?GET_ROUTE(atom(), atom()) -> route() | none.
 ?GET_ROUTE(FromId, ToId) ->
-  ?LOG_SEND(io_lib:format("GET_ROUTE ~p FromId=~p ToId=~p", [?MODULE, FromId, ToId])),
+  Id = get(id),
+  Pid = self(),
+  ?LOG_SEND(io_lib:format("GET_ROUTE ~p FromId=~p ToId=~p", [?MODULE, FromId, ToId]), ?RECIPENT),
   Reply = gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}),
-  ?LOG_RECEIVE(io_lib:format("REPLY GET_ROUTE ~p", [Reply])),
+  ?LOG_RECEIVE(io_lib:format("REPLY GET_ROUTE ~p", [Reply]), ?RECIPENT),
   Reply.
 
 

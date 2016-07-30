@@ -1,3 +1,4 @@
-* gh-pages root links into test are broken, fix
+* gh pages index pages seems broken, fix
+* Logger should not be linked
 * Adapt blackboard to tagged pids
 * Function Specs for supervisors

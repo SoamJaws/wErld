@@ -10,9 +10,9 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
 
   SSDS=$(find ./test/logs -name "composite_diagram.atxt")
   for SSD in $SSDS; do
-    mv "$SSD" "${SSD%.atxt}.html"
     sed -i '1i<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>$FILE</title></head><body><pre>' $SSD
     echo "</pre>" >> $SSD
+    mv "$SSD" "${SSD%.atxt}.html"
   done
 
   echo -e "Starting to update gh-pages\n"

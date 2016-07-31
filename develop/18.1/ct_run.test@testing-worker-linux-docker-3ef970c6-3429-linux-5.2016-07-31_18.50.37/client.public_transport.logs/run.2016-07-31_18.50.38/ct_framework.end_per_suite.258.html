@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Test ct_framework:end_per_suite result</title>
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="../../ct_default.css" type="text/css">
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
+
+<a name="top"></a><pre>
+=== Config function: ct_framework:end_per_suite/1
+
+=== Group properties: [{suite,public_transport_SUITE}]
+
+=== Config value:
+
+    [{watchdog,<0.590.0>},
+     {tc_logfile,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-3ef970c6-3429-linux-5.2016-07-31_18.50.37/client.public_transport.logs/run.2016-07-31_18.50.38/ct_framework.end_per_suite.258.html"},
+     {tc_group_properties,[{suite,public_transport_SUITE}]},
+     {tc_group_path,[]},
+     {data_dir,"/home/travis/build/SoamJaws/wErld/test/client/public_transport/stop_SUITE_data/"},
+     {priv_dir,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-3ef970c6-3429-linux-5.2016-07-31_18.50.37/client.public_transport.logs/run.2016-07-31_18.50.38/log_private/"}]
+
+=== Current directory is "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-3ef970c6-3429-linux-5.2016-07-31_18.50.37"
+
+=== Started at 2016-07-31 18:50:43
+
+<br />
+
+<div class="error_logger"><b>*** System report during public_transport_SUITE:end_per_suite/1 2016-07-31 18:50:43.955 ***</b>
+
+=ERROR REPORT==== 31-Jul-2016::18:50:43 ===
+** Generic server <0.594.0> terminating 
+** Last message in was {'EXIT',<0.592.0>,
+                        {#Ref<0.0.1.6085>,5000652,
+                         {'EXIT',
+                          {timeout,
+                           {gen_server,call,
+                            [{global,public_transport},{get_route,a,o}]}}},
+                         [{gen_server,call,204},
+                          {test_server,ts_tc,1408},
+                          {test_server,run_test_case_eval1,984},
+                          {test_server,run_test_case_eval,926}],
+                         []}}
+** When Server state == {state,
+                            {<0.594.0>,public_transport_supervisor},
+                            one_for_one,
+                            [{child,<0.600.0>,public_transport,
+                                 {public_transport,start_link,[]},
+                                 permanent,1000,worker,
+                                 [public_transport]},
+                             {child,<0.598.0>,vehicle_supervisor,
+                                 {vehicle_supervisor,start_link,[]},
+                                 permanent,1000,supervisor,
+                                 [vehicle]},
+                             {child,<0.596.0>,stop_supervisor,
+                                 {stop_supervisor,start_link,[]},
+                                 permanent,1000,supervisor,
+                                 [stop]},
+                             {child,<0.595.0>,line_supervisor,
+                                 {line_supervisor,start_link,[]},
+                                 permanent,1000,supervisor,
+                                 [line]}],
+                            undefined,0,1,[],public_transport_supervisor,[]}
+** Reason for termination == 
+** {#Ref<0.0.1.6085>,5000652,
+    {'EXIT',{timeout,{gen_server,call,
+                                 [{global,public_transport},
+                                  {get_route,a,o}]}}},
+    [{gen_server,call,204},
+     {test_server,ts_tc,1408},
+     {test_server,run_test_case_eval1,984},
+     {test_server,run_test_case_eval,926}],
+    []}
+
+</div>
+
+<div class="sasl"><b>*** System report during public_transport_SUITE:end_per_suite/1 2016-07-31 18:50:43.957 ***</b>
+
+=CRASH REPORT==== 31-Jul-2016::18:50:43 ===
+  crasher:
+    initial call: supervisor:public_transport_supervisor/1
+    pid: <0.594.0>
+    registered_name: []
+    exception exit: {#Ref<0.0.1.6085>,5000652,
+                     {'EXIT',
+                         {timeout,
+                             {gen_server,call,
+                                 [{global,public_transport},
+                                  {get_route,a,o}]}}},
+                     [{gen_server,call,204},
+                      {test_server,ts_tc,1408},
+                      {test_server,run_test_case_eval1,984},
+                      {test_server,run_test_case_eval,926}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [<0.592.0>]
+    messages: []
+    links: []
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 376
+    stack_size: 27
+    reductions: 416
+  neighbours:
+
+</div>
+<a name="end"></a>
+
+
+=== Ended at 2016-07-31 18:50:43
+=== successfully completed test case
+=== Returned value: ok
+=== 
+=== Total execution time of group: 5.159s
+
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!date>Sun Jul 31 2016 18:50:43<!/date><br />
+</div>
+</center>
+</body>
+</html>

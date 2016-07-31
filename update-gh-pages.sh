@@ -1,38 +1,10 @@
 if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
-  wget https://downloads.sourceforge.net/project/plantuml/plantuml.jar
-  DIAGRAMS=$(find ./test/logs -name "composite_diagram.txt")
-
-  for DIAGRAM in $DIAGRAMS; do
-    java -jar plantuml.jar -ttxt $DIAGRAM
-    rm $DIAGRAM
-  done
-
-  SSDS=$(find ./test/logs -name "composite_diagram.atxt")
-  for SSD in $SSDS; do
-    sed -i '1i<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>$FILE</title></head><body><pre>' $SSD
-    echo "</pre>" >> $SSD
-    mv "$SSD" "${SSD%.atxt}.html"
-  done
-
   echo -e "Starting to update gh-pages\n"
 
   #copy data we're interested in to other place
   
   mkdir -p $HOME/ct/
   cp -R ./test/logs/* $HOME/ct/
-
-  cd $HOME/ct/
-  LOGS=$(find . -name "*_log.html")
-  for FILE in $LOGS; do
-    sed -i '1i<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"><head><title>$FILE</title></head><body><pre>' $FILE
-    echo "</pre>" >> $FILE
-  done
-
-
-  HEAD=$(echo "$LOGS" | head -1)
-  CT_RUN_DIR=$(echo "$HEAD" | cut -d "/" -f2)
-  cd $CT_RUN_DIR/logs
-  RELATIVE_LOGS=$(find . -name "*_log.html")
 
   #go to home and setup git
   cd $HOME
@@ -47,44 +19,6 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$SUITE" == "test" ]]; then
   git rm -rf $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/*
   mkdir -p $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
   cp -Rf $HOME/ct/* $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/
-
-  cd $TRAVIS_BRANCH/$TRAVIS_OTP_RELEASE/$CT_RUN_DIR/logs/
-
-  echo "Generating index.html for each testcase log"
-  for CASEDIR in $(ls); do
-    if [ -d "$CASEDIR" ]; then
-      cd $CASEDIR
-      echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
-<head> \
-<title>$CASEDIR</title> \
-<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link> \
-</head> \
-<body> \
-<ul>" > index.html
-      for CASELOG in $(ls); do
-        if [ "$CASELOG" != "index.html" ]; then
-          echo "<li><a href=\"$CASELOG\">$CASELOG</a></li>" >> index.html
-        fi
-      done
-      echo "</ul></body>" >> index.html
-      cd ..
-    fi
-  done
-
-  echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\"> \
-<head> \
-<title>App generated logs</title> \
-<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link> \
-</head> \
-<body> \
-<ul>" > index.html
-
-  for FILE in $RELATIVE_LOGS; do
-    UPDATEDFILE=$(echo $FILE | sed -e 's/^.\///')
-    echo "<li><a href=\"$UPDATEDFILE\">$UPDATEDFILE</a></li>" >> index.html
-  done
-
-  echo "</ul></body>" >> index.html
 
   #add, commit and push files
   git add -f :/

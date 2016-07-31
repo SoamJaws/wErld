@@ -27,8 +27,6 @@ stop_vehicle(?ADDRESS(vehicle)) ->
   
 
 init(_Args) ->
-  put(id, ?MODULE),
-  put(module, ?MODULE_STRING),
   SupFlags = { simple_one_for_one
              , 0
              , 1

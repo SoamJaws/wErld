@@ -50,8 +50,6 @@ validate(?ADDRESS(Module)) ->
 %% gen_server
 
 init(State) ->
-  put(id, State#gen_server_mock_state.id),
-  put(module, atom_to_list(State#gen_server_mock_state.module) ++ "_mock"),
   {ok, State}.
 
 

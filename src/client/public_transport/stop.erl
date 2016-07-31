@@ -1,6 +1,5 @@
 -module(stop).
 -include("public_transport.hrl").
--include("logger.hrl").
 -behaviour(gen_server).
 
 %% Public API
@@ -26,10 +25,7 @@
 
 -spec ?PASSENGER_CHECK_IN(stop(), citizen()) -> ok | {nok, nonempty_string()}.
 ?PASSENGER_CHECK_IN(?RECIPENT, Passenger) ->
-  ?LOG_SEND(io_lib:format("PASSENGER_CHECK_IN Stop=~p Passenger=~p", [?RECIPENT, Passenger]), ?RECIPENT),
-  Reply = gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}),
-  ?LOG_RECEIVE(io_lib:format("REPLY PASSENGER_CHECK_IN ~p", [Reply]), ?RECIPENT),
-  Reply.
+  gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger) ->
@@ -37,7 +33,6 @@
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-> ok.
 ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) ->
-  ?LOG_SEND(io_lib:format("PASSENGER_CHECK_OUT Stop=~p Passenger=~p", [?RECIPENT, Passenger]), ?RECIPENT),
   gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle()) -> ok.
@@ -46,7 +41,6 @@
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) ->
-  ?LOG_SEND(io_lib:format("VEHICLE_CHECK_IN Stop=~p Vehicle=~p", [?RECIPENT, Vehicle]), ?RECIPENT),
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle()) -> ok.
@@ -55,7 +49,6 @@
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
 ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) ->
-  ?LOG_SEND(io_lib:format("VEHICLE_CHECK_OUT Stop=~p Vehicle=~p", [?RECIPENT, Vehicle]), ?RECIPENT),
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
 
@@ -68,15 +61,11 @@ start_link(Id) ->
 
 -spec init(atom()) -> {ok, stop_state()}.
 init(Id) ->
-  put(id, Id),
-  put(module, ?MODULE_STRING),
-  ?LOG_INFO("Stop started"),
   {ok, #stop_state{id=Id}}.
 
 
 -spec handle_call({?PASSENGER_CHECK_IN, citizen()}, {pid(), any()}, stop_state()) -> {reply, ok | {nok, string()}, stop_state()}.
 handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
-  ?LOG_RECEIVE(io_lib:format("PASSENGER_CHECK_IN Passenger=~p", [Passenger])),
   Passengers = State#stop_state.passengers,
   AlreadyCheckedIn = lists:member(Passenger, Passengers),
   if
@@ -104,13 +93,11 @@ handle_call({?PASSENGER_CHECK_IN, Passenger}, _From, State) ->
       ;          ({?VEHICLE_CHECK_IN, vehicle(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}
       ;          ({?VEHICLE_CHECK_OUT, vehicle(), boolean(), pid()}, stop_state()) -> {noreply, stop_state()}.
 handle_cast({?PASSENGER_CHECK_OUT, Passenger, NotifyCaller, Caller}, State) ->
-  ?LOG_RECEIVE(io_lib:format("PASSENGER_CHECK_OUT Passenger=~p", [Passenger])),
   Passengers = lists:delete(Passenger, State#stop_state.passengers),
   gen_server_utils:notify_caller(NotifyCaller, Caller),
   {noreply, State#stop_state{passengers=Passengers}};
 
 handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
-  ?LOG_RECEIVE(io_lib:format("VEHICLE_CHECK_IN Vehicle=~p", [Vehicle])),
   NewState = case State#stop_state.currentVehicle of
                none ->
                  BoardingPassengers = notify_vehicle_checked_in(State#stop_state.passengers, Vehicle),
@@ -126,7 +113,6 @@ handle_cast({?VEHICLE_CHECK_IN, Vehicle, NotifyCaller, Caller}, State) ->
   {noreply, NewState};
 
 handle_cast({?VEHICLE_CHECK_OUT, Vehicle, NotifyCaller, Caller}, State) ->
-  ?LOG_RECEIVE(io_lib:format("VEHICLE_CHECK_OUT Vehicle=~p", [Vehicle])),
   NewState = if
                State#stop_state.currentVehicle == Vehicle ->
                  case State#stop_state.vehicleQueue of
@@ -170,7 +156,6 @@ notify_vehicle_checked_in(Passengers, Vehicle) ->
 -spec notify_vehicle_checked_in([pid()], vehicle(), non_neg_integer()) -> non_neg_integer().
 notify_vehicle_checked_in([], _Vehicle, BoardingPassengers) -> BoardingPassengers;
 notify_vehicle_checked_in([Passenger|Passengers], Vehicle, BoardingPassengers) ->
-  ?LOG_INFO(io_lib:format("notify_vehicle_checked_in Passenger=~p Passengers=~p Vehicle=~p BoardingPassengers=~p", [Passenger, Passengers, Vehicle, BoardingPassengers])),
   WillBoard = citizen:vehicle_checked_in(Passenger, Vehicle),
   if
     WillBoard ->

@@ -5,7 +5,8 @@
 -define(COMPOSITE_LOG(LogDir), filename:join([LogDir, "composite_log.html"])).
 -define(COMPOSITE_DIAGRAM(LogDir), filename:join([LogDir, "composite_diagram.txt"])).
 
--export([ log_info/3
+-export([ start/1
+        , log_info/3
         , log_warning/3
         , log_error/3
         , log_send/5
@@ -13,8 +14,7 @@
         , log_receive/5
         , stop/0]).
 
--export([ start_link/1
-        , init/1
+-export([ init/1
         , handle_call/3
         , handle_cast/2
         , handle_info/2
@@ -50,16 +50,16 @@ log_receive(Content, Module, Id, From, To) ->
   log(Content, Module, Id, "RECEIVE"),
   log_sig(Content, From, To).
 
+-spec start(string()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
+start(LogDir) ->
+  gen_server:start({global, ?MODULE}, ?MODULE, [LogDir], []).
+
 -spec stop() -> ok.
 stop() ->
   gen_server:call({global, ?MODULE}, stop).
 
 
 %% Gen server
-
-start_link(LogDir) ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, [LogDir], []).
-
 
 init([LogDir]) ->
   UpdatedLogDir = filename:join(["logs", LogDir]),

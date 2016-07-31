@@ -1,6 +1,5 @@
 -module(stop_SUITE).
 -include("public_transport.hrl").
--include("logger.hrl").
 -include_lib("common_test/include/ct.hrl").
 -include_lib("eunit/include/eunit.hrl"). %% For assertion macros
 
@@ -25,11 +24,6 @@ all() ->
 
 
 init_per_testcase(TestCase, Config) ->
-  put(id, ?MODULE),
-  put(module, ?MODULE_STRING),
-  LogName = ?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log",
-  ct:comment("<a href=\"../../logs/" ++ LogName ++ "/index.html\">" ++ LogName ++ "</a>"),
-  logger:start_link(?MODULE_STRING ++ [$_|atom_to_list(TestCase)] ++ "_log"),
   stop_supervisor:start_link(),
   P1 = gen_server_mock:start(citizen, p1, strict),
   P2 = gen_server_mock:start(citizen, p2, strict),
@@ -68,7 +62,6 @@ end_per_testcase(_TestCase, Config) ->
   gen_server_mock:stop(P4),
   gen_server_mock:stop(V1),
   gen_server_mock:stop(V2),
-  logger:stop(),
   stop_supervisor:stop_stop(Stop),
   Config.
 

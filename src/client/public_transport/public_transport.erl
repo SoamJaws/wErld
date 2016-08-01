@@ -129,8 +129,13 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
           Invoker ! none;
         _ ->
           Routes = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, VisitedStops, AllLines),
-          {BestRoute, TotalDur} = get_best_route(lists:filter(fun(R) -> R /= none end, Routes)),
-          Invoker ! {Route ++ BestRoute, Dur + TotalDur}
+          case Routes of
+            [] ->
+              Invoker ! none;
+            _ ->
+              {BestRoute, TotalDur} = get_best_route(lists:filter(fun(R) -> R /= none end, Routes)),
+              Invoker ! {Route ++ BestRoute, Dur + TotalDur}
+          end
       end;
     _  ->
       IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
@@ -148,10 +153,10 @@ spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) ->
 spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) ->
   receive_routes(NoCalls);
 spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) ->
-  VisitedNeighbor = lists:member(Neighbor, VisitedStops),
+  {From, Dur, Target, Line} = Neighbor,
+  VisitedNeighbor = lists:member(From, VisitedStops),
   if
     not VisitedNeighbor ->
-      {From, Dur, Target, Line} = Neighbor,
       spawn(fun() ->
               get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self())
             end

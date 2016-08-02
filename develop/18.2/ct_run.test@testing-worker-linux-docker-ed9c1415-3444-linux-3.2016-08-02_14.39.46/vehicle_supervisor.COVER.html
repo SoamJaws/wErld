@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-ed9c1415-3444-linux-3.2016-08-02_14.39.46/vehicle_supervisor.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/vehicle_supervisor.erl by COVER 2016-08-02 at 14:39:50
+
+****************************************************************************
+
+        |  -module(vehicle_supervisor).
+        |  -include("public_transport.hrl").
+        |  -behaviour(supervisor).
+        |  
+        |  -export([ start_link/0
+        |          , start_vehicle/4
+        |          , stop_vehicle/1]).
+        |  
+        |  -export([init/1]).
+        |  
+        |  start_link() -&gt;
+     9..|    supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+        |  
+        |  start_vehicle(Capacity, Line, Target, Type) -&gt;
+     8..|    LineNumber = line:?GET_NUMBER(Line),
+     8..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),
+     8..|    Result = supervisor:start_child({global, ?MODULE}, [Capacity, Id, Line, LineNumber, Target, Type]),
+     8..|    case Result of
+        |      {ok, Pid} -&gt;
+     8..|        ?ADDRESS(vehicle);
+        |      Result -&gt;
+<font color=red>     0..|        Result</font>
+        |    end.
+        |  
+        |  stop_vehicle(?ADDRESS(vehicle)) -&gt;
+     8..|    supervisor:terminate_child({global, ?MODULE}, Pid).
+        |    
+        |  
+        |  init(_Args) -&gt;
+     9..|    SupFlags = { simple_one_for_one
+        |               , 0
+        |               , 1
+        |               },
+     9..|    ChildSpecs = [ { vehicle
+        |                   , {vehicle, start_link, []}
+        |                   , transient
+        |                   , 1000
+        |                   , worker
+        |                   , [vehicle]
+        |                   }
+        |                 ],
+     9..|    {ok, {SupFlags, ChildSpecs}}.
+</pre>
+</body>
+</html>

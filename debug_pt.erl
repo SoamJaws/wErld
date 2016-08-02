@@ -4,7 +4,8 @@
 run() ->
   dbg:start(),
   dbg:tracer(),
-  dbg:tpl(public_transport, get_route_concurrent, 7, []),
+  dbg:tpl(public_transport, '_', '_', []),
   dbg:p(all, c),
   public_transport_supervisor:start_link(),
-  public_transport:get_route(a, o).
+  Route = public_transport:get_route(a, o),
+  io:fwrite("~w~n", [Route]).

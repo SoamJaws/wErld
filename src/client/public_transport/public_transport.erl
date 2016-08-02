@@ -105,8 +105,9 @@ get_route_helper(FromId, ToId, State) ->
   From = {{stop, FromId}, dict:fetch({stop, FromId}, State#public_transport_state.stops)},
   To = {{stop, ToId}, dict:fetch({stop, ToId}, State#public_transport_state.stops)},
   ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
+  Invoker = self(),
   spawn(fun() ->
-            get_route_concurrent(From, To, ToLines, {[], 1}, [], AllLines, self())
+            get_route_concurrent(From, To, ToLines, {[], 1}, [], AllLines, Invoker)
          end
         ),
   receive
@@ -128,7 +129,7 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
         [] ->
           Invoker ! none;
         _ ->
-          Routes = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, VisitedStops, AllLines),
+          Routes = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, [From|VisitedStops], AllLines),
           case Routes of
             [] ->
               Invoker ! none;
@@ -157,8 +158,9 @@ spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, Visi
   VisitedNeighbor = lists:member(From, VisitedStops),
   if
     not VisitedNeighbor ->
+      Invoker = self(),
       spawn(fun() ->
-              get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, [From|VisitedStops], AllLines, self())
+              get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, VisitedStops, AllLines, Invoker)
             end
            ),
       spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
@@ -198,7 +200,7 @@ get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
 %% [{FromLine, ToLine, IntersectingStop}]
 -spec get_intersecting_lines([line()], [line()]) -> [{line(), line(), stop()}].
 get_intersecting_lines(FromLines, ToLines) ->
-  get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines]).
+  get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines, FromLine /= ToLine]).
 
 -spec get_intersecting_lines([{line(), line(), stop()}]) -> [{line(), line(), stop()}].
 get_intersecting_lines([]) -> [];

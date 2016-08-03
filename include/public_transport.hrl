@@ -7,7 +7,7 @@
 -ifndef(TEST).
 -define(PUBLIC_TRANSPORT_DATA_PATH, code:priv_dir(wErld) ++ "/public_transport").
 -else.
--define(PUBLIC_TRANSPORT_DATA_PATH, "priv/public_transport_test").
+-define(PUBLIC_TRANSPORT_DATA_PATH, code:priv_dir(wErld) ++ "/public_transport_test").
 -endif.
 
 %%-----------------------------------------------------------

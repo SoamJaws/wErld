@@ -28,7 +28,7 @@
 %% Public API
 
 -spec ?PASSENGER_BOARD(vehicle(), citizen()) -> ok | nok.
-?PASSENGER_BOARD(?RECIPENT, Passenger) ->
+?PASSENGER_BOARD(?RECIPENT_NO_ID, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_BOARD, Passenger}).
 
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle()) -> ok.
@@ -36,7 +36,7 @@
   ?INCREMENT_BOARDING_PASSENGER(?RECIPENT, false).
 
 -spec ?INCREMENT_BOARDING_PASSENGER(vehicle(), boolean()) -> ok.
-?INCREMENT_BOARDING_PASSENGER(?RECIPENT, BlockCaller) ->
+?INCREMENT_BOARDING_PASSENGER(?RECIPENT_NO_ID, BlockCaller) ->
   gen_server_utils:cast(Pid, {?INCREMENT_BOARDING_PASSENGER}, BlockCaller).
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer()) -> ok.
@@ -44,7 +44,7 @@
   ?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, false).
 
 -spec ?CHECKIN_OK(vehicle(), stop(), non_neg_integer(), boolean()) -> ok.
-?CHECKIN_OK(?RECIPENT, Stop, BoardingPassengers, BlockCaller) ->
+?CHECKIN_OK(?RECIPENT_NO_ID, Stop, BoardingPassengers, BlockCaller) ->
   gen_server_utils:cast(Pid, {?CHECKIN_OK, Stop, BoardingPassengers}, BlockCaller).
 
 
@@ -55,7 +55,7 @@
   ?NEW_TIME(?RECIPENT, Time, false).
 
 -spec ?NEW_TIME(vehicle(), time(), boolean()) -> ok.
-?NEW_TIME(?RECIPENT, Time, BlockCaller) ->
+?NEW_TIME(?RECIPENT_NO_ID, Time, BlockCaller) ->
   gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
 
@@ -106,7 +106,6 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                      UpdatedState = if
                                       Stop == State#vehicle_state.target ->
                                         {_, Line} = State#vehicle_state.line,
-                                        CurrentTarget = State#vehicle_state.target,
                                         NewTarget = line:?GET_OTHER_END(Line, State#vehicle_state.target),
                                         State#vehicle_state{target=NewTarget};
                                     true ->
@@ -172,7 +171,7 @@ boarding_complete(State) ->
   State#vehicle_state{action={driving, NextStop, Dur}, lastDeparture=Time, boardingPassengers=0}.
 
 -spec notify_passengers_checkin([citizen()], atom()) -> [citizen()].
-notify_passengers_checkin([], Id) -> [];
+notify_passengers_checkin([], _Id) -> [];
 notify_passengers_checkin([Passenger|Passengers], Id) ->
   Pid = self(),
   Reply = citizen:vehicle_checked_in(Passenger, ?RECIPENT),

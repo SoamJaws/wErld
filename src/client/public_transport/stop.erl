@@ -24,7 +24,7 @@
 %% Public API
 
 -spec ?PASSENGER_CHECK_IN(stop(), citizen()) -> ok | {nok, nonempty_string()}.
-?PASSENGER_CHECK_IN(?RECIPENT, Passenger) ->
+?PASSENGER_CHECK_IN(?RECIPENT_NO_ID, Passenger) ->
   gen_server:call(Pid, {?PASSENGER_CHECK_IN, Passenger}).
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen())-> ok.
@@ -32,7 +32,7 @@
   ?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, false).
 
 -spec ?PASSENGER_CHECK_OUT(stop(), citizen(), boolean())-> ok.
-?PASSENGER_CHECK_OUT(?RECIPENT, Passenger, BlockCaller) ->
+?PASSENGER_CHECK_OUT(?RECIPENT_NO_ID, Passenger, BlockCaller) ->
   gen_server_utils:cast(Pid, {?PASSENGER_CHECK_OUT, Passenger}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle()) -> ok.
@@ -40,7 +40,7 @@
   ?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, false).
 
 -spec ?VEHICLE_CHECK_IN(stop(), vehicle(), boolean()) -> ok.
-?VEHICLE_CHECK_IN(?RECIPENT, Vehicle, BlockCaller) ->
+?VEHICLE_CHECK_IN(?RECIPENT_NO_ID, Vehicle, BlockCaller) ->
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_IN, Vehicle}, BlockCaller).
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle()) -> ok.
@@ -48,7 +48,7 @@
   ?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, false).
 
 -spec ?VEHICLE_CHECK_OUT(stop(), vehicle(), boolean()) -> ok.
-?VEHICLE_CHECK_OUT(?RECIPENT, Vehicle, BlockCaller) ->
+?VEHICLE_CHECK_OUT(?RECIPENT_NO_ID, Vehicle, BlockCaller) ->
   gen_server_utils:cast(Pid, {?VEHICLE_CHECK_OUT, Vehicle}, BlockCaller).
 
 

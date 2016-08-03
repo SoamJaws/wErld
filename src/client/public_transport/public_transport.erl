@@ -111,8 +111,8 @@ get_route_helper(FromId, ToId, State) ->
          end
         ),
   receive
-    Route ->
-      Route
+    {RouteSteps, Dur} ->
+      {lists:reverse(RouteSteps), Dur}
   end.
 
 
@@ -139,7 +139,7 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
       IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
     {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
     Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
-    Invoker ! {Route ++ [{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To}], Dur + LastDur}
+    Invoker ! {[{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To} | Route], Dur + LastDur}
   end.
 
 
@@ -161,12 +161,12 @@ spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {RouteSteps, TotalDur},
                               [{Line, Target, From}];
                             _ ->
                               LastStep = lists:last(RouteSteps),
-                              case LastStep of
-                                {Line, _, _} ->
-                                  lists:droplast(RouteSteps);
-                                _ ->
-                                  RouteSteps
-                              end ++ [{Line, Target, From}]
+                              [{Line, Target, From} | case LastStep of
+                                                        {Line, _, _} ->
+                                                          lists:droplast(RouteSteps);
+                                                        _ ->
+                                                          RouteSteps
+                                                      end]
                           end,
       spawn(fun() ->
               get_route_concurrent(From, To, ToLines, {UpdatedRouteSteps, TotalDur + Dur}, VisitedStops, AllLines, Invoker)

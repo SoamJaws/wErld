@@ -26,7 +26,7 @@ stop(Pid) ->
 state(Pid) ->
   gen_server:call(Pid, state).
 
-vehicle_checked_in(?RECIPENT, Vehicle) ->
+vehicle_checked_in(?RECIPENT_NO_ID, Vehicle) ->
   gen_server:call(Pid, {vehicle_checked_in, Vehicle}).
 
 init([Name]) ->

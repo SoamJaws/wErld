@@ -20,7 +20,7 @@ start_stop(Id) ->
       Result
   end.
 
-stop_stop(?ADDRESS(stop)) ->
+stop_stop(?ADDRESS_NO_ID(stop)) ->
   supervisor:terminate_child({global, ?MODULE}, Pid).
   
 

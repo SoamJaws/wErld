@@ -21,7 +21,7 @@ start_line(Number, Stops, Type) ->
       Result
   end.
 
-stop_line(?ADDRESS(line)) ->
+stop_line(?ADDRESS_NO_ID(line)) ->
   supervisor:terminate_child({global, ?MODULE}, Pid).
   
 

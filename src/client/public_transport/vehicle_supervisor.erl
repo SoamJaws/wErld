@@ -22,7 +22,7 @@ start_vehicle(Capacity, Line, Target, Type) ->
       Result
   end.
 
-stop_vehicle(?ADDRESS(vehicle)) ->
+stop_vehicle(?ADDRESS_NO_ID(vehicle)) ->
   supervisor:terminate_child({global, ?MODULE}, Pid).
   
 

@@ -26,39 +26,39 @@
 %% Public API
 
 -spec ?GET_NEXT_STOP(line(), stop(), stop()) -> {stop(), pos_integer()} | none.
-?GET_NEXT_STOP(?RECIPENT, Target, Stop) ->
+?GET_NEXT_STOP(?RECIPENT_NO_ID, Target, Stop) ->
   gen_server:call(Pid, {?GET_NEXT_STOP, Target, Stop}).
 
 -spec ?GET_NEIGHBORS(line(), stop()) -> [{stop(), pos_integer(), stop(), line()}].
-?GET_NEIGHBORS(?RECIPENT, Stop) ->
+?GET_NEIGHBORS(?RECIPENT_NO_ID, Stop) ->
   gen_server:call(Pid, {?GET_NEIGHBORS, Stop}).
 
 -spec ?GET_OTHER_END(line(), stop()) -> stop().
-?GET_OTHER_END(?RECIPENT, Stop) ->
+?GET_OTHER_END(?RECIPENT_NO_ID, Stop) ->
   gen_server:call(Pid, {?GET_OTHER_END, Stop}).
 
 -spec ?CONTAINS_STOP(line(), stop()) -> boolean().
-?CONTAINS_STOP(?RECIPENT, Stop) ->
+?CONTAINS_STOP(?RECIPENT_NO_ID, Stop) ->
   gen_server:call(Pid, {?CONTAINS_STOP, Stop}).
 
 -spec ?GET_DURATION(line(), stop(), stop()) -> pos_integer().
-?GET_DURATION(?RECIPENT, FromStop, ToStop) ->
+?GET_DURATION(?RECIPENT_NO_ID, FromStop, ToStop) ->
   gen_server:call(Pid, {?GET_DURATION, FromStop, ToStop}).
 
 -spec ?IS_END_STOP(line(), stop()) -> boolean().
-?IS_END_STOP(?RECIPENT, Stop) ->
+?IS_END_STOP(?RECIPENT_NO_ID, Stop) ->
   gen_server:call(Pid, {?IS_END_STOP, Stop}).
 
 -spec ?GET_INTERSECTION(line(), line()) -> stop() | none.
-?GET_INTERSECTION(?RECIPENT, OtherLine) ->
+?GET_INTERSECTION(?RECIPENT_NO_ID, OtherLine) ->
   gen_server:call(Pid, {?GET_INTERSECTION, OtherLine}).
 
 -spec ?GET_NUMBER(line()) -> pos_integer().
-?GET_NUMBER(?RECIPENT) ->
+?GET_NUMBER(?RECIPENT_NO_ID) ->
   gen_server:call(Pid, ?GET_NUMBER).
 
 -spec ?GET_TARGET(line(), stop(), stop()) -> stop().
-?GET_TARGET(?RECIPENT, FromStop, ToStop) ->
+?GET_TARGET(?RECIPENT_NO_ID, FromStop, ToStop) ->
   gen_server:call(Pid, {?GET_TARGET, FromStop, ToStop}).
 
 %% gen_server
@@ -134,7 +134,7 @@ handle_call({?IS_END_STOP, Stop}, _From, State) ->
 handle_call({?GET_INTERSECTION, OtherLine}, _From, State) ->
   Reply = get_intersection_helper(OtherLine, lists:filter(fun(Stop) ->
                                                             case Stop of
-                                                              ?ADDRESS(stop) ->
+                                                              ?ADDRESS_NO_ID_PID(stop) ->
                                                                 true;
                                                               _ ->
                                                                 false
@@ -202,7 +202,7 @@ get_duration_helper(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
   end.
 
 -spec get_intersection_helper(line(), [stop()]) -> stop() | none.
-get_intersection_helper(OtherLine, []) -> none;
+get_intersection_helper(_OtherLine, []) -> none;
 get_intersection_helper(OtherLine, [Stop|Rest]) ->
   ContainsStop = ?CONTAINS_STOP(OtherLine, Stop),
   case ContainsStop of

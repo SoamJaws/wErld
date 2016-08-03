@@ -111,10 +111,8 @@ get_route_helper(FromId, ToId, State) ->
          end
         ),
   receive
-    {Route, Dur} ->
-      {compress_route(Route), Dur};
-    none ->
-      none
+    Route ->
+      Route
   end.
 
 
@@ -129,13 +127,12 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
         [] ->
           Invoker ! none;
         _ ->
-          Routes = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, [From|VisitedStops], AllLines),
-          case Routes of
-            [] ->
+          NewRoute = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, [From|VisitedStops], AllLines),
+          case NewRoute of
+            none ->
               Invoker ! none;
-            _ ->
-              {BestRoute, TotalDur} = get_best_route(lists:filter(fun(R) -> R /= none end, Routes)),
-              Invoker ! {Route ++ BestRoute, Dur + TotalDur}
+            {NewRouteSteps, NewDur} ->
+              Invoker ! {NewRouteSteps, NewDur}
           end
       end;
     _  ->
@@ -146,54 +143,62 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
   end.
 
 
--spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()]) -> [route()].
+-spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()]) -> route() | none.
 spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) ->
   spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
 
--spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()], non_neg_integer()) -> [route()].
+-spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()], non_neg_integer()) -> route() | none.
 spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) ->
-  receive_routes(NoCalls);
-spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls) ->
+  receive_route(NoCalls);
+spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls) ->
   {From, Dur, Target, Line} = Neighbor,
   VisitedNeighbor = lists:member(From, VisitedStops),
   if
     not VisitedNeighbor ->
       Invoker = self(),
+      UpdatedRouteSteps = case RouteSteps of
+                            [] ->
+                              [{Line, Target, From}];
+                            _ ->
+                              LastStep = lists:last(RouteSteps),
+                              case LastStep of
+                                {Line, _, _} ->
+                                  lists:droplast(RouteSteps);
+                                _ ->
+                                  RouteSteps
+                              end ++ [{Line, Target, From}]
+                          end,
       spawn(fun() ->
-              get_route_concurrent(From, To, ToLines, {Route ++ [{Line, Target, From}], TotalDur + Dur}, VisitedStops, AllLines, Invoker)
+              get_route_concurrent(From, To, ToLines, {UpdatedRouteSteps, TotalDur + Dur}, VisitedStops, AllLines, Invoker)
             end
            ),
-      spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
+      spawn_get_route_calls(Neighbors, To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls + 1);
     true ->
-      spawn_get_route_calls(Neighbors, To, ToLines, {Route, TotalDur}, VisitedStops, AllLines, NoCalls)
+      spawn_get_route_calls(Neighbors, To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls)
   end.
 
--spec receive_routes(non_neg_integer()) -> [route()].
-receive_routes(NoCalls) ->
-  receive_routes(NoCalls, []).
+-spec receive_route(non_neg_integer()) -> route() | none.
+receive_route(NoCalls) ->
+  receive_route(NoCalls, none).
 
--spec receive_routes(non_neg_integer(), [route()]) -> [route()].
-receive_routes(0, Routes) -> Routes;
-receive_routes(NoCalls, Routes) ->
+-spec receive_route(non_neg_integer(), route() | none) -> route() | none.
+receive_route(0, Route) -> Route;
+receive_route(NoCalls, Route) ->
   receive
     none ->
-      receive_routes(NoCalls-1, Routes);
-    Route ->
-      receive_routes(NoCalls-1, [Route|Routes])
-  end.
-
--spec get_best_route([route()]) -> route().
-get_best_route([Route|Routes]) ->
-  get_best_route(Routes, Route).
-
--spec get_best_route([route()], route()) -> route().
-get_best_route([], BestRoute) -> BestRoute;
-get_best_route([{Route, Dur}|Routes], {BestRoute, BestDur}) ->
-  if
-    Dur < BestDur ->
-      get_best_route(Routes, {Route, Dur});
-    true ->
-      get_best_route(Routes, {BestRoute, BestDur})
+      receive_route(NoCalls-1, Route);
+    {NewRouteSteps, NewDur} ->
+      case Route of
+        {_, Dur} ->
+          if
+            NewDur < Dur ->
+              receive_route(NoCalls-1, {NewRouteSteps, NewDur});
+            true ->
+              receive_route(NoCalls-1, Route)
+          end;
+        none ->
+          receive_route(NoCalls-1, {NewRouteSteps, NewDur})
+      end
   end.
 
 
@@ -222,18 +227,4 @@ get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|Intersect
       get_best_intersecting_lines(IntersectingLinesWithDurations, {FromLine, ToLine, IntersectingStop, Dur});
     true ->
       get_best_intersecting_lines(IntersectingLinesWithDurations, {BestFromLine, BestToLine, BestIntersectingStop, BestDur})
-  end.
-
-
--spec compress_route([route_step()]) -> [route_step()].
-compress_route([Stop|Stops]) ->
-  compress_route(Stops, [Stop]).
-
--spec compress_route([route_step()], [route_step()]) -> [route_step()].
-compress_route([], Route) -> Route;
-compress_route([{Line, Target, Destination}|Stops], Route) ->
-  Last = lists:last(Route),
-  case Last of
-    {Line,_} -> compress_route(Stops, lists:droplast(Route) ++ [{Line, Target, Destination}]);
-    _        -> compress_route(Stops, Route ++ [{Line, Target, Destination}])
   end.

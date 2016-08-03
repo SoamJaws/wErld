@@ -143,11 +143,11 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
   end.
 
 
--spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()]) -> route() | none.
+-spec spawn_get_route_calls([{stop(), pos_integer(), stop(), line()}], stop(), [line()], route(), [stop()], [line()]) -> route() | none.
 spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) ->
   spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
 
--spec spawn_get_route_calls([stop()], stop(), [line()], route(), [stop()], [line()], non_neg_integer()) -> route() | none.
+-spec spawn_get_route_calls([{stop(), pos_integer(), stop(), line()}], stop(), [line()], route(), [stop()], [line()], non_neg_integer()) -> route() | none.
 spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) ->
   receive_route(NoCalls);
 spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls) ->

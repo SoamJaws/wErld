@@ -1,13 +1,13 @@
 -module(public_transport_supervisor).
 -behaviour(supervisor).
 
--export([start_link/0]).
+-export([start_link/2]).
 -export([init/1]).
 
-start_link() ->
-    supervisor:start_link(public_transport_supervisor, []).
+start_link(StopIds, LineSpecs) ->
+    supervisor:start_link(public_transport_supervisor, {StopIds, LineSpecs}).
 
-init(_Args) ->
+init({StopIds, LineSpecs}) ->
   SupFlags = {one_for_one, 0, 1},
   ChildSpecs = [ { line_supervisor
                  , {line_supervisor, start_link, []}
@@ -31,7 +31,7 @@ init(_Args) ->
                  , [vehicle]
                  }
                , { public_transport
-                 , {public_transport, start_link, []}
+                 , {public_transport, start_link, [StopIds, LineSpecs]}
                  , permanent
                  , 1000
                  , worker

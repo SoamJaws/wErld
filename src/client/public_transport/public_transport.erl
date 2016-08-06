@@ -6,7 +6,7 @@
 -export([ ?GET_ROUTE/2]).
 
 %% gen_server and internally spawned functions
--export([ start_link/0
+-export([ start_link/2
         , init/1
         , handle_call/3
         , handle_cast/2
@@ -25,16 +25,15 @@
 
 %% gen_server
 
--spec start_link() -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
-start_link() ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).
+-spec start_link([atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+start_link(StopIds, LineSpecs) ->
+  gen_server:start_link({global, ?MODULE}, ?MODULE, {StopIds, LineSpecs}, []).
 
 
--spec init([]) -> {ok, public_transport_state()}.
-init([]) ->
+-spec init({[atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]}) -> {ok, public_transport_state()}.
+init({StopIds, LineSpecs}) ->
   %% StopIds = [atom()]
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
-  {ok, {{stops, StopIds}, {lines, LineSpecs}}} = file:script(?PUBLIC_TRANSPORT_DATA_PATH),
   StopDict = init_stops(StopIds),
   Lines = init_lines(LineSpecs, StopDict),
   {ok, #public_transport_state{lines=Lines, stops=StopDict}}.

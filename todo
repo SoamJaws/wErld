@@ -1,0 +1,3 @@
+* Migrate lines to private ets in public_transport
+* Migrate line functins to public_transport
+* Rework all GET calls that are pure reads to ets lookups

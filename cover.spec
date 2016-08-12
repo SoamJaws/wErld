@@ -1,15 +1,11 @@
 {incl_app, wErld, details}.
-{excl_mods, wErld, [ blackboard
-                   , citizen
+{excl_mods, wErld, [ citizen
                    , city
                    , gen_server_mock
                    , logger
-                   , nameserver
                    , time
                    , wErld_app
                    , wErld_sup
-                   , weatherController
-                   , weatherStatistics
                    , werld_tests
                    , line_SUITE
                    , public_transport_SUITE]}.

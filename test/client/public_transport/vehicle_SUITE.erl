@@ -127,7 +127,7 @@ checkin_ok_case(Config) ->
   Vehicle = ?config(vehicle, Config),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   vehicle:?CHECKIN_OK(Vehicle, StartStop, 0, true).
 
@@ -148,7 +148,7 @@ boarding_passenger_capacity_reached_case(Config) ->
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P4), nok).
@@ -170,7 +170,7 @@ boarding_passenger_below_capacity_case(Config) ->
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok).
 
@@ -191,7 +191,7 @@ next_stop_reached_case(Config) ->
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
 
@@ -218,7 +218,7 @@ next_stop_not_reached_case(Config) ->
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
 
@@ -241,7 +241,7 @@ target_stop_reached_case(Config) ->
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {TargetStop, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
 
@@ -272,7 +272,7 @@ increment_boarding_passenger_case(Config) ->
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok).
 
@@ -291,6 +291,6 @@ new_time_not_driving_case(Config) ->
   vehicle:?NEW_TIME(Vehicle, 1233, true),
 
   gen_server_mock:expect_call(L1, {?GET_NEXT_STOP, TargetStop, StartStop}, {S1, 5}),
-  gen_server_mock:expect_call(Time, ?GET_CURRENT_TIME, 1234),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
   gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   vehicle:?CHECKIN_OK(Vehicle, StartStop, 0, true).

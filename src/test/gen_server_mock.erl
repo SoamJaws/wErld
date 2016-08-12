@@ -10,6 +10,7 @@
         , state/1
         , expect_call/3
         , expect_cast/2
+        , expect_ets_lookup/3
         , validate/1]).
 
 %% gen_server
@@ -43,6 +44,17 @@ expect_call(?ADDRESS, Msg, Reply) ->
 
 expect_cast(?ADDRESS, Msg) ->
   gen_server:cast(Pid, {expectCast, Msg}).
+
+expect_ets_lookup(TableName, Key, Value) ->
+  TableInfo = ets:info(TableName),
+  case TableInfo of
+    undefined ->
+      ets:new(TableName, [named_table]);
+    _ ->
+      ok
+  end,
+  ets:insert(TableName, {Key, Value}).
+  
 
 validate(?ADDRESS) ->
   gen_server:call(Pid, validate).

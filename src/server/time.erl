@@ -28,7 +28,7 @@
 
 -spec ?GET_CURRENT_TIME() -> non_neg_integer().
 ?GET_CURRENT_TIME() ->
-  gen_server:call({global, ?MODULE}, ?GET_CURRENT_TIME).
+  ets_utils:set_lookup(time, time).
 
 
 %% gen_server
@@ -40,13 +40,15 @@ start_link(Delta, Frequency) ->
 
 -spec init({non_neg_integer(), pos_integer()}) -> {ok, time_state()}.
 init({Delta, Frequency}) ->
+  ets:new(time, [named_table]),
+  ets:insert(time, {time, 0}), % Epoch in gregorian seconds
   gen_server:cast(self(), tick),
-  {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=[], time=0}}. % Epoch in gregorian seconds
+  {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=[]}}.
 
 
--spec handle_call(?GET_CURRENT_TIME, {pid(), any()}, time_state()) -> {reply, time(), time_state()}.
-handle_call(?GET_CURRENT_TIME, _From, State) ->
-  {reply, State#time_state.time, State}. 
+-spec handle_call(any(), {pid(), any()}, time_state()) -> {reply, ok, time_state()}.
+handle_call(_Msg, _From, State) ->
+  {reply, ok, State}. 
 
 
 -spec handle_cast({?SUBSCRIBE, gen_address()}, time_state()) -> {noreply, time_state()}
@@ -58,9 +60,10 @@ handle_cast({?SUBSCRIBE, Subscriber}, State) ->
 handle_cast(tick, State) ->
   timer:sleep(State#time_state.frequency),
   gen_server:cast(self(), tick),
-  NewTime = State#time_state.time + State#time_state.delta,
+  NewTime = ets_utils:set_lookup(time, time) + State#time_state.delta,
+  ets:insert(time, {time, NewTime}),
   broadcast_time(State#time_state.subscribers, NewTime),
-  {noreply, State#time_state{time=NewTime}}.
+  {noreply, State}.
 
 
 -spec handle_info(timeout | any(), time_state()) -> {noreply, time_state()}.

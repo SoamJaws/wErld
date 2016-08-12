@@ -1,10 +1,12 @@
 -module(weather_controller).
--include("weather_controller.hrl").
+-include("weather.hrl").
 -include("time.hrl").
 -behaviour(gen_server).
 -behaviour(time_subscriber).
 
 %% Public API
+-export([ ?GET_TYPE/0
+        , ?GET_TEMP/0]).
 
 %% Time subscriber
 -export([ ?NEW_TIME/2
@@ -20,6 +22,14 @@
         , code_change/3]).
 
 %% Public API
+
+-spec ?GET_TYPE() -> weather_type().
+?GET_TYPE() ->
+  ets_utils:set_lookup(weather, type).
+
+-spec ?GET_TEMP() -> integer().
+?GET_TEMP() ->
+  ets_utils:set_lookup(weather, temp).
 
 
 %% Time subscriber
@@ -46,12 +56,13 @@ init({City, UpdateInterval}) ->
   Id = weather_controller,
   time:?SUBSCRIBE(?RECIPENT),
   Time = time:?GET_CURRENT_TIME(),
+  ets:new(weather, [named_table]),
+  ets:insert(weather, {type, sunny}),
+  ets:insert(weather, {temp, 20}),
   { ok, #weather_controller_state{ city=City
-                     , type=sunny
-                     , temp=20
-                     , updateInterval=UpdateInterval
-                     , lastChange=Time
-                     } }.
+                                 , updateInterval=UpdateInterval
+                                 , lastChange=Time
+                                 } }.
 
 
 -spec handle_call(any(), {pid(), any()}, weather_controller_state()) -> {reply, ok, weather_controller_state()}.

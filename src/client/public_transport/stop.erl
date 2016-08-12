@@ -54,7 +54,7 @@
 
 %% gen_server
 
--spec start_link(atom()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+-spec start_link(atom()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
 start_link(Id) ->
   gen_server:start_link(?MODULE, Id, []).
 
@@ -142,7 +142,7 @@ terminate(_Reason, _State) ->
   ok.
 
 
--spec code_change(term() | {down, term()}, stop_state(), term()) -> {ok, stop_state()}.
+-spec code_change(any() | {down, any()}, stop_state(), any()) -> {ok, stop_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 

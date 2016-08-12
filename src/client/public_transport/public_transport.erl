@@ -25,7 +25,7 @@
 
 %% gen_server
 
--spec start_link([atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+-spec start_link([atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
 start_link(StopIds, LineSpecs) ->
   gen_server:start_link({global, ?MODULE}, ?MODULE, {StopIds, LineSpecs}, []).
 
@@ -60,7 +60,7 @@ terminate(_Reason, _State) ->
   ok.
 
 
--spec code_change(term() | {down, term()}, stop_state(), term()) -> {ok, stop_state()}.
+-spec code_change(any() | {down, any()}, stop_state(), any()) -> {ok, stop_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 

@@ -33,7 +33,7 @@
 
 %% gen_server
 
--spec start_link(non_neg_integer(), pos_integer()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | term()}.
+-spec start_link(non_neg_integer(), pos_integer()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
 start_link(Delta, Frequency) ->
   gen_server:start_link({global, ?MODULE}, ?MODULE, {Delta, Frequency}, []).
 
@@ -73,7 +73,7 @@ terminate(_Reason, _State) ->
   ok.
 
 
--spec code_change(term() | {down, term()}, time_state(), term()) -> {ok, time_state()}.
+-spec code_change(any() | {down, any()}, time_state(), any()) -> {ok, time_state()}.
 code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 

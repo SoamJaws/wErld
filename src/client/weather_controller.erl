@@ -73,8 +73,9 @@ handle_call(_Msg, _From, State) ->
 
 -spec handle_cast({?NEW_TIME, time(), boolean(), pid()}, weather_controller_state()) -> {noreply, weather_controller_state()}.
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
+  UpdateInterval = State#weather_controller_state.updateInterval,
   UpdatedState = if
-                   Time - State#weather_controller_state.lastChange >= State#weather_controller_state.updateInterval ->
+                   Time - State#weather_controller_state.lastChange >= UpdateInterval ->
                      %% Change weather if should be done
                      Climate = State#weather_controller_state.climate,
                      Stats = case Climate of
@@ -83,6 +84,22 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                                northern -> ?NORTHERN_STATS;
                                southern -> ?SOUTHERN_STATS
                              end,
+                     {{Year, Month, _}, _} = calendar:gregorian_seconds_to_datetime(Time),
+                     IsSnowing = is_snowing(Year, Month, UpdateInterval, Stats),
+                     IsRaining = if
+                                   not IsSnowing ->
+                                     is_raining(Year, Month, UpdateInterval, Stats);
+                                   true ->
+                                     false
+                                 end,
+                     if
+                       IsSnowing ->
+                         ets:insert(?MODULE, {type, snowy});
+                       IsRaining ->
+                         ets:insert(?MODULE, {type, rainy});
+                       true ->
+                         ets:insert(?MODULE, {type, sunny})
+                     end,
                      %% Change temp according to statistical temp and time of day
                      State#weather_controller_state{lastChange=Time};
                    true ->
@@ -107,3 +124,21 @@ code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
 %% Backend
+
+-spec is_snowing(non_neg_integer(), 1..12, pos_integer(), [monthly_stats()]) -> boolean().
+is_snowing(Year, Month, UpdateInterval, Stats) ->
+  MonthyStats = lists:nth(Month, Stats),
+  is_downpour(Year, Month, UpdateInterval, MonthyStats#monthly_stats.snowDays).
+
+
+-spec is_raining(non_neg_integer(), 1..12, pos_integer(), [monthly_stats()]) -> boolean().
+is_raining(Year, Month, UpdateInterval, Stats) ->
+  MonthyStats = lists:nth(Month, Stats),
+  is_downpour(Year, Month, UpdateInterval, MonthyStats#monthly_stats.rainDays).
+
+
+-spec is_downpour(non_neg_integer(), 1..12, pos_integer(), non_neg_integer()) -> boolean().
+is_downpour(Year, Month, UpdateInterval, DownpourDays) ->
+  Percentage = round(DownpourDays / calendar:last_day_of_the_month(Year, Month) / (86400/UpdateInterval) * 100),
+  X = rand:uniform(101) - 1,
+  X < Percentage.

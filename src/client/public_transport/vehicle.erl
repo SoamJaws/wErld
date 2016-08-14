@@ -16,7 +16,7 @@
         , ?NEW_TIME/3]).
 
 %% gen_server
--export([ start_link/6
+-export([ start_link/5
         , init/1
         , handle_call/3
         , handle_cast/2
@@ -61,18 +61,18 @@
 
 %% gen_server
 
--spec start_link(pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
-start_link(Capacity, Id, Line, LineNumber, Target, Type) ->
-  gen_server:start_link(?MODULE, {Capacity, Id, Line, LineNumber, Target, Type}, []).
+-spec start_link(pos_integer(), atom(), pos_integer(), stop(), vehicle_type()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
+start_link(Capacity, Id, LineNumber, Target, Type) ->
+  gen_server:start_link(?MODULE, {Capacity, Id, LineNumber, Target, Type}, []).
 
 
--spec init({pos_integer(), atom(), line(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
-init({Capacity, Id, Line, LineNumber, Target, Type}) ->
+-spec init({pos_integer(), atom(), pos_integer(), stop(), vehicle_type()}) -> {ok, vehicle_state()}.
+init({Capacity, Id, LineNumber, Target, Type}) ->
   Pid = self(),
   time:?SUBSCRIBE(?RECIPENT),
-  Stop = line:?GET_OTHER_END(Line, Target),
+  Stop = public_transport:?GET_OTHER_END(Type, LineNumber, Target),
   stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
-  {ok, #vehicle_state{capacity=Capacity, id=Id, line={LineNumber, Line}, target=Target, type=Type}}.
+  {ok, #vehicle_state{capacity=Capacity, id=Id, lineNumber=LineNumber, target=Target, type=Type}}.
 
 
 -spec handle_call({?PASSENGER_BOARD, citizen()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}.
@@ -105,8 +105,9 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                    Time - State#vehicle_state.lastDeparture >= Duration ->
                      UpdatedState = if
                                       Stop == State#vehicle_state.target ->
-                                        {_, Line} = State#vehicle_state.line,
-                                        NewTarget = line:?GET_OTHER_END(Line, State#vehicle_state.target),
+                                        LineNumber = State#vehicle_state.lineNumber,
+                                        Type = State#vehicle_state.type,
+                                        NewTarget = public_transport:?GET_OTHER_END(Type, LineNumber, State#vehicle_state.target),
                                         State#vehicle_state{target=NewTarget};
                                     true ->
                                       State
@@ -160,10 +161,11 @@ code_change(_OldVsn, State, _Extra) ->
 
 -spec boarding_complete(vehicle_state()) -> vehicle_state().
 boarding_complete(State) ->
-  {_, Line} = State#vehicle_state.line,
+  LineNumber = State#vehicle_state.lineNumber,
+  Type = State#vehicle_state.type,
   {boarding, CurrentStop} = State#vehicle_state.action,
   TargetStop = State#vehicle_state.target,
-  {NextStop, Dur} = line:?GET_NEXT_STOP(Line, TargetStop, CurrentStop),
+  {NextStop, Dur} = public_transport:?GET_NEXT_STOP(Type, LineNumber, TargetStop, CurrentStop),
   Id = State#vehicle_state.id,
   Pid = self(),
   stop:?VEHICLE_CHECK_OUT(CurrentStop, ?RECIPENT),

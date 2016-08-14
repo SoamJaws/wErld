@@ -3,7 +3,9 @@
 -behaviour(gen_server).
 
 %% Public API
--export([ ?GET_ROUTE/2]).
+-export([ ?GET_ROUTE/2
+        , ?GET_OTHER_END/3
+        , ?GET_NEXT_STOP/4]).
 
 %% gen_server and internally spawned functions
 -export([ start_link/2
@@ -22,6 +24,23 @@
 ?GET_ROUTE(FromId, ToId) ->
   gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}).
 
+-spec ?GET_OTHER_END(atom(), pos_integer(), stop()) -> stop().
+?GET_OTHER_END(VehicleType, LineNumber, Stop) ->
+  [H|T] = ets_utils:set_lookup(?MODULE, ?LINE_ID(VehicleType, LineNumber)),
+  case H of
+    Stop -> lists:last(T);
+    _    -> H
+  end.
+
+-spec ?GET_NEXT_STOP(atom(), pos_integer(), stop(), stop()) -> {stop(), pos_integer()} | none.
+?GET_NEXT_STOP(VehicleType, LineNumber, Target, Stop) ->
+  Stops = ets_utils:set_lookup(?MODULE, ?LINE_ID(VehicleType, LineNumber)),
+  [EndStop|_] = Stops,
+  case EndStop of
+    Target -> get_next_stop_helper(Stop, pre, Stops);
+    _      -> get_next_stop_helper(Stop, post, Stops)
+  end.
+
 
 %% gen_server
 
@@ -35,8 +54,9 @@ init({StopIds, LineSpecs}) ->
   %% StopIds = [atom()]
   %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
   StopDict = init_stops(StopIds),
-  Lines = init_lines(LineSpecs, StopDict),
-  {ok, #public_transport_state{lines=Lines, stops=StopDict}}.
+  ets:new(?MODULE, [named_table]),
+  init_lines(LineSpecs, StopDict),
+  {ok, #public_transport_state{stops=StopDict}}.
 
 
 -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -> {reply, route() | none, public_transport_state()}.
@@ -77,13 +97,9 @@ init_stops([StopId|StopIds], StopDict) ->
   init_stops(StopIds, dict:store({stop, StopId}, Pid, StopDict)).
 
 
--spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid())) -> [line()].
-init_lines(LineSpecs, StopDict) ->
-  init_lines(LineSpecs, StopDict, []).
-
--spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid()), [line()]) -> [line()].
-init_lines([], _StopDict, Lines) -> Lines;
-init_lines([{Number, Stops, Type}|LineSpecs], StopDict, Lines) ->
+-spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid())) -> ok.
+init_lines([], _StopDict) -> ok;
+init_lines([{Number, Stops, Type}|LineSpecs], StopDict) ->
   UpdatedStops = lists:map(fun(Element) ->
                              if
                                is_integer(Element) ->
@@ -92,18 +108,19 @@ init_lines([{Number, Stops, Type}|LineSpecs], StopDict, Lines) ->
                                  {{stop, Element}, dict:fetch({stop, Element}, StopDict)}
                              end
                            end, Stops),
-  Line = line_supervisor:start_line(Number, UpdatedStops, Type),
-  init_lines(LineSpecs, StopDict, [Line|Lines]).
+  ets:insert(?MODULE, {?LINE_ID(Type, Number), UpdatedStops, line}),
+  init_lines(LineSpecs, StopDict).
 
 
 %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
 %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
 -spec get_route_helper(atom(), atom(), public_transport_state()) -> route() | none.
 get_route_helper(FromId, ToId, State) ->
-  AllLines = State#public_transport_state.lines,
+  Matches = ets:select(?MODULE, [{{'$1', '$2', line}, [], ['$$']}]),
+  AllLines = [{LineId, LineStops} || [LineId, LineStops] <- Matches],
   From = {{stop, FromId}, dict:fetch({stop, FromId}, State#public_transport_state.stops)},
   To = {{stop, ToId}, dict:fetch({stop, ToId}, State#public_transport_state.stops)},
-  ToLines = lists:filter(fun(Line) -> line:?CONTAINS_STOP(Line, To) end, AllLines),
+  ToLines = lists:filter(fun({_LineId, LineStops}) -> lists:member(To, LineStops) end, AllLines),
   Invoker = self(),
   spawn(fun() ->
             get_route_concurrent(From, To, ToLines, {[], 1}, [], AllLines, Invoker)
@@ -115,13 +132,13 @@ get_route_helper(FromId, ToId, State) ->
   end.
 
 
--spec get_route_concurrent(stop(), stop(), [line()], route(), [stop()], [line()], pid()) -> route() | none.
+-spec get_route_concurrent(stop(), stop(), [{atom(), [stop() | pos_integer()]}], route(), [stop()], [{atom(), [stop() | pos_integer()]}], pid()) -> route() | none.
 get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) ->
-  FromLines = [Line || Line <- AllLines, line:?CONTAINS_STOP(Line, From)],
+  FromLines = lists:filter(fun({_LineId, LineStops}) -> lists:member(From, LineStops) end, AllLines),
   IntersectingLines = get_intersecting_lines(FromLines, ToLines),
   case IntersectingLines of
     [] ->
-      Neighbors = lists:append([line:?GET_NEIGHBORS(Line, From) || Line <- FromLines]),
+      Neighbors = lists:append([get_neighbors(LineId, LineStops, From) || {LineId, LineStops} <- FromLines]),
       case Neighbors of
         [] ->
           Invoker ! none;
@@ -135,18 +152,20 @@ get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, In
           end
       end;
     _  ->
-      IntersectingLinesWithDurations = [{FromLine, ToLine, IntersectingStop, line:?GET_DURATION(FromLine, From, IntersectingStop) + line:?GET_DURATION(ToLine, IntersectingStop, To)} || {FromLine, ToLine, IntersectingStop} <- IntersectingLines],
+      IntersectingLinesWithDurations = [{{FromLineId, FromLineStops}, {ToLineId, ToLineStops}, IntersectingStop, get_duration(From, IntersectingStop, FromLineStops) + get_duration(IntersectingStop, To, ToLineStops)} || {{FromLineId, FromLineStops}, {ToLineId, ToLineStops}, IntersectingStop} <- IntersectingLines],
     {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),
-    Target = line:?GET_TARGET(FromLine, From, IntersectingStop),
-    Invoker ! {[{FromLine, Target, IntersectingStop}, {ToLine, IntersectingStop, To} | Route], Dur + LastDur}
+    {FromLineId, FromLineStops} = FromLine,
+    {ToLineId, _ToLineStops} = ToLine,
+    Target = get_target(From, IntersectingStop, FromLineStops),
+    Invoker ! {[{FromLineId, Target, IntersectingStop}, {ToLineId, IntersectingStop, To} | Route], Dur + LastDur}
   end.
 
 
--spec spawn_get_route_calls([{stop(), pos_integer(), stop(), line()}], stop(), [line()], route(), [stop()], [line()]) -> route() | none.
+-spec spawn_get_route_calls([{stop(), pos_integer(), stop(), {atom(), [stop() | pos_integer()]}}], stop(), [{atom(), [stop() | pos_integer()]}], route(), [stop()], [{atom(), [stop() | pos_integer()]}]) -> route() | none.
 spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) ->
   spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).
 
--spec spawn_get_route_calls([{stop(), pos_integer(), stop(), line()}], stop(), [line()], route(), [stop()], [line()], non_neg_integer()) -> route() | none.
+-spec spawn_get_route_calls([{stop(), pos_integer(), stop(), {atom(), [stop() | pos_integer()]}}], stop(), [{atom(), [stop() | pos_integer()]}], route(), [stop()], [{atom(), [stop() | pos_integer()]}], non_neg_integer()) -> route() | none.
 spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) ->
   receive_route(NoCalls);
 spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls) ->
@@ -202,11 +221,11 @@ receive_route(NoCalls, Route) ->
 
 
 %% [{FromLine, ToLine, IntersectingStop}]
--spec get_intersecting_lines([line()], [line()]) -> [{line(), line(), stop()}].
+-spec get_intersecting_lines([{atom(), [stop() | pos_integer()]}], [{atom(), [stop() | pos_integer()]}]) -> [{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop()}].
 get_intersecting_lines(FromLines, ToLines) ->
-  get_intersecting_lines([{FromLine, ToLine, line:?GET_INTERSECTION(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines, FromLine /= ToLine]).
+  get_intersecting_lines([{FromLine, ToLine, get_intersection(FromLine, ToLine)} || FromLine <- FromLines, ToLine <- ToLines, FromLine /= ToLine]).
 
--spec get_intersecting_lines([{line(), line(), stop()}]) -> [{line(), line(), stop()}].
+-spec get_intersecting_lines([{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop()}]) -> [{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop()}].
 get_intersecting_lines([]) -> [];
 get_intersecting_lines([{_,_,none}|IntersectingLines]) ->
   get_intersecting_lines(IntersectingLines);
@@ -214,11 +233,11 @@ get_intersecting_lines([IntersectingLine|IntersectingLines]) ->
   [IntersectingLine|get_intersecting_lines(IntersectingLines)].
 
 
--spec get_best_intersecting_lines([{line(), line(), stop(), pos_integer()}]) -> {line(), line(), stop(), pos_integer()}.
+-spec get_best_intersecting_lines([{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}]) -> {{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}.
 get_best_intersecting_lines([IntersectingLineWithDuration|IntersectingLinesWithDurations]) ->
   get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).
 
--spec get_best_intersecting_lines([{line(), line(), stop(), pos_integer()}], {line(), line(), stop(), pos_integer()}) -> {line(), line(), stop(), pos_integer()}.
+-spec get_best_intersecting_lines([{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}], {{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}) -> {{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}.
 get_best_intersecting_lines([], BestIntersectingLines) -> BestIntersectingLines;
 get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) ->
   if
@@ -226,4 +245,93 @@ get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|Intersect
       get_best_intersecting_lines(IntersectingLinesWithDurations, {FromLine, ToLine, IntersectingStop, Dur});
     true ->
       get_best_intersecting_lines(IntersectingLinesWithDurations, {BestFromLine, BestToLine, BestIntersectingStop, BestDur})
+  end.
+
+
+-spec get_next_stop_helper(stop(), pre | post, [stop() | pos_integer()]) -> {stop(), pos_integer()} | none.
+get_next_stop_helper(_Stop, _, [_|[]]) -> none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.
+get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) ->
+  {NextStop, Dur};
+get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) ->
+  {NextStop, Dur};
+get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) ->
+  get_next_stop_helper(Stop, Alignment, Stops).
+
+
+-spec get_neighbors(atom(), [stop() | pos_integer()], stop()) -> [{stop(), pos_integer(), stop(), atom()}].
+get_neighbors(LineId, LineStops, Stop) ->
+  {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -> X /= Stop end, LineStops),
+  N1 = case BeforeStop of
+         [FirstTarget|_] ->
+           FirstNeighbor = lists:last(lists:droplast(BeforeStop)),
+           [{FirstNeighbor, lists:last(BeforeStop), FirstTarget, LineId}];
+         [] ->
+           []
+       end,
+  N2 = case AfterStop of
+         [SecondDur|[SecondNeighbor|_]] ->
+           [{SecondNeighbor, SecondDur, lists:last(AfterStop), LineId}];
+         [] ->
+           []
+       end,
+  N1 ++ N2.
+
+
+-spec get_duration(stop(), stop(), [stop() | pos_integer()]) -> pos_integer().
+get_duration(FromStop, ToStop, Stops) ->
+  get_duration(FromStop, ToStop, false, Stops).
+
+-spec get_duration(stop(), stop(), boolean(), [stop() | pos_integer()]) -> non_neg_integer().
+get_duration(_FromStop, ToStop, true, [ToStop|_Stops]) -> 0;
+get_duration(FromStop, _ToStop, true, [FromStop|_Stops]) -> 0;
+get_duration(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) ->
+  Dur + get_duration(FromStop, ToStop, true, Stops);
+get_duration(FromStop, ToStop, _OnPath, [ToStop|[Dur|Stops]]) ->
+  Dur + get_duration(FromStop, ToStop, true, Stops);
+get_duration(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) ->
+  case OnPath of
+    true ->
+      Dur + get_duration(FromStop, ToStop, true, Stops);
+    false ->
+      get_duration(FromStop, ToStop, false, Stops)
+  end.
+
+
+-spec get_target(stop(), stop(), [stop() | pos_integer()]) -> stop().
+get_target(FromStop, ToStop, [FirstEnd|[_|Stops]]) ->
+  get_target(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -> not is_integer(Stop) end, Stops)).
+
+-spec get_target(stop(), stop(), stop(), [stop() | pos_integer()]) -> stop().
+get_target(FromStop, _ToStop, FromStop, Stops) ->
+  lists:last(Stops);
+get_target(FromStop, ToStop, FirstEnd, [Stop|Stops]) ->
+  case Stop of
+    FromStop ->
+      lists:last(Stops);
+    ToStop ->
+      FirstEnd;
+    Stop ->
+      get_target(FromStop, ToStop, FirstEnd, Stops)
+  end.
+
+
+-spec get_intersection({atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}) -> stop() | none
+      ;               ([stop() | pos_integer()], [stop() | pos_integer()]) -> stop() | none.
+get_intersection({_, FirstLineStops}, {_, SecondLineStops}) ->
+  get_intersection(FirstLineStops, SecondLineStops);
+get_intersection(FirstLineStops, [Stop|[]]) ->
+  ContainsStop = lists:member(Stop, FirstLineStops),
+  case ContainsStop of
+    true ->
+      Stop;
+    false ->
+      none
+  end;
+get_intersection(FirstLineStops, [Stop|[_Dur|Rest]]) ->
+  ContainsStop = lists:member(Stop, FirstLineStops),
+  case ContainsStop of
+    true ->
+      Stop;
+    false ->
+      get_intersection(FirstLineStops, Rest)
   end.

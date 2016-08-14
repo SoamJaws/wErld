@@ -2,6 +2,7 @@
 -behaviour(gen_server).
 -include("gen_server_utils.hrl").
 -include_lib("eunit/include/eunit.hrl").
+-include_lib("common_test/include/ct.hrl").
 
 %% Public API
 -export([ start/3
@@ -84,7 +85,10 @@ handle_call(validate, _From, State) ->
           {reply, true, State};
         true ->
           Id = State#gen_server_mock_state.id,
-          ?debugFmt("Casts and/or calls does not match expectations for strict mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+          Format = "Casts and/or calls does not match expectations for strict mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n",
+          FormatArgs = [Id, Casts, ExpectedCasts, Calls, ExpectedCalls],
+          ?debugFmt(Format, FormatArgs),
+          ct:log(Format, FormatArgs),
           {reply, false, State}
       end;
     nice ->
@@ -95,7 +99,10 @@ handle_call(validate, _From, State) ->
           {reply, true, State};
         true ->
           Id = State#gen_server_mock_state.id,
-          ?debugFmt("One or more expected casts and/or calls were not matched for nice mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n", [Id, Casts, ExpectedCasts, Calls, ExpectedCalls]),
+          Format = "One or more expected casts and/or calls were not matched for nice mock with Id: ~p.~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n",
+          FormatArgs = [Id, Casts, ExpectedCasts, Calls, ExpectedCalls],
+          ?debugFmt(Format, FormatArgs),
+          ct:log(Format, FormatArgs),
           {reply, false, State}
       end
   end;
@@ -109,7 +116,10 @@ handle_call(Msg, _From, State) ->
       Casts = State#gen_server_mock_state.casts,
       ExpectedCasts = State#gen_server_mock_state.expectedCasts,
       ExpectedCalls = State#gen_server_mock_state.expectedCalls,
-      ?debugFmt("No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n", [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns]),
+      Format = "No expected call return when called with ~p in mock with Id: ~p~n---- Casts:~n~p~n---- Expected Casts:~n~p~n---- Calls~n~p~n---- Expected Calls~n~p~n---- Call Returns~n~p~n",
+      FormatArgs = [Msg, Id, Casts, ExpectedCasts, Calls, ExpectedCalls, CallReturns],
+      ?debugFmt(Format, FormatArgs),
+      ct:log(Format, FormatArgs),
       error(unexpected_call_error);
     _ ->
       {reply, lists:last(CallReturns), State#gen_server_mock_state{calls=[Msg|Calls], callReturns=lists:droplast(CallReturns)}}

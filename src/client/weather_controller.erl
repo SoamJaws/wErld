@@ -25,11 +25,11 @@
 
 -spec ?GET_TYPE() -> weather_type().
 ?GET_TYPE() ->
-  ets_utils:set_lookup(weather, type).
+  ets_utils:set_lookup(?MODULE, type).
 
 -spec ?GET_TEMP() -> integer().
 ?GET_TEMP() ->
-  ets_utils:set_lookup(weather, temp).
+  ets_utils:set_lookup(?MODULE, temp).
 
 
 %% Time subscriber
@@ -56,9 +56,9 @@ init({City, UpdateInterval}) ->
   Id = weather_controller,
   time:?SUBSCRIBE(?RECIPENT),
   Time = time:?GET_CURRENT_TIME(),
-  ets:new(weather, [named_table]),
-  ets:insert(weather, {type, sunny}),
-  ets:insert(weather, {temp, 20}),
+  ets:new(?MODULE, [named_table]),
+  ets:insert(?MODULE, {type, sunny}),
+  ets:insert(?MODULE, {temp, 20}),
   { ok, #weather_controller_state{ city=City
                                  , updateInterval=UpdateInterval
                                  , lastChange=Time

@@ -28,7 +28,7 @@
 
 -spec ?GET_CURRENT_TIME() -> non_neg_integer().
 ?GET_CURRENT_TIME() ->
-  ets_utils:set_lookup(time, time).
+  ets_utils:set_lookup(?MODULE, time).
 
 
 %% gen_server
@@ -40,8 +40,8 @@ start_link(Delta, Frequency) ->
 
 -spec init({non_neg_integer(), pos_integer()}) -> {ok, time_state()}.
 init({Delta, Frequency}) ->
-  ets:new(time, [named_table]),
-  ets:insert(time, {time, 0}), % Epoch in gregorian seconds
+  ets:new(?MODULE, [named_table]),
+  ets:insert(?MODULE, {time, 0}), % Epoch in gregorian seconds
   gen_server:cast(self(), tick),
   {ok, #time_state{delta=Delta, frequency=Frequency, subscribers=[]}}.
 
@@ -61,7 +61,7 @@ handle_cast(tick, State) ->
   timer:sleep(State#time_state.frequency),
   gen_server:cast(self(), tick),
   NewTime = ets_utils:set_lookup(time, time) + State#time_state.delta,
-  ets:insert(time, {time, NewTime}),
+  ets:insert(?MODULE, {time, NewTime}),
   broadcast_time(State#time_state.subscribers, NewTime),
   {noreply, State}.
 

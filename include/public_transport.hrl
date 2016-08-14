@@ -81,7 +81,7 @@
                        , capacity                 :: pos_integer()
                        , id                       :: atom()
                        , lastDeparture            :: non_neg_integer()
-                       , line                     :: {pos_integer(), line()}
+                       , lineNumber               :: pos_integer()
                        , passengers = []          :: [citizen()]
                        , boardingPassengers = 0   :: non_neg_integer()
                        , target                   :: stop()
@@ -97,42 +97,6 @@
 -define(CHECKIN_OK, checkin_ok).
 
 %%-----------------------------------------------------------
-%% Data Type: public_transport vehicle
-%% where:
-%%
-%%    id:         An atom.
-%%
-%%    number:     An int.
-%%
-%%    stops:      A list of Pids with durations (ints) in
-%%                between. Head and last shall be Pids of the
-%%                stops, and duration in between is the
-%%                travel duration between the stops.
-%%
-%%    type:       An atom.
-%%                The type of Vehicle, i.e. bus, train, tram.
-%%
-%%------------------------------------------------------------
--record(line_state, { id     :: atom()
-                    , number :: pos_integer()
-                    , stops  :: [stop() | pos_integer()]
-                    , type   :: vehicle_type()
-                    }).
--type line_id() :: id(line).
--type line() :: address(line).
--type line_state() :: #line_state{}.
-
--define(GET_NEXT_STOP,    get_next_stop).
--define(GET_NEIGHBORS,    get_neighbors).
--define(GET_OTHER_END,    get_other_end).
--define(CONTAINS_STOP,    contains_stop).
--define(GET_DURATION,     get_duration).
--define(IS_END_STOP,      is_end_stop).
--define(GET_INTERSECTION, get_intersection).
--define(GET_NUMBER, get_number).
--define(GET_TARGET, get_target).
-
-%%-----------------------------------------------------------
 %% Data Type: public_transport
 %% where:
 %%
@@ -142,13 +106,15 @@
 %%    stops: A dict of stop ids and pids
 %%
 %%------------------------------------------------------------
--record(public_transport_state, { lines :: [line()]
-                                , stops :: dict:dict(stop_id(), pid())
-                              }).
+-record(public_transport_state, { stops :: dict:dict(stop_id(), pid()) }).
 -type public_transport_state() :: #public_transport_state{}.
--type route_step() :: {line(), stop(), stop()}.
+-type route_step() :: {atom(), stop(), stop()}.
 -type route() :: {[route_step()], pos_integer()}.
 
--define(GET_ROUTE, get_route).
+-define(GET_ROUTE,     get_route).
+-define(GET_OTHER_END, get_other_end).
+-define(GET_NEXT_STOP, get_next_stop).
+
+-define(LINE_ID(Type, LineNumber), list_to_atom(atom_to_list(Type) ++ integer_to_list(LineNumber))).
 
 -endif.

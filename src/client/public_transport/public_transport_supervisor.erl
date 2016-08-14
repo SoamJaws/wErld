@@ -9,14 +9,7 @@ start_link(StopIds, LineSpecs) ->
 
 init({StopIds, LineSpecs}) ->
   SupFlags = {one_for_one, 0, 1},
-  ChildSpecs = [ { line_supervisor
-                 , {line_supervisor, start_link, []}
-                 , permanent
-                 , 1000
-                 , supervisor
-                 , [line]
-                 }
-               , { stop_supervisor
+  ChildSpecs = [ { stop_supervisor
                  , {stop_supervisor, start_link, []}
                  , permanent
                  , 1000

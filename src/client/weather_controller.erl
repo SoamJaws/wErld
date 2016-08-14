@@ -13,7 +13,7 @@
         , ?NEW_TIME/3]).
 
 %% gen_server
--export([ start_link/2
+-export([ start_link/3
         , init/1
         , handle_call/3
         , handle_cast/2
@@ -45,13 +45,13 @@
 
 %% gen_server
 
--spec start_link(atom(), pos_integer()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
-start_link(City, UpdateInterval) ->
-  gen_server:start(?MODULE, [City, UpdateInterval], []).
+-spec start_link(atom(), climate_type(), pos_integer()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
+start_link(City, Climate, UpdateInterval) ->
+  gen_server:start_link(?MODULE, {City, Climate, UpdateInterval}, []).
 
 
--spec init({atom(), pos_integer()}) -> {ok, weather_controller_state()}.
-init({City, UpdateInterval}) ->
+-spec init({atom(), climate_type(), pos_integer()}) -> {ok, weather_controller_state()}.
+init({City, Climate, UpdateInterval}) ->
   Pid = self(),
   Id = weather_controller,
   time:?SUBSCRIBE(?RECIPENT),
@@ -60,8 +60,9 @@ init({City, UpdateInterval}) ->
   ets:insert(?MODULE, {type, sunny}),
   ets:insert(?MODULE, {temp, 20}),
   { ok, #weather_controller_state{ city=City
-                                 , updateInterval=UpdateInterval
+                                 , climate=Climate
                                  , lastChange=Time
+                                 , updateInterval=UpdateInterval
                                  } }.
 
 
@@ -75,6 +76,13 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
   UpdatedState = if
                    Time - State#weather_controller_state.lastChange >= State#weather_controller_state.updateInterval ->
                      %% Change weather if should be done
+                     Climate = State#weather_controller_state.climate,
+                     Stats = case Climate of
+                               coastal  -> ?COASTAL_STATS;
+                               inland   -> ?INLAND_STATS;
+                               northern -> ?NORTHERN_STATS;
+                               southern -> ?SOUTHERN_STATS
+                             end,
                      %% Change temp according to statistical temp and time of day
                      State#weather_controller_state{lastChange=Time};
                    true ->
@@ -99,67 +107,3 @@ code_change(_OldVsn, State, _Extra) ->
   {ok, State}.
 
 %% Backend
-
-%% Gothenburg
--spec get_coastal_stats() -> [monthly_stats()].
-get_coastal_stats() -> [ #monthly_stats{maxTemp=1,  minTemp=-4, sunHours=1, rainDays=15}
-                       , #monthly_stats{maxTemp=1,  minTemp=-4, sunHours=2, rainDays=11}
-                       , #monthly_stats{maxTemp=5,  minTemp=-2, sunHours=3, rainDays=12}
-                       , #monthly_stats{maxTemp=9,  minTemp=2,  sunHours=5, rainDays=11}
-                       , #monthly_stats{maxTemp=16, minTemp=7,  sunHours=7, rainDays=11}
-                       , #monthly_stats{maxTemp=19, minTemp=11, sunHours=8, rainDays=11}
-                       , #monthly_stats{maxTemp=20, minTemp=12, sunHours=8, rainDays=11}
-                       , #monthly_stats{maxTemp=20, minTemp=12, sunHours=7, rainDays=12}
-                       , #monthly_stats{maxTemp=16, minTemp=9,  sunHours=5, rainDays=14}
-                       , #monthly_stats{maxTemp=11, minTemp=6,  sunHours=3, rainDays=15}
-                       , #monthly_stats{maxTemp=6,  minTemp=1,  sunHours=2, rainDays=16}
-                       , #monthly_stats{maxTemp=3,  minTemp=-2, sunHours=1, rainDays=15}
-                       ].
-
-%% Karlstad
--spec get_inland_stats() -> [monthly_stats()].
-get_inland_stats() -> [ #monthly_stats{maxTemp=-2, minTemp=-8, sunHours=1, rainDays=17}
-                      , #monthly_stats{maxTemp=-1, minTemp=-9, sunHours=2, rainDays=13}
-                      , #monthly_stats{maxTemp=3,  minTemp=-5, sunHours=3, rainDays=13}
-                      , #monthly_stats{maxTemp=8,  minTemp=-1, sunHours=5, rainDays=12}
-                      , #monthly_stats{maxTemp=15, minTemp=5,  sunHours=7, rainDays=12}
-                      , #monthly_stats{maxTemp=20, minTemp=9,  sunHours=9, rainDays=13}
-                      , #monthly_stats{maxTemp=21, minTemp=11, sunHours=8, rainDays=15}
-                      , #monthly_stats{maxTemp=20, minTemp=10, sunHours=7, rainDays=14}
-                      , #monthly_stats{maxTemp=15, minTemp=7,  sunHours=4, rainDays=16}
-                      , #monthly_stats{maxTemp=10, minTemp=3,  sunHours=3, rainDays=16}
-                      , #monthly_stats{maxTemp=4,  minTemp=-2, sunHours=1, rainDays=17}
-                      , #monthly_stats{maxTemp=0,  minTemp=-7, sunHours=1, rainDays=17}
-                      ].
-
-%% Luleå
--spec get_northern_stats() -> [monthly_stats()].
-get_northern_stats() -> [ #monthly_stats{maxTemp=-8, minTemp=-16, sunHours=0,  rainDays=16}
-                        , #monthly_stats{maxTemp=-8, minTemp=-16, sunHours=1,  rainDays=14}
-                        , #monthly_stats{maxTemp=-2, minTemp=-11, sunHours=3,  rainDays=13}
-                        , #monthly_stats{maxTemp=3,  minTemp=-4,  sunHours=5,  rainDays=10}
-                        , #monthly_stats{maxTemp=10, minTemp=2,   sunHours=8,  rainDays=10}
-                        , #monthly_stats{maxTemp=17, minTemp=8,   sunHours=10, rainDays=10}
-                        , #monthly_stats{maxTemp=19, minTemp=11,  sunHours=9,  rainDays=11}
-                        , #monthly_stats{maxTemp=17, minTemp=10,  sunHours=6,  rainDays=13}
-                        , #monthly_stats{maxTemp=12, minTemp=5,   sunHours=4,  rainDays=15}
-                        , #monthly_stats{maxTemp=6,  minTemp=1,   sunHours=2,  rainDays=15}
-                        , #monthly_stats{maxTemp=-1, minTemp=-7,  sunHours=1,  rainDays=16}
-                        , #monthly_stats{maxTemp=-5, minTemp=-13, sunHours=0,  rainDays=16}
-                        ].
-
-%% Malmö
--spec get_southern_stats() -> [monthly_stats()].
-get_southern_stats() -> [ #monthly_stats{maxTemp=2,  minTemp=-2, sunHours=1, rainDays=17}
-                        , #monthly_stats{maxTemp=2,  minTemp=-3, sunHours=2, rainDays=13}
-                        , #monthly_stats{maxTemp=4,  minTemp=-1, sunHours=3, rainDays=14}
-                        , #monthly_stats{maxTemp=9,  minTemp=2,  sunHours=6, rainDays=13}
-                        , #monthly_stats{maxTemp=15, minTemp=7,  sunHours=8, rainDays=12}
-                        , #monthly_stats{maxTemp=19, minTemp=11, sunHours=8, rainDays=12}
-                        , #monthly_stats{maxTemp=20, minTemp=13, sunHours=8, rainDays=14}
-                        , #monthly_stats{maxTemp=20, minTemp=13, sunHours=7, rainDays=14}
-                        , #monthly_stats{maxTemp=17, minTemp=10, sunHours=5, rainDays=15}
-                        , #monthly_stats{maxTemp=12, minTemp=7,  sunHours=3, rainDays=15}
-                        , #monthly_stats{maxTemp=7,  minTemp=3,  sunHours=2, rainDays=17}
-                        , #monthly_stats{maxTemp=3,  minTemp=-1, sunHours=1, rainDays=17}
-                        ].

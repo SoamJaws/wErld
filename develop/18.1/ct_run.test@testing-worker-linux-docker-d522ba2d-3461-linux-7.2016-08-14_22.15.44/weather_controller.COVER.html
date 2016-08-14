@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-d522ba2d-3461-linux-7.2016-08-14_22.15.44/weather_controller.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/weather_controller.erl by COVER 2016-08-14 at 22:15:45
+
+****************************************************************************
+
+        |  -module(weather_controller).
+        |  -include("weather.hrl").
+        |  -include("time.hrl").
+        |  -behaviour(gen_server).
+        |  -behaviour(time_subscriber).
+        |  
+        |  %% Public API
+        |  -export([ ?GET_TYPE/0
+        |          , ?GET_TEMP/0]).
+        |  
+        |  %% Time subscriber
+        |  -export([ ?NEW_TIME/2
+        |          , ?NEW_TIME/3]).
+        |  
+        |  %% gen_server
+        |  -export([ start_link/3
+        |          , init/1
+        |          , handle_call/3
+        |          , handle_cast/2
+        |          , handle_info/2
+        |          , terminate/2
+        |          , code_change/3]).
+        |  
+        |  %% Public API
+        |  
+        |  -spec ?GET_TYPE() -&gt; weather_type().
+        |  ?GET_TYPE() -&gt;
+<font color=red>     0..|    ets_utils:set_lookup(?MODULE, type).</font>
+        |  
+        |  -spec ?GET_TEMP() -&gt; integer().
+        |  ?GET_TEMP() -&gt;
+<font color=red>     0..|    ets_utils:set_lookup(?MODULE, temp).</font>
+        |  
+        |  
+        |  %% Time subscriber
+        |  
+        |  -spec ?NEW_TIME({global, weather_controller}, time()) -&gt; ok.
+        |  ?NEW_TIME(Address, Time) -&gt;
+<font color=red>     0..|    ?NEW_TIME(Address, Time, false).</font>
+        |  
+        |  -spec ?NEW_TIME({global, weather_controller}, time(), boolean()) -&gt; ok.
+        |  ?NEW_TIME(Address, Time, BlockCaller) -&gt;
+<font color=red>     0..|    gen_server_utils:cast(Address, {?NEW_TIME, Time}, BlockCaller).</font>
+        |  
+        |  
+        |  %% gen_server
+        |  
+        |  -spec start_link(atom(), climate_type(), pos_integer()) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
+        |  start_link(City, Climate, UpdateInterval) -&gt;
+<font color=red>     0..|    gen_server:start_link(?MODULE, {City, Climate, UpdateInterval}, []).</font>
+        |  
+        |  
+        |  -spec init({atom(), climate_type(), pos_integer()}) -&gt; {ok, weather_controller_state()}.
+        |  init({City, Climate, UpdateInterval}) -&gt;
+<font color=red>     0..|    Pid = self(),</font>
+<font color=red>     0..|    Id = weather_controller,</font>
+<font color=red>     0..|    time:?SUBSCRIBE(?RECIPENT),</font>
+<font color=red>     0..|    Time = time:?GET_CURRENT_TIME(),</font>
+<font color=red>     0..|    ets:new(?MODULE, [named_table]),</font>
+<font color=red>     0..|    ets:insert(?MODULE, {type, sunny}),</font>
+<font color=red>     0..|    ets:insert(?MODULE, {temp, 20}),</font>
+<font color=red>     0..|    { ok, #weather_controller_state{ city=City</font>
+        |                                   , climate=Climate
+        |                                   , lastChange=Time
+        |                                   , updateInterval=UpdateInterval
+        |                                   } }.
+        |  
+        |  
+        |  -spec handle_call(any(), {pid(), any()}, weather_controller_state()) -&gt; {reply, ok, weather_controller_state()}.
+        |  handle_call(_Msg, _From, State) -&gt;
+<font color=red>     0..|    {reply, ok, State}.</font>
+        |  
+        |  
+        |  -spec handle_cast({?NEW_TIME, time(), boolean(), pid()}, weather_controller_state()) -&gt; {noreply, weather_controller_state()}.
+        |  handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) -&gt;
+<font color=red>     0..|    UpdateInterval = State#weather_controller_state.updateInterval,</font>
+<font color=red>     0..|    UpdatedState = if</font>
+        |                     Time - State#weather_controller_state.lastChange &gt;= UpdateInterval -&gt;
+        |                       %% Change weather if should be done
+<font color=red>     0..|                       Climate = State#weather_controller_state.climate,</font>
+<font color=red>     0..|                       Stats = case Climate of</font>
+<font color=red>     0..|                                 coastal  -&gt; ?COASTAL_STATS;</font>
+<font color=red>     0..|                                 inland   -&gt; ?INLAND_STATS;</font>
+<font color=red>     0..|                                 northern -&gt; ?NORTHERN_STATS;</font>
+<font color=red>     0..|                                 southern -&gt; ?SOUTHERN_STATS</font>
+        |                               end,
+<font color=red>     0..|                       {{Year, Month, _}, _} = calendar:gregorian_seconds_to_datetime(Time),</font>
+<font color=red>     0..|                       IsSnowing = is_snowing(Year, Month, UpdateInterval, Stats),</font>
+<font color=red>     0..|                       IsRaining = if</font>
+        |                                     not IsSnowing -&gt;
+<font color=red>     0..|                                       is_raining(Year, Month, UpdateInterval, Stats);</font>
+        |                                     true -&gt;
+<font color=red>     0..|                                       false</font>
+        |                                   end,
+<font color=red>     0..|                       if</font>
+        |                         IsSnowing -&gt;
+<font color=red>     0..|                           ets:insert(?MODULE, {type, snowy});</font>
+        |                         IsRaining -&gt;
+<font color=red>     0..|                           ets:insert(?MODULE, {type, rainy});</font>
+        |                         true -&gt;
+<font color=red>     0..|                           ets:insert(?MODULE, {type, sunny})</font>
+        |                       end,
+        |                       %% Change temp according to statistical temp and time of day
+<font color=red>     0..|                       State#weather_controller_state{lastChange=Time};</font>
+        |                     true -&gt;
+<font color=red>     0..|                       State</font>
+        |                   end,
+<font color=red>     0..|    gen_server_utils:notify_caller(NotifyCaller, Caller),</font>
+<font color=red>     0..|    {noreply, UpdatedState}.</font>
+        |  
+        |  
+        |  -spec handle_info(timeout | any(), weather_controller_state()) -&gt; {noreply, weather_controller_state()}.
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), weather_controller_state()) -&gt; ok.
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  -spec code_change(term() | {down, term()}, weather_controller_state(), term()) -&gt; {ok, weather_controller_state()}.
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+        |  
+        |  %% Backend
+        |  
+        |  -spec is_snowing(non_neg_integer(), 1..12, pos_integer(), [monthly_stats()]) -&gt; boolean().
+        |  is_snowing(Year, Month, UpdateInterval, Stats) -&gt;
+<font color=red>     0..|    MonthyStats = lists:nth(Month, Stats),</font>
+<font color=red>     0..|    is_downpour(Year, Month, UpdateInterval, MonthyStats#monthly_stats.snowDays).</font>
+        |  
+        |  
+        |  -spec is_raining(non_neg_integer(), 1..12, pos_integer(), [monthly_stats()]) -&gt; boolean().
+        |  is_raining(Year, Month, UpdateInterval, Stats) -&gt;
+<font color=red>     0..|    MonthyStats = lists:nth(Month, Stats),</font>
+<font color=red>     0..|    is_downpour(Year, Month, UpdateInterval, MonthyStats#monthly_stats.rainDays).</font>
+        |  
+        |  
+        |  -spec is_downpour(non_neg_integer(), 1..12, pos_integer(), non_neg_integer()) -&gt; boolean().
+        |  is_downpour(Year, Month, UpdateInterval, DownpourDays) -&gt;
+<font color=red>     0..|    Percentage = round(DownpourDays / calendar:last_day_of_the_month(Year, Month) / (86400/UpdateInterval) * 100),</font>
+<font color=red>     0..|    X = rand:uniform(101) - 1,</font>
+<font color=red>     0..|    X &lt; Percentage.</font>
+</pre>
+</body>
+</html>

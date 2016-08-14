@@ -72,7 +72,7 @@ init({Capacity, Id, LineNumber, Target, Type}) ->
   time:?SUBSCRIBE(?RECIPENT),
   Stop = public_transport:?GET_OTHER_END(Type, LineNumber, Target),
   stop:?VEHICLE_CHECK_IN(Stop, ?RECIPENT),
-  {ok, #vehicle_state{capacity=Capacity, id=Id, lineNumber=LineNumber, target=Target, type=Type}}.
+  {ok, #vehicle_state{capacity=Capacity, id=Id, lastDeparture=0, lineNumber=LineNumber, target=Target, type=Type}}.
 
 
 -spec handle_call({?PASSENGER_BOARD, citizen()}, {pid(), any()}, vehicle_state()) -> {reply, ok | nok, vehicle_state()}.

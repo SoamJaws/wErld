@@ -1,74 +1,21 @@
---- Test run on 2016/08/15 18:30:01 ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Unexpected I/O log</title>
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="../../ct_default.css" type="text/css">
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
 
-=PROGRESS REPORT==== 15-Aug-2016::18:30:02 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.40.0>},
-                       {id,alarm_handler},
-                       {mfargs,{alarm_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
+<br />
+<h3>Unexpected I/O</h3>
+<pre>
 
-=PROGRESS REPORT==== 15-Aug-2016::18:30:02 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.41.0>},
-                       {id,overload},
-                       {mfargs,{overload,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 15-Aug-2016::18:30:02 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.39.0>},
-                       {id,sasl_safe_sup},
-                       {mfargs,
-                           {supervisor,start_link,
-                               [{local,sasl_safe_sup},sasl,safe]}},
-                       {restart_type,permanent},
-                       {shutdown,infinity},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 15-Aug-2016::18:30:02 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.42.0>},
-                       {id,release_handler},
-                       {mfargs,{release_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 15-Aug-2016::18:30:02 ===
-         application: sasl
-          started_at: 'test@testing-worker-linux-docker-9f039867-3461-linux-10'
-Converting "/home/travis/build/SoamJaws/wErld/." to "/home/travis/build/SoamJaws/wErld" and re-inserting with add_patha/1
-
-
-Common Test v1.11 starting (cwd is /home/travis/build/SoamJaws/wErld)
-
-
-Common Test: Running make in test directories...
-Including the following directories:
-"/home/travis/build/SoamJaws/wErld/include"
-Recompile: weather_controller_SUITE
-
-CWD set to: "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-9f039867-3461-linux-10.2016-08-15_18.30.02"
-
-TEST INFO: 1 test(s), 4 case(s) in 1 suite(s)
-
-Cover compiling 'wErld' (13 files) - this may take some time... done
-
-Testing test.client: Starting test, 4 test cases
-
-=PROGRESS REPORT==== 15-Aug-2016::18:30:02 ===
-          supervisor: {<0.220.0>,client_supervisor}
-             started: [{pid,<0.221.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,coastal,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+<div class="error_logger"><b>*** System report during weather_controller_SUITE:coastal_case/1 2016-08-15 18:30:03.068 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:30:03 ===
 ** Generic server <0.220.0> terminating 
@@ -821,6 +768,9 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,coastal_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during weather_controller_SUITE:coastal_case/1 2016-08-15 18:30:03.082 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:30:03 ===
   crasher:
     initial call: supervisor:client_supervisor/1
@@ -1206,15 +1156,8 @@ Testing test.client: Starting test, 4 test cases
     reductions: 842
   neighbours:
 
-=PROGRESS REPORT==== 15-Aug-2016::18:30:03 ===
-          supervisor: {<0.228.0>,client_supervisor}
-             started: [{pid,<0.229.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,inland,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+</div>
+<div class="error_logger"><b>*** System report during weather_controller_SUITE:inland_case/1 2016-08-15 18:30:03.197 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:30:03 ===
 ** Generic server <0.228.0> terminating 
@@ -1967,6 +1910,9 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,inland_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during weather_controller_SUITE:inland_case/1 2016-08-15 18:30:03.207 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:30:03 ===
   crasher:
     initial call: supervisor:client_supervisor/1
@@ -2352,15 +2298,8 @@ Testing test.client: Starting test, 4 test cases
     reductions: 834
   neighbours:
 
-=PROGRESS REPORT==== 15-Aug-2016::18:30:03 ===
-          supervisor: {<0.235.0>,client_supervisor}
-             started: [{pid,<0.236.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,northern,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+</div>
+<div class="error_logger"><b>*** System report during weather_controller_SUITE:northern_case/1 2016-08-15 18:30:03.290 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:30:03 ===
 ** Generic server <0.235.0> terminating 
@@ -3113,6 +3052,9 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,northern_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during weather_controller_SUITE:northern_case/1 2016-08-15 18:30:03.305 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:30:03 ===
   crasher:
     initial call: supervisor:client_supervisor/1
@@ -3498,15 +3440,8 @@ Testing test.client: Starting test, 4 test cases
     reductions: 834
   neighbours:
 
-=PROGRESS REPORT==== 15-Aug-2016::18:30:03 ===
-          supervisor: {<0.242.0>,client_supervisor}
-             started: [{pid,<0.243.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,southern,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+</div>
+<div class="error_logger"><b>*** System report during weather_controller_SUITE:southern_case/1 2016-08-15 18:30:03.381 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:30:03 ===
 ** Generic server <0.242.0> terminating 
@@ -4259,6 +4194,9 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,southern_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during weather_controller_SUITE:southern_case/1 2016-08-15 18:30:03.390 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:30:03 ===
   crasher:
     initial call: supervisor:client_supervisor/1
@@ -4643,10 +4581,18 @@ Testing test.client: Starting test, 4 test cases
     stack_size: 27
     reductions: 834
   neighbours:
-Testing test.client: TEST COMPLETE, 4 ok, 0 failed of 4 test cases
 
-Cover analysing... done
-
-Updating /home/travis/build/SoamJaws/wErld/test/logs/index.html... done
-Updating /home/travis/build/SoamJaws/wErld/test/logs/all_runs.html... done
-
+</div>
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!date>Mon Aug 15 2016 18:30:02<!/date><br />
+</div>
+</center>
+</body>
+</html>

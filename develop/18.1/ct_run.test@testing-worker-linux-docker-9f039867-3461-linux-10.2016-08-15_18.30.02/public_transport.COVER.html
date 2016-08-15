@@ -1,0 +1,351 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-9f039867-3461-linux-10.2016-08-15_18.30.02/public_transport.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/public_transport.erl by COVER 2016-08-15 at 18:30:03
+
+****************************************************************************
+
+        |  -module(public_transport).
+        |  -include("public_transport.hrl").
+        |  -behaviour(gen_server).
+        |  
+        |  %% Public API
+        |  -export([ ?GET_ROUTE/2
+        |          , ?GET_OTHER_END/3
+        |          , ?GET_NEXT_STOP/4]).
+        |  
+        |  %% gen_server and internally spawned functions
+        |  -export([ start_link/2
+        |          , init/1
+        |          , handle_call/3
+        |          , handle_cast/2
+        |          , handle_info/2
+        |          , terminate/2
+        |          , code_change/3
+        |          , get_route_concurrent/7]).
+        |  
+        |  
+        |  %% Public API
+        |  
+        |  -spec ?GET_ROUTE(atom(), atom()) -&gt; route() | none.
+        |  ?GET_ROUTE(FromId, ToId) -&gt;
+<font color=red>     0..|    gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}).</font>
+        |  
+        |  -spec ?GET_OTHER_END(atom(), pos_integer(), stop()) -&gt; stop().
+        |  ?GET_OTHER_END(VehicleType, LineNumber, Stop) -&gt;
+<font color=red>     0..|    [H|T] = ets_utils:set_lookup(?MODULE, ?LINE_ID(VehicleType, LineNumber)),</font>
+<font color=red>     0..|    case H of</font>
+<font color=red>     0..|      Stop -&gt; lists:last(T);</font>
+<font color=red>     0..|      _    -&gt; H</font>
+        |    end.
+        |  
+        |  -spec ?GET_NEXT_STOP(atom(), pos_integer(), stop(), stop()) -&gt; {stop(), pos_integer()} | none.
+        |  ?GET_NEXT_STOP(VehicleType, LineNumber, Target, Stop) -&gt;
+<font color=red>     0..|    Stops = ets_utils:set_lookup(?MODULE, ?LINE_ID(VehicleType, LineNumber)),</font>
+<font color=red>     0..|    [EndStop|_] = Stops,</font>
+<font color=red>     0..|    case EndStop of</font>
+<font color=red>     0..|      Target -&gt; get_next_stop_helper(Stop, pre, Stops);</font>
+<font color=red>     0..|      _      -&gt; get_next_stop_helper(Stop, post, Stops)</font>
+        |    end.
+        |  
+        |  
+        |  %% gen_server
+        |  
+        |  -spec start_link([atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]) -&gt; {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
+        |  start_link(StopIds, LineSpecs) -&gt;
+<font color=red>     0..|    gen_server:start_link({global, ?MODULE}, ?MODULE, {StopIds, LineSpecs}, []).</font>
+        |  
+        |  
+        |  -spec init({[atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]}) -&gt; {ok, public_transport_state()}.
+        |  init({StopIds, LineSpecs}) -&gt;
+        |    %% StopIds = [atom()]
+        |    %% LineSpecs = [{non_neg_integer(), [atom()], vehicle_type()}]
+<font color=red>     0..|    StopDict = init_stops(StopIds),</font>
+<font color=red>     0..|    ets:new(?MODULE, [named_table]),</font>
+<font color=red>     0..|    init_lines(LineSpecs, StopDict),</font>
+<font color=red>     0..|    {ok, #public_transport_state{stops=StopDict}}.</font>
+        |  
+        |  
+        |  -spec handle_call({?GET_ROUTE, atom(), atom()}, {pid(), any()}, public_transport_state()) -&gt; {reply, route() | none, public_transport_state()}.
+        |  handle_call({?GET_ROUTE, FromId, ToId}, _From, State) -&gt;
+<font color=red>     0..|    Reply = get_route_helper(FromId, ToId, State),</font>
+<font color=red>     0..|    {reply, Reply, State}.</font>
+        |  
+        |  
+        |  -spec handle_cast(any(), public_transport_state()) -&gt; {noreply, public_transport_state()}.
+        |  handle_cast(_Cast, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  -spec handle_info(timeout | any(), public_transport_state()) -&gt; {noreply, public_transport_state()}.
+        |  handle_info(_Info, State) -&gt;
+<font color=red>     0..|    {noreply, State}.</font>
+        |  
+        |  
+        |  -spec terminate(normal | shutdown | {shutdown, any()} | any(), stop_state()) -&gt; ok.
+        |  terminate(_Reason, _State) -&gt;
+<font color=red>     0..|    ok.</font>
+        |  
+        |  
+        |  -spec code_change(any() | {down, any()}, stop_state(), any()) -&gt; {ok, stop_state()}.
+        |  code_change(_OldVsn, State, _Extra) -&gt;
+<font color=red>     0..|    {ok, State}.</font>
+        |  
+        |  
+        |  %% Backend
+        |  -spec init_stops([atom()]) -&gt; dict:dict(stop_id(), pid()).
+        |  init_stops(StopIds) -&gt;
+<font color=red>     0..|    init_stops(StopIds, dict:new()).</font>
+        |  
+        |  -spec init_stops([atom()], dict:dict(stop_id(), pid())) -&gt; dict:dict(stop_id(), pid()).
+<font color=red>     0..|  init_stops([], StopDict) -&gt; StopDict;</font>
+        |  init_stops([StopId|StopIds], StopDict) -&gt;
+<font color=red>     0..|    {{stop, StopId}, Pid} = stop_supervisor:start_stop(StopId),</font>
+<font color=red>     0..|    init_stops(StopIds, dict:store({stop, StopId}, Pid, StopDict)).</font>
+        |  
+        |  
+        |  -spec init_lines([{non_neg_integer(), [atom()], vehicle_type()}], dict:dict(stop_id(), pid())) -&gt; ok.
+<font color=red>     0..|  init_lines([], _StopDict) -&gt; ok;</font>
+        |  init_lines([{Number, Stops, Type}|LineSpecs], StopDict) -&gt;
+<font color=red>     0..|    UpdatedStops = lists:map(fun(Element) -&gt;</font>
+<font color=red>     0..|                               if</font>
+        |                                 is_integer(Element) -&gt;
+<font color=red>     0..|                                   Element;</font>
+        |                                 true -&gt;
+<font color=red>     0..|                                   {{stop, Element}, dict:fetch({stop, Element}, StopDict)}</font>
+        |                               end
+        |                             end, Stops),
+<font color=red>     0..|    ets:insert(?MODULE, {?LINE_ID(Type, Number), UpdatedStops, line}),</font>
+<font color=red>     0..|    init_lines(LineSpecs, StopDict).</font>
+        |  
+        |  
+        |  %% Instructionsformat: list of tuples {[{Line, Target, Destination}, {Line, Target, Destination}...], Dur}
+        |  %% Citizen goes from From to Destination by line in the Target direction, repeat until arrived at To
+        |  -spec get_route_helper(atom(), atom(), public_transport_state()) -&gt; route() | none.
+        |  get_route_helper(FromId, ToId, State) -&gt;
+<font color=red>     0..|    Matches = ets:select(?MODULE, [{{'$1', '$2', line}, [], ['$$']}]),</font>
+<font color=red>     0..|    AllLines = [{LineId, LineStops} || [LineId, LineStops] &lt;- Matches],</font>
+<font color=red>     0..|    From = {{stop, FromId}, dict:fetch({stop, FromId}, State#public_transport_state.stops)},</font>
+<font color=red>     0..|    To = {{stop, ToId}, dict:fetch({stop, ToId}, State#public_transport_state.stops)},</font>
+<font color=red>     0..|    ToLines = lists:filter(fun({_LineId, LineStops}) -&gt; lists:member(To, LineStops) end, AllLines),</font>
+<font color=red>     0..|    Invoker = self(),</font>
+<font color=red>     0..|    spawn(fun() -&gt;</font>
+<font color=red>     0..|              get_route_concurrent(From, To, ToLines, {[], 1}, [], AllLines, Invoker)</font>
+        |           end
+        |          ),
+<font color=red>     0..|    receive</font>
+        |      {RouteSteps, Dur} -&gt;
+<font color=red>     0..|        {lists:reverse(RouteSteps), Dur}</font>
+        |    end.
+        |  
+        |  
+        |  -spec get_route_concurrent(stop(), stop(), [{atom(), [stop() | pos_integer()]}], route(), [stop()], [{atom(), [stop() | pos_integer()]}], pid()) -&gt; route() | none.
+        |  get_route_concurrent(From, To, ToLines, {Route, Dur}, VisitedStops, AllLines, Invoker) -&gt;
+<font color=red>     0..|    FromLines = lists:filter(fun({_LineId, LineStops}) -&gt; lists:member(From, LineStops) end, AllLines),</font>
+<font color=red>     0..|    IntersectingLines = get_intersecting_lines(FromLines, ToLines),</font>
+<font color=red>     0..|    case IntersectingLines of</font>
+        |      [] -&gt;
+<font color=red>     0..|        Neighbors = lists:append([get_neighbors(LineId, LineStops, From) || {LineId, LineStops} &lt;- FromLines]),</font>
+<font color=red>     0..|        case Neighbors of</font>
+        |          [] -&gt;
+<font color=red>     0..|            Invoker ! none;</font>
+        |          _ -&gt;
+<font color=red>     0..|            NewRoute = spawn_get_route_calls(Neighbors, To, ToLines, {Route, Dur}, [From|VisitedStops], AllLines),</font>
+<font color=red>     0..|            case NewRoute of</font>
+        |              none -&gt;
+<font color=red>     0..|                Invoker ! none;</font>
+        |              {NewRouteSteps, NewDur} -&gt;
+<font color=red>     0..|                Invoker ! {NewRouteSteps, NewDur}</font>
+        |            end
+        |        end;
+        |      _  -&gt;
+<font color=red>     0..|        IntersectingLinesWithDurations = [{{FromLineId, FromLineStops}, {ToLineId, ToLineStops}, IntersectingStop, get_duration(From, IntersectingStop, FromLineStops) + get_duration(IntersectingStop, To, ToLineStops)} || {{FromLineId, FromLineStops}, {ToLineId, ToLineStops}, IntersectingStop} &lt;- IntersectingLines],</font>
+<font color=red>     0..|      {FromLine, ToLine, IntersectingStop, LastDur} = get_best_intersecting_lines(IntersectingLinesWithDurations),</font>
+<font color=red>     0..|      {FromLineId, FromLineStops} = FromLine,</font>
+<font color=red>     0..|      {ToLineId, _ToLineStops} = ToLine,</font>
+<font color=red>     0..|      Target = get_target(From, IntersectingStop, FromLineStops),</font>
+<font color=red>     0..|      Invoker ! {[{FromLineId, Target, IntersectingStop}, {ToLineId, IntersectingStop, To} | Route], Dur + LastDur}</font>
+        |    end.
+        |  
+        |  
+        |  -spec spawn_get_route_calls([{stop(), pos_integer(), stop(), {atom(), [stop() | pos_integer()]}}], stop(), [{atom(), [stop() | pos_integer()]}], route(), [stop()], [{atom(), [stop() | pos_integer()]}]) -&gt; route() | none.
+        |  spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines) -&gt;
+<font color=red>     0..|    spawn_get_route_calls(Neighbors, To, ToLines, Route, VisitedStops, AllLines, 0).</font>
+        |  
+        |  -spec spawn_get_route_calls([{stop(), pos_integer(), stop(), {atom(), [stop() | pos_integer()]}}], stop(), [{atom(), [stop() | pos_integer()]}], route(), [stop()], [{atom(), [stop() | pos_integer()]}], non_neg_integer()) -&gt; route() | none.
+        |  spawn_get_route_calls([], _To, _ToLines, _Route, _VisitedStops, _AllLines, NoCalls) -&gt;
+<font color=red>     0..|    receive_route(NoCalls);</font>
+        |  spawn_get_route_calls([Neighbor|Neighbors], To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls) -&gt;
+<font color=red>     0..|    {From, Dur, Target, Line} = Neighbor,</font>
+<font color=red>     0..|    VisitedNeighbor = lists:member(From, VisitedStops),</font>
+<font color=red>     0..|    if</font>
+        |      not VisitedNeighbor -&gt;
+<font color=red>     0..|        Invoker = self(),</font>
+<font color=red>     0..|        UpdatedRouteSteps = case RouteSteps of</font>
+        |                              [] -&gt;
+<font color=red>     0..|                                [{Line, Target, From}];</font>
+        |                              _ -&gt;
+<font color=red>     0..|                                LastStep = lists:last(RouteSteps),</font>
+<font color=red>     0..|                                [{Line, Target, From} | case LastStep of</font>
+        |                                                          {Line, _, _} -&gt;
+<font color=red>     0..|                                                            lists:droplast(RouteSteps);</font>
+        |                                                          _ -&gt;
+<font color=red>     0..|                                                            RouteSteps</font>
+        |                                                        end]
+        |                            end,
+<font color=red>     0..|        spawn(fun() -&gt;</font>
+<font color=red>     0..|                get_route_concurrent(From, To, ToLines, {UpdatedRouteSteps, TotalDur + Dur}, VisitedStops, AllLines, Invoker)</font>
+        |              end
+        |             ),
+<font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls + 1);</font>
+        |      true -&gt;
+<font color=red>     0..|        spawn_get_route_calls(Neighbors, To, ToLines, {RouteSteps, TotalDur}, VisitedStops, AllLines, NoCalls)</font>
+        |    end.
+        |  
+        |  -spec receive_route(non_neg_integer()) -&gt; route() | none.
+        |  receive_route(NoCalls) -&gt;
+<font color=red>     0..|    receive_route(NoCalls, none).</font>
+        |  
+        |  -spec receive_route(non_neg_integer(), route() | none) -&gt; route() | none.
+<font color=red>     0..|  receive_route(0, Route) -&gt; Route;</font>
+        |  receive_route(NoCalls, Route) -&gt;
+<font color=red>     0..|    receive</font>
+        |      none -&gt;
+<font color=red>     0..|        receive_route(NoCalls-1, Route);</font>
+        |      {NewRouteSteps, NewDur} -&gt;
+<font color=red>     0..|        case Route of</font>
+        |          {_, Dur} -&gt;
+<font color=red>     0..|            if</font>
+        |              NewDur &lt; Dur -&gt;
+<font color=red>     0..|                receive_route(NoCalls-1, {NewRouteSteps, NewDur});</font>
+        |              true -&gt;
+<font color=red>     0..|                receive_route(NoCalls-1, Route)</font>
+        |            end;
+        |          none -&gt;
+<font color=red>     0..|            receive_route(NoCalls-1, {NewRouteSteps, NewDur})</font>
+        |        end
+        |    end.
+        |  
+        |  
+        |  %% [{FromLine, ToLine, IntersectingStop}]
+        |  -spec get_intersecting_lines([{atom(), [stop() | pos_integer()]}], [{atom(), [stop() | pos_integer()]}]) -&gt; [{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop()}].
+        |  get_intersecting_lines(FromLines, ToLines) -&gt;
+<font color=red>     0..|    get_intersecting_lines([{FromLine, ToLine, get_intersection(FromLine, ToLine)} || FromLine &lt;- FromLines, ToLine &lt;- ToLines, FromLine /= ToLine]).</font>
+        |  
+        |  -spec get_intersecting_lines([{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop()}]) -&gt; [{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop()}].
+<font color=red>     0..|  get_intersecting_lines([]) -&gt; [];</font>
+        |  get_intersecting_lines([{_,_,none}|IntersectingLines]) -&gt;
+<font color=red>     0..|    get_intersecting_lines(IntersectingLines);</font>
+        |  get_intersecting_lines([IntersectingLine|IntersectingLines]) -&gt;
+<font color=red>     0..|    [IntersectingLine|get_intersecting_lines(IntersectingLines)].</font>
+        |  
+        |  
+        |  -spec get_best_intersecting_lines([{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}]) -&gt; {{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}.
+        |  get_best_intersecting_lines([IntersectingLineWithDuration|IntersectingLinesWithDurations]) -&gt;
+<font color=red>     0..|    get_best_intersecting_lines(IntersectingLinesWithDurations, IntersectingLineWithDuration).</font>
+        |  
+        |  -spec get_best_intersecting_lines([{{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}], {{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}) -&gt; {{atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}, stop(), pos_integer()}.
+<font color=red>     0..|  get_best_intersecting_lines([], BestIntersectingLines) -&gt; BestIntersectingLines;</font>
+        |  get_best_intersecting_lines([{FromLine, ToLine, IntersectingStop, Dur}|IntersectingLinesWithDurations], {BestFromLine, BestToLine, BestIntersectingStop, BestDur}) -&gt;
+<font color=red>     0..|    if</font>
+        |      Dur &lt; BestDur -&gt;
+<font color=red>     0..|        get_best_intersecting_lines(IntersectingLinesWithDurations, {FromLine, ToLine, IntersectingStop, Dur});</font>
+        |      true -&gt;
+<font color=red>     0..|        get_best_intersecting_lines(IntersectingLinesWithDurations, {BestFromLine, BestToLine, BestIntersectingStop, BestDur})</font>
+        |    end.
+        |  
+        |  
+        |  -spec get_next_stop_helper(stop(), pre | post, [stop() | pos_integer()]) -&gt; {stop(), pos_integer()} | none.
+<font color=red>     0..|  get_next_stop_helper(_Stop, _, [_|[]]) -&gt; none; %%TODO ERROR log, since vehicles should always turn around when they arrive at their end stations. There should always be a next stop.</font>
+        |  get_next_stop_helper(Stop, pre, [NextStop|[Dur|[Stop|_]]]) -&gt;
+<font color=red>     0..|    {NextStop, Dur};</font>
+        |  get_next_stop_helper(Stop, post, [Stop|[Dur|[NextStop|_]]]) -&gt;
+<font color=red>     0..|    {NextStop, Dur};</font>
+        |  get_next_stop_helper(Stop, Alignment, [_S|[_Dur|Stops]]) -&gt;
+<font color=red>     0..|    get_next_stop_helper(Stop, Alignment, Stops).</font>
+        |  
+        |  
+        |  -spec get_neighbors(atom(), [stop() | pos_integer()], stop()) -&gt; [{stop(), pos_integer(), stop(), atom()}].
+        |  get_neighbors(LineId, LineStops, Stop) -&gt;
+<font color=red>     0..|    {BeforeStop, [Stop|AfterStop]} = lists:splitwith(fun(X) -&gt; X /= Stop end, LineStops),</font>
+<font color=red>     0..|    N1 = case BeforeStop of</font>
+        |           [FirstTarget|_] -&gt;
+<font color=red>     0..|             FirstNeighbor = lists:last(lists:droplast(BeforeStop)),</font>
+<font color=red>     0..|             [{FirstNeighbor, lists:last(BeforeStop), FirstTarget, LineId}];</font>
+        |           [] -&gt;
+<font color=red>     0..|             []</font>
+        |         end,
+<font color=red>     0..|    N2 = case AfterStop of</font>
+        |           [SecondDur|[SecondNeighbor|_]] -&gt;
+<font color=red>     0..|             [{SecondNeighbor, SecondDur, lists:last(AfterStop), LineId}];</font>
+        |           [] -&gt;
+<font color=red>     0..|             []</font>
+        |         end,
+<font color=red>     0..|    N1 ++ N2.</font>
+        |  
+        |  
+        |  -spec get_duration(stop(), stop(), [stop() | pos_integer()]) -&gt; pos_integer().
+        |  get_duration(FromStop, ToStop, Stops) -&gt;
+<font color=red>     0..|    get_duration(FromStop, ToStop, false, Stops).</font>
+        |  
+        |  -spec get_duration(stop(), stop(), boolean(), [stop() | pos_integer()]) -&gt; non_neg_integer().
+<font color=red>     0..|  get_duration(_FromStop, ToStop, true, [ToStop|_Stops]) -&gt; 0;</font>
+<font color=red>     0..|  get_duration(FromStop, _ToStop, true, [FromStop|_Stops]) -&gt; 0;</font>
+        |  get_duration(FromStop, ToStop, _OnPath, [FromStop|[Dur|Stops]]) -&gt;
+<font color=red>     0..|    Dur + get_duration(FromStop, ToStop, true, Stops);</font>
+        |  get_duration(FromStop, ToStop, _OnPath, [ToStop|[Dur|Stops]]) -&gt;
+<font color=red>     0..|    Dur + get_duration(FromStop, ToStop, true, Stops);</font>
+        |  get_duration(FromStop, ToStop, OnPath, [_S|[Dur|Stops]]) -&gt;
+<font color=red>     0..|    case OnPath of</font>
+        |      true -&gt;
+<font color=red>     0..|        Dur + get_duration(FromStop, ToStop, true, Stops);</font>
+        |      false -&gt;
+<font color=red>     0..|        get_duration(FromStop, ToStop, false, Stops)</font>
+        |    end.
+        |  
+        |  
+        |  -spec get_target(stop(), stop(), [stop() | pos_integer()]) -&gt; stop().
+        |  get_target(FromStop, ToStop, [FirstEnd|[_|Stops]]) -&gt;
+<font color=red>     0..|    get_target(FromStop, ToStop, FirstEnd, lists:filter(fun(Stop) -&gt; not is_integer(Stop) end, Stops)).</font>
+        |  
+        |  -spec get_target(stop(), stop(), stop(), [stop() | pos_integer()]) -&gt; stop().
+        |  get_target(FromStop, _ToStop, FromStop, Stops) -&gt;
+<font color=red>     0..|    lists:last(Stops);</font>
+        |  get_target(FromStop, ToStop, FirstEnd, [Stop|Stops]) -&gt;
+<font color=red>     0..|    case Stop of</font>
+        |      FromStop -&gt;
+<font color=red>     0..|        lists:last(Stops);</font>
+        |      ToStop -&gt;
+<font color=red>     0..|        FirstEnd;</font>
+        |      Stop -&gt;
+<font color=red>     0..|        get_target(FromStop, ToStop, FirstEnd, Stops)</font>
+        |    end.
+        |  
+        |  
+        |  -spec get_intersection({atom(), [stop() | pos_integer()]}, {atom(), [stop() | pos_integer()]}) -&gt; stop() | none
+        |        ;               ([stop() | pos_integer()], [stop() | pos_integer()]) -&gt; stop() | none.
+        |  get_intersection({_, FirstLineStops}, {_, SecondLineStops}) -&gt;
+<font color=red>     0..|    get_intersection(FirstLineStops, SecondLineStops);</font>
+        |  get_intersection(FirstLineStops, [Stop|[]]) -&gt;
+<font color=red>     0..|    ContainsStop = lists:member(Stop, FirstLineStops),</font>
+<font color=red>     0..|    case ContainsStop of</font>
+        |      true -&gt;
+<font color=red>     0..|        Stop;</font>
+        |      false -&gt;
+<font color=red>     0..|        none</font>
+        |    end;
+        |  get_intersection(FirstLineStops, [Stop|[_Dur|Rest]]) -&gt;
+<font color=red>     0..|    ContainsStop = lists:member(Stop, FirstLineStops),</font>
+<font color=red>     0..|    case ContainsStop of</font>
+        |      true -&gt;
+<font color=red>     0..|        Stop;</font>
+        |      false -&gt;
+<font color=red>     0..|        get_intersection(FirstLineStops, Rest)</font>
+        |    end.
+</pre>
+</body>
+</html>

@@ -1,0 +1,56 @@
+=== Suite started at 2016-08-15 18:28:45
+=== Starting test, 4 test cases
+=cases         4
+=user          travis
+=host          testing-worker-linux-docker-6740e2fe-3433-linux-3
+=hosts         testing-worker-linux-docker-6740e2fe-3433-linux-3 
+=emulator_vsn  7.2.1
+=emulator      beam
+=otp_release   18
+=started       2016-08-15 18:28:45
+=case          ct_framework:init_per_suite
+=logfile       ct_framework.init_per_suite.html
+=group_props   [{suite,weather_controller_SUITE}]
+=started       2016-08-15 18:28:45
+=ended         2016-08-15 18:28:45
+=result        ok
+=elapsed       0.0
+=case          weather_controller_SUITE:coastal_case
+=logfile       weather_controller_suite.coastal_case.html
+=started       2016-08-15 18:28:45
+=ended         2016-08-15 18:28:45
+=result        ok
+=elapsed       0.063703
+=case          weather_controller_SUITE:inland_case
+=logfile       weather_controller_suite.inland_case.html
+=started       2016-08-15 18:28:45
+=ended         2016-08-15 18:28:45
+=result        ok
+=elapsed       0.058909
+=case          weather_controller_SUITE:northern_case
+=logfile       weather_controller_suite.northern_case.html
+=started       2016-08-15 18:28:45
+=ended         2016-08-15 18:28:45
+=result        ok
+=elapsed       0.058294
+=case          weather_controller_SUITE:southern_case
+=logfile       weather_controller_suite.southern_case.html
+=started       2016-08-15 18:28:45
+=ended         2016-08-15 18:28:45
+=result        ok
+=elapsed       0.059167
+=case          ct_framework:end_per_suite
+=logfile       ct_framework.end_per_suite.html
+=group_props   [{suite,weather_controller_SUITE}]
+=started       2016-08-15 18:28:45
+=ended         2016-08-15 18:28:45
+=result        ok
+=elapsed       0.0
+=group_time    0.399s
+=== TEST COMPLETE, 4 ok, 0 failed of 4 test cases
+
+=finished      2016-08-15 18:28:45
+=failed        0
+=successful    4
+=user_skipped  0
+=auto_skipped  0

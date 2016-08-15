@@ -76,7 +76,6 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
   UpdateInterval = State#weather_controller_state.updateInterval,
   UpdatedState = if
                    Time - State#weather_controller_state.lastChange >= UpdateInterval ->
-                     %% Change weather if should be done
                      Climate = State#weather_controller_state.climate,
                      Stats = case Climate of
                                coastal  -> ?COASTAL_STATS;
@@ -84,11 +83,12 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                                northern -> ?NORTHERN_STATS;
                                southern -> ?SOUTHERN_STATS
                              end,
-                     {{Year, Month, _}, _} = calendar:gregorian_seconds_to_datetime(Time),
-                     IsSnowing = is_snowing(Year, Month, UpdateInterval, Stats),
+                     {{Year, Month, _}, {Hour, _, _}} = calendar:gregorian_seconds_to_datetime(Time),
+                     MonthlyStats = lists:nth(Month, Stats),
+                     IsSnowing = is_snowing(Year, Month, UpdateInterval, MonthlyStats),
                      IsRaining = if
                                    not IsSnowing ->
-                                     is_raining(Year, Month, UpdateInterval, Stats);
+                                     is_raining(Year, Month, UpdateInterval, MonthlyStats);
                                    true ->
                                      false
                                  end,
@@ -100,7 +100,7 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                        true ->
                          ets:insert(?MODULE, {type, sunny})
                      end,
-                     %% Change temp according to statistical temp and time of day
+                     ets:insert(?MODULE, {temp, calculate_temp(Hour, MonthlyStats)}),
                      State#weather_controller_state{lastChange=Time};
                    true ->
                      State
@@ -125,16 +125,14 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
--spec is_snowing(non_neg_integer(), 1..12, pos_integer(), [monthly_stats()]) -> boolean().
-is_snowing(Year, Month, UpdateInterval, Stats) ->
-  MonthyStats = lists:nth(Month, Stats),
-  is_downpour(Year, Month, UpdateInterval, MonthyStats#monthly_stats.snowDays).
+-spec is_snowing(non_neg_integer(), 1..12, pos_integer(), monthly_stats()) -> boolean().
+is_snowing(Year, Month, UpdateInterval, MonthlyStats) ->
+  is_downpour(Year, Month, UpdateInterval, MonthlyStats#monthly_stats.snowDays).
 
 
--spec is_raining(non_neg_integer(), 1..12, pos_integer(), [monthly_stats()]) -> boolean().
-is_raining(Year, Month, UpdateInterval, Stats) ->
-  MonthyStats = lists:nth(Month, Stats),
-  is_downpour(Year, Month, UpdateInterval, MonthyStats#monthly_stats.rainDays).
+-spec is_raining(non_neg_integer(), 1..12, pos_integer(), monthly_stats()) -> boolean().
+is_raining(Year, Month, UpdateInterval, MonthlyStats) ->
+  is_downpour(Year, Month, UpdateInterval, MonthlyStats#monthly_stats.rainDays).
 
 
 -spec is_downpour(non_neg_integer(), 1..12, pos_integer(), non_neg_integer()) -> boolean().
@@ -142,3 +140,14 @@ is_downpour(Year, Month, UpdateInterval, DownpourDays) ->
   Percentage = round(DownpourDays / calendar:last_day_of_the_month(Year, Month) / (86400/UpdateInterval) * 100),
   X = rand:uniform(101) - 1,
   X < Percentage.
+
+-spec calculate_temp(non_neg_integer(), monthly_stats()) -> integer().
+calculate_temp(Hour, MonthlyStats) ->
+  MaxTemp = MonthlyStats#monthly_stats.maxTemp,
+  MinTemp = MonthlyStats#monthly_stats.minTemp,
+  MedianTemp = MaxTemp - ((MaxTemp - MinTemp) div 2),
+  SunHours = MonthlyStats#monthly_stats.sunHours,
+  PreSunTemps = lists:map(fun(T) -> rand:uniform(MedianTemp - T) + T end, lists:duplicate(MinTemp, 12-SunHours)),
+  SunTemps = lists:map(fun(T) -> rand:uniform(T - MedianTemp) + T end, lists:duplicate(MaxTemp, SunHours)),
+  PostSunTemps = lists:map(fun(T) -> rand:uniform(MedianTemp - T) + T end, lists:duplicate(MinTemp, 24-(12-SunHours))),
+  lists:nth(Hour + 1, PreSunTemps ++ SunTemps ++ PostSunTemps).

@@ -1,79 +1,27 @@
---- Test run on 2016/08/15 18:28:47 ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Unexpected I/O log</title>
+<meta http-equiv="cache-control" content="no-cache"></meta>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"></meta>
+<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link>
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
 
-=PROGRESS REPORT==== 15-Aug-2016::18:28:47 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.40.0>},
-                       {id,alarm_handler},
-                       {mfargs,{alarm_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
+<br />
+<h3>Unexpected I/O</h3>
+<pre>
 
-=PROGRESS REPORT==== 15-Aug-2016::18:28:47 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.41.0>},
-                       {id,overload},
-                       {mfargs,{overload,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 15-Aug-2016::18:28:47 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.39.0>},
-                       {id,sasl_safe_sup},
-                       {mfargs,
-                           {supervisor,start_link,
-                               [{local,sasl_safe_sup},sasl,safe]}},
-                       {restart_type,permanent},
-                       {shutdown,infinity},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 15-Aug-2016::18:28:47 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.42.0>},
-                       {id,release_handler},
-                       {mfargs,{release_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 15-Aug-2016::18:28:47 ===
-         application: sasl
-          started_at: 'test@testing-worker-linux-docker-de75ee26-3494-linux-11'
-Converting "/home/travis/build/SoamJaws/wErld/." to "/home/travis/build/SoamJaws/wErld" and re-inserting with add_patha/1
-
-
-Common Test v1.12 starting (cwd is /home/travis/build/SoamJaws/wErld)
-
-
-Common Test: Running make in test directories...
-Including the following directories:
-"/home/travis/build/SoamJaws/wErld/include"
-Recompile: weather_controller_SUITE
-
-CWD set to: "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-de75ee26-3494-linux-11.2016-08-15_18.28.47"
-
-TEST INFO: 1 test(s), 4 case(s) in 1 suite(s)
-
-Cover compiling 'wErld' (13 files) - this may take some time... done
-
-Testing test.client: Starting test, 4 test cases
-
-=PROGRESS REPORT==== 15-Aug-2016::18:28:48 ===
-          supervisor: {<0.220.0>,client_supervisor}
-             started: [{pid,<0.221.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,coastal,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:coastal_case/1 2016-08-15 18:28:48.461 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:28:48 ===
-** Generic server <0.220.0> terminating 
-** Last message in was {'EXIT',<0.217.0>,
-                               {#Ref<0.0.1.409>,114356,
+** Generic server &lt;0.220.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.217.0&gt;,
+                               {#Ref&lt;0.0.1.409&gt;,114356,
                                 [{{{2016,8,16},{18,28,48}},sunny,15},
                                  {{{2016,8,17},{18,28,48}},sunny,14},
                                  {{{2016,8,18},{18,28,48}},sunny,14},
@@ -442,9 +390,9 @@ Testing test.client: Starting test, 4 test cases
                                 [{weather_controller_SUITE,coastal_case}],
                                 []}}
 ** When Server state == {state,
-                            {<0.220.0>,client_supervisor},
+                            {&lt;0.220.0&gt;,client_supervisor},
                             one_for_one,
-                            [{child,<0.221.0>,weather_controller,
+                            [{child,&lt;0.221.0&gt;,weather_controller,
                                  {weather_controller,start_link,
                                      [city,coastal,5]},
                                  permanent,1000,worker,
@@ -452,7 +400,7 @@ Testing test.client: Starting test, 4 test cases
                             undefined,0,1,[],0,client_supervisor,
                             {city,coastal,5}}
 ** Reason for termination == 
-** {#Ref<0.0.1.409>,114356,
+** {#Ref&lt;0.0.1.409&gt;,114356,
     [{{{2016,8,16},{18,28,48}},sunny,15},
      {{{2016,8,17},{18,28,48}},sunny,14},
      {{{2016,8,18},{18,28,48}},sunny,14},
@@ -821,12 +769,17 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,coastal_case}],
     []}
 
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:coastal_case/1 2016-08-15 18:28:48.478 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:28:48 ===
   crasher:
     initial call: supervisor:client_supervisor/1
-    pid: <0.220.0>
+    pid: &lt;0.220.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.1.409>,114356,
+    exception exit: {#Ref&lt;0.0.1.409&gt;,114356,
                      [{{{2016,8,16},{18,28,48}},sunny,15},
                       {{{2016,8,17},{18,28,48}},sunny,14},
                       {{{2016,8,18},{18,28,48}},sunny,14},
@@ -1195,7 +1148,7 @@ Testing test.client: Starting test, 4 test cases
                      [{weather_controller_SUITE,coastal_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.217.0>]
+    ancestors: [&lt;0.217.0&gt;]
     messages: []
     links: []
     dictionary: []
@@ -1206,20 +1159,15 @@ Testing test.client: Starting test, 4 test cases
     reductions: 843
   neighbours:
 
-=PROGRESS REPORT==== 15-Aug-2016::18:28:48 ===
-          supervisor: {<0.228.0>,client_supervisor}
-             started: [{pid,<0.229.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,inland,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:inland_case/1 2016-08-15 18:28:48.618 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:28:48 ===
-** Generic server <0.228.0> terminating 
-** Last message in was {'EXIT',<0.225.0>,
-                               {#Ref<0.0.1.577>,109725,
+** Generic server &lt;0.228.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.225.0&gt;,
+                               {#Ref&lt;0.0.1.577&gt;,109725,
                                 [{{{2016,8,16},{18,28,48}},sunny,10},
                                  {{{2016,8,17},{18,28,48}},sunny,10},
                                  {{{2016,8,18},{18,28,48}},sunny,11},
@@ -1588,9 +1536,9 @@ Testing test.client: Starting test, 4 test cases
                                 [{weather_controller_SUITE,inland_case}],
                                 []}}
 ** When Server state == {state,
-                            {<0.228.0>,client_supervisor},
+                            {&lt;0.228.0&gt;,client_supervisor},
                             one_for_one,
-                            [{child,<0.229.0>,weather_controller,
+                            [{child,&lt;0.229.0&gt;,weather_controller,
                                  {weather_controller,start_link,
                                      [city,inland,5]},
                                  permanent,1000,worker,
@@ -1598,7 +1546,7 @@ Testing test.client: Starting test, 4 test cases
                             undefined,0,1,[],0,client_supervisor,
                             {city,inland,5}}
 ** Reason for termination == 
-** {#Ref<0.0.1.577>,109725,
+** {#Ref&lt;0.0.1.577&gt;,109725,
     [{{{2016,8,16},{18,28,48}},sunny,10},
      {{{2016,8,17},{18,28,48}},sunny,10},
      {{{2016,8,18},{18,28,48}},sunny,11},
@@ -1967,12 +1915,17 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,inland_case}],
     []}
 
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:inland_case/1 2016-08-15 18:28:48.639 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:28:48 ===
   crasher:
     initial call: supervisor:client_supervisor/1
-    pid: <0.228.0>
+    pid: &lt;0.228.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.1.577>,109725,
+    exception exit: {#Ref&lt;0.0.1.577&gt;,109725,
                      [{{{2016,8,16},{18,28,48}},sunny,10},
                       {{{2016,8,17},{18,28,48}},sunny,10},
                       {{{2016,8,18},{18,28,48}},sunny,11},
@@ -2341,7 +2294,7 @@ Testing test.client: Starting test, 4 test cases
                      [{weather_controller_SUITE,inland_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.225.0>]
+    ancestors: [&lt;0.225.0&gt;]
     messages: []
     links: []
     dictionary: []
@@ -2352,20 +2305,15 @@ Testing test.client: Starting test, 4 test cases
     reductions: 835
   neighbours:
 
-=PROGRESS REPORT==== 15-Aug-2016::18:28:48 ===
-          supervisor: {<0.235.0>,client_supervisor}
-             started: [{pid,<0.236.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,northern,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:northern_case/1 2016-08-15 18:28:48.788 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:28:48 ===
-** Generic server <0.235.0> terminating 
-** Last message in was {'EXIT',<0.232.0>,
-                               {#Ref<0.0.1.721>,117591,
+** Generic server &lt;0.235.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.232.0&gt;,
+                               {#Ref&lt;0.0.1.721&gt;,117591,
                                 [{{{2016,8,16},{18,28,48}},sunny,12},
                                  {{{2016,8,17},{18,28,48}},sunny,12},
                                  {{{2016,8,18},{18,28,48}},sunny,13},
@@ -2734,9 +2682,9 @@ Testing test.client: Starting test, 4 test cases
                                 [{weather_controller_SUITE,northern_case}],
                                 []}}
 ** When Server state == {state,
-                            {<0.235.0>,client_supervisor},
+                            {&lt;0.235.0&gt;,client_supervisor},
                             one_for_one,
-                            [{child,<0.236.0>,weather_controller,
+                            [{child,&lt;0.236.0&gt;,weather_controller,
                                  {weather_controller,start_link,
                                      [city,northern,5]},
                                  permanent,1000,worker,
@@ -2744,7 +2692,7 @@ Testing test.client: Starting test, 4 test cases
                             undefined,0,1,[],0,client_supervisor,
                             {city,northern,5}}
 ** Reason for termination == 
-** {#Ref<0.0.1.721>,117591,
+** {#Ref&lt;0.0.1.721&gt;,117591,
     [{{{2016,8,16},{18,28,48}},sunny,12},
      {{{2016,8,17},{18,28,48}},sunny,12},
      {{{2016,8,18},{18,28,48}},sunny,13},
@@ -3113,12 +3061,17 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,northern_case}],
     []}
 
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:northern_case/1 2016-08-15 18:28:48.807 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:28:48 ===
   crasher:
     initial call: supervisor:client_supervisor/1
-    pid: <0.235.0>
+    pid: &lt;0.235.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.1.721>,117591,
+    exception exit: {#Ref&lt;0.0.1.721&gt;,117591,
                      [{{{2016,8,16},{18,28,48}},sunny,12},
                       {{{2016,8,17},{18,28,48}},sunny,12},
                       {{{2016,8,18},{18,28,48}},sunny,13},
@@ -3487,7 +3440,7 @@ Testing test.client: Starting test, 4 test cases
                      [{weather_controller_SUITE,northern_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.232.0>]
+    ancestors: [&lt;0.232.0&gt;]
     messages: []
     links: []
     dictionary: []
@@ -3498,20 +3451,15 @@ Testing test.client: Starting test, 4 test cases
     reductions: 835
   neighbours:
 
-=PROGRESS REPORT==== 15-Aug-2016::18:28:48 ===
-          supervisor: {<0.242.0>,client_supervisor}
-             started: [{pid,<0.243.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,southern,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:southern_case/1 2016-08-15 18:28:48.928 ***</b>
 
 =ERROR REPORT==== 15-Aug-2016::18:28:48 ===
-** Generic server <0.242.0> terminating 
-** Last message in was {'EXIT',<0.239.0>,
-                               {#Ref<0.0.1.835>,103078,
+** Generic server &lt;0.242.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.239.0&gt;,
+                               {#Ref&lt;0.0.1.835&gt;,103078,
                                 [{{{2016,8,16},{18,28,48}},sunny,16},
                                  {{{2016,8,17},{18,28,48}},sunny,13},
                                  {{{2016,8,18},{18,28,48}},sunny,16},
@@ -3880,9 +3828,9 @@ Testing test.client: Starting test, 4 test cases
                                 [{weather_controller_SUITE,southern_case}],
                                 []}}
 ** When Server state == {state,
-                            {<0.242.0>,client_supervisor},
+                            {&lt;0.242.0&gt;,client_supervisor},
                             one_for_one,
-                            [{child,<0.243.0>,weather_controller,
+                            [{child,&lt;0.243.0&gt;,weather_controller,
                                  {weather_controller,start_link,
                                      [city,southern,5]},
                                  permanent,1000,worker,
@@ -3890,7 +3838,7 @@ Testing test.client: Starting test, 4 test cases
                             undefined,0,1,[],0,client_supervisor,
                             {city,southern,5}}
 ** Reason for termination == 
-** {#Ref<0.0.1.835>,103078,
+** {#Ref&lt;0.0.1.835&gt;,103078,
     [{{{2016,8,16},{18,28,48}},sunny,16},
      {{{2016,8,17},{18,28,48}},sunny,13},
      {{{2016,8,18},{18,28,48}},sunny,16},
@@ -4259,12 +4207,17 @@ Testing test.client: Starting test, 4 test cases
     [{weather_controller_SUITE,southern_case}],
     []}
 
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:southern_case/1 2016-08-15 18:28:48.946 ***</b>
+
 =CRASH REPORT==== 15-Aug-2016::18:28:48 ===
   crasher:
     initial call: supervisor:client_supervisor/1
-    pid: <0.242.0>
+    pid: &lt;0.242.0&gt;
     registered_name: []
-    exception exit: {#Ref<0.0.1.835>,103078,
+    exception exit: {#Ref&lt;0.0.1.835&gt;,103078,
                      [{{{2016,8,16},{18,28,48}},sunny,16},
                       {{{2016,8,17},{18,28,48}},sunny,13},
                       {{{2016,8,18},{18,28,48}},sunny,16},
@@ -4633,7 +4586,7 @@ Testing test.client: Starting test, 4 test cases
                      [{weather_controller_SUITE,southern_case}],
                      []}
       in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.239.0>]
+    ancestors: [&lt;0.239.0&gt;]
     messages: []
     links: []
     dictionary: []
@@ -4643,10 +4596,19 @@ Testing test.client: Starting test, 4 test cases
     stack_size: 27
     reductions: 835
   neighbours:
-Testing test.client: TEST COMPLETE, 4 ok, 0 failed of 4 test cases
 
-Cover analysing... done
-
-Updating /home/travis/build/SoamJaws/wErld/test/logs/index.html... done
-Updating /home/travis/build/SoamJaws/wErld/test/logs/all_runs.html... done
-
+</pre></div>
+<pre>
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!--date-->Mon Aug 15 2016 18:28:48<!--/date--><br />
+</div>
+</center>
+</body>
+</html>

@@ -5,7 +5,7 @@
 -export([init/1]).
 
 start_link(StopIds, LineSpecs) ->
-    supervisor:start_link(public_transport_supervisor, {StopIds, LineSpecs}).
+    supervisor:start_link(?MODULE, {StopIds, LineSpecs}).
 
 init({StopIds, LineSpecs}) ->
   SupFlags = {one_for_one, 0, 1},

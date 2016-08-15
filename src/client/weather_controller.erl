@@ -34,11 +34,11 @@
 
 %% Time subscriber
 
--spec ?NEW_TIME({global, weather_controller}, time()) -> ok.
+-spec ?NEW_TIME(gen_address(), time()) -> ok.
 ?NEW_TIME(Address, Time) ->
   ?NEW_TIME(Address, Time, false).
 
--spec ?NEW_TIME({global, weather_controller}, time(), boolean()) -> ok.
+-spec ?NEW_TIME(gen_address(), time(), boolean()) -> ok.
 ?NEW_TIME(Address, Time, BlockCaller) ->
   gen_server_utils:cast(Address, {?NEW_TIME, Time}, BlockCaller).
 
@@ -47,7 +47,7 @@
 
 -spec start_link(atom(), climate_type(), pos_integer()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
 start_link(City, Climate, UpdateInterval) ->
-  gen_server:start_link(?MODULE, {City, Climate, UpdateInterval}, []).
+  gen_server:start_link({global, ?MODULE}, ?MODULE, {City, Climate, UpdateInterval}, []).
 
 
 -spec init({atom(), climate_type(), pos_integer()}) -> {ok, weather_controller_state()}.
@@ -85,22 +85,10 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                              end,
                      {{Year, Month, _}, {Hour, _, _}} = calendar:gregorian_seconds_to_datetime(Time),
                      MonthlyStats = lists:nth(Month, Stats),
-                     IsSnowing = is_snowing(Year, Month, UpdateInterval, MonthlyStats),
-                     IsRaining = if
-                                   not IsSnowing ->
-                                     is_raining(Year, Month, UpdateInterval, MonthlyStats);
-                                   true ->
-                                     false
-                                 end,
-                     if
-                       IsSnowing ->
-                         ets:insert(?MODULE, {type, snowy});
-                       IsRaining ->
-                         ets:insert(?MODULE, {type, rainy});
-                       true ->
-                         ets:insert(?MODULE, {type, sunny})
-                     end,
-                     ets:insert(?MODULE, {temp, calculate_temp(Hour, MonthlyStats)}),
+                     % If sunny, should it start to snow or rain?
+                     % If rainy/snowy, should it stop?
+                     Temp = calculate_temp(Hour, MonthlyStats),
+                     ets:insert(?MODULE, {temp, Temp}),
                      State#weather_controller_state{lastChange=Time};
                    true ->
                      State
@@ -125,29 +113,31 @@ code_change(_OldVsn, State, _Extra) ->
 
 %% Backend
 
--spec is_snowing(non_neg_integer(), 1..12, pos_integer(), monthly_stats()) -> boolean().
-is_snowing(Year, Month, UpdateInterval, MonthlyStats) ->
-  is_downpour(Year, Month, UpdateInterval, MonthlyStats#monthly_stats.snowDays).
+-spec start_snow(non_neg_integer(), 1..12, pos_integer(), monthly_stats()) -> boolean().
+start_snow(Year, Month, UpdateInterval, MonthlyStats) ->
+  start_downpour(Year, Month, UpdateInterval, MonthlyStats#monthly_stats.snowDays).
 
 
--spec is_raining(non_neg_integer(), 1..12, pos_integer(), monthly_stats()) -> boolean().
-is_raining(Year, Month, UpdateInterval, MonthlyStats) ->
-  is_downpour(Year, Month, UpdateInterval, MonthlyStats#monthly_stats.rainDays).
+-spec start_rain(non_neg_integer(), 1..12, pos_integer(), monthly_stats()) -> boolean().
+start_rain(Year, Month, UpdateInterval, MonthlyStats) ->
+  start_downpour(Year, Month, UpdateInterval, MonthlyStats#monthly_stats.rainDays).
 
 
--spec is_downpour(non_neg_integer(), 1..12, pos_integer(), non_neg_integer()) -> boolean().
-is_downpour(Year, Month, UpdateInterval, DownpourDays) ->
-  Percentage = round(DownpourDays / calendar:last_day_of_the_month(Year, Month) / (86400/UpdateInterval) * 100),
-  X = rand:uniform(101) - 1,
+-spec start_downpour(non_neg_integer(), 1..12, pos_integer(), non_neg_integer()) -> boolean().
+start_downpour(Year, Month, UpdateInterval, DownpourDays) ->
+  Percentage = DownpourDays / calendar:last_day_of_the_month(Year, Month) / (86400/UpdateInterval) * 100,
+  X = rand_utils:uniform(0, 101),
   X < Percentage.
 
--spec calculate_temp(non_neg_integer(), monthly_stats()) -> integer().
+-spec calculate_temp(0..23, monthly_stats()) -> integer().
 calculate_temp(Hour, MonthlyStats) ->
   MaxTemp = MonthlyStats#monthly_stats.maxTemp,
   MinTemp = MonthlyStats#monthly_stats.minTemp,
   MedianTemp = MaxTemp - ((MaxTemp - MinTemp) div 2),
   SunHours = MonthlyStats#monthly_stats.sunHours,
-  PreSunTemps = lists:map(fun(T) -> rand:uniform(MedianTemp - T) + T end, lists:duplicate(MinTemp, 12-SunHours)),
-  SunTemps = lists:map(fun(T) -> rand:uniform(T - MedianTemp) + T end, lists:duplicate(MaxTemp, SunHours)),
-  PostSunTemps = lists:map(fun(T) -> rand:uniform(MedianTemp - T) + T end, lists:duplicate(MinTemp, 24-(12-SunHours))),
+  PreSunHours = (24-SunHours) div 2,
+  PostSunHours = 24 - PreSunHours - SunHours,
+  PreSunTemps = lists:map(fun(T) -> rand_utils:uniform(T, MedianTemp) end, lists:duplicate(PreSunHours, MinTemp)),
+  SunTemps = lists:map(fun(T) -> rand_utils:uniform(MedianTemp, T) end, lists:duplicate(SunHours, MaxTemp)),
+  PostSunTemps = lists:map(fun(T) -> rand_utils:uniform(T, MedianTemp) end, lists:duplicate(PostSunHours, MinTemp)),
   lists:nth(Hour + 1, PreSunTemps ++ SunTemps ++ PostSunTemps).

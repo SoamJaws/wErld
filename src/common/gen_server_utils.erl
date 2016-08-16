@@ -6,7 +6,7 @@
         , extract_module/1
         , extract_pid/1]).
 
--spec cast(pid() | {global, atom()}, tuple(), boolean()) -> ok.
+-spec cast(pid() | {global, atom()} | atom(), tuple(), boolean()) -> ok.
 cast(Address, Msg, BlockCaller) ->
   UpdatedMsg = if
                  is_tuple(Msg) ->

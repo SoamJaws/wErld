@@ -9,10 +9,10 @@
 -export([init/1]).
 
 start_link() ->
-  supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+  supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 start_stop(Id) ->
-  Result = supervisor:start_child({global, ?MODULE}, [Id]),
+  Result = supervisor:start_child(?MODULE, [Id]),
   case Result of
     {ok, Pid} ->
       ?ADDRESS(stop);
@@ -21,7 +21,7 @@ start_stop(Id) ->
   end.
 
 stop_stop(?ADDRESS_NO_ID(stop)) ->
-  supervisor:terminate_child({global, ?MODULE}, Pid).
+  supervisor:terminate_child(?MODULE, Pid).
   
 
 init(_Args) ->

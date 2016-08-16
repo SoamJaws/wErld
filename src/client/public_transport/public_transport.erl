@@ -22,7 +22,7 @@
 
 -spec ?GET_ROUTE(atom(), atom()) -> route() | none.
 ?GET_ROUTE(FromId, ToId) ->
-  gen_server:call({global, ?MODULE}, {?GET_ROUTE, FromId, ToId}).
+  gen_server:call(?MODULE, {?GET_ROUTE, FromId, ToId}).
 
 -spec ?GET_OTHER_END(atom(), pos_integer(), stop()) -> stop().
 ?GET_OTHER_END(VehicleType, LineNumber, Stop) ->
@@ -46,7 +46,7 @@
 
 -spec start_link([atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
 start_link(StopIds, LineSpecs) ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, {StopIds, LineSpecs}, []).
+  gen_server:start_link({local, ?MODULE}, ?MODULE, {StopIds, LineSpecs}, []).
 
 
 -spec init({[atom()], [{pos_integer(), [stop() | pos_integer()], vehicle_type()}]}) -> {ok, public_transport_state()}.

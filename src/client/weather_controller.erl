@@ -47,7 +47,7 @@
 
 -spec start_link(atom(), climate_type(), pos_integer()) -> {ok, pid()} | ignore | {error, {already_started, pid()} | any()}.
 start_link(City, Climate, UpdateInterval) ->
-  gen_server:start_link({global, ?MODULE}, ?MODULE, {City, Climate, UpdateInterval}, []).
+  gen_server:start_link({local, ?MODULE}, ?MODULE, {City, Climate, UpdateInterval}, []).
 
 
 -spec init({atom(), climate_type(), pos_integer()}) -> {ok, weather_controller_state()}.

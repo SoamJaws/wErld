@@ -33,7 +33,7 @@ init_per_testcase(Config) ->
   StartStop = gen_server_mock:start(stop, startstop, strict),
   TargetStop = gen_server_mock:start(stop, targetstop, strict),
   Time = gen_server_mock:start_global(time, time, strict),
-  PT = gen_server_mock:start_global(public_transport, public_transport, strict),
+  PT = gen_server_mock:start_local(public_transport, public_transport, strict),
   S1 = gen_server_mock:start(stop, s1, strict),
   P1 = gen_server_mock:start(citizen, p1, strict),
   P2 = gen_server_mock:start(citizen, p2, strict),

@@ -9,11 +9,11 @@
 -export([init/1]).
 
 start_link() ->
-  supervisor:start_link({global, ?MODULE}, ?MODULE, []).
+  supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 start_vehicle(Capacity, LineNumber, Target, Type) ->
   Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),
-  Result = supervisor:start_child({global, ?MODULE}, [Capacity, Id, LineNumber, Target, Type]),
+  Result = supervisor:start_child(?MODULE, [Capacity, Id, LineNumber, Target, Type]),
   case Result of
     {ok, Pid} ->
       ?ADDRESS(vehicle);
@@ -22,7 +22,7 @@ start_vehicle(Capacity, LineNumber, Target, Type) ->
   end.
 
 stop_vehicle(?ADDRESS_NO_ID(vehicle)) ->
-  supervisor:terminate_child({global, ?MODULE}, Pid).
+  supervisor:terminate_child(?MODULE, Pid).
   
 
 init(_Args) ->

@@ -7,6 +7,7 @@
 %% Public API
 -export([ start/3
         , start_global/3
+        , start_local/3
         , stop/1
         , state/1
         , expect_call/3
@@ -32,6 +33,10 @@ start(Module, Id, Type) ->
 
 start_global(Module, Id, Type) ->
   {ok, Pid} = gen_server:start({global, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
+  ?ADDRESS(Module).
+
+start_local(Module, Id, Type) ->
+  {ok, Pid} = gen_server:start({local, Id}, ?MODULE, #gen_server_mock_state{module=Module, id=Id, type=Type}, []),
   ?ADDRESS(Module).
 
 stop(?ADDRESS) ->

@@ -1,6 +1,7 @@
 -module(vehicle).
 -include("public_transport.hrl").
 -include("time.hrl").
+-include("weather.hrl").
 -behaviour(gen_server).
 -behaviour(time_subscriber).
 
@@ -101,8 +102,14 @@ handle_call({?PASSENGER_BOARD, Passenger}, _From, State) ->
 handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
   NewState = case State#vehicle_state.action of
                {driving, Stop, Duration} ->
+                 WeatherType = weather_controller:?GET_TYPE(),
+                 RealDuration = Duration + case WeatherType of
+                                             sunny -> 0;
+                                             rainy -> 1;
+                                             snowy -> 2
+                                           end,
                  if
-                   Time - State#vehicle_state.lastDeparture >= Duration ->
+                   Time - State#vehicle_state.lastDeparture >= RealDuration ->
                      UpdatedState = if
                                       Stop == State#vehicle_state.target ->
                                         LineNumber = State#vehicle_state.lineNumber,

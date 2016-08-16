@@ -49,9 +49,10 @@ run_test(Config, Type) ->
   UpdateInterval = ?config(updateInterval, Config),
   {ok, Supervisor} = client_supervisor:start_link(city, Type, UpdateInterval),
   [{weather_controller, Pid, _, _}] = supervisor:which_children(Supervisor),
-  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, {{weather_controller, weather_controller}, Pid}, false, Pid}),
+  WeatherController = {{weather_controller, weather_controller}, Pid},
+  gen_server_mock:expect_cast(Time, {?SUBSCRIBE, WeatherController, false, Pid}),
   lists:map(fun(Delta) ->
               CurrentTime = StartTime + Delta,
-              weather_controller:?NEW_TIME(Pid, CurrentTime, true),
+              weather_controller:?NEW_TIME(WeatherController, CurrentTime, true),
               {calendar:gregorian_seconds_to_datetime(CurrentTime), weather_controller:?GET_TYPE(), weather_controller:?GET_TEMP()}
             end, lists:seq(60*60, 60*60*24*365, 60*60)).

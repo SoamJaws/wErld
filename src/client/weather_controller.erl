@@ -35,12 +35,12 @@
 %% Time subscriber
 
 -spec ?NEW_TIME(gen_address(), time()) -> ok.
-?NEW_TIME(Address, Time) ->
-  ?NEW_TIME(Address, Time, false).
+?NEW_TIME(?RECIPENT, Time) ->
+  ?NEW_TIME(?RECIPENT, Time, false).
 
 -spec ?NEW_TIME(gen_address(), time(), boolean()) -> ok.
-?NEW_TIME(Address, Time, BlockCaller) ->
-  gen_server_utils:cast(Address, {?NEW_TIME, Time}, BlockCaller).
+?NEW_TIME(?RECIPENT_NO_ID, Time, BlockCaller) ->
+  gen_server_utils:cast(Pid, {?NEW_TIME, Time}, BlockCaller).
 
 
 %% gen_server

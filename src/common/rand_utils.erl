@@ -3,6 +3,6 @@
 
 -export([uniform/2]).
 
--spec uniform(pos_integer(), pos_integer()) -> pos_integer().
+-spec uniform(integer(), integer()) -> integer().
 uniform(Lo, Hi) ->
   crypto:rand_uniform(Lo, Hi).

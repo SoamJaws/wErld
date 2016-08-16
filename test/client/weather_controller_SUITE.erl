@@ -54,4 +54,4 @@ run_test(Config, Type) ->
               CurrentTime = StartTime + Delta,
               weather_controller:?NEW_TIME(Pid, CurrentTime, true),
               {calendar:gregorian_seconds_to_datetime(CurrentTime), weather_controller:?GET_TYPE(), weather_controller:?GET_TEMP()}
-            end, lists:seq(60*60*24, 60*60*24*365, 60*60*24)).
+            end, lists:seq(60*60, 60*60*24*365, 60*60)).

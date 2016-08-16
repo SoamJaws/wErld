@@ -61,6 +61,7 @@ init({City, Climate, UpdateInterval}) ->
   ets:insert(?MODULE, {temp, 20}),
   { ok, #weather_controller_state{ city=City
                                  , climate=Climate
+                                 , downpourUpdates=0
                                  , lastChange=Time
                                  , updateInterval=UpdateInterval
                                  } }.
@@ -85,11 +86,33 @@ handle_cast({?NEW_TIME, Time, NotifyCaller, Caller}, State) ->
                              end,
                      {{Year, Month, _}, {Hour, _, _}} = calendar:gregorian_seconds_to_datetime(Time),
                      MonthlyStats = lists:nth(Month, Stats),
-                     % If sunny, should it start to snow or rain?
-                     % If rainy/snowy, should it stop?
+                     CurrentType = ?GET_TYPE(),
+                     DownpourUpdates = State#weather_controller_state.downpourUpdates,
+                     NewType = case CurrentType of
+                                 sunny ->
+                                   StartSnow = start_snow(Year, Month, UpdateInterval, MonthlyStats),
+                                   StartRain = start_rain(Year, Month, UpdateInterval, MonthlyStats),
+                                   if
+                                     StartSnow -> snowy;
+                                     StartRain -> rainy;
+                                     true      -> sunny
+                                   end;
+                                 Downpour ->
+                                   StopDownpour = stop_downpour(DownpourUpdates),
+                                   if
+                                     StopDownpour -> sunny;
+                                     true         -> Downpour
+                                   end
+                               end,
+                     NewDownpourUpdates = case CurrentType of
+                                            sunny -> 0;
+                                            _     -> DownpourUpdates + 1
+                                          end,
                      Temp = calculate_temp(Hour, MonthlyStats),
                      ets:insert(?MODULE, {temp, Temp}),
-                     State#weather_controller_state{lastChange=Time};
+                     ets:insert(?MODULE, {type, NewType}),
+                     State#weather_controller_state{ lastChange=Time
+                                                   , downpourUpdates=NewDownpourUpdates};
                    true ->
                      State
                  end,
@@ -125,9 +148,15 @@ start_rain(Year, Month, UpdateInterval, MonthlyStats) ->
 
 -spec start_downpour(non_neg_integer(), 1..12, pos_integer(), non_neg_integer()) -> boolean().
 start_downpour(Year, Month, UpdateInterval, DownpourDays) ->
-  Percentage = DownpourDays / calendar:last_day_of_the_month(Year, Month) / (86400/UpdateInterval) * 100,
+  Percentage = DownpourDays / calendar:last_day_of_the_month(Year, Month) / (86400/UpdateInterval) * 2 * 100,
   X = rand_utils:uniform(0, 101),
   X < Percentage.
+
+
+-spec stop_downpour(pos_integer()) -> boolean().
+stop_downpour(DownpourUpdates) ->
+  X = rand_utils:uniform(0, 101),
+  X < DownpourUpdates.
 
 -spec calculate_temp(0..23, monthly_stats()) -> integer().
 calculate_temp(Hour, MonthlyStats) ->

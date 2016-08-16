@@ -8,7 +8,11 @@
         , boarding_passenger_capacity_reached_case/1
         , boarding_passenger_below_capacity_case/1
         , next_stop_reached_case/1
+        , next_stop_reached_snow_case/1
+        , next_stop_reached_rain_case/1
         , next_stop_not_reached_case/1
+        , next_stop_not_reached_snow_case/1
+        , next_stop_not_reached_rain_case/1
         , target_stop_reached_case/1
         , increment_boarding_passenger_case/1
         , new_time_not_driving_case/1]).
@@ -22,7 +26,11 @@ all() ->
   , boarding_passenger_capacity_reached_case
   , boarding_passenger_below_capacity_case
   , next_stop_reached_case
+  , next_stop_reached_snow_case
+  , next_stop_reached_rain_case
   , next_stop_not_reached_case
+  , next_stop_not_reached_snow_case
+  , next_stop_not_reached_rain_case
   , target_stop_reached_case
   , increment_boarding_passenger_case
   , new_time_not_driving_case
@@ -67,7 +75,11 @@ init_per_testcase(TestCase, Config) ->
                                             , new_time_not_driving_case
                                             ]),
   HasFourCapacity = lists:member(TestCase, [ next_stop_reached_case
+                                           , next_stop_reached_snow_case
+                                           , next_stop_reached_rain_case
                                            , next_stop_not_reached_case
+                                           , next_stop_not_reached_snow_case
+                                           , next_stop_not_reached_rain_case
                                            , target_stop_reached_case
                                            , increment_boarding_passenger_case
                                            ]),
@@ -206,6 +218,62 @@ next_stop_reached_case(Config) ->
   gen_server_mock:expect_cast(S1, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
   vehicle:?NEW_TIME(Vehicle, 1234+5, true).
 
+next_stop_reached_snow_case(Config) ->
+  StartStop = ?config(startstop, Config),
+  TargetStop = ?config(targetstop, Config),
+  Time = ?config(time, Config),
+  PT = ?config(pt, Config),
+  S1 = ?config(s1, Config),
+  P1 = ?config(p1, Config),
+  P2 = ?config(p2, Config),
+  P3 = ?config(p3, Config),
+  P4 = ?config(p4, Config),
+  Vehicle = ?config(vehicle, Config),
+
+  vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
+
+  gen_server_mock:expect_ets_lookup(public_transport, ?LINE_ID(bus, 1), [StartStop, 5, S1, 7, TargetStop]),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
+  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
+
+  gen_server_mock:expect_ets_lookup(weather_controller, type, snowy),
+  gen_server_mock:expect_call(P1, {vehicle_checked_in, Vehicle}, leave),
+  gen_server_mock:expect_call(P2, {vehicle_checked_in, Vehicle}, stay),
+  gen_server_mock:expect_call(P3, {vehicle_checked_in, Vehicle}, stay),
+  gen_server_mock:expect_cast(S1, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
+  vehicle:?NEW_TIME(Vehicle, 1234+7, true).
+
+next_stop_reached_rain_case(Config) ->
+  StartStop = ?config(startstop, Config),
+  TargetStop = ?config(targetstop, Config),
+  Time = ?config(time, Config),
+  PT = ?config(pt, Config),
+  S1 = ?config(s1, Config),
+  P1 = ?config(p1, Config),
+  P2 = ?config(p2, Config),
+  P3 = ?config(p3, Config),
+  P4 = ?config(p4, Config),
+  Vehicle = ?config(vehicle, Config),
+
+  vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
+
+  gen_server_mock:expect_ets_lookup(public_transport, ?LINE_ID(bus, 1), [StartStop, 5, S1, 7, TargetStop]),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
+  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
+
+  gen_server_mock:expect_ets_lookup(weather_controller, type, rainy),
+  gen_server_mock:expect_call(P1, {vehicle_checked_in, Vehicle}, leave),
+  gen_server_mock:expect_call(P2, {vehicle_checked_in, Vehicle}, stay),
+  gen_server_mock:expect_call(P3, {vehicle_checked_in, Vehicle}, stay),
+  gen_server_mock:expect_cast(S1, {?VEHICLE_CHECK_IN, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
+  vehicle:?NEW_TIME(Vehicle, 1234+6, true).
+
 next_stop_not_reached_case(Config) ->
   StartStop = ?config(startstop, Config),
   TargetStop = ?config(targetstop, Config),
@@ -229,7 +297,57 @@ next_stop_not_reached_case(Config) ->
 
   gen_server_mock:expect_ets_lookup(weather_controller, type, sunny),
 
-  vehicle:?NEW_TIME(Vehicle, 1234+2, true).
+  vehicle:?NEW_TIME(Vehicle, 1234+4, true).
+
+next_stop_not_reached_snow_case(Config) ->
+  StartStop = ?config(startstop, Config),
+  TargetStop = ?config(targetstop, Config),
+  Time = ?config(time, Config),
+  PT = ?config(pt, Config),
+  S1 = ?config(s1, Config),
+  P1 = ?config(p1, Config),
+  P2 = ?config(p2, Config),
+  P3 = ?config(p3, Config),
+  P4 = ?config(p4, Config),
+  Vehicle = ?config(vehicle, Config),
+
+  vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
+
+  gen_server_mock:expect_ets_lookup(public_transport, ?LINE_ID(bus, 1), [StartStop, 5, S1, 7, TargetStop]),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
+  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
+
+  gen_server_mock:expect_ets_lookup(weather_controller, type, snowy),
+
+  vehicle:?NEW_TIME(Vehicle, 1234+6, true).
+
+next_stop_not_reached_rain_case(Config) ->
+  StartStop = ?config(startstop, Config),
+  TargetStop = ?config(targetstop, Config),
+  Time = ?config(time, Config),
+  PT = ?config(pt, Config),
+  S1 = ?config(s1, Config),
+  P1 = ?config(p1, Config),
+  P2 = ?config(p2, Config),
+  P3 = ?config(p3, Config),
+  P4 = ?config(p4, Config),
+  Vehicle = ?config(vehicle, Config),
+
+  vehicle:?CHECKIN_OK(Vehicle, StartStop, 3, true),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P1), ok),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P2), ok),
+
+  gen_server_mock:expect_ets_lookup(public_transport, ?LINE_ID(bus, 1), [StartStop, 5, S1, 7, TargetStop]),
+  gen_server_mock:expect_ets_lookup(time, time, 1234),
+  gen_server_mock:expect_cast(StartStop, {?VEHICLE_CHECK_OUT, Vehicle, false, gen_server_utils:extract_pid(Vehicle)}),
+  ?assertEqual(vehicle:?PASSENGER_BOARD(Vehicle, P3), ok),
+
+  gen_server_mock:expect_ets_lookup(weather_controller, type, rainy),
+
+  vehicle:?NEW_TIME(Vehicle, 1234+5, true).
 
 target_stop_reached_case(Config) ->
   StartStop = ?config(startstop, Config),
@@ -295,8 +413,6 @@ new_time_not_driving_case(Config) ->
   P3 = ?config(p3, Config),
   P4 = ?config(p4, Config),
   Vehicle = ?config(vehicle, Config),
-
-  gen_server_mock:expect_ets_lookup(weather_controller, type, sunny),
 
   vehicle:?NEW_TIME(Vehicle, 1233, true),
 

@@ -1,1 +1,1 @@
-%{suites, ".", all}.
+{suites, ".", all}.

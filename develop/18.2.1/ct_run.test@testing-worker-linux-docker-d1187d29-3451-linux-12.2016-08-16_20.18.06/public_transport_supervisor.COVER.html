@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-d1187d29-3451-linux-12.2016-08-16_20.18.06/public_transport_supervisor.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/public_transport_supervisor.erl by COVER 2016-08-16 at 20:18:08
+
+****************************************************************************
+
+        |  -module(public_transport_supervisor).
+        |  -behaviour(supervisor).
+        |  
+        |  -export([start_link/2]).
+        |  -export([init/1]).
+        |  
+        |  start_link(StopIds, LineSpecs) -&gt;
+     1..|      supervisor:start_link(?MODULE, {StopIds, LineSpecs}).
+        |  
+        |  init({StopIds, LineSpecs}) -&gt;
+     1..|    SupFlags = {one_for_one, 0, 1},
+     1..|    ChildSpecs = [ { stop_supervisor
+        |                   , {stop_supervisor, start_link, []}
+        |                   , permanent
+        |                   , 1000
+        |                   , supervisor
+        |                   , [stop]
+        |                   }
+        |                 , { vehicle_supervisor
+        |                   , {vehicle_supervisor, start_link, []}
+        |                   , permanent
+        |                   , 1000
+        |                   , supervisor
+        |                   , [vehicle]
+        |                   }
+        |                 , { public_transport
+        |                   , {public_transport, start_link, [StopIds, LineSpecs]}
+        |                   , permanent
+        |                   , 1000
+        |                   , worker
+        |                   , [public_transport]
+        |                   }
+        |                 ],
+     1..|    {ok, {SupFlags, ChildSpecs}}.
+</pre>
+</body>
+</html>

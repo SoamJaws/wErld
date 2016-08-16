@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-d1187d29-3451-linux-12.2016-08-16_20.18.09/vehicle_supervisor.COVER.html</title>
+</head><body style='background-color: white; color: black'>
+<pre>
+File generated from /home/travis/build/SoamJaws/wErld/ebin/../src/client/public_transport/vehicle_supervisor.erl by COVER 2016-08-16 at 20:18:19
+
+****************************************************************************
+
+        |  -module(vehicle_supervisor).
+        |  -include("public_transport.hrl").
+        |  -behaviour(supervisor).
+        |  
+        |  -export([ start_link/0
+        |          , start_vehicle/4
+        |          , stop_vehicle/1]).
+        |  
+        |  -export([init/1]).
+        |  
+        |  start_link() -&gt;
+<font color=red>     0..|    supervisor:start_link({local, ?MODULE}, ?MODULE, []).</font>
+        |  
+        |  start_vehicle(Capacity, LineNumber, Target, Type) -&gt;
+<font color=red>     0..|    Id = list_to_atom(atom_to_list(Type) ++ "_" ++ integer_to_list(LineNumber)),</font>
+<font color=red>     0..|    Result = supervisor:start_child(?MODULE, [Capacity, Id, LineNumber, Target, Type]),</font>
+<font color=red>     0..|    case Result of</font>
+        |      {ok, Pid} -&gt;
+<font color=red>     0..|        ?ADDRESS(vehicle);</font>
+        |      Result -&gt;
+<font color=red>     0..|        Result</font>
+        |    end.
+        |  
+        |  stop_vehicle(?ADDRESS_NO_ID(vehicle)) -&gt;
+<font color=red>     0..|    supervisor:terminate_child(?MODULE, Pid).</font>
+        |    
+        |  
+        |  init(_Args) -&gt;
+<font color=red>     0..|    SupFlags = { simple_one_for_one</font>
+        |               , 0
+        |               , 1
+        |               },
+<font color=red>     0..|    ChildSpecs = [ { vehicle</font>
+        |                   , {vehicle, start_link, []}
+        |                   , transient
+        |                   , 1000
+        |                   , worker
+        |                   , [vehicle]
+        |                   }
+        |                 ],
+<font color=red>     0..|    {ok, {SupFlags, ChildSpecs}}.</font>
+</pre>
+</body>
+</html>

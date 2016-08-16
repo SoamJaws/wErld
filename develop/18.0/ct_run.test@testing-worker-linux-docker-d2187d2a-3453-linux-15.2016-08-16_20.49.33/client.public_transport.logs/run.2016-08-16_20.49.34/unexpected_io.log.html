@@ -1,146 +1,21 @@
---- Test run on 2016/08/16 20:49:33 ---
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Unexpected I/O log</title>
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="../../ct_default.css" type="text/css">
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
 
-=PROGRESS REPORT==== 16-Aug-2016::20:49:33 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.40.0>},
-                       {id,alarm_handler},
-                       {mfargs,{alarm_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
+<br />
+<h3>Unexpected I/O</h3>
+<pre>
 
-=PROGRESS REPORT==== 16-Aug-2016::20:49:33 ===
-          supervisor: {local,sasl_safe_sup}
-             started: [{pid,<0.41.0>},
-                       {id,overload},
-                       {mfargs,{overload,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:33 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.39.0>},
-                       {id,sasl_safe_sup},
-                       {mfargs,
-                           {supervisor,start_link,
-                               [{local,sasl_safe_sup},sasl,safe]}},
-                       {restart_type,permanent},
-                       {shutdown,infinity},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:33 ===
-          supervisor: {local,sasl_sup}
-             started: [{pid,<0.42.0>},
-                       {id,release_handler},
-                       {mfargs,{release_handler,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,2000},
-                       {child_type,worker}]
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:33 ===
-         application: sasl
-          started_at: 'test@testing-worker-linux-docker-d2187d2a-3453-linux-15'
-Converting "/home/travis/build/SoamJaws/wErld/." to "/home/travis/build/SoamJaws/wErld" and re-inserting with add_patha/1
-
-
-Common Test v1.11 starting (cwd is /home/travis/build/SoamJaws/wErld)
-
-
-Common Test: Running make in test directories...
-Including the following directories:
-"/home/travis/build/SoamJaws/wErld/include"
-Recompile: vehicle_SUITE
-vehicle_SUITE.erl:71: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:136: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:137: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:139: Warning: variable 'P1' is unused
-vehicle_SUITE.erl:140: Warning: variable 'P2' is unused
-vehicle_SUITE.erl:141: Warning: variable 'P3' is unused
-vehicle_SUITE.erl:142: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:153: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:154: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:175: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:176: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:181: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:196: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:197: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:202: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:224: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:225: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:230: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:252: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:253: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:258: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:280: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:281: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:286: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:305: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:306: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:311: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:330: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:331: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:336: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:355: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:356: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:357: Warning: variable 'S1' is unused
-vehicle_SUITE.erl:361: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:385: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:386: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:391: Warning: variable 'P4' is unused
-vehicle_SUITE.erl:408: Warning: variable 'Time' is unused
-vehicle_SUITE.erl:409: Warning: variable 'PT' is unused
-vehicle_SUITE.erl:411: Warning: variable 'P1' is unused
-vehicle_SUITE.erl:412: Warning: variable 'P2' is unused
-vehicle_SUITE.erl:413: Warning: variable 'P3' is unused
-vehicle_SUITE.erl:414: Warning: variable 'P4' is unused
-Recompile: stop_SUITE
-stop_SUITE.erl:26: Warning: variable 'TestCase' is unused
-Recompile: public_transport_SUITE
-public_transport_SUITE.erl:16: Warning: variable 'TestCase' is unused
-public_transport_SUITE.erl:33: Warning: variable 'Config' is unused
-public_transport_SUITE.erl:41: Warning: variable 'Config' is unused
-
-CWD set to: "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-d2187d2a-3453-linux-15.2016-08-16_20.49.33"
-
-TEST INFO: 1 test(s), 18 case(s) in 3 suite(s)
-
-Cover compiling 'wErld' (13 files) - this may take some time... done
-
-Testing client.public_transport: Starting test, 18 test cases
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:34 ===
-          supervisor: {<0.436.0>,public_transport_supervisor}
-             started: [{pid,<0.437.0>},
-                       {id,stop_supervisor},
-                       {mfargs,{stop_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:34 ===
-          supervisor: {<0.436.0>,public_transport_supervisor}
-             started: [{pid,<0.438.0>},
-                       {id,vehicle_supervisor},
-                       {mfargs,{vehicle_supervisor,start_link,[]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,supervisor}]
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:34 ===
-          supervisor: {<0.436.0>,public_transport_supervisor}
-             started: [{pid,<0.439.0>},
-                       {id,public_transport},
-                       {mfargs,
-                           {public_transport,start_link,
-                               [[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p],
-                                [{1,[a,1,b,2,c,1,d,4,e,3,f,2,g],bus},
-                                 {2,[i,3,h,2,b,1,j,2,k],tram},
-                                 {3,[l,3,e,2,m,1,n],tram},
-                                 {4,[m,2,o,3,p],bus}]]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
+<div class="error_logger"><b>*** System report during public_transport_SUITE:get_route_case/1 2016-08-16 20:49:34.965 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:34 ===
 ** Generic server <0.436.0> terminating 
@@ -195,6 +70,9 @@ Testing client.public_transport: Starting test, 18 test cases
     [{public_transport_SUITE,get_route_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during public_transport_SUITE:get_route_case/1 2016-08-16 20:49:34.972 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:34 ===
   crasher:
     initial call: supervisor:public_transport_supervisor/1
@@ -220,6 +98,9 @@ Testing client.public_transport: Starting test, 18 test cases
     reductions: 349
   neighbours:
 
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:passenger_check_in_case/1 2016-08-16 20:49:35.064 ***</b>
+
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server stop_supervisor terminating 
 ** Last message in was {'EXIT',<0.476.0>,
@@ -242,6 +123,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.2707>,43,ok,[{stop_SUITE,passenger_check_in_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:passenger_check_in_case/1 2016-08-16 20:49:35.065 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -261,6 +145,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 298
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:passenger_check_out_case/1 2016-08-16 20:49:35.092 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server stop_supervisor terminating 
@@ -284,6 +171,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.2879>,1326,ok,[{stop_SUITE,passenger_check_out_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:passenger_check_out_case/1 2016-08-16 20:49:35.093 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -303,6 +193,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 298
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:vehicle_check_in_case/1 2016-08-16 20:49:35.120 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server stop_supervisor terminating 
@@ -326,6 +219,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.3777>,124,ok,[{stop_SUITE,vehicle_check_in_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:vehicle_check_in_case/1 2016-08-16 20:49:35.121 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -345,6 +241,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 298
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:vehicle_check_out_case/1 2016-08-16 20:49:35.146 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server stop_supervisor terminating 
@@ -368,6 +267,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.3953>,193,ok,[{stop_SUITE,vehicle_check_out_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:vehicle_check_out_case/1 2016-08-16 20:49:35.148 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -387,6 +289,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 298
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during stop_SUITE:invalid_vehicle_check_out_case/1 2016-08-16 20:49:35.190 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server stop_supervisor terminating 
@@ -410,6 +315,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.4128>,54,ok,[{stop_SUITE,invalid_vehicle_check_out_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during stop_SUITE:invalid_vehicle_check_out_case/1 2016-08-16 20:49:35.191 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:stop_supervisor/1
@@ -429,6 +337,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 298
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:checkin_ok_case/1 2016-08-16 20:49:35.277 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -452,6 +363,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.4606>,63,ok,[{vehicle_SUITE,checkin_ok_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:checkin_ok_case/1 2016-08-16 20:49:35.279 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -471,6 +385,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:boarding_passenger_capacity_reached_case/1 2016-08-16 20:49:35.306 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -497,6 +414,9 @@ Testing client.public_transport: Starting test, 18 test cases
     [{vehicle_SUITE,boarding_passenger_capacity_reached_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:boarding_passenger_capacity_reached_case/1 2016-08-16 20:49:35.307 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -516,6 +436,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:boarding_passenger_below_capacity_case/1 2016-08-16 20:49:35.334 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -542,6 +465,9 @@ Testing client.public_transport: Starting test, 18 test cases
     [{vehicle_SUITE,boarding_passenger_below_capacity_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:boarding_passenger_below_capacity_case/1 2016-08-16 20:49:35.336 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -561,6 +487,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:next_stop_reached_case/1 2016-08-16 20:49:35.362 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -584,6 +513,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.3253>,166,ok,[{vehicle_SUITE,next_stop_reached_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:next_stop_reached_case/1 2016-08-16 20:49:35.363 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -603,6 +535,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:next_stop_reached_snow_case/1 2016-08-16 20:49:35.389 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -626,6 +561,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.3453>,167,ok,[{vehicle_SUITE,next_stop_reached_snow_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:next_stop_reached_snow_case/1 2016-08-16 20:49:35.391 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -645,6 +583,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:next_stop_reached_rain_case/1 2016-08-16 20:49:35.417 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -668,6 +609,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.3654>,175,ok,[{vehicle_SUITE,next_stop_reached_rain_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:next_stop_reached_rain_case/1 2016-08-16 20:49:35.419 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -687,6 +631,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:next_stop_not_reached_case/1 2016-08-16 20:49:35.445 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -710,6 +657,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.3855>,117,ok,[{vehicle_SUITE,next_stop_not_reached_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:next_stop_not_reached_case/1 2016-08-16 20:49:35.447 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -729,6 +679,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:next_stop_not_reached_snow_case/1 2016-08-16 20:49:35.489 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -754,6 +707,9 @@ Testing client.public_transport: Starting test, 18 test cases
     [{vehicle_SUITE,next_stop_not_reached_snow_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:next_stop_not_reached_snow_case/1 2016-08-16 20:49:35.490 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -773,6 +729,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:next_stop_not_reached_rain_case/1 2016-08-16 20:49:35.517 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -798,6 +757,9 @@ Testing client.public_transport: Starting test, 18 test cases
     [{vehicle_SUITE,next_stop_not_reached_rain_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:next_stop_not_reached_rain_case/1 2016-08-16 20:49:35.518 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -817,6 +779,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:target_stop_reached_case/1 2016-08-16 20:49:35.545 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -840,6 +805,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.2.5191>,181,ok,[{vehicle_SUITE,target_stop_reached_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:target_stop_reached_case/1 2016-08-16 20:49:35.546 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -859,6 +827,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:increment_boarding_passenger_case/1 2016-08-16 20:49:35.574 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -885,6 +856,9 @@ Testing client.public_transport: Starting test, 18 test cases
     [{vehicle_SUITE,increment_boarding_passenger_case}],
     []}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:increment_boarding_passenger_case/1 2016-08-16 20:49:35.575 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -904,6 +878,9 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
+
+</div>
+<div class="error_logger"><b>*** System report during vehicle_SUITE:new_time_not_driving_case/1 2016-08-16 20:49:35.615 ***</b>
 
 =ERROR REPORT==== 16-Aug-2016::20:49:35 ===
 ** Generic server vehicle_supervisor terminating 
@@ -927,6 +904,9 @@ Testing client.public_transport: Starting test, 18 test cases
 ** Reason for termination == 
 ** {#Ref<0.0.1.4329>,66,ok,[{vehicle_SUITE,new_time_not_driving_case}],[]}
 
+</div>
+<div class="sasl"><b>*** System report during vehicle_SUITE:new_time_not_driving_case/1 2016-08-16 20:49:35.616 ***</b>
+
 =CRASH REPORT==== 16-Aug-2016::20:49:35 ===
   crasher:
     initial call: supervisor:vehicle_supervisor/1
@@ -946,505 +926,18 @@ Testing client.public_transport: Starting test, 18 test cases
     stack_size: 27
     reductions: 314
   neighbours:
-Testing client.public_transport: TEST COMPLETE, 18 ok, 0 failed of 18 test cases
 
-Cover analysing... done
-
-Updating /home/travis/build/SoamJaws/wErld/test/logs/index.html... done
-Updating /home/travis/build/SoamJaws/wErld/test/logs/all_runs.html... done
-
-Common Test: Running make in test directories...
-Including the following directories:
-"/home/travis/build/SoamJaws/wErld/include"
-Recompile: weather_controller_SUITE
-
-CWD set to: "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-d2187d2a-3453-linux-15.2016-08-16_20.49.36"
-
-TEST INFO: 1 test(s), 4 case(s) in 1 suite(s)
-
-Cover compiling 'wErld' (13 files) - this may take some time... done
-
-Testing test.client: Starting test, 4 test cases
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:37 ===
-          supervisor: {<0.1000.0>,client_supervisor}
-             started: [{pid,<0.1001.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,coastal,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-weather_controller:new_time failed on line 42
-Reason: function_clause
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-=ERROR REPORT==== 16-Aug-2016::20:49:37 ===
-** Generic server <0.1000.0> terminating 
-** Last message in was {'EXIT',<0.997.0>,
-                        {#Ref<0.0.2.6530>,1325,
-                         {'EXIT',
-                          {function_clause,
-                           [{weather_controller,new_time,
-                             [<0.1001.0>,63638603377,true],
-                             [{file,"src/client/weather_controller.erl"},
-                              {line,42}]},
-                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                             [{file,"weather_controller_SUITE.erl"},
-                              {line,55}]},
-                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                            {test_server,ts_tc,3,
-                             [{file,"test_server.erl"},{line,1408}]},
-                            {test_server,run_test_case_eval1,6,
-                             [{file,"test_server.erl"},{line,984}]},
-                            {test_server,run_test_case_eval,9,
-                             [{file,"test_server.erl"},{line,926}]}]}},
-                         [{weather_controller,new_time,42},
-                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                          {lists,map,1238},
-                          {test_server,ts_tc,1408},
-                          {test_server,run_test_case_eval1,984},
-                          {test_server,run_test_case_eval,926}],
-                         []}}
-** When Server state == {state,
-                            {<0.1000.0>,client_supervisor},
-                            one_for_one,
-                            [{child,<0.1001.0>,weather_controller,
-                                 {weather_controller,start_link,
-                                     [city,coastal,5]},
-                                 permanent,1000,worker,
-                                 [weather_controller]}],
-                            undefined,0,1,[],client_supervisor,
-                            {city,coastal,5}}
-** Reason for termination == 
-** {#Ref<0.0.2.6530>,1325,
-    {'EXIT',
-        {function_clause,
-            [{weather_controller,new_time,
-                 [<0.1001.0>,63638603377,true],
-                 [{file,"src/client/weather_controller.erl"},{line,42}]},
-             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
-             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1408}]},
-             {test_server,run_test_case_eval1,6,
-                 [{file,"test_server.erl"},{line,984}]},
-             {test_server,run_test_case_eval,9,
-                 [{file,"test_server.erl"},{line,926}]}]}},
-    [{weather_controller,new_time,42},
-     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-     {lists,map,1238},
-     {test_server,ts_tc,1408},
-     {test_server,run_test_case_eval1,984},
-     {test_server,run_test_case_eval,926}],
-    []}
-
-=CRASH REPORT==== 16-Aug-2016::20:49:37 ===
-  crasher:
-    initial call: supervisor:client_supervisor/1
-    pid: <0.1000.0>
-    registered_name: []
-    exception exit: {#Ref<0.0.2.6530>,1325,
-                     {'EXIT',
-                         {function_clause,
-                             [{weather_controller,new_time,
-                                  [<0.1001.0>,63638603377,true],
-                                  [{file,"src/client/weather_controller.erl"},
-                                   {line,42}]},
-                              {weather_controller_SUITE,'-run_test/2-fun-0-',
-                                  3,
-                                  [{file,"weather_controller_SUITE.erl"},
-                                   {line,55}]},
-                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                              {test_server,ts_tc,3,
-                                  [{file,"test_server.erl"},{line,1408}]},
-                              {test_server,run_test_case_eval1,6,
-                                  [{file,"test_server.erl"},{line,984}]},
-                              {test_server,run_test_case_eval,9,
-                                  [{file,"test_server.erl"},{line,926}]}]}},
-                     [{weather_controller,new_time,42},
-                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                      {lists,map,1238},
-                      {test_server,ts_tc,1408},
-                      {test_server,run_test_case_eval1,984},
-                      {test_server,run_test_case_eval,926}],
-                     []}
-      in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.997.0>]
-    messages: []
-    links: []
-    dictionary: []
-    trap_exit: true
-    status: running
-    heap_size: 987
-    stack_size: 27
-    reductions: 249
-  neighbours:
-Testing test.client: *** FAILED test case 1 of 4 ***
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:37 ===
-          supervisor: {<0.1007.0>,client_supervisor}
-             started: [{pid,<0.1008.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,inland,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-weather_controller:new_time failed on line 42
-Reason: function_clause
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-=ERROR REPORT==== 16-Aug-2016::20:49:37 ===
-** Generic server <0.1007.0> terminating 
-** Last message in was {'EXIT',<0.1004.0>,
-                        {#Ref<0.0.2.6687>,546,
-                         {'EXIT',
-                          {function_clause,
-                           [{weather_controller,new_time,
-                             [<0.1008.0>,63638603377,true],
-                             [{file,"src/client/weather_controller.erl"},
-                              {line,42}]},
-                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                             [{file,"weather_controller_SUITE.erl"},
-                              {line,55}]},
-                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                            {test_server,ts_tc,3,
-                             [{file,"test_server.erl"},{line,1408}]},
-                            {test_server,run_test_case_eval1,6,
-                             [{file,"test_server.erl"},{line,984}]},
-                            {test_server,run_test_case_eval,9,
-                             [{file,"test_server.erl"},{line,926}]}]}},
-                         [{weather_controller,new_time,42},
-                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                          {lists,map,1238},
-                          {test_server,ts_tc,1408},
-                          {test_server,run_test_case_eval1,984},
-                          {test_server,run_test_case_eval,926}],
-                         []}}
-** When Server state == {state,
-                            {<0.1007.0>,client_supervisor},
-                            one_for_one,
-                            [{child,<0.1008.0>,weather_controller,
-                                 {weather_controller,start_link,
-                                     [city,inland,5]},
-                                 permanent,1000,worker,
-                                 [weather_controller]}],
-                            undefined,0,1,[],client_supervisor,
-                            {city,inland,5}}
-** Reason for termination == 
-** {#Ref<0.0.2.6687>,546,
-    {'EXIT',
-        {function_clause,
-            [{weather_controller,new_time,
-                 [<0.1008.0>,63638603377,true],
-                 [{file,"src/client/weather_controller.erl"},{line,42}]},
-             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
-             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1408}]},
-             {test_server,run_test_case_eval1,6,
-                 [{file,"test_server.erl"},{line,984}]},
-             {test_server,run_test_case_eval,9,
-                 [{file,"test_server.erl"},{line,926}]}]}},
-    [{weather_controller,new_time,42},
-     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-     {lists,map,1238},
-     {test_server,ts_tc,1408},
-     {test_server,run_test_case_eval1,984},
-     {test_server,run_test_case_eval,926}],
-    []}
-
-=CRASH REPORT==== 16-Aug-2016::20:49:37 ===
-  crasher:
-    initial call: supervisor:client_supervisor/1
-    pid: <0.1007.0>
-    registered_name: []
-    exception exit: {#Ref<0.0.2.6687>,546,
-                     {'EXIT',
-                         {function_clause,
-                             [{weather_controller,new_time,
-                                  [<0.1008.0>,63638603377,true],
-                                  [{file,"src/client/weather_controller.erl"},
-                                   {line,42}]},
-                              {weather_controller_SUITE,'-run_test/2-fun-0-',
-                                  3,
-                                  [{file,"weather_controller_SUITE.erl"},
-                                   {line,55}]},
-                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                              {test_server,ts_tc,3,
-                                  [{file,"test_server.erl"},{line,1408}]},
-                              {test_server,run_test_case_eval1,6,
-                                  [{file,"test_server.erl"},{line,984}]},
-                              {test_server,run_test_case_eval,9,
-                                  [{file,"test_server.erl"},{line,926}]}]}},
-                     [{weather_controller,new_time,42},
-                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                      {lists,map,1238},
-                      {test_server,ts_tc,1408},
-                      {test_server,run_test_case_eval1,984},
-                      {test_server,run_test_case_eval,926}],
-                     []}
-      in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.1004.0>]
-    messages: []
-    links: []
-    dictionary: []
-    trap_exit: true
-    status: running
-    heap_size: 987
-    stack_size: 27
-    reductions: 249
-  neighbours:
-Testing test.client: *** FAILED test case 2 of 4 ***
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:37 ===
-          supervisor: {<0.1014.0>,client_supervisor}
-             started: [{pid,<0.1015.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,northern,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-weather_controller:new_time failed on line 42
-Reason: function_clause
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-=ERROR REPORT==== 16-Aug-2016::20:49:37 ===
-** Generic server <0.1014.0> terminating 
-** Last message in was {'EXIT',<0.1011.0>,
-                        {#Ref<0.0.1.6519>,801,
-                         {'EXIT',
-                          {function_clause,
-                           [{weather_controller,new_time,
-                             [<0.1015.0>,63638603377,true],
-                             [{file,"src/client/weather_controller.erl"},
-                              {line,42}]},
-                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                             [{file,"weather_controller_SUITE.erl"},
-                              {line,55}]},
-                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                            {test_server,ts_tc,3,
-                             [{file,"test_server.erl"},{line,1408}]},
-                            {test_server,run_test_case_eval1,6,
-                             [{file,"test_server.erl"},{line,984}]},
-                            {test_server,run_test_case_eval,9,
-                             [{file,"test_server.erl"},{line,926}]}]}},
-                         [{weather_controller,new_time,42},
-                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                          {lists,map,1238},
-                          {test_server,ts_tc,1408},
-                          {test_server,run_test_case_eval1,984},
-                          {test_server,run_test_case_eval,926}],
-                         []}}
-** When Server state == {state,
-                            {<0.1014.0>,client_supervisor},
-                            one_for_one,
-                            [{child,<0.1015.0>,weather_controller,
-                                 {weather_controller,start_link,
-                                     [city,northern,5]},
-                                 permanent,1000,worker,
-                                 [weather_controller]}],
-                            undefined,0,1,[],client_supervisor,
-                            {city,northern,5}}
-** Reason for termination == 
-** {#Ref<0.0.1.6519>,801,
-    {'EXIT',
-        {function_clause,
-            [{weather_controller,new_time,
-                 [<0.1015.0>,63638603377,true],
-                 [{file,"src/client/weather_controller.erl"},{line,42}]},
-             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
-             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1408}]},
-             {test_server,run_test_case_eval1,6,
-                 [{file,"test_server.erl"},{line,984}]},
-             {test_server,run_test_case_eval,9,
-                 [{file,"test_server.erl"},{line,926}]}]}},
-    [{weather_controller,new_time,42},
-     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-     {lists,map,1238},
-     {test_server,ts_tc,1408},
-     {test_server,run_test_case_eval1,984},
-     {test_server,run_test_case_eval,926}],
-    []}
-
-=CRASH REPORT==== 16-Aug-2016::20:49:37 ===
-  crasher:
-    initial call: supervisor:client_supervisor/1
-    pid: <0.1014.0>
-    registered_name: []
-    exception exit: {#Ref<0.0.1.6519>,801,
-                     {'EXIT',
-                         {function_clause,
-                             [{weather_controller,new_time,
-                                  [<0.1015.0>,63638603377,true],
-                                  [{file,"src/client/weather_controller.erl"},
-                                   {line,42}]},
-                              {weather_controller_SUITE,'-run_test/2-fun-0-',
-                                  3,
-                                  [{file,"weather_controller_SUITE.erl"},
-                                   {line,55}]},
-                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                              {test_server,ts_tc,3,
-                                  [{file,"test_server.erl"},{line,1408}]},
-                              {test_server,run_test_case_eval1,6,
-                                  [{file,"test_server.erl"},{line,984}]},
-                              {test_server,run_test_case_eval,9,
-                                  [{file,"test_server.erl"},{line,926}]}]}},
-                     [{weather_controller,new_time,42},
-                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                      {lists,map,1238},
-                      {test_server,ts_tc,1408},
-                      {test_server,run_test_case_eval1,984},
-                      {test_server,run_test_case_eval,926}],
-                     []}
-      in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.1011.0>]
-    messages: []
-    links: []
-    dictionary: []
-    trap_exit: true
-    status: running
-    heap_size: 987
-    stack_size: 27
-    reductions: 249
-  neighbours:
-Testing test.client: *** FAILED test case 3 of 4 ***
-
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-weather_controller:new_time failed on line 42
-Reason: function_clause
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-=PROGRESS REPORT==== 16-Aug-2016::20:49:37 ===
-          supervisor: {<0.1021.0>,client_supervisor}
-             started: [{pid,<0.1022.0>},
-                       {id,weather_controller},
-                       {mfargs,
-                           {weather_controller,start_link,[city,southern,5]}},
-                       {restart_type,permanent},
-                       {shutdown,1000},
-                       {child_type,worker}]
-
-=ERROR REPORT==== 16-Aug-2016::20:49:37 ===
-** Generic server <0.1021.0> terminating 
-** Last message in was {'EXIT',<0.1018.0>,
-                        {#Ref<0.0.2.6882>,476,
-                         {'EXIT',
-                          {function_clause,
-                           [{weather_controller,new_time,
-                             [<0.1022.0>,63638603377,true],
-                             [{file,"src/client/weather_controller.erl"},
-                              {line,42}]},
-                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                             [{file,"weather_controller_SUITE.erl"},
-                              {line,55}]},
-                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                            {test_server,ts_tc,3,
-                             [{file,"test_server.erl"},{line,1408}]},
-                            {test_server,run_test_case_eval1,6,
-                             [{file,"test_server.erl"},{line,984}]},
-                            {test_server,run_test_case_eval,9,
-                             [{file,"test_server.erl"},{line,926}]}]}},
-                         [{weather_controller,new_time,42},
-                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                          {lists,map,1238},
-                          {test_server,ts_tc,1408},
-                          {test_server,run_test_case_eval1,984},
-                          {test_server,run_test_case_eval,926}],
-                         []}}
-** When Server state == {state,
-                            {<0.1021.0>,client_supervisor},
-                            one_for_one,
-                            [{child,<0.1022.0>,weather_controller,
-                                 {weather_controller,start_link,
-                                     [city,southern,5]},
-                                 permanent,1000,worker,
-                                 [weather_controller]}],
-                            undefined,0,1,[],client_supervisor,
-                            {city,southern,5}}
-** Reason for termination == 
-** {#Ref<0.0.2.6882>,476,
-    {'EXIT',
-        {function_clause,
-            [{weather_controller,new_time,
-                 [<0.1022.0>,63638603377,true],
-                 [{file,"src/client/weather_controller.erl"},{line,42}]},
-             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
-                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
-             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1408}]},
-             {test_server,run_test_case_eval1,6,
-                 [{file,"test_server.erl"},{line,984}]},
-             {test_server,run_test_case_eval,9,
-                 [{file,"test_server.erl"},{line,926}]}]}},
-    [{weather_controller,new_time,42},
-     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-     {lists,map,1238},
-     {test_server,ts_tc,1408},
-     {test_server,run_test_case_eval1,984},
-     {test_server,run_test_case_eval,926}],
-    []}
-
-=CRASH REPORT==== 16-Aug-2016::20:49:37 ===
-  crasher:
-    initial call: supervisor:client_supervisor/1
-    pid: <0.1021.0>
-    registered_name: []
-    exception exit: {#Ref<0.0.2.6882>,476,
-                     {'EXIT',
-                         {function_clause,
-                             [{weather_controller,new_time,
-                                  [<0.1022.0>,63638603377,true],
-                                  [{file,"src/client/weather_controller.erl"},
-                                   {line,42}]},
-                              {weather_controller_SUITE,'-run_test/2-fun-0-',
-                                  3,
-                                  [{file,"weather_controller_SUITE.erl"},
-                                   {line,55}]},
-                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
-                              {test_server,ts_tc,3,
-                                  [{file,"test_server.erl"},{line,1408}]},
-                              {test_server,run_test_case_eval1,6,
-                                  [{file,"test_server.erl"},{line,984}]},
-                              {test_server,run_test_case_eval,9,
-                                  [{file,"test_server.erl"},{line,926}]}]}},
-                     [{weather_controller,new_time,42},
-                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
-                      {lists,map,1238},
-                      {test_server,ts_tc,1408},
-                      {test_server,run_test_case_eval1,984},
-                      {test_server,run_test_case_eval,926}],
-                     []}
-      in function  gen_server:terminate/7 (gen_server.erl, line 826)
-    ancestors: [<0.1018.0>]
-    messages: []
-    links: []
-    dictionary: []
-    trap_exit: true
-    status: running
-    heap_size: 987
-    stack_size: 27
-    reductions: 249
-  neighbours:
-Testing test.client: *** FAILED test case 4 of 4 ***
-Testing test.client: TEST COMPLETE, 0 ok, 4 failed of 4 test cases
-
-Cover analysing... done
-
-Updating /home/travis/build/SoamJaws/wErld/test/logs/index.html... done
-Updating /home/travis/build/SoamJaws/wErld/test/logs/all_runs.html... done
-
+</div>
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!date>Tue Aug 16 2016 20:49:34<!/date><br />
+</div>
+</center>
+</body>
+</html>

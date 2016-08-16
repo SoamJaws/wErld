@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Unexpected I/O log</title>
+<meta http-equiv="cache-control" content="no-cache"></meta>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"></meta>
+<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link>
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
+
+<br />
+<h3>Unexpected I/O</h3>
+<pre>
+
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:coastal_case/1 2016-08-16 20:47:17.347 ***</b>
+
+=ERROR REPORT==== 16-Aug-2016::20:47:17 ===
+** Generic server &lt;0.1000.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.997.0&gt;,
+                        {#Ref&lt;0.0.2.6872&gt;,1494,
+                         {'EXIT',
+                          {function_clause,
+                           [{weather_controller,new_time,
+                             [&lt;0.1001.0&gt;,63638603237,true],
+                             [{file,"src/client/weather_controller.erl"},
+                              {line,42}]},
+                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                             [{file,"weather_controller_SUITE.erl"},
+                              {line,55}]},
+                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                            {test_server,ts_tc,3,
+                             [{file,"test_server.erl"},{line,1533}]},
+                            {test_server,run_test_case_eval1,6,
+                             [{file,"test_server.erl"},{line,1053}]},
+                            {test_server,run_test_case_eval,9,
+                             [{file,"test_server.erl"},{line,985}]}]}},
+                         [{weather_controller,new_time,42},
+                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                          {lists,map,1238},
+                          {test_server,ts_tc,1533},
+                          {test_server,run_test_case_eval1,1053},
+                          {test_server,run_test_case_eval,985}],
+                         []}}
+** When Server state == {state,
+                            {&lt;0.1000.0&gt;,client_supervisor},
+                            one_for_one,
+                            [{child,&lt;0.1001.0&gt;,weather_controller,
+                                 {weather_controller,start_link,
+                                     [city,coastal,5]},
+                                 permanent,1000,worker,
+                                 [weather_controller]}],
+                            undefined,0,1,[],0,client_supervisor,
+                            {city,coastal,5}}
+** Reason for termination == 
+** {#Ref&lt;0.0.2.6872&gt;,1494,
+    {'EXIT',
+        {function_clause,
+            [{weather_controller,new_time,
+                 [&lt;0.1001.0&gt;,63638603237,true],
+                 [{file,"src/client/weather_controller.erl"},{line,42}]},
+             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
+             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1533}]},
+             {test_server,run_test_case_eval1,6,
+                 [{file,"test_server.erl"},{line,1053}]},
+             {test_server,run_test_case_eval,9,
+                 [{file,"test_server.erl"},{line,985}]}]}},
+    [{weather_controller,new_time,42},
+     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+     {lists,map,1238},
+     {test_server,ts_tc,1533},
+     {test_server,run_test_case_eval1,1053},
+     {test_server,run_test_case_eval,985}],
+    []}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:coastal_case/1 2016-08-16 20:47:17.349 ***</b>
+
+=CRASH REPORT==== 16-Aug-2016::20:47:17 ===
+  crasher:
+    initial call: supervisor:client_supervisor/1
+    pid: &lt;0.1000.0&gt;
+    registered_name: []
+    exception exit: {#Ref&lt;0.0.2.6872&gt;,1494,
+                     {'EXIT',
+                         {function_clause,
+                             [{weather_controller,new_time,
+                                  [&lt;0.1001.0&gt;,63638603237,true],
+                                  [{file,"src/client/weather_controller.erl"},
+                                   {line,42}]},
+                              {weather_controller_SUITE,'-run_test/2-fun-0-',
+                                  3,
+                                  [{file,"weather_controller_SUITE.erl"},
+                                   {line,55}]},
+                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                              {test_server,ts_tc,3,
+                                  [{file,"test_server.erl"},{line,1533}]},
+                              {test_server,run_test_case_eval1,6,
+                                  [{file,"test_server.erl"},{line,1053}]},
+                              {test_server,run_test_case_eval,9,
+                                  [{file,"test_server.erl"},{line,985}]}]}},
+                     [{weather_controller,new_time,42},
+                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                      {lists,map,1238},
+                      {test_server,ts_tc,1533},
+                      {test_server,run_test_case_eval1,1053},
+                      {test_server,run_test_case_eval,985}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [&lt;0.997.0&gt;]
+    messages: []
+    links: []
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 250
+  neighbours:
+
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:inland_case/1 2016-08-16 20:47:17.380 ***</b>
+
+=ERROR REPORT==== 16-Aug-2016::20:47:17 ===
+** Generic server &lt;0.1007.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.1004.0&gt;,
+                        {#Ref&lt;0.0.1.6386&gt;,842,
+                         {'EXIT',
+                          {function_clause,
+                           [{weather_controller,new_time,
+                             [&lt;0.1008.0&gt;,63638603237,true],
+                             [{file,"src/client/weather_controller.erl"},
+                              {line,42}]},
+                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                             [{file,"weather_controller_SUITE.erl"},
+                              {line,55}]},
+                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                            {test_server,ts_tc,3,
+                             [{file,"test_server.erl"},{line,1533}]},
+                            {test_server,run_test_case_eval1,6,
+                             [{file,"test_server.erl"},{line,1053}]},
+                            {test_server,run_test_case_eval,9,
+                             [{file,"test_server.erl"},{line,985}]}]}},
+                         [{weather_controller,new_time,42},
+                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                          {lists,map,1238},
+                          {test_server,ts_tc,1533},
+                          {test_server,run_test_case_eval1,1053},
+                          {test_server,run_test_case_eval,985}],
+                         []}}
+** When Server state == {state,
+                            {&lt;0.1007.0&gt;,client_supervisor},
+                            one_for_one,
+                            [{child,&lt;0.1008.0&gt;,weather_controller,
+                                 {weather_controller,start_link,
+                                     [city,inland,5]},
+                                 permanent,1000,worker,
+                                 [weather_controller]}],
+                            undefined,0,1,[],0,client_supervisor,
+                            {city,inland,5}}
+** Reason for termination == 
+** {#Ref&lt;0.0.1.6386&gt;,842,
+    {'EXIT',
+        {function_clause,
+            [{weather_controller,new_time,
+                 [&lt;0.1008.0&gt;,63638603237,true],
+                 [{file,"src/client/weather_controller.erl"},{line,42}]},
+             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
+             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1533}]},
+             {test_server,run_test_case_eval1,6,
+                 [{file,"test_server.erl"},{line,1053}]},
+             {test_server,run_test_case_eval,9,
+                 [{file,"test_server.erl"},{line,985}]}]}},
+    [{weather_controller,new_time,42},
+     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+     {lists,map,1238},
+     {test_server,ts_tc,1533},
+     {test_server,run_test_case_eval1,1053},
+     {test_server,run_test_case_eval,985}],
+    []}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:inland_case/1 2016-08-16 20:47:17.382 ***</b>
+
+=CRASH REPORT==== 16-Aug-2016::20:47:17 ===
+  crasher:
+    initial call: supervisor:client_supervisor/1
+    pid: &lt;0.1007.0&gt;
+    registered_name: []
+    exception exit: {#Ref&lt;0.0.1.6386&gt;,842,
+                     {'EXIT',
+                         {function_clause,
+                             [{weather_controller,new_time,
+                                  [&lt;0.1008.0&gt;,63638603237,true],
+                                  [{file,"src/client/weather_controller.erl"},
+                                   {line,42}]},
+                              {weather_controller_SUITE,'-run_test/2-fun-0-',
+                                  3,
+                                  [{file,"weather_controller_SUITE.erl"},
+                                   {line,55}]},
+                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                              {test_server,ts_tc,3,
+                                  [{file,"test_server.erl"},{line,1533}]},
+                              {test_server,run_test_case_eval1,6,
+                                  [{file,"test_server.erl"},{line,1053}]},
+                              {test_server,run_test_case_eval,9,
+                                  [{file,"test_server.erl"},{line,985}]}]}},
+                     [{weather_controller,new_time,42},
+                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                      {lists,map,1238},
+                      {test_server,ts_tc,1533},
+                      {test_server,run_test_case_eval1,1053},
+                      {test_server,run_test_case_eval,985}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [&lt;0.1004.0&gt;]
+    messages: []
+    links: []
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 250
+  neighbours:
+
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:northern_case/1 2016-08-16 20:47:17.412 ***</b>
+
+=ERROR REPORT==== 16-Aug-2016::20:47:17 ===
+** Generic server &lt;0.1014.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.1011.0&gt;,
+                        {#Ref&lt;0.0.1.6576&gt;,807,
+                         {'EXIT',
+                          {function_clause,
+                           [{weather_controller,new_time,
+                             [&lt;0.1015.0&gt;,63638603237,true],
+                             [{file,"src/client/weather_controller.erl"},
+                              {line,42}]},
+                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                             [{file,"weather_controller_SUITE.erl"},
+                              {line,55}]},
+                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                            {test_server,ts_tc,3,
+                             [{file,"test_server.erl"},{line,1533}]},
+                            {test_server,run_test_case_eval1,6,
+                             [{file,"test_server.erl"},{line,1053}]},
+                            {test_server,run_test_case_eval,9,
+                             [{file,"test_server.erl"},{line,985}]}]}},
+                         [{weather_controller,new_time,42},
+                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                          {lists,map,1238},
+                          {test_server,ts_tc,1533},
+                          {test_server,run_test_case_eval1,1053},
+                          {test_server,run_test_case_eval,985}],
+                         []}}
+** When Server state == {state,
+                            {&lt;0.1014.0&gt;,client_supervisor},
+                            one_for_one,
+                            [{child,&lt;0.1015.0&gt;,weather_controller,
+                                 {weather_controller,start_link,
+                                     [city,northern,5]},
+                                 permanent,1000,worker,
+                                 [weather_controller]}],
+                            undefined,0,1,[],0,client_supervisor,
+                            {city,northern,5}}
+** Reason for termination == 
+** {#Ref&lt;0.0.1.6576&gt;,807,
+    {'EXIT',
+        {function_clause,
+            [{weather_controller,new_time,
+                 [&lt;0.1015.0&gt;,63638603237,true],
+                 [{file,"src/client/weather_controller.erl"},{line,42}]},
+             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
+             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1533}]},
+             {test_server,run_test_case_eval1,6,
+                 [{file,"test_server.erl"},{line,1053}]},
+             {test_server,run_test_case_eval,9,
+                 [{file,"test_server.erl"},{line,985}]}]}},
+    [{weather_controller,new_time,42},
+     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+     {lists,map,1238},
+     {test_server,ts_tc,1533},
+     {test_server,run_test_case_eval1,1053},
+     {test_server,run_test_case_eval,985}],
+    []}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:northern_case/1 2016-08-16 20:47:17.414 ***</b>
+
+=CRASH REPORT==== 16-Aug-2016::20:47:17 ===
+  crasher:
+    initial call: supervisor:client_supervisor/1
+    pid: &lt;0.1014.0&gt;
+    registered_name: []
+    exception exit: {#Ref&lt;0.0.1.6576&gt;,807,
+                     {'EXIT',
+                         {function_clause,
+                             [{weather_controller,new_time,
+                                  [&lt;0.1015.0&gt;,63638603237,true],
+                                  [{file,"src/client/weather_controller.erl"},
+                                   {line,42}]},
+                              {weather_controller_SUITE,'-run_test/2-fun-0-',
+                                  3,
+                                  [{file,"weather_controller_SUITE.erl"},
+                                   {line,55}]},
+                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                              {test_server,ts_tc,3,
+                                  [{file,"test_server.erl"},{line,1533}]},
+                              {test_server,run_test_case_eval1,6,
+                                  [{file,"test_server.erl"},{line,1053}]},
+                              {test_server,run_test_case_eval,9,
+                                  [{file,"test_server.erl"},{line,985}]}]}},
+                     [{weather_controller,new_time,42},
+                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                      {lists,map,1238},
+                      {test_server,ts_tc,1533},
+                      {test_server,run_test_case_eval1,1053},
+                      {test_server,run_test_case_eval,985}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [&lt;0.1011.0&gt;]
+    messages: []
+    links: []
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 250
+  neighbours:
+
+</pre></div>
+<pre>
+</pre>
+<div class="error_logger"><pre><b>*** System report during weather_controller_SUITE:southern_case/1 2016-08-16 20:47:17.443 ***</b>
+
+=ERROR REPORT==== 16-Aug-2016::20:47:17 ===
+** Generic server &lt;0.1021.0&gt; terminating 
+** Last message in was {'EXIT',&lt;0.1018.0&gt;,
+                        {#Ref&lt;0.0.2.7072&gt;,835,
+                         {'EXIT',
+                          {function_clause,
+                           [{weather_controller,new_time,
+                             [&lt;0.1022.0&gt;,63638603237,true],
+                             [{file,"src/client/weather_controller.erl"},
+                              {line,42}]},
+                            {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                             [{file,"weather_controller_SUITE.erl"},
+                              {line,55}]},
+                            {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                            {test_server,ts_tc,3,
+                             [{file,"test_server.erl"},{line,1533}]},
+                            {test_server,run_test_case_eval1,6,
+                             [{file,"test_server.erl"},{line,1053}]},
+                            {test_server,run_test_case_eval,9,
+                             [{file,"test_server.erl"},{line,985}]}]}},
+                         [{weather_controller,new_time,42},
+                          {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                          {lists,map,1238},
+                          {test_server,ts_tc,1533},
+                          {test_server,run_test_case_eval1,1053},
+                          {test_server,run_test_case_eval,985}],
+                         []}}
+** When Server state == {state,
+                            {&lt;0.1021.0&gt;,client_supervisor},
+                            one_for_one,
+                            [{child,&lt;0.1022.0&gt;,weather_controller,
+                                 {weather_controller,start_link,
+                                     [city,southern,5]},
+                                 permanent,1000,worker,
+                                 [weather_controller]}],
+                            undefined,0,1,[],0,client_supervisor,
+                            {city,southern,5}}
+** Reason for termination == 
+** {#Ref&lt;0.0.2.7072&gt;,835,
+    {'EXIT',
+        {function_clause,
+            [{weather_controller,new_time,
+                 [&lt;0.1022.0&gt;,63638603237,true],
+                 [{file,"src/client/weather_controller.erl"},{line,42}]},
+             {weather_controller_SUITE,'-run_test/2-fun-0-',3,
+                 [{file,"weather_controller_SUITE.erl"},{line,55}]},
+             {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+             {test_server,ts_tc,3,[{file,"test_server.erl"},{line,1533}]},
+             {test_server,run_test_case_eval1,6,
+                 [{file,"test_server.erl"},{line,1053}]},
+             {test_server,run_test_case_eval,9,
+                 [{file,"test_server.erl"},{line,985}]}]}},
+    [{weather_controller,new_time,42},
+     {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+     {lists,map,1238},
+     {test_server,ts_tc,1533},
+     {test_server,run_test_case_eval1,1053},
+     {test_server,run_test_case_eval,985}],
+    []}
+
+</pre></div>
+<pre>
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:southern_case/1 2016-08-16 20:47:17.445 ***</b>
+
+=CRASH REPORT==== 16-Aug-2016::20:47:17 ===
+  crasher:
+    initial call: supervisor:client_supervisor/1
+    pid: &lt;0.1021.0&gt;
+    registered_name: []
+    exception exit: {#Ref&lt;0.0.2.7072&gt;,835,
+                     {'EXIT',
+                         {function_clause,
+                             [{weather_controller,new_time,
+                                  [&lt;0.1022.0&gt;,63638603237,true],
+                                  [{file,"src/client/weather_controller.erl"},
+                                   {line,42}]},
+                              {weather_controller_SUITE,'-run_test/2-fun-0-',
+                                  3,
+                                  [{file,"weather_controller_SUITE.erl"},
+                                   {line,55}]},
+                              {lists,map,2,[{file,"lists.erl"},{line,1238}]},
+                              {test_server,ts_tc,3,
+                                  [{file,"test_server.erl"},{line,1533}]},
+                              {test_server,run_test_case_eval1,6,
+                                  [{file,"test_server.erl"},{line,1053}]},
+                              {test_server,run_test_case_eval,9,
+                                  [{file,"test_server.erl"},{line,985}]}]}},
+                     [{weather_controller,new_time,42},
+                      {weather_controller_SUITE,'-run_test/2-fun-0-',55},
+                      {lists,map,1238},
+                      {test_server,ts_tc,1533},
+                      {test_server,run_test_case_eval1,1053},
+                      {test_server,run_test_case_eval,985}],
+                     []}
+      in function  gen_server:terminate/7 (gen_server.erl, line 826)
+    ancestors: [&lt;0.1018.0&gt;]
+    messages: []
+    links: []
+    dictionary: []
+    trap_exit: true
+    status: running
+    heap_size: 987
+    stack_size: 27
+    reductions: 250
+  neighbours:
+
+</pre></div>
+<pre>
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!--date-->Tue Aug 16 2016 20:47:17<!--/date--><br />
+</div>
+</center>
+</body>
+</html>

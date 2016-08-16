@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Test weather_controller_SUITE:southern_case result</title>
+<meta http-equiv="cache-control" content="no-cache"></meta>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"></meta>
+<link rel="stylesheet" href="../../ct_default.css" type="text/css"></link>
+<script type="text/javascript" src="../../jquery-latest.js"></script>
+<script type="text/javascript" src="../../jquery.tablesorter.min.js"></script>
+</head>
+<body>
+
+<a name="top"></a><pre>
+=== Test case: <a href="weather_controller_suite.src.html#southern_case-1">weather_controller_SUITE:southern_case/1</a> (click for source code)
+
+=== Config value:
+
+    [{watchdog,&lt;0.995.0&gt;},
+     {tc_logfile,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-1438938d-3445-linux-2.2016-08-16_20.47.16/test.client.logs/run.2016-08-16_20.47.17/weather_controller_suite.southern_case.html"},
+     {tc_group_properties,[{suite,weather_controller_SUITE}]},
+     {tc_group_path,[]},
+     {data_dir,"/home/travis/build/SoamJaws/wErld/test/client/weather_controller_SUITE_data/"},
+     {priv_dir,"/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-1438938d-3445-linux-2.2016-08-16_20.47.16/test.client.logs/run.2016-08-16_20.47.17/log_private/"}]
+
+=== Current directory is "/home/travis/build/SoamJaws/wErld/test/logs/ct_run.test@testing-worker-linux-docker-1438938d-3445-linux-2.2016-08-16_20.47.16"
+
+=== Started at 2016-08-16 20:47:17
+
+<br />
+
+</pre>
+<div class="sasl"><pre><b>*** System report during weather_controller_SUITE:southern_case/1 2016-08-16 20:47:17.442 ***</b>
+
+=PROGRESS REPORT==== 16-Aug-2016::20:47:17 ===
+          supervisor: {&lt;0.1021.0&gt;,client_supervisor}
+             started: [{pid,&lt;0.1022.0&gt;},
+                       {id,weather_controller},
+                       {mfargs,
+                           {weather_controller,start_link,[city,southern,5]}},
+                       {restart_type,permanent},
+                       {shutdown,1000},
+                       {child_type,worker}]
+
+</pre></div>
+<pre>
+
+</pre>
+<div class="ct_error_notify"><pre><b>*** CT Error Notification 2016-08-16 20:47:17.442 ***</b>
+weather_controller:new_time failed on line 42
+Reason: function_clause
+
+<a href="#end">Full error description and stacktrace</a>
+</pre></div>
+<pre>
+<a name="end"></a>
+
+
+=== Ended at 2016-08-16 20:47:17
+=== Location: [{weather_controller,new_time,42},
+              {weather_controller_SUITE,'-run_test/2-fun-0-',<a href="weather_controller_suite.src.html#55">55</a>},
+              {lists,map,1238},
+              {test_server,ts_tc,1533},
+              {test_server,run_test_case_eval1,1053},
+              {test_server,run_test_case_eval,985}]
+=== Reason: no function clause matching 
+                 weather_controller:new_time(&lt;0.1022.0&gt;,63638603237,true) (src/client/weather_controller.erl, line 42)
+  in function  weather_controller_SUITE:'-run_test/2-fun-0-'/3 (weather_controller_SUITE.erl, line 55)
+  in call from lists:map/2 (lists.erl, line 1238)
+  in call from test_server:ts_tc/3 (test_server.erl, line 1533)
+  in call from test_server:run_test_case_eval1/6 (test_server.erl, line 1053)
+  in call from test_server:run_test_case_eval/9 (test_server.erl, line 985)
+</pre>
+<center>
+<br /><hr /><p>
+<a href="../../../all_runs.html">Test run history
+</a>  |  <a href="../../../index.html">Top level test index
+</a>
+</p>
+<div class="copyright">Copyright &copy; 2016 <a href="http://www.erlang.org">Open Telecom Platform</a><br />
+Updated: <!--date-->Tue Aug 16 2016 20:47:17<!--/date--><br />
+</div>
+</center>
+</body>
+</html>
